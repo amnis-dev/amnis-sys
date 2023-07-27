@@ -33,6 +33,7 @@ jobs:
 
     - name: Checkout Respository
       uses: actions/checkout@v3
+      if: ${{ github.event_name != 'workflow_call' }}
 
     - uses: pnpm/action-setup@v2
       with:
