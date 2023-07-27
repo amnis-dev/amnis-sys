@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['@amnis/eslint-config-node']
+  extends: ['@amnis/eslint-config-node'],
 };
