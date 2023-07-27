@@ -40,6 +40,9 @@
     "build": "pnpm build:types && pnpm build:dist",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.json",
+    "build:libs": "pnpm build:lib:state && pnpm build:lib:mock",
+    "build:lib:state": "pnpm --filter '@amnis/state' build",
+    "build:lib:mock": "pnpm --filter '@amnis/mock' build",
     "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
     "test": "echo \"Error: no test specified\""
   },
