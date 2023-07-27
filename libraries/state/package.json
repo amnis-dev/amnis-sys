@@ -59,8 +59,8 @@
     "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo ./tsconfig.tsbuildinfo"
   },
   "devDependencies": {
-    "@amnis/eslint-config-node": "^2.3.0",
-    "@amnis/tsconfig-node": "^2.3.0",
+    "@amnis/eslint-config-node": "workspace:",
+    "@amnis/tsconfig-node": "workspace:",
     "@reduxjs/toolkit": "https://github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/fs-extra": "^11.0.1",
