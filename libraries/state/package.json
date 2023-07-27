@@ -1,0 +1,83 @@
+{
+  "name": "@amnis/state",
+  "version": "0.19.0",
+  "description": "An extensible JavaScript/TypeScript library for data management, providing well-defined data types, default data generation, schema definitions, and state mutation management with a variety of selection methods.",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "data management",
+    "state management",
+    "schema",
+    "default data",
+    "mutations",
+    "selection methods"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amnis-dev/amnis-state"
+  },
+  "homepage": "https://github.com/amnis-dev/amnis-state",
+  "author": "Eric Crowell <admin@amnis.dev>",
+  "files": [
+    "types",
+    "dist"
+  ],
+  "types": "./types/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./records": {
+      "types": "./types/records/index.d.ts",
+      "import": "./dist/records.js",
+      "require": "./dist/records.cjs"
+    },
+    "./schema": {
+      "types": "./types/schema/index.d.ts",
+      "import": "./dist/schema.js",
+      "require": "./dist/schema.cjs"
+    },
+    "./context": {
+      "types": "./types/context/index.d.ts",
+      "import": "./dist/context.js",
+      "require": "./dist/context.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:types && pnpm build:dist",
+    "build:dist": "vite build --mode production",
+    "build:types": "tsc -p tsconfig.build.json",
+    "test": "vitest --run",
+    "test:watch": "vitest --watch",
+    "gen:schema": "ts-node-esm -P scripts/tsconfig.json scripts/schema",
+    "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
+    "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo ./tsconfig.tsbuildinfo"
+  },
+  "devDependencies": {
+    "@amnis/eslint-config-node": "^2.3.0",
+    "@amnis/tsconfig-node": "^2.3.0",
+    "@reduxjs/toolkit": "https://github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz",
+    "@types/fluent-ffmpeg": "^2.1.21",
+    "@types/fs-extra": "^11.0.1",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^18.16.18",
+    "ajv": "^8.12.0",
+    "cross-fetch": "^3.1.6",
+    "eslint": "^8.45.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs-extra": "^11.1.1",
+    "glob": "^8.1.0",
+    "rimraf": "^5.0.1",
+    "ts-json-schema-generator": "^1.2.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.3.9",
+    "vitest": "^0.32.2"
+  },
+  "sideEffects": false
+}

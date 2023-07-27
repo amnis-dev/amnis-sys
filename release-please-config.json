@@ -8,6 +8,7 @@
       ]
     },
     "configurations/eslint-config-node": {},
-    "configurations/tsconfig-node": {}
+    "configurations/tsconfig-node": {},
+    "libraries/state": {}
   }
 }
