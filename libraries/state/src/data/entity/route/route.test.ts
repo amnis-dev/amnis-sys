@@ -11,9 +11,10 @@ test('route key should be is properly set', () => {
  * ============================================================
  */
 test('should create a route', () => {
-  const route = routeCreate(routeRoot);
+  const root = routeRoot();
+  const route = routeCreate(root);
 
   expect(route).toEqual(
-    expect.objectContaining(routeRoot),
+    expect.objectContaining(root),
   );
 });

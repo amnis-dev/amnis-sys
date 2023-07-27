@@ -1,4 +1,4 @@
-import type { Action, PayloadAction } from '@reduxjs/toolkit';
+import type { Action, EntityState, PayloadAction } from '@reduxjs/toolkit';
 import { createAction } from '@reduxjs/toolkit';
 import type { UID } from '../../core/index.js';
 import { dateNumeric, uid } from '../../core/index.js';
@@ -85,7 +85,7 @@ export const otpSlice = dataSliceCreate({
         /**
          * Match any otp action.
          */
-        builder.addMatcher(isOtpAction, (state) => {
+        builder.addMatcher(isOtpAction, (state: EntityState<Otp, string>) => {
           /**
            * Clean up any expired otps.
            */
@@ -125,7 +125,7 @@ export const otpSlice = dataSliceCreate({
          */
         builder.addMatcher(
           (action) => action.type.startsWith('@data'),
-          (state, { payload }: Record<string, any>) => {
+          (state: EntityState<Otp, string>, { payload }: Record<string, any>) => {
             if (
               typeof payload !== 'object'
               || payload[key] === undefined

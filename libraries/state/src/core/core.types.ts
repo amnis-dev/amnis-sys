@@ -31,7 +31,7 @@ export type UIDList<T = unknown> = UID<T>[];
 /**
  * Identifiers linked in a directory tree fashion.
  */
-export type UIDTree<T = unknown> = [UID<T>, UID<T> | null][];
+export type UIDTree<T = unknown> = [item: UID<T>, parent: UID<T> | null][];
 
 /**
  * A string that represents a JSON Date.

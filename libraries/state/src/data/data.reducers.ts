@@ -114,8 +114,8 @@ export const dataExtraReducers = {
         const diffs = state.differences[entity.$id];
         if (state.original[entity.$id] && diffs) {
           const entityNext = { ...entity } as Partial<D>;
-          diffs.forEach((prop) => {
-            delete entityNext[prop as keyof D];
+          diffs.forEach((prop: keyof D) => {
+            delete entityNext[prop];
           });
           state.original[entity.$id] = entity as Draft<D>;
           const { $id, ...changes } = entityNext;

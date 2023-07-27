@@ -3,10 +3,10 @@ import type { Route, RouteRoot, RouteMinimal } from './route.types.js';
 
 export const routeKey = 'route';
 
-export const routeRoot: RouteRoot = {
+export const routeRoot: () => RouteRoot = () => ({
   label: '',
   path: '/',
-};
+});
 
 export function routeCreate(
   route: RouteMinimal,

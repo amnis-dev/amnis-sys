@@ -1,4 +1,4 @@
-import { nanoid } from '@reduxjs/toolkit';
+import { EntityState, nanoid } from '@reduxjs/toolkit';
 import type { UID } from '../../core/index.js';
 import { dateNumeric, uid } from '../../core/index.js';
 import type { Challenge } from './challenge.types.js';
@@ -39,7 +39,7 @@ export const challengeSlice = dataSliceCreate({
          */
         builder.addMatcher(
           (action) => action.type.startsWith('@data'),
-          (state, { payload }: Record<string, any>) => {
+          (state: EntityState<Challenge, string>, { payload }: Record<string, any>) => {
             if (
               typeof payload !== 'object'
               || payload[key] === undefined
