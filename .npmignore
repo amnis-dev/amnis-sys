@@ -1,0 +1,14 @@
+# Source
+src/
+
+# Packages
+packages/
+
+# Projects
+projects/
+
+# Settings
+.vscode/
+
+# TypeScript Configuration Files
+tsconfig.*

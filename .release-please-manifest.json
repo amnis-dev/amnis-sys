@@ -1,0 +1,5 @@
+{
+  ".": "0.0.0",
+  "configurations/eslint-config-node": "2.4.0",
+  "configurations/tsconfig-node": "2.4.0"
+}

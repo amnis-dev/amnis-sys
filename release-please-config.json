@@ -1,0 +1,7 @@
+{
+  "packages": {
+    ".": {},
+    "configurations/eslint-config-node": {},
+    "configurations/tsconfig-node": {}
+  }
+}

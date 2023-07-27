@@ -1,0 +1,20 @@
+{
+  "name": "@amnis/tsconfig-node",
+  "version": "2.4.0",
+  "description": "Amnis TypeScript configuration for Node applications.",
+  "main": "tsconfig.json",
+  "files": [
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amnis-dev/configs"
+  },
+  "homepage": "https://github.com/amnis-dev/configs",
+  "author": "eCrow <eric.crowell@ecrow.dev>",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "typescript": ">=5"
+  }
+}

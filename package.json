@@ -1,0 +1,68 @@
+{
+  "name": "@amnis/sys",
+  "version": "0.0.0",
+  "description": "TypeScript system for enterprise-level web and mobile projects.",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "stateful",
+    "system",
+    "test",
+    "mocking",
+    "authentication",
+    "authorization",
+    "authn",
+    "authz",
+    "crypto",
+    "crud",
+    "rest",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:amnis-dev/amnis-system.git"
+  },
+  "files": [
+    "types",
+    "dist"
+  ],
+  "type": "module",
+  "types": "./types/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./core": {
+      "types": "./types/core/index.d.ts",
+      "import": "./dist/core.js",
+      "require": "./dist/core.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:types && pnpm build:dist",
+    "build:dist": "vite build --mode production",
+    "build:types": "tsc -p tsconfig.json",
+    "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
+    "test": "echo \"Error: no test specified\""
+  },
+  "author": "Eric Crowell",
+  "license": "MIT",
+  "devDependencies": {
+    "@amnis/eslint-config-node": "workspace:^",
+    "@amnis/tsconfig-node": "workspace:^",
+    "@reduxjs/toolkit": "https://github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz",
+    "@types/node": "^20.4.5",
+    "ajv": "^8.12.0",
+    "cross-fetch": "^4.0.0",
+    "eslint": "^8.45.0",
+    "redux": "5.0.0-beta.0",
+    "redux-thunk": "3.0.0-alpha.3",
+    "reselect": "^4.1.8",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.7",
+    "vitest": "^0.33.0"
+  }
+}

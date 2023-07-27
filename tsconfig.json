@@ -1,0 +1,17 @@
+{
+  "extends": "@amnis/tsconfig-node",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "outDir": "./types",
+    "declarationDir": "./types",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@amnis/sys": ["./index.ts"],
+      "@amnis/sys/core": ["./core/index.ts"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+}
