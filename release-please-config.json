@@ -1,6 +1,12 @@
 {
   "packages": {
-    ".": {},
+    ".": {
+      "exclude-paths": [
+        "configurations",
+        "libraries",
+        "projects"
+      ]
+    },
     "configurations/eslint-config-node": {},
     "configurations/tsconfig-node": {}
   }
