@@ -10,8 +10,15 @@ permissions:
   pull-requests: write
 
 jobs:
+
+  integrity-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: ./github/workflows/integrity-check.yml
+
   release:
     runs-on: ubuntu-latest
+    needs: integrity-check
     steps:
     - uses: google-github-actions/release-please-action@v3
       id: release
