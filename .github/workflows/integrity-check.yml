@@ -2,7 +2,8 @@ name: Integrity Check
 
 on:
   push:
-    branches: [main]
+    branches:
+      - '!main'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -49,10 +50,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint for Code-Style Errors
-        run: pnpm lint
+        run: |
+          pnpm lint
+          pnpm run --filter '@amnis/*' --if-present lint
 
       - name: Run Unit Tests
-        run: pnpm test
+        run: |
+          pnpm run test
+          pnpm run --filter '@amnis/*' --if-present test
 
       - name: Run Build
-        run: pnpm build
+        run: |
+          pnpm run build
+          pnpm run --filter '@amnis/*' --if-present build
