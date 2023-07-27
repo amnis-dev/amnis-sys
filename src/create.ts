@@ -4,7 +4,9 @@ import { combineSlices, configureStore } from '@reduxjs/toolkit';
 export interface Application<T extends EnhancedStore> {
   store: T;
 }
-// Updated
+/**
+ * Creates a new application.
+ */
 export function createApplication() {
   const store = configureStore({
     reducer: combineSlices({}),
