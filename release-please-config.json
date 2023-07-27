@@ -9,6 +9,7 @@
     },
     "configurations/eslint-config-node": {},
     "configurations/tsconfig-node": {},
-    "libraries/state": {}
+    "libraries/state": {},
+    "libraries/mock": {}
   }
 }
