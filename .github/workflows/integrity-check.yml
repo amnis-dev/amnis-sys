@@ -54,15 +54,15 @@ jobs:
 
       - name: Run Build
         run: |
-          pnpm run build
-          pnpm run build:libs
+          pnpm build
+          pnpm build:libs
 
       - name: Lint for Code-Style Errors
         run: |
           pnpm lint
-          pnpm run --filter '@amnis/*' --if-present lint
+          pnpm lint:libs
 
       - name: Run Unit Tests
         run: |
-          pnpm run test
-          pnpm run --filter '@amnis/*' --if-present test
+          pnpm test
+          pnpm test:libs

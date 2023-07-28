@@ -1,0 +1,61 @@
+{
+  "name": "@amnis/api",
+  "version": "0.17.5",
+  "description": "Core API Queries and Processing functions for Amnis State",
+  "keywords": [],
+  "author": "Eric Crowell <admin@amnis.dev>",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://github.com/amnis-dev/amnis-api",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amnis-dev/amnis-api"
+  },
+  "files": [
+    "types",
+    "dist"
+  ],
+  "types": "./types/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    },
+    "./react": {
+      "types": "./types/query/react.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.umd.cjs"
+    },
+    "./process": {
+      "types": "./types/process/index.d.ts",
+      "import": "./dist/process.js",
+      "require": "./dist/process.umd.cjs"
+    },
+    "./schema": {
+      "types": "./types/schema/index.d.ts",
+      "import": "./dist/schema.js",
+      "require": "./dist/schema.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:types && pnpm build:dist",
+    "build:dist": "vite build --mode production",
+    "build:types": "tsc -p tsconfig.build.json",
+    "gen:schema": "ts-node-esm -P scripts/tsconfig.json scripts/schema",
+    "test": "vitest --run",
+    "test:query": "vitest src/query",
+    "test:process": "vitest src/process",
+    "test:watch": "vitest --watch",
+    "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
+    "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo ./tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@amnis/state": "workspace:^"
+  },
+  "devDependencies": {
+    "@amnis/mock": "workspace:^"
+  },
+  "sideEffects": false
+}

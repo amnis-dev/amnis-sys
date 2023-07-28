@@ -52,8 +52,8 @@ jobs:
 
     - name: Build Project
       run: |
-        pnpm run build
-        pnpm run --filter '@amnis/*' --if-present build
+        pnpm build
+        pnpm build:libs
 
     - name: Publish Project
       run: pnpm publish -r --tag ${{ inputs.tag }} --access ${{ inputs.access }}

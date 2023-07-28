@@ -34,9 +34,7 @@
     "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo"
   },
   "dependencies": {
-    "msw": "^1.2.3"
-  },
-  "peerDependencies": {
+    "msw": "^1.2.3",
     "@amnis/state": "workspace:^"
   }
 }
