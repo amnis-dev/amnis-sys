@@ -9,7 +9,7 @@ import {
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { authenticateLogin } from './authenticate.js';
-import type { ApiAuthLogin } from '../../api.auth.types.js';
+import type { ApiAuthLogin } from '../api.auth.types.js';
 
 let context: IoContext;
 let system: System;

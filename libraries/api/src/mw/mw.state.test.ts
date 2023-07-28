@@ -30,7 +30,7 @@ import {
 } from '@amnis/state';
 import { schemaState } from '@amnis/state/schema';
 import { contextSetup } from '@amnis/state/context';
-import { schemaAuth } from '../../schema/index.js';
+import { schemaAuth } from '../schema/index.js';
 import { mwState } from './mw.state.js';
 
 let context: IoContext;

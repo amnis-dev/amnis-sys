@@ -9,7 +9,7 @@ import {
   challengeSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
-import { schemaAuth } from '../../schema/index.js';
+import { schemaAuth } from '../schema/index.js';
 import { challengeValidate } from './challenge.js';
 
 let context: IoContext;

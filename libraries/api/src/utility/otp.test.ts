@@ -17,7 +17,7 @@ import {
   systemSlice,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
-import { schemaAuth } from '../../schema/index.js';
+import { schemaAuth } from '../schema/index.js';
 import { otpNew, otpPasswordCreate, otpValidate } from './otp.js';
 
 let context: IoContext;
