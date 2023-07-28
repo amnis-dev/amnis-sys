@@ -1,12 +1,8 @@
 name: Integrity Check
 
 on:
-  push:
-    branches:
-      - 'main'
-  
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
 
@@ -52,15 +48,15 @@ jobs:
 
       - name: Run Build
         run: |
-          pnpm build
           pnpm build:libs
+          pnpm build
 
       - name: Lint for Code-Style Errors
         run: |
-          pnpm lint
           pnpm lint:libs
+          pnpm lint
 
       - name: Run Unit Tests
         run: |
-          pnpm test
           pnpm test:libs
+          pnpm test
