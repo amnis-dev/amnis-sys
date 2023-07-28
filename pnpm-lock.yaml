@@ -131,6 +131,10 @@ importers:
       '@amnis/state':
         specifier: workspace:^
         version: link:../state
+    devDependencies:
+      '@amnis/mock':
+        specifier: workspace:^
+        version: link:../mock
 
   libraries/mock:
     dependencies:
