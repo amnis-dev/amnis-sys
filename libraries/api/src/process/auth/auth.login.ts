@@ -9,8 +9,8 @@ import {
 import type { ApiAuthLogin } from '../../api.auth.types.js';
 import {
   mwChallenge, mwCredential, mwSignature, mwValidate,
-} from '../mw/index.js';
-import { authenticateLogin } from '../utility/authenticate.js';
+} from '../../mw/index.js';
+import { authenticateLogin } from '../../utility/authenticate.js';
 
 const process: IoProcess<
 Io<ApiAuthLogin, EntityObjects>

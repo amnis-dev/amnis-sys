@@ -1,14 +1,20 @@
 # Source
 src/
 
-# Packages
-packages/
-
 # Projects
-projects/
+configurations/
+libraries/
+websites/
 
 # Settings
 .vscode/
+.github/
 
 # TypeScript Configuration Files
 tsconfig.*
+
+# Other Configuration Files
+*.config.ts
+*-config.ts
+*.config.json
+*-config.json

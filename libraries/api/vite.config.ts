@@ -9,6 +9,8 @@ export default defineConfig({
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
         react: resolve(__dirname, 'src/query/react.ts'),
+        mw: resolve(__dirname, 'src/mw/index.ts'),
+        utility: resolve(__dirname, 'src/utility/index.ts'),
         process: resolve(__dirname, 'src/process/index.ts'),
         schema: resolve(__dirname, 'src/schema/index.ts'),
       },

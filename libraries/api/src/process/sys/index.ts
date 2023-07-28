@@ -2,7 +2,7 @@ import type { IoProcessDefinition } from '@amnis/state';
 import { processSysSystem } from './sys.system.js';
 import { processSysSchema } from './sys.schema.js';
 
-export const processSys: IoProcessDefinition = {
+export const sys: IoProcessDefinition = {
   meta: {
     reducerPath: 'apiSys',
   },
@@ -14,4 +14,4 @@ export const processSys: IoProcessDefinition = {
   },
 };
 
-export default processSys;
+export default sys;

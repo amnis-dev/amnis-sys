@@ -6,9 +6,9 @@ import type {
 import {
   systemSlice,
 } from '@amnis/state';
-import { mwAccess, mwValidate } from '../mw/index.js';
+import { mwAccess, mwValidate } from '../../mw/index.js';
 import type { ApiSysSchema } from '../../api.sys.types.js';
-import { permissionGrants } from '../utility/permission.js';
+import { permissionGrants } from '../../utility/permission.js';
 
 /**
  * Verifies the validity of an access bearer.

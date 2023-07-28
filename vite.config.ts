@@ -16,6 +16,9 @@ export default defineConfig({
         exports: 'named',
       },
       external: [
+        '@amnis/state',
+        '@amnis/mock',
+        '@amnis/api',
         'node:crypto',
         'crypto',
       ],

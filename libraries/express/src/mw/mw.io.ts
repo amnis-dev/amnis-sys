@@ -3,7 +3,7 @@ import type {
   IoContext, IoInput,
 } from '@amnis/state';
 import { systemSlice, ioOutput } from '@amnis/state';
-import { httpAuthorizationParse } from '@amnis/api/process';
+import { httpAuthorizationParse } from '@amnis/api/utility';
 /**
  * Parses and prepares Amnis Input and responses from Amnis Output objects.
  * Expects body to be parsed as JSON (`express.json()` middleware).

@@ -7,7 +7,7 @@ import {
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { Express } from 'express';
-import { processAuth, processCrud } from '@amnis/api/process';
+import { auth, crud } from '@amnis/api/process';
 import { schemaAuth } from '@amnis/api/schema';
 import { schemaState } from '@amnis/state/schema';
 import request from 'supertest';
@@ -24,8 +24,8 @@ beforeAll(async () => {
   app = serviceSetup({
     context,
     routes: {
-      auth: processAuth,
-      crud: processCrud,
+      auth,
+      crud,
     },
     baseUrl: '/api',
   });

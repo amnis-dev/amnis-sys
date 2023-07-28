@@ -13,7 +13,7 @@ import {
   stateMerge,
   stateReferenceQuery,
 } from '@amnis/state';
-import { mwAccess, mwValidate, mwState } from '../mw/index.js';
+import { mwAccess, mwValidate, mwState } from '../../mw/index.js';
 
 export const process: IoProcess<
 Io<DataQuery, EntityObjects>

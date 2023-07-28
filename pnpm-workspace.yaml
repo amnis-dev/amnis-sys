@@ -1,4 +1,3 @@
 packages:
-  - 'packages/*'
   - 'configurations/*'
   - 'libraries/*'

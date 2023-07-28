@@ -1,14 +1,15 @@
-# Source Folder
+# Source
 src/
 
-# Configuration files/folders
-.*
-babel*
-jest*
-
-# Lock file
-yarn.lock
-pnpm-lock.yaml
+# Settings
+.vscode/
+.github/
 
 # TypeScript Configuration Files
 tsconfig.*
+
+# Other Configuration Files
+*.config.ts
+*-config.ts
+*.config.json
+*-config.json

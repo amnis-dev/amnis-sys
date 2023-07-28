@@ -1,6 +1,6 @@
 import type { MockOptions } from '@amnis/mock';
 import { contextSetup } from '@amnis/state/context';
-import { processSys, processAuth } from '../../../process/index.js';
+import { sys, auth } from '../../../process/index.js';
 import { schemaAuth } from '../../../schema/index.js';
 
 export const baseUrl = '/api';
@@ -13,8 +13,8 @@ export const serviceConfig = async (): Promise<MockOptions> => {
     baseUrl,
     context,
     processes: {
-      sys: processSys,
-      auth: processAuth,
+      sys,
+      auth,
     },
   };
 };

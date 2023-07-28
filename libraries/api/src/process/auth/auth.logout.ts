@@ -9,7 +9,7 @@ import {
   systemSlice,
 } from '@amnis/state';
 import type { ApiAuthLogout } from '../../api.auth.types.js';
-import { mwSession, mwValidate } from '../mw/index.js';
+import { mwSession, mwValidate } from '../../mw/index.js';
 
 /**
  * Renews a session holder's session and access bearers.

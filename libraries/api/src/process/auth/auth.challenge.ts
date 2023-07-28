@@ -9,8 +9,8 @@ import {
   systemSlice,
 } from '@amnis/state';
 import type { ApiAuthChallenge } from '../../api.auth.types.js';
-import { mwValidate } from '../mw/index.js';
-import { challengeNew } from '../utility/challenge.js';
+import { mwValidate } from '../../mw/index.js';
+import { challengeNew } from '../../utility/challenge.js';
 
 const process: IoProcess<
 Io<ApiAuthChallenge, Challenge>

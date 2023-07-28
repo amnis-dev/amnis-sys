@@ -5,6 +5,7 @@
     "outDir": "./types",
     "declarationDir": "./types",
     "rootDir": "./src",
+    "jsx": "react"
   },
   "include": [
     "src/**/*"

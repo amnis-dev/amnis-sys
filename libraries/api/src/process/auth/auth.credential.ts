@@ -13,8 +13,8 @@ import {
   mwSignature,
   mwValidate,
   mwOtp,
-} from '../mw/index.js';
-import { accountCredentialAdd, findUser } from '../utility/index.js';
+} from '../../mw/index.js';
+import { accountCredentialAdd, findUser } from '../../utility/index.js';
 
 const process: IoProcess<
 Io<ApiAuthCredential, EntityObjects>

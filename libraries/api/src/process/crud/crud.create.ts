@@ -10,7 +10,7 @@ import {
   GrantTask,
   stateEntitiesCreate,
 } from '@amnis/state';
-import { mwAccess, mwValidate, mwState } from '../mw/index.js';
+import { mwAccess, mwValidate, mwState } from '../../mw/index.js';
 
 const process: IoProcess<
 Io<DataCreator, EntityObjects>

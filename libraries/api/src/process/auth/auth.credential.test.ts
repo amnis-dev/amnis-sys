@@ -19,8 +19,8 @@ import {
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthCredential, ApiAuthLogin } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
-import { challengeNew } from '../utility/challenge.js';
-import { otpNew, otpPasswordCreate } from '../utility/otp.js';
+import { challengeNew } from '../../utility/challenge.js';
+import { otpNew, otpPasswordCreate } from '../../utility/otp.js';
 import { processAuthCredential } from './auth.credential.js';
 import { processAuthLogin } from './auth.login.js';
 

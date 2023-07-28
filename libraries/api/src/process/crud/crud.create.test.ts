@@ -17,7 +17,7 @@ import {
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { schemaState } from '@amnis/state/schema';
-import { authenticateFinalize } from '../utility/authenticate.js';
+import { authenticateFinalize } from '../../utility/authenticate.js';
 import { processCrudCreate } from './crud.create.js';
 import { schemaAuth } from '../../schema/index.js';
 

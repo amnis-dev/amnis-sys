@@ -1,7 +1,7 @@
 # Monorepo
 configurations/
 libraries/
-projects/
+websites/
 
 # don't ever lint node_modules
 node_modules/

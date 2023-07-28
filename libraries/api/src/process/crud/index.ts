@@ -4,7 +4,7 @@ import { processCrudRead } from './crud.read.js';
 import { processCrudUpdate } from './crud.update.js';
 import { processCrudDelete } from './crud.delete.js';
 
-export const processCrud: IoProcessDefinition = {
+export const crud: IoProcessDefinition = {
   meta: {
     reducerPath: 'apiCrud',
     bearer: true,
@@ -19,4 +19,4 @@ export const processCrud: IoProcessDefinition = {
   },
 };
 
-export default processCrud;
+export default crud;

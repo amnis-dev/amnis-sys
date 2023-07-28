@@ -15,7 +15,7 @@ import {
   systemSlice,
 } from '@amnis/state';
 import { validate } from '@amnis/state/context';
-import type { ApiAuthOtp } from '../../api.auth.types.js';
+import type { ApiAuthOtp } from '../api.auth.types.js';
 import { findUser } from './find.js';
 
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';

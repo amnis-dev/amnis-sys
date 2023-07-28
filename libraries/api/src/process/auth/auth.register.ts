@@ -18,9 +18,9 @@ import {
   mwCredential,
   mwSignature,
   mwValidate,
-} from '../mw/index.js';
-import { authenticateFinalize } from '../utility/authenticate.js';
-import { registerAccount } from '../utility/register.js';
+} from '../../mw/index.js';
+import { authenticateFinalize } from '../../utility/authenticate.js';
+import { registerAccount } from '../../utility/register.js';
 
 const process: IoProcess<
 Io<ApiAuthRegister, EntityObjects>

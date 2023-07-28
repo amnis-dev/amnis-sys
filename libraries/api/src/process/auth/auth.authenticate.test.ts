@@ -25,7 +25,7 @@ import {
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthAuthenticate, ApiAuthChallenge } from '../../api.auth.types.js';
 import { schemaAuth } from '../../schema/index.js';
-import { generateSession } from '../utility/generate.js';
+import { generateSession } from '../../utility/generate.js';
 import { processAuthAuthenticate } from './auth.authenticate.js';
 import { processAuthChallenge } from './auth.challenge.js';
 

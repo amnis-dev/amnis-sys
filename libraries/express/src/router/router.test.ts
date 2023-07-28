@@ -16,7 +16,7 @@ import {
   base64JsonEncode,
   accountsGet,
 } from '@amnis/state';
-import { processAuth } from '@amnis/api/process';
+import { auth } from '@amnis/api/process';
 import { routerCreate } from './router.js';
 
 let context: IoContext;
@@ -27,7 +27,7 @@ beforeAll(async () => {
     schemas: [schemaState, schemaAuth],
   });
 
-  app.use('/auth', routerCreate(context, processAuth));
+  app.use('/auth', routerCreate(context, auth));
 });
 
 describe('Auth Router', () => {

@@ -8,8 +8,8 @@ import {
   ioOutputApply,
 } from '@amnis/state';
 import type { ApiAuthOtp } from '../../api.auth.types.js';
-import { mwValidate } from '../mw/index.js';
-import { otpNew } from '../utility/otp.js';
+import { mwValidate } from '../../mw/index.js';
+import { otpNew } from '../../utility/otp.js';
 
 const process: IoProcess<
 Io<ApiAuthOtp, Otp>

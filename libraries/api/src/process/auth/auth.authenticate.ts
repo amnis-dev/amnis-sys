@@ -15,8 +15,8 @@ import {
   mwChallenge,
   mwSignature,
   mwCredential,
-} from '../mw/index.js';
-import { authenticateFinalize, findUserById } from '../utility/index.js';
+} from '../../mw/index.js';
+import { authenticateFinalize, findUserById } from '../../utility/index.js';
 
 const process: IoProcess<
 Io<ApiAuthAuthenticate, EntityObjects>

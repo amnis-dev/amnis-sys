@@ -9,7 +9,7 @@ import type {
 import {
   GrantTask,
 } from '@amnis/state';
-import { mwAccess, mwState, mwValidate } from '../mw/index.js';
+import { mwAccess, mwState, mwValidate } from '../../mw/index.js';
 
 export const process: IoProcess<
 Io<DataUpdater, DataCreator>

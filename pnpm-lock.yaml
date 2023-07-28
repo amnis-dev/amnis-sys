@@ -7,22 +7,26 @@ settings:
 importers:
 
   .:
-    devDependencies:
-      '@amnis/eslint-config-node':
+    dependencies:
+      '@amnis/api':
         specifier: workspace:^
-        version: link:configurations/eslint-config-node
+        version: link:libraries/api
       '@amnis/mock':
         specifier: workspace:^
         version: link:libraries/mock
       '@amnis/state':
         specifier: workspace:^
         version: link:libraries/state
+    devDependencies:
+      '@amnis/eslint-config-node':
+        specifier: workspace:^
+        version: link:configurations/eslint-config-node
       '@amnis/tsconfig-node':
         specifier: workspace:^
         version: link:configurations/tsconfig-node
       '@reduxjs/toolkit':
         specifier: https://github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz
-        version: '@github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz(react@18.2.0)'
+        version: '@github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz(react-redux@8.1.1)(react@18.2.0)'
       '@types/express':
         specifier: ^4.17.17
         version: 4.17.17
@@ -77,6 +81,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-redux:
+        specifier: ^8.1.1
+        version: 8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
       redux:
         specifier: 5.0.0-beta.0
         version: 5.0.0-beta.0
@@ -198,6 +205,13 @@ packages:
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
     engines: {node: '>=0.10.0'}
+
+  /@babel/runtime@7.22.6:
+    resolution: {integrity: sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.11
+    dev: true
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -656,6 +670,13 @@ packages:
       '@types/node': 20.4.5
     dev: true
 
+  /@types/hoist-non-react-statics@3.3.1:
+    resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
+    dependencies:
+      '@types/react': 18.2.17
+      hoist-non-react-statics: 3.3.2
+    dev: true
+
   /@types/http-errors@2.0.1:
     resolution: {integrity: sha512-/K3ds8TRAfBvi5vfjuz8y6+GiAYBZ0x4tXv1Av6CWBWn0IlADc+ZX9pMq7oU0fNQPnBwIZl3rmeLp6SBApbxSQ==}
     dev: true
@@ -765,6 +786,10 @@ packages:
     resolution: {integrity: sha512-X3HPWTwXRerBZS7Mo1k6vMVR1Z6zmJcDVn5O/31whe0tnjE4te6ZJSJGq1RiqHPjzPdMTfjCFogDJmwng9xHaQ==}
     dependencies:
       '@types/superagent': 4.1.18
+    dev: true
+
+  /@types/use-sync-external-store@0.0.3:
+    resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.2.0(@typescript-eslint/parser@6.2.0)(eslint@8.45.0)(typescript@5.1.6):
@@ -2280,6 +2305,12 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /hoist-non-react-statics@3.3.2:
+    resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
+    dependencies:
+      react-is: 16.13.1
+    dev: true
+
   /http-errors@2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
     engines: {node: '>= 0.8'}
@@ -3140,8 +3171,46 @@ packages:
       scheduler: 0.23.0
     dev: true
 
+  /react-is@16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+    dev: true
+
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: true
+
+  /react-redux@8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0):
+    resolution: {integrity: sha512-5W0QaKtEhj+3bC0Nj0NkqkhIv8gLADH/2kYFMTHxCVqQILiWzLv6MaLuV5wJU3BQEdHKzTfcvPN0WMS6SC1oyA==}
+    peerDependencies:
+      '@types/react': ^16.8 || ^17.0 || ^18.0
+      '@types/react-dom': ^16.8 || ^17.0 || ^18.0
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+      react-native: '>=0.59'
+      redux: ^4 || ^5.0.0-beta.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+      redux:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.22.6
+      '@types/hoist-non-react-statics': 3.3.1
+      '@types/react': 18.2.17
+      '@types/react-dom': 18.2.7
+      '@types/use-sync-external-store': 0.0.3
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-is: 18.2.0
+      redux: 5.0.0-beta.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: true
 
   /react@18.2.0:
@@ -3175,6 +3244,10 @@ packages:
 
   /redux@5.0.0-beta.0:
     resolution: {integrity: sha512-RHSGHIiJ+1nkuve0daeveubiEdloy+DkYkP63uHk2FHpP18kb5umytsPU8TY8Lw8sLjL1eFg0DD5yf99ry/JhA==}
+    dev: true
+
+  /regenerator-runtime@0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: true
 
   /regexp.prototype.flags@1.5.0:
@@ -3785,6 +3858,14 @@ packages:
     dependencies:
       punycode: 2.3.0
 
+  /use-sync-external-store@1.2.0(react@18.2.0):
+    resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: true
+
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -4053,7 +4134,7 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  '@github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz(react@18.2.0)':
+  '@github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz(react-redux@8.1.1)(react@18.2.0)':
     resolution: {tarball: https://github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz}
     id: '@github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz'
     name: '@reduxjs/toolkit'
@@ -4069,6 +4150,7 @@ packages:
     dependencies:
       immer: 10.0.2
       react: 18.2.0
+      react-redux: 8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
       redux: 5.0.0-beta.0
       redux-thunk: 3.0.0-alpha.3(redux@5.0.0-beta.0)
       reselect: 5.0.0-alpha.2

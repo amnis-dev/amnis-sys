@@ -9,7 +9,7 @@ import { processAuthOtp } from './auth.otp.js';
 import { processAuthRegister } from './auth.register.js';
 import { processAuthVerify } from './auth.verify.js';
 
-export const processAuth: IoProcessDefinition = {
+export const auth: IoProcessDefinition = {
   meta: {
     reducerPath: 'apiAuth',
     auth: true,
@@ -32,4 +32,4 @@ export const processAuth: IoProcessDefinition = {
   },
 };
 
-export default processAuth;
+export default auth;

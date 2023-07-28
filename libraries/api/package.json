@@ -28,6 +28,16 @@
       "import": "./dist/react.js",
       "require": "./dist/react.umd.cjs"
     },
+    "./mw": {
+      "types": "./types/mw/index.d.ts",
+      "import": "./dist/mw.js",
+      "require": "./dist/mw.umd.cjs"
+    },
+    "./utility": {
+      "types": "./types/utility/index.d.ts",
+      "import": "./dist/utility.js",
+      "require": "./dist/utility.umd.cjs"
+    },
     "./process": {
       "types": "./types/process/index.d.ts",
       "import": "./dist/process.js",

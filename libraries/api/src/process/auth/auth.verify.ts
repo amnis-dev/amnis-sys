@@ -3,7 +3,7 @@ import type {
   IoProcess,
 } from '@amnis/state';
 import type { ApiAuthVerify } from '../../api.auth.types.js';
-import { mwValidate } from '../mw/index.js';
+import { mwValidate } from '../../mw/index.js';
 
 /**
  * Verifies the validity of an access bearer.
