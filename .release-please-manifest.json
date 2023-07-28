@@ -4,5 +4,6 @@
   "configurations/tsconfig-node": "2.4.0",
   "libraries/state": "0.0.0",
   "libraries/mock": "0.0.0",
-  "libraries/api": "0.0.0"
+  "libraries/api": "0.0.0",
+  "libraries/express": "0.0.0"
 }

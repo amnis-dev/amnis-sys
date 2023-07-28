@@ -11,6 +11,7 @@
     "configurations/tsconfig-node": {},
     "libraries/state": {},
     "libraries/mock": {},
-    "libraries/api": {}
+    "libraries/api": {},
+    "libraries/express": {}
   }
 }

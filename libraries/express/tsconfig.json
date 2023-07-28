@@ -1,0 +1,18 @@
+{
+  "extends": "@amnis/tsconfig-node",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "target": "es6",
+    "module": "ES2022",
+    "moduleResolution": "nodenext",
+    "outDir": "./dist",
+    "sourceMap": false,
+    "strict": true,
+    "rootDir": "./src",
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+  },
+  "include": ["./src/**/*.ts*"],
+  "exclude": ["./src/router-backup/**/*"],
+  "files": ["./declarations/express.d.ts"]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@amnis/express",
+  "version": "0.3.0",
+  "repository": "https://github.com/amnis-dev/amnis-express",
+  "author": "Eric Crowell <admin@amnis.dev>",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "types",
+    "dist"
+  ],
+  "types": "./types/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:types && pnpm build:dist",
+    "build:dist": "vite build --mode production",
+    "build:types": "tsc -p tsconfig.build.json",
+    "test": "vitest --run",
+    "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
+    "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo ./tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@amnis/api": "workspace:^",
+    "@amnis/state": "workspace:^",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0"
+  },
+  "peerDependencies": {
+    "express": "^4.18.2"
+  }
+}
