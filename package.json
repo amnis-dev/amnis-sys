@@ -42,6 +42,7 @@
     }
   },
   "scripts": {
+    "build:all": "pnpm build:libs && pnpm build",
     "build": "pnpm build:types && pnpm build:dist",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
