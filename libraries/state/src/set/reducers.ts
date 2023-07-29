@@ -20,9 +20,9 @@ import {
   systemSlice,
   userSlice,
   noteSlice,
-} from './data/index.js';
+} from '../data/index.js';
 
-export const stateReducers = {
+export const reducers = {
   [apiSlice.name]: apiSlice.reducer,
   [appSlice.name]: appSlice.reducer,
   [auditSlice.name]: auditSlice.reducer,
@@ -46,4 +46,4 @@ export const stateReducers = {
   [userSlice.name]: userSlice.reducer,
 };
 
-export default stateReducers;
+export default reducers;

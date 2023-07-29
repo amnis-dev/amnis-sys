@@ -1,7 +1,7 @@
 import React from 'react';
 import '@amnis/api';
-import { stateSet } from '@amnis/state';
-import { apiSet } from '@amnis/api/react';
+import { set as stateSet } from '@amnis/state/set';
+import { set as apiSet } from '@amnis/api/set';
 import type {
   Middleware, Reducer,
 } from '@reduxjs/toolkit';

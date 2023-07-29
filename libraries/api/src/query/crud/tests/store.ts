@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { stateSet } from '@amnis/state';
-import { apiSet } from '../../set.js';
+import { set as stateSet } from '@amnis/state/set';
+import { set as apiSet } from '../../../set/set.js';
 
 const reducers = combineReducers({
   ...stateSet.reducers,

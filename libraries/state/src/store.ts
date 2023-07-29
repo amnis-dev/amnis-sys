@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { stateSet } from './set.js';
+import { set as stateSet } from './set/set.js';
 
 /**
  * Configures a default store.

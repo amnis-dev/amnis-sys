@@ -47,6 +47,11 @@
       "types": "./types/schema/index.d.ts",
       "import": "./dist/schema.js",
       "require": "./dist/schema.umd.cjs"
+    },
+    "./set": {
+      "types": "./types/set/index.d.ts",
+      "import": "./dist/set.js",
+      "require": "./dist/set.umd.cjs"
     }
   },
   "scripts": {

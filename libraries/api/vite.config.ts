@@ -13,6 +13,7 @@ export default defineConfig({
         utility: resolve(__dirname, 'src/utility/index.ts'),
         process: resolve(__dirname, 'src/process/index.ts'),
         schema: resolve(__dirname, 'src/schema/index.ts'),
+        set: resolve(__dirname, 'src/set/index.ts'),
       },
       name: 'AmnisApi',
     },
@@ -26,6 +27,7 @@ export default defineConfig({
           '@amnis/state': 'AmnisState',
           '@amnis/state/schema': 'AmnisStateSchema',
           '@amnis/state/context': 'AmnisStateContext',
+          '@amnis/state/set': 'AmnisStateSet',
         },
       },
       external: [
@@ -35,6 +37,7 @@ export default defineConfig({
         '@amnis/state',
         '@amnis/state/schema',
         '@amnis/state/context',
+        '@amnis/state/set',
         'react',
         'react-dom',
         'react-redux',

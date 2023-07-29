@@ -11,6 +11,7 @@ export default defineConfig({
         records: resolve(__dirname, 'src/records/index.ts'),
         schema: resolve(__dirname, 'src/schema/index.ts'),
         context: resolve(__dirname, 'src/context/index.ts'),
+        set: resolve(__dirname, 'src/set/index.ts'),
       },
       name: 'AmnisState',
     },
