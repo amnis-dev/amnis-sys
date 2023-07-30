@@ -1,0 +1,15 @@
+# Source
+src/
+
+# Settings
+.vscode/
+.github/
+
+# TypeScript Configuration Files
+tsconfig.*
+
+# Other Configuration Files
+*.config.ts
+*-config.ts
+*.config.json
+*-config.json

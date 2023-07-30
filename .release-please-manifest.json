@@ -7,5 +7,7 @@
   "libraries/state": "0.0.0",
   "libraries/mock": "0.0.0",
   "libraries/api": "0.0.0",
-  "libraries/express": "0.0.0"
+  "libraries/express": "0.0.0",
+  "libraries/db-cosmos": "0.0.0",
+  "libraries/emailer-mailjet": "0.0.0"
 }
