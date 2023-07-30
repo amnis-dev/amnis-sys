@@ -47,7 +47,7 @@
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
     "build:libs": "pnpm --filter '@amnis/*...' build",
-    "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
+    "lint": "tsc --noEmit && eslint --ignore-path .eslintignore.root --ext .ts --ext .tsx \"./\"",
     "lint:libs": "pnpm run --filter '@amnis/*' --if-present --parallel lint",
     "test": "vitest --run src/*",
     "test:libs": "pnpm run --filter '@amnis/*' --if-present --parallel test"
