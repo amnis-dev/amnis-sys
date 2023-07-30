@@ -221,7 +221,11 @@ importers:
         specifier: ^3.17.3
         version: 3.17.3
 
-  libraries/emailer-mailjet: {}
+  libraries/emailer-mailjet:
+    dependencies:
+      '@amnis/state':
+        specifier: workspace:^
+        version: link:../state
 
   libraries/express:
     dependencies:
