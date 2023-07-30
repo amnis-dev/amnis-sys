@@ -3,17 +3,23 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'airbnb-base',
+    'plugin:react/recommended',
+    'airbnb',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:require-extensions/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
     ecmaVersion: 2021,
     sourceType: 'module',
+    tsconfigRootDir: './',
   },
   plugins: [
+    'react',
     '@typescript-eslint',
     'import',
   ],
@@ -25,10 +31,7 @@ module.exports = {
     quotes: ['error', 'single'],
     indent: 0,
     'no-param-reassign': ['error', { props: false }],
-    'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
     '@typescript-eslint/indent': ['error', 2],
-    'object-curly-spacing': ['error', 'always'],
-    'space-before-blocks': ['error', 'always'],
     '@typescript-eslint/consistent-type-imports': [
       'error',
       {
@@ -36,12 +39,22 @@ module.exports = {
         disallowTypeAnnotations: false,
       },
     ],
-    'no-plusplus': 0,
+    'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
+    'react/prop-types': 0,
+    'react/require-default-props': 0,
+    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
     'import/no-extraneous-dependencies': [0, {
       devDependencies: ['**/*.test.js', '**/*.stories.js'],
     }],
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-props-no-spreading': [1, {
+      html: 'enforce',
+      custom: 'ignore',
+      explicitSpread: 'enforce',
+    }],
     'import/extensions': [
-      'error', 'ignorePackages',
+      'error',
+      'ignorePackages',
       {
         js: 'never',
         jsx: 'never',
@@ -60,11 +73,32 @@ module.exports = {
     ],
   },
   settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx'],
-    },
     'import/resolver': {
       typescript: {},
     },
   },
+  overrides: [
+    {
+      files: [
+        '**/*.stories.js',
+        '**/*.stories.jsx',
+        '**/*.stories.ts',
+        '**/*.stories.tsx',
+      ],
+      rules: {
+        'react/function-component-definition': 0,
+      },
+    },
+    {
+      files: [
+        '**/*.test.js',
+        '**/*.test.jsx',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+      ],
+      env: {
+        jest: true,
+      },
+    },
+  ]
 };

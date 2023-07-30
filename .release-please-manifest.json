@@ -1,7 +1,9 @@
 {
   ".": "0.0.0",
   "configurations/eslint-config-node": "2.4.0",
+  "configurations/eslint-config-react": "2.4.0",
   "configurations/tsconfig-node": "2.4.0",
+  "configurations/tsconfig-react": "2.4.0",
   "libraries/state": "0.0.0",
   "libraries/mock": "0.0.0",
   "libraries/api": "0.0.0",

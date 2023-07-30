@@ -3,12 +3,15 @@
     ".": {
       "exclude-paths": [
         "configurations",
+        "extensions",
         "libraries",
         "websites"
       ]
     },
     "configurations/eslint-config-node": {},
+    "configurations/eslint-config-react": {},
     "configurations/tsconfig-node": {},
+    "configurations/tsconfig-react": {},
     "libraries/state": {},
     "libraries/mock": {},
     "libraries/api": {},
