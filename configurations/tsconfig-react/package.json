@@ -15,6 +15,6 @@
   "license": "MIT",
   "private": false,
   "peerDependencies": {
-    "typescript": ">=4.6.3"
+    "typescript": ">=5"
   }
 }
