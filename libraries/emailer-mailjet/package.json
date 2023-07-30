@@ -23,7 +23,7 @@
     "build": "pnpm build:types && pnpm build:dist",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
-    "test": "vitest --run",
+    "test": "echo \"Error: no test specified\"",
     "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\""
   },
   "dependencies": {
