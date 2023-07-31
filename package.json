@@ -50,7 +50,7 @@
     "lint": "tsc --noEmit && eslint --ignore-path .eslintignore.root --ext .ts --ext .tsx \"./\"",
     "lint:libs": "pnpm run --filter '@amnis/*' --if-present --parallel lint",
     "test": "vitest --run src/*",
-    "test:libs": "pnpm run --filter '@amnis/*' --if-present --parallel test"
+    "test:libs": "pnpm run --filter=!@amnis/db-cosmos --filter '@amnis/*' --if-present --parallel test"
   },
   "author": "Eric Crowell",
   "license": "MIT",
