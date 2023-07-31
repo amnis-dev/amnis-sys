@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./res/amnis-sys-logo-256.webp" alt="Amnis Sys" width="100" height="100">
-  <h1 align="center">Amnis Sys</h1>
+  <h1 align="center">AmnisSys</h1>
   <p align="center">A Free and Open Source System for Scalable Web and Mobile Projects.</p>
 
   [![GitHub license](https://img.shields.io/github/license/amnis-dev/amnis-sys)](https://github.com/amnis-dev/amnis-sys/blob/main/LICENSE)
@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Amnis Sys provides a solid foundation for developing full-stack web/mobile applications. Syncronizing and managing data between a clients and services has never ben easier.
+AmnisSys provides a solid foundation for developing full-stack web/mobile applications. Syncronizing and managing data between a clients and services has never ben easier.
 
 ## Packages
 
