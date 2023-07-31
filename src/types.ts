@@ -1,5 +1,5 @@
-import type { IoProcessDefinition } from '@amnis/state';
 import type { Middleware, Reducer } from '@reduxjs/toolkit';
+import type { IoProcessDefinition } from '@amnis/state';
 
 interface _SchemaObject {
   id?: string;
