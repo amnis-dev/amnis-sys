@@ -2,6 +2,7 @@ export * from './string.util.js';
 export * from './accounts.js';
 export * from './localstorage.js';
 export * from './state.types.js';
+export * from './set/set.types.js';
 export * from './state.js';
 export * from './store.js';
 export * from './agent.js';

@@ -1,0 +1,45 @@
+{
+  "name": "@amnis/web",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amnis-dev/amnis-sys"
+  },
+  "homepage": "https://github.com/amnis-dev/amnis-sys",
+  "author": "Eric Crowell <admin@amnis.dev>",
+  "files": [
+    "types",
+    "dist"
+  ],
+  "types": "./types/index.d.ts",
+  "main": "./dist/index.umd.cjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./set": {
+      "types": "./types/set/index.d.ts",
+      "import": "./dist/set.js",
+      "require": "./dist/set.cjs"
+    },
+    "./react": {
+      "types": "./types/react/index.d.ts",
+      "import": "./dist/react.js",
+      "require": "./dist/react.cjs"
+    }
+  },
+  "scripts": {
+    "build": "pnpm build:types && pnpm build:dist",
+    "build:dist": "vite build --mode production",
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@amnis/api": "workspace:^",
+    "@amnis/state": "workspace:^"
+  }
+}

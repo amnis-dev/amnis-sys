@@ -6,6 +6,7 @@ import type {
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch as useDispatchRR, useSelector as useSelectorRR, Provider as ProviderRR } from 'react-redux';
+import { set as webSet } from '@amnis/web/set';
 import { set as stateSet } from '@amnis/state/set';
 import { set as apiSet } from '@amnis/api/set';
 import { Mocker } from './Mocker.js';
@@ -42,6 +43,7 @@ export function createWebsite<S extends Set[]>({
   const intialReducers = {
     ...stateSet.reducers,
     ...apiSet.reducers,
+    ...webSet.reducers,
   };
 
   const store = configureStore({
@@ -49,6 +51,7 @@ export function createWebsite<S extends Set[]>({
     middleware: (gDM) => gDM().concat([
       ...stateSet.middleware,
       ...apiSet.middleware,
+      ...webSet.middleware,
     ]),
   });
 
@@ -118,6 +121,7 @@ export function createWebsite<S extends Set[]>({
       Array.from(new Set([
         '@amnis/state',
         '@amnis/api',
+        '@amnis/web',
         ...imports,
       ])),
     );

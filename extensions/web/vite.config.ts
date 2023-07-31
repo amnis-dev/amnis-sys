@@ -10,9 +10,10 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
+        set: resolve(__dirname, 'src/set/index.ts'),
         react: resolve(__dirname, 'src/react/index.ts'),
       },
-      name: 'AmnisSystem',
+      name: 'AmnisWeb',
     },
     rollupOptions: {
       output: {
@@ -20,14 +21,9 @@ export default defineConfig({
       },
       external: [
         '@amnis/state',
-        '@amnis/state/set',
-        '@amnis/state/context',
         '@amnis/mock',
         '@amnis/api',
-        '@amnis/api/set',
-        '@amnis/api/process',
-        '@amnis/web',
-        '@amnis/web/set',
+        '@blueprintjs/core',
         'react',
         'react-dom',
         'node:crypto',

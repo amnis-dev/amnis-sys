@@ -17,6 +17,7 @@
     "libraries/api": {},
     "libraries/express": {},
     "libraries/db-cosmos": {},
-    "libraries/emailer-mailjet": {}
+    "libraries/emailer-mailjet": {},
+    "extensions/web": {}
   }
 }
