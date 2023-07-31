@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  semver: 7.5.4
+
 importers:
 
   .:
@@ -447,7 +450,7 @@ packages:
       debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      semver: 6.3.1
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -487,7 +490,7 @@ packages:
       '@babel/helper-validator-option': 7.22.5
       browserslist: 4.21.10
       lru-cache: 5.1.1
-      semver: 6.3.1
+      semver: 7.5.4
     dev: true
 
   /@babel/helper-create-class-features-plugin@7.22.9(@babel/core@7.22.9):
@@ -505,7 +508,7 @@ packages:
       '@babel/helper-replace-supers': 7.22.9(@babel/core@7.22.9)
       '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
-      semver: 6.3.1
+      semver: 7.5.4
     dev: true
 
   /@babel/helper-create-regexp-features-plugin@7.22.9(@babel/core@7.22.9):
@@ -517,7 +520,7 @@ packages:
       '@babel/core': 7.22.9
       '@babel/helper-annotate-as-pure': 7.22.5
       regexpu-core: 5.3.2
-      semver: 6.3.1
+      semver: 7.5.4
     dev: true
 
   /@babel/helper-define-polyfill-provider@0.4.2(@babel/core@7.22.9):
@@ -1629,7 +1632,7 @@ packages:
       babel-plugin-polyfill-corejs3: 0.8.3(@babel/core@7.22.9)
       babel-plugin-polyfill-regenerator: 0.5.2(@babel/core@7.22.9)
       core-js-compat: 3.32.0
-      semver: 6.3.1
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4214,7 +4217,7 @@ packages:
       '@babel/compat-data': 7.22.9
       '@babel/core': 7.22.9
       '@babel/helper-define-polyfill-provider': 0.4.2(@babel/core@7.22.9)
-      semver: 6.3.1
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5284,7 +5287,7 @@ packages:
       eslint-plugin-import: 2.28.0(@typescript-eslint/parser@6.2.0)(eslint-import-resolver-typescript@3.5.5)(eslint@8.45.0)
       object.assign: 4.1.4
       object.entries: 1.1.6
-      semver: 6.3.1
+      semver: 7.5.4
     dev: false
 
   /eslint-config-airbnb-typescript@17.1.0(@typescript-eslint/eslint-plugin@6.2.0)(@typescript-eslint/parser@6.2.0)(eslint-plugin-import@2.28.0)(eslint@8.45.0):
@@ -5414,7 +5417,7 @@ packages:
       object.groupby: 1.0.0
       object.values: 1.1.6
       resolve: 1.22.3
-      semver: 6.3.1
+      semver: 7.5.4
       tsconfig-paths: 3.14.2
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
@@ -5444,7 +5447,7 @@ packages:
       minimatch: 3.1.2
       object.entries: 1.1.6
       object.fromentries: 2.0.6
-      semver: 6.3.1
+      semver: 7.5.4
     dev: false
 
   /eslint-plugin-react-hooks@4.6.0(eslint@8.45.0):
@@ -5476,7 +5479,7 @@ packages:
       object.values: 1.1.6
       prop-types: 15.8.1
       resolve: 2.0.0-next.4
-      semver: 6.3.1
+      semver: 7.5.4
       string.prototype.matchall: 4.0.8
     dev: false
 
@@ -6647,7 +6650,7 @@ packages:
       '@babel/parser': 7.22.7
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
-      semver: 6.3.1
+      semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7084,14 +7087,14 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       pify: 4.0.1
-      semver: 5.7.2
+      semver: 7.5.4
     dev: true
 
   /make-dir@3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
     dependencies:
-      semver: 6.3.1
+      semver: 7.5.4
     dev: true
 
   /make-dir@4.0.0:
@@ -7396,7 +7399,7 @@ packages:
     dependencies:
       hosted-git-info: 2.8.9
       resolve: 1.22.2
-      semver: 5.7.2
+      semver: 7.5.4
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -8478,20 +8481,6 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /semver@5.7.2:
-    resolution: {integrity: sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==}
-    hasBin: true
-    dev: true
-
-  /semver@6.3.1:
-    resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
-    hasBin: true
-
-  /semver@7.0.0:
-    resolution: {integrity: sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==}
-    hasBin: true
-    dev: true
-
   /semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
     engines: {node: '>=10'}
@@ -8595,7 +8584,7 @@ packages:
     resolution: {integrity: sha512-VpsrsJSUcJEseSbMHkrsrAVSdvVS5I96Qo1QAQ4FxQ9wXFcB+pjj7FB7/us9+GcgfW4ziHtYMc1J0PLczb55mg==}
     engines: {node: '>=8.10.0'}
     dependencies:
-      semver: 7.0.0
+      semver: 7.5.4
     dev: true
 
   /sisteransi@1.0.5:

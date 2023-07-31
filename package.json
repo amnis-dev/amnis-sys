@@ -56,6 +56,9 @@
   },
   "author": "Eric Crowell",
   "license": "MIT",
+  "resolutions": {
+    "semver": "7.5.4"
+  },
   "dependencies": {
     "@amnis/api": "workspace:^",
     "@amnis/mock": "workspace:^",
