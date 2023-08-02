@@ -10,7 +10,14 @@
     "strict": true,
     "rootDir": "./src",
     "esModuleInterop": true,
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@amnis/state/set": ["./set/index.ts"],
+      "@amnis/state/schema": ["./schema/index.ts"],
+      "@amnis/state/data": ["./records/index.ts"],
+      "@amnis/state/dataTest": ["./data/data.default.ts"],
+    }
   },
   "include": [
     "./src/**/*.ts*",

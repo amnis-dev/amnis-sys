@@ -1,5 +1,8 @@
 import React from 'react';
-import { systemImporter } from '../systemImporter.js';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import type { DynamicPlugin } from '@amnis/state';
+import { importerPlugins } from '../importer.js';
+import { pluginMerge } from '../plugin.js';
 
 /**
  * Check if node is in development mode.
@@ -12,20 +15,19 @@ export interface MockerProps {
    *
    * @example ```tsx
    * import { Mocker } from '@amnis/mock/react';
+   * import pluginState from '@amnis/state/plugin';
+   * import pluginApi from '@amnis/api/plugin';
    *
    * export const App = () => (
    *  <Mocker
-   *   systems={[
-   *    '@amnis/state',
-   *    '@amnis/api',
-   *   ])
+   *   plugins={[pluginState, pluginApi.id]}
    *  >
    *   <div>My App</div>
    *  </Mocker>
    * );
    * ```
    */
-  systems: string[];
+  plugins: DynamicPlugin[];
   children: React.ReactNode;
 }
 
@@ -48,7 +50,7 @@ export interface MockerProps {
    * ```
    */
 export const Mocker: React.FC<MockerProps> = ({
-  systems,
+  plugins: pluginsDynamic,
   children,
 }) => {
   /**
@@ -57,7 +59,7 @@ export const Mocker: React.FC<MockerProps> = ({
    */
   if (!isDev) return <>{children}</>;
 
-  const loading = React.useState(true);
+  const [loading, loadingSet] = React.useState(true);
 
   /**
    * If the node environment is in development mode, then
@@ -72,15 +74,32 @@ export const Mocker: React.FC<MockerProps> = ({
       const { mockService } = await import('@amnis/mock');
 
       /**
-       * Import the Amnis Systems.
+       * Import the all Amnis Plugins.
        */
-      const { schemas, processes } = await systemImporter(systems);
+      const plugins = await importerPlugins(pluginsDynamic);
+
+      /**
+       * Merge all plugins.
+       */
+      const {
+        set, schema, process, dataTest,
+      } = pluginMerge(plugins);
+
+      /**
+       * Create the store for the mock service.
+       */
+      const store = configureStore({
+        reducer: combineReducers(set?.reducers ?? {}),
+        middleware: (gDM) => gDM().concat(set?.middleware ? [...set.middleware] : []),
+      });
 
       /**
        * Setup the context for the APIs.
        */
       const context = await contextSetup({
-        schemas,
+        store,
+        schemas: schema,
+        data: dataTest && await dataTest(),
       });
 
       /**
@@ -90,7 +109,7 @@ export const Mocker: React.FC<MockerProps> = ({
         hostname: window.location.hostname,
         baseUrl: '/api',
         context,
-        processes,
+        processes: process,
       });
 
       /**
@@ -103,7 +122,7 @@ export const Mocker: React.FC<MockerProps> = ({
       /**
        * Set loading to false.
        */
-      loading[1](false);
+      loadingSet(false);
     })();
   }, []);
 

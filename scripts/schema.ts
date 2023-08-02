@@ -5,16 +5,7 @@ import { glob } from 'glob';
 
 const typeSchemaFiles = glob.sync('./src/**/*.tyma.ts', {
   nodir: true,
-  ignore: [
-    './**/node_modules/**',
-    './**/dist/**',
-    './**/types/**',
-    './.github/**',
-    './.vscode/**',
-    './.storybook/**',
-    './**/public/**',
-    './**/res/**',
-  ],
+  ignore: './**/node_modules/**',
 });
 
 typeSchemaFiles.forEach((filePath) => {

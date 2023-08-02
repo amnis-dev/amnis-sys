@@ -21,37 +21,42 @@
     ".": {
       "types": "./types/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.cjs"
+    },
+    "./plugin": {
+      "types": "./types/plugin.d.ts",
+      "import": "./dist/plugin.js",
+      "require": "./dist/plugin.cjs"
     },
     "./react": {
       "types": "./types/query/react.d.ts",
       "import": "./dist/react.js",
-      "require": "./dist/react.umd.cjs"
+      "require": "./dist/react.cjs"
     },
     "./mw": {
       "types": "./types/mw/index.d.ts",
       "import": "./dist/mw.js",
-      "require": "./dist/mw.umd.cjs"
+      "require": "./dist/mw.cjs"
     },
     "./utility": {
       "types": "./types/utility/index.d.ts",
       "import": "./dist/utility.js",
-      "require": "./dist/utility.umd.cjs"
+      "require": "./dist/utility.cjs"
     },
     "./process": {
       "types": "./types/process/index.d.ts",
       "import": "./dist/process.js",
-      "require": "./dist/process.umd.cjs"
+      "require": "./dist/process.cjs"
     },
     "./schema": {
       "types": "./types/schema/index.d.ts",
       "import": "./dist/schema.js",
-      "require": "./dist/schema.umd.cjs"
+      "require": "./dist/schema.cjs"
     },
     "./set": {
       "types": "./types/set/index.d.ts",
       "import": "./dist/set.js",
-      "require": "./dist/set.umd.cjs"
+      "require": "./dist/set.cjs"
     }
   },
   "scripts": {

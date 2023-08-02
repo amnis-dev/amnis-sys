@@ -22,10 +22,20 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./plugin": {
+      "types": "./types/plugin.d.ts",
+      "import": "./dist/plugin.js",
+      "require": "./dist/plugin.cjs"
+    },
     "./set": {
       "types": "./types/set/index.d.ts",
       "import": "./dist/set.js",
       "require": "./dist/set.cjs"
+    },
+    "./data": {
+      "types": "./types/data/index.d.ts",
+      "import": "./dist/data.js",
+      "require": "./dist/data.cjs"
     },
     "./react": {
       "types": "./types/react/index.d.ts",

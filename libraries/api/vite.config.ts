@@ -8,6 +8,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
+        plugin: resolve(__dirname, 'src/plugin.ts'),
         react: resolve(__dirname, 'src/query/react.ts'),
         mw: resolve(__dirname, 'src/mw/index.ts'),
         utility: resolve(__dirname, 'src/utility/index.ts'),
@@ -31,6 +32,9 @@ export default defineConfig({
         },
       },
       external: [
+        '@amnis/api/set',
+        '@amnis/api/process',
+        '@amnis/api/schema',
         '@reduxjs/toolkit',
         '@reduxjs/toolkit/query',
         '@reduxjs/toolkit/query/react',

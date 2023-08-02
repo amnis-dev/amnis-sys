@@ -27,6 +27,7 @@ module.exports = {
     'no-shadow': 'off',
     'no-bitwise': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
     semi: ['error', 'always'],
     quotes: ['error', 'single'],
     indent: 0,
@@ -100,5 +101,5 @@ module.exports = {
         jest: true,
       },
     },
-  ]
+  ],
 };

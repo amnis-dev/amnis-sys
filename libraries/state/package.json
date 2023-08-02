@@ -32,10 +32,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./records": {
-      "types": "./types/records/index.d.ts",
-      "import": "./dist/records.js",
-      "require": "./dist/records.cjs"
+    "./plugin": {
+      "types": "./types/plugin.d.ts",
+      "import": "./dist/plugin.js",
+      "require": "./dist/plugin.cjs"
     },
     "./schema": {
       "types": "./types/schema/index.d.ts",
@@ -51,6 +51,16 @@
       "types": "./types/set/index.d.ts",
       "import": "./dist/set.js",
       "require": "./dist/set.cjs"
+    },
+    "./data": {
+      "types": "./types/records/index.d.ts",
+      "import": "./dist/records.js",
+      "require": "./dist/records.cjs"
+    },
+    "./dataTest": {
+      "types": "./types/data/data.default.d.ts",
+      "import": "./dist/dataTest.js",
+      "require": "./dist/dataTest.cjs"
     }
   },
   "scripts": {

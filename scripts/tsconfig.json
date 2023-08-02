@@ -1,0 +1,7 @@
+{
+  "extends": "@amnis/tsconfig-node",
+  "compilerOptions": {
+    "esModuleInterop": true,
+  },
+  "include": ["./*.ts"]
+}

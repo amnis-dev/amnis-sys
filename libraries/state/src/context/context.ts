@@ -3,7 +3,7 @@ import type {
   Entity, EntityObjects, System,
 } from '../data/index.js';
 import {
-  dataInitial,
+  dataTest,
   dataActions,
   systemSlice,
   roleSlice,
@@ -48,7 +48,7 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
     database = databaseMemory,
     filesystem = filesystemMemory,
     crypto = cryptoWeb,
-    data = await dataInitial(),
+    data = await dataTest(),
     emailer = emailerMemory(),
     systemHandle,
   } = options;

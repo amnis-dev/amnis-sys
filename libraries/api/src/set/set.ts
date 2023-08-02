@@ -26,7 +26,6 @@ export const set = {
     apiAuthMiddleware,
     apiCrudMiddleware,
   ],
-  type: {} as SetRoot,
 };
 
 export default set;

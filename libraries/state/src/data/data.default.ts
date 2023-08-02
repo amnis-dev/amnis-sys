@@ -31,7 +31,7 @@ import { cryptoWeb } from '../io/index.js';
 import { accountsGet } from '../accounts.js';
 import { stateEntitiesCreate } from '../state.js';
 
-export const dataInitial = async (): Promise<EntityObjects> => {
+export const dataTest = async (): Promise<EntityObjects> => {
   /**
    * ================================================================================
    * Roles to be assigned to users
@@ -253,4 +253,4 @@ export const dataInitial = async (): Promise<EntityObjects> => {
   return stateEntities;
 };
 
-export default dataInitial;
+export default dataTest;

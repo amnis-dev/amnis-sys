@@ -10,7 +10,9 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'src/index.ts'),
+        plugin: resolve(__dirname, 'src/plugin.ts'),
         set: resolve(__dirname, 'src/set/index.ts'),
+        data: resolve(__dirname, 'src/data/index.ts'),
         react: resolve(__dirname, 'src/react/index.ts'),
       },
       name: 'AmnisWeb',
@@ -20,6 +22,9 @@ export default defineConfig({
         exports: 'named',
       },
       external: [
+        '@amnis/web/set',
+        '@amnis/web/data',
+        '@amnis/web/dataTest',
         '@amnis/state',
         '@amnis/mock',
         '@amnis/api',

@@ -21,7 +21,7 @@ export interface RecordsProductionOptions {
   /**
    * The email address to use for the administrator account.
    */
-  adminEmail: string;
+  adminEmail?: string;
 
   /**
    * The handle to use for the administrator account.
@@ -57,15 +57,19 @@ export interface RecordsProductionOptions {
 /**
  * Conventional records for production use that sets up a single administrator account.
  */
-export async function recordsProduction({
-  adminEmail,
-  adminHandle = 'admin',
-  adminPassword = 'password',
-  adminPublicKey,
-  systemName = 'Core System',
-  systemEmailDomain = 'amnis.dev',
-  systemCors = [],
-}: RecordsProductionOptions): Promise<EntityObjects> {
+export async function data(
+  options: RecordsProductionOptions = {},
+): Promise<EntityObjects> {
+  const {
+    adminEmail = 'admin@localhost',
+    adminHandle = 'admin',
+    adminPassword = 'password',
+    adminPublicKey = '',
+    systemName = 'Core',
+    systemEmailDomain = 'localhost',
+    systemCors = [],
+  } = options;
+
   if (!adminEmail) {
     throw new Error('Missing admin email address');
   }
@@ -258,3 +262,5 @@ export async function recordsProduction({
 
   return stateEntities;
 }
+
+export default data;
