@@ -103,6 +103,11 @@ export interface System extends Data {
   proxyTrust?: boolean;
 
   /**
+   * Supported language coded for the system.
+   */
+  languages: string[];
+
+  /**
    * Role identifier that considers the user an administrator.
    * Administrators have complete control.
    */

@@ -1,18 +1,40 @@
 import {
-  GrantTask, type Entity,
+  type Entity,
   type EntityObjects,
   type StateDataPromise,
-  historyMake,
-  stateEntitiesCreate,
-  historySlice
+  roleSlice,
+  GrantScope,
+  grantTask,
+  systemSlice,
+  localeSlice,
 } from "@amnis/state";
 import { Website, websiteSlice } from "../set/entity/index.js";
 
-export const data: StateDataPromise = async () => {
+export const data: StateDataPromise = async (data) => {
+  /**
+   * ================================================================================
+   * Setup default localized translations.
+   */
+  const localeWeb = localeSlice.createEntity({
+    code: 'en-us',
+    set: 'web',
+    t: {
+      title: 'My Website',
+      description: 'This is a brief description of the website.',
+    },
+  });
+  // Insert the locale into the data.
+  data[localeSlice.key].push(localeWeb);
+
+  /**
+   * ================================================================================
+   * Create default website.
+   */
   const websites: Entity<Website>[] = [
     websiteSlice.createEntity({
       hostname: 'localhost',
-      title: 'Website Title',
+      title: '%web:title',
+      description: '%web:description',
       routes: [],
     }),
   ];
@@ -22,14 +44,25 @@ export const data: StateDataPromise = async () => {
   };
 
   /**
+   * Update core data with needed roles and grants.
+   */
+  const system = data[systemSlice.key][0];
+  const roleAdministrator = data[roleSlice.key].find((role) => role.$id === system.$adminRole);
+  const roleAnonymous = data[roleSlice.key].find((role) => role.$id === system.$anonymousRole);
+
+  if (roleAdministrator) {
+    roleAdministrator.grants.push([websiteSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)]);
+  }
+
+  if (roleAnonymous) {
+    roleAnonymous.grants.push([websiteSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)]);
+  }
+
+  /**
    * Create this initial history.
    */
-  const stateEntities: EntityObjects = {
+  return {
+    ...data,
     ...stateEntitiesInital,
-    ...stateEntitiesCreate({
-      [historySlice.key]: historyMake(stateEntitiesInital, GrantTask.Create),
-    }, { committed: true, new: false }),
   };
-
-  return stateEntities;
 };

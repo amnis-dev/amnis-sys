@@ -1,26 +1,27 @@
 import type {
-  Data, DataRoot, DataMinimal, DataMeta,
+  Data, DataRoot, DataMinimal,
 } from '../../data.types.js';
-
-/**
- * Symbol to make a special locale type.
- */
-declare const localeSymbol: unique symbol;
-
-/**
- * A string that represents a key on a locale translation record.
- */
-export type LocaleTranslationKey = string & {[localeSymbol]: never};
 
 /**
  * Record of locale translations.
  */
-export type LocaleTranslation = Record<LocaleTranslationKey, string>;
+export type LocaleTranslation = Record<string, string>;
+
+/**
+ * A reference string to a locale.
+ */
+export type LocaleReference = `%${string}:${string}`;
 
 /**
  * Locale entity
  */
 export interface Locale extends Data {
+  /**
+   * Key for the locale.
+   * code + ':' + set
+   */
+  key: string;
+
   /**
    * Two-character language code.
    * @minLength 2
@@ -39,11 +40,6 @@ export interface Locale extends Data {
    * The language key value translations.
    */
   t: LocaleTranslation;
-
-  /**
-   * Variables that can be inserted into translation text.
-   */
-  v: string[],
 }
 
 /**
@@ -54,9 +50,11 @@ export type LocaleRoot = DataRoot<Locale>;
 /**
  * Root properties in order to create a log.
  */
-export type LocaleMinimal = DataMinimal<Locale, 'code' | 'set'>;
+export type LocaleMinimal = DataMinimal<Omit<Locale, 'key'>, 'code' | 'set'>;
 
-/**
- * Locale collection meta data.
- */
-export type LocaleMeta = DataMeta<Locale>;
+export interface LocaleMeta {
+  /**
+   * The currently set language code.
+   */
+  code: string;
+}

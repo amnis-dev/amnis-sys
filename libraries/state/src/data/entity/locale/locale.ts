@@ -1,45 +1,61 @@
 import type { LogMinimal } from '../log/index.js';
-import { uid } from '../../../core/index.js';
+import { uid } from '../../../core/uid.js';
 import type {
-  Locale, LocaleRoot, LocaleMinimal, LocaleTranslationKey, LocaleTranslation,
+  Locale, LocaleRoot, LocaleMinimal, LocaleTranslation, LocaleMeta,
 } from './locale.types.js';
 import { entitySliceCreate } from '../entity.slice.js';
+import type { Data } from '../../data.types.js';
+import {
+  selectLocaleActiveCode,
+  selectLocaleByCode,
+  selectLocaleKeyExists,
+  selectLocaleSet,
+  selectLocaleTranslation,
+} from './locale.selectors.js';
 
 const localeKey = 'locale';
 
-export const localeRoot: LocaleRoot = {
-  code: 'en',
-  set: 'core',
+export const localeRoot: Omit<LocaleRoot, 'key'> = {
+  code: 'en-us',
+  set: 'system',
   t: {},
-  v: [],
 };
-
-/**
- * defines a translation key
- */
-export function tk(key: string) {
-  return key as LocaleTranslationKey;
-}
 
 /**
  * Translate method
  */
 export function t(
   translations: LocaleTranslation,
-  key: LocaleTranslationKey,
-  ...args: string[]
+  key: string,
+  data: Data & Record<string, any> = { $id: uid('data') },
 ) {
   if (key.length > 64) {
     return key;
   }
-  if (typeof translations[key] !== 'string') {
+
+  const translation = translations[key];
+  if (translation !== 'string') {
     return key;
   }
-  return translations[key].replace(
-    /{(\d+)}/g,
-    (match, number) => (
-      typeof args[number] !== 'undefined' ? args[number] : match
-    ),
+
+  return translation.replace(
+    /{.+?}/g,
+    (match) => {
+      const prop = match.substring(1, match.length - 1);
+      const value = data[prop];
+
+      if (typeof value === 'string') {
+        return value;
+      }
+      if (typeof value === 'number') {
+        return value.toString();
+      }
+      if (typeof value === 'boolean') {
+        return value ? 'true' : 'false';
+      }
+
+      return '◼';
+    },
   );
 }
 
@@ -66,11 +82,46 @@ export function localeCreate(
   return {
     ...localeRoot,
     ...locale,
+    key: `${locale.code ?? localeRoot.code}:${locale.set ?? localeRoot.set}`,
     $id: uid(localeKey),
   };
 }
 
+/**
+ * Meta object for the locale slice.
+ */
+const localeMeta: LocaleMeta = {
+  code: 'en-us',
+};
+
 export const localeSlice = entitySliceCreate({
   key: localeKey,
   create: localeCreate,
+  meta: localeMeta,
+  selectors: {
+    /**
+     * Selects locales based on the active language code.
+     */
+    activeCode: selectLocaleActiveCode,
+
+    /**
+     * Selects locales based on the specified language code.
+     */
+    byCode: selectLocaleByCode,
+
+    /**
+     * Selects a single locale set.
+     */
+    set: selectLocaleSet,
+
+    /**
+     * Select a transation given the expression.
+     */
+    translation: selectLocaleTranslation,
+
+    /**
+     * Checks if a translation key exists.
+     */
+    keyExists: selectLocaleKeyExists,
+  },
 });

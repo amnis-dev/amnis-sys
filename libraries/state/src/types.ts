@@ -1,6 +1,10 @@
 import type { Middleware, Reducer } from '@reduxjs/toolkit';
 import type { IoProcessDefinition } from './io/io.types.js';
-import type { EntityObjects } from './data/entity/entity.types.js';
+import type {
+  systemKey,
+  roleKey,
+  EntityObjects, System, Entity, Role,
+} from './data/index.js';
 
 interface _SchemaObject {
   id?: string;
@@ -22,7 +26,13 @@ export type ReduxSet = {
   middleware: Middleware[]
 }
 
-export type StateDataPromise = () => Promise<EntityObjects>;
+export type StateDataGuaranteed = {
+  [K in (typeof systemKey)]: [Entity<System>]
+} & {
+  [K in (typeof roleKey)]: [Entity<Role>, Entity<Role>, Entity<Role>]
+} & EntityObjects;
+
+export type StateDataPromise = (data: StateDataGuaranteed) => Promise<StateDataGuaranteed>;
 
 export type ProcessSet = Record<string, IoProcessDefinition>;
 

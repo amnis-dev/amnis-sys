@@ -1,13 +1,10 @@
 import {
   grantTask,
   GrantScope,
-  GrantTask,
 } from './grant/index.js';
 import type {
   Contact,
   Profile,
-  Role,
-  System,
   User,
   Entity,
   Credential,
@@ -25,78 +22,45 @@ import {
   systemSlice,
   auditSlice,
   historySlice,
-  historyMake,
 } from './entity/index.js';
 import { cryptoWeb } from '../io/index.js';
 import { accountsGet } from '../accounts.js';
-import { stateEntitiesCreate } from '../state.js';
+import type { StateDataPromise } from '../types.js';
 
-export const dataTest = async (): Promise<EntityObjects> => {
+export const dataTest: StateDataPromise = async (data) => {
+  const system = data[systemSlice.key][0];
+  const roleAdmin = data[roleSlice.key]?.find(
+    (role) => role.$id === system?.$adminRole,
+  );
+  const roleExec = data[roleSlice.key]?.find(
+    (role) => role.$id === system?.$execRole,
+  );
+  const roleAnonymous = data[roleSlice.key]?.find(
+    (role) => role.$id === system?.$anonymousRole,
+  );
+
   /**
    * ================================================================================
    * Roles to be assigned to users
    */
-  const roles: Entity<Role>[] = [
-    roleSlice.createEntity({
-      name: 'Administrator',
-      description: 'Most permissive role for overall system configuration and maintenance.',
-      color: '#cc0000',
-      fsLimits: [-1, -1, -1],
-      grants: [
-        [systemSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [auditSlice.key, GrantScope.Global, grantTask(0, 1, 1, 1)],
-        [historySlice.key, GrantScope.Global, grantTask(0, 1, 1, 1)],
-        [userSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [handleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [credentialSlice.key, GrantScope.Global, grantTask(0, 1, 0, 1)],
-        [roleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [profileSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [contactSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-      ],
-    }, { committed: true, new: false }),
-    roleSlice.createEntity({
-      name: 'Executive',
-      description: 'Authoritative role for application configuration and maintenance.',
-      color: '#3e3ee6',
-      fsLimits: [-1, -1, -1],
-      grants: [
-        [auditSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-        [historySlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-        [userSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [handleSlice.key, GrantScope.Global, grantTask(0, 0, 1, 1)],
-        [credentialSlice.key, GrantScope.Global, grantTask(0, 1, 0, 1)],
-        [roleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [profileSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-        [contactSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
-      ],
-    }, { committed: true, new: false }),
-    roleSlice.createEntity({
-      name: 'Base',
-      description: 'Basis for standard authenticated use of the application.',
-      color: '#000000',
-      fsLimits: [32, 64, 1024],
-      grants: [
-        [historySlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-        [userSlice.key, GrantScope.Owned, grantTask(0, 1, 1, 0)],
-        [handleSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-        [credentialSlice.key, GrantScope.Owned, grantTask(0, 1, 0, 1)],
-        [profileSlice.key, GrantScope.Owned, grantTask(0, 1, 1, 0)],
-        [profileSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-        [contactSlice.key, GrantScope.Owned, grantTask(0, 1, 1, 0)],
-        [contactSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-      ],
-    }, { committed: true, new: false }),
-    roleSlice.createEntity({
-      name: 'Anonymous',
-      description: 'Permissions for accessing the application data without authentication.',
-      color: '#000000',
-      fsLimits: [0, 0, 0],
-      grants: [
-        [handleSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-        [profileSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
-      ],
-    }, { committed: true, new: false }),
-  ];
+  const roleBase = roleSlice.createEntity({
+    name: 'Base',
+    description: 'Basis for standard authenticated use of the application.',
+    color: '#000000',
+    fsLimits: [32, 64, 1024],
+    grants: [
+      [historySlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      [userSlice.key, GrantScope.Owned, grantTask(0, 1, 1, 0)],
+      [handleSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      [credentialSlice.key, GrantScope.Owned, grantTask(0, 1, 0, 1)],
+      [profileSlice.key, GrantScope.Owned, grantTask(0, 1, 1, 0)],
+      [profileSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      [contactSlice.key, GrantScope.Owned, grantTask(0, 1, 1, 0)],
+      [contactSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+    ],
+  });
+
+  data[roleSlice.key].push(roleBase);
 
   /**
    * ================================================================================
@@ -112,25 +76,25 @@ export const dataTest = async (): Promise<EntityObjects> => {
       password: await cryptoWeb.passHash(accounts.admin.password),
       email: 'admin@email.addr',
       emailVerified: true,
-      $roles: [roles[0].$id],
+      $roles: roleAdmin ? [roleAdmin.$id] : [],
       $permits: [],
-    }, { committed: true, new: false }),
+    }),
     userSlice.createEntity({
       handle: accounts.exec.handle,
       password: await cryptoWeb.passHash(accounts.exec.password),
       email: 'exec@email.addr',
       emailVerified: true,
-      $roles: [roles[1].$id],
+      $roles: roleExec ? [roleExec.$id] : [],
       $permits: [],
-    }, { committed: true, new: false }),
+    }),
     userSlice.createEntity({
       handle: accounts.user.handle,
       password: await cryptoWeb.passHash(accounts.user.password),
       email: 'user@email.addr',
       emailVerified: true,
-      $roles: [roles[2].$id],
+      $roles: [roleBase.$id],
       $permits: [],
-    }, { committed: true, new: false }),
+    }),
   ];
 
   /**
@@ -158,15 +122,15 @@ export const dataTest = async (): Promise<EntityObjects> => {
   const credentials: Entity<Credential>[] = [
     entityCreate(
       accounts.admin.credential,
-      { $owner: users[0].$id, committed: true, new: false },
+      { $owner: users[0].$id },
     ),
     entityCreate(
       accounts.exec.credential,
-      { $owner: users[1].$id, committed: true, new: false },
+      { $owner: users[1].$id },
     ),
     entityCreate(
       accounts.user.credential,
-      { $owner: users[2].$id, committed: true, new: false },
+      { $owner: users[2].$id },
     ),
   ];
 
@@ -182,15 +146,15 @@ export const dataTest = async (): Promise<EntityObjects> => {
     contactSlice.createEntity({
       name: 'Administrator Contact',
       emails: [users[0].email as string],
-    }, { $owner: users[0].$id, committed: true, new: false }),
+    }, { $owner: users[0].$id }),
     contactSlice.createEntity({
       name: 'Executive Contact',
       emails: [users[1].email as string],
-    }, { $owner: users[1].$id, committed: true, new: false }),
+    }, { $owner: users[1].$id }),
     contactSlice.createEntity({
       name: 'User Contact',
       emails: [users[2].email as string],
-    }, { $owner: users[2].$id, committed: true, new: false }),
+    }, { $owner: users[2].$id }),
   ];
 
   /**
@@ -202,55 +166,73 @@ export const dataTest = async (): Promise<EntityObjects> => {
       $user: users[0].$id,
       $contact: contacts[0].$id,
       nameDisplay: 'Administrator',
-    }, { $owner: users[0].$id, committed: true, new: false }),
+    }, { $owner: users[0].$id }),
     profileSlice.createEntity({
       $user: users[1].$id,
       $contact: contacts[1].$id,
       nameDisplay: 'Executive',
-    }, { $owner: users[1].$id, committed: true, new: false }),
+    }, { $owner: users[1].$id }),
     profileSlice.createEntity({
       $user: users[2].$id,
       $contact: contacts[2].$id,
       nameDisplay: 'User',
-    }, { $owner: users[2].$id, committed: true, new: false }),
+    }, { $owner: users[2].$id }),
   ];
 
   /**
    * ================================================================================
-   * System settings.
+   * Prepare passed in data.
    */
-  const systems: Entity<System>[] = [
-    systemSlice.createEntity({
-      name: 'Core System',
-      handle: 'core',
-      $adminRole: roles[0].$id,
-      $execRole: roles[1].$id,
-      $anonymousRole: roles[3].$id,
-      $initialRoles: [roles[2].$id],
-    }, { committed: true, new: false }),
-  ];
+  if (roleAdmin) {
+    roleAdmin.grants.push(
+      [auditSlice.key, GrantScope.Global, grantTask(0, 1, 1, 1)],
+      [historySlice.key, GrantScope.Global, grantTask(0, 1, 1, 1)],
+      [userSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+      [handleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+      [credentialSlice.key, GrantScope.Global, grantTask(0, 1, 0, 1)],
+      [profileSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+      [contactSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+    );
+  }
+
+  if (roleExec) {
+    roleExec.grants.push(
+      [auditSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      [historySlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      [userSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+      [handleSlice.key, GrantScope.Global, grantTask(0, 0, 1, 1)],
+      [credentialSlice.key, GrantScope.Global, grantTask(0, 1, 0, 1)],
+      [profileSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+      [contactSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+    );
+  }
+
+  // Add grants to anonymous role.
+  if (roleAnonymous) {
+    roleAnonymous.grants.push(
+      [handleSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      [profileSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+    );
+  }
+
+  // Push new base role.
+  system.$initialRoles.push(roleBase.$id);
 
   const stateEntitiesInital: EntityObjects = {
-    [roleSlice.key]: roles,
     [userSlice.key]: users,
     [handleSlice.key]: handles,
     [credentialSlice.key]: credentials,
     [contactSlice.key]: contacts,
     [profileSlice.key]: profiles,
-    [systemSlice.key]: systems,
   };
 
   /**
    * Create this initial history.
    */
-  const stateEntities: EntityObjects = {
+  return {
+    ...data,
     ...stateEntitiesInital,
-    ...stateEntitiesCreate({
-      [historySlice.key]: historyMake(stateEntitiesInital, GrantTask.Create),
-    }, { committed: true, new: false }),
   };
-
-  return stateEntities;
 };
 
 export default dataTest;

@@ -19,6 +19,11 @@ import {
 } from '../io/index.js';
 import { storeSetup } from '../store.js';
 import { validateSetup } from './validate.js';
+import { dataMinimal } from '../data.minimal.js';
+import type { StateDataPromise } from '../types.js';
+import { stateEntitiesCreate } from '../state.js';
+import { historyMake, historySlice } from '../data/entity/history/index.js';
+import { GrantTask } from '../data/grant/index.js';
 
 export interface ContextOptions extends Omit<Partial<IoContext>, 'schemas' | 'validators'> {
 
@@ -30,7 +35,7 @@ export interface ContextOptions extends Omit<Partial<IoContext>, 'schemas' | 'va
   /**
    * Set initial entity data.
    */
-  data?: EntityObjects;
+  data?: StateDataPromise;
 
   /**
    * System handle to use for the initial system.
@@ -48,7 +53,7 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
     database = databaseMemory,
     filesystem = filesystemMemory,
     crypto = cryptoWeb,
-    data = await dataTest(),
+    data = dataTest,
     emailer = emailerMemory(),
     systemHandle,
   } = options;
@@ -70,7 +75,12 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
    * Initialize the system if one isn't found.
    */
   if (!systems || systems?.length === 0) {
-    dataResult = await database.create(data);
+    const dataInitial = await data(dataMinimal());
+    const dataWithHistory = stateEntitiesCreate({
+      ...dataInitial,
+      [historySlice.key]: historyMake(dataInitial, GrantTask.Create),
+    }, { committed: true, new: false });
+    dataResult = await database.create(dataWithHistory);
     system = dataResult[systemSlice.key]?.[0] as Entity<System>;
   }
 

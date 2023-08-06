@@ -1,6 +1,6 @@
 import React from 'react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import type { DynamicPlugin } from '@amnis/state';
+import { type DynamicPlugin, databaseMemoryClear } from '@amnis/state';
 import { importerPlugins } from '../importer.js';
 import { pluginMerge } from '../plugin.js';
 
@@ -65,8 +65,13 @@ export const Mocker: React.FC<MockerProps> = ({
    * If the node environment is in development mode, then
    * mock the apis and return the children.
    */
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     (async () => {
+      /**
+       * Clear the memory database.
+       */
+      databaseMemoryClear();
+
       /**
        * Import contextSetup and mockService.
        */
@@ -99,14 +104,14 @@ export const Mocker: React.FC<MockerProps> = ({
       const context = await contextSetup({
         store,
         schemas: schema,
-        data: dataTest && await dataTest(),
+        data: dataTest,
       });
 
       /**
        * Setup the mock service.
        */
       await mockService.setup({
-        hostname: window.location.hostname,
+        hostname: window.location.origin,
         baseUrl: '/api',
         context,
         processes: process,
@@ -115,9 +120,14 @@ export const Mocker: React.FC<MockerProps> = ({
       /**
        * Start the mock service.
        */
-      await mockService.start({
+      mockService.start({
         onUnhandledRequest: 'bypass',
       });
+
+      /**
+       * Wait one second for the mock service to start.
+       */
+      await new Promise((resolve) => { setTimeout(resolve, 1000); });
 
       /**
        * Set loading to false.

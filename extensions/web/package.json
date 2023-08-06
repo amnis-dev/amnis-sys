@@ -46,7 +46,8 @@
   "scripts": {
     "build": "pnpm build:types && pnpm build:dist",
     "build:dist": "vite build --mode production",
-    "build:types": "tsc -p tsconfig.build.json"
+    "build:types": "tsc -p tsconfig.build.json",
+    "test": "vitest --run src/*"
   },
   "dependencies": {
     "@amnis/api": "workspace:^",

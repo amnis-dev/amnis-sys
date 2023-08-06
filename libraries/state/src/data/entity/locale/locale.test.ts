@@ -1,7 +1,22 @@
+import { dataActions } from '../../data.actions.js';
+import { storeSetup } from '../../../store.js';
+import { uid } from '../../../core/index.js';
+import { systemSlice } from '../system/index.js';
 import {
-  localeCreate, localeSlice, t, tk,
+  localeCreate, localeSlice,
 } from './locale.js';
-import { localeDataEnLogs } from './locale.locale.en.js';
+import { localeDataEnCreate } from './locale.locale.en.js';
+
+const system = systemSlice.createEntity({
+  name: 'My Locale System',
+  $adminRole: uid('role'),
+  $execRole: uid('role'),
+});
+
+const store = storeSetup();
+store.dispatch(systemSlice.action.insert(system));
+store.dispatch(systemSlice.action.activeSet(system.$id));
+store.dispatch(dataActions.create(localeDataEnCreate));
 
 /**
  * ============================================================
@@ -21,6 +36,7 @@ test('should create a locale', () => {
 
   expect(locale).toEqual(
     expect.objectContaining({
+      key: 'en:core',
       code: 'en',
       set: 'core',
       t: expect.any(Object),
@@ -31,17 +47,15 @@ test('should create a locale', () => {
 /**
  * ============================================================
  */
-test('should translate existing key', () => {
-  const text = t(localeDataEnLogs.t, tk('error_required_name_title'));
-
-  expect(text).toEqual('Name Required');
+test('should select translated expression', () => {
+  const translation = localeSlice.select.translation(store.getState(), '%logs:error_required_name_desc');
+  expect(translation).toEqual('The system "My Locale System" needs a name.');
 });
 
 /**
  * ============================================================
  */
-test('should translate existing key with args', () => {
-  const text = t(localeDataEnLogs.t, tk('error_required_name_desc'), ...localeDataEnLogs.v);
-
-  expect(text).toEqual('The system name must be defined.');
+test('should use unicode block if variable is not found', () => {
+  const translation = localeSlice.select.translation(store.getState(), '%logs:error_required_name_desc_bad_var');
+  expect(translation).toEqual('The system "\u25FC" needs a name.');
 });

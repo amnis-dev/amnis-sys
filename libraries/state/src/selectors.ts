@@ -5,7 +5,7 @@ import type {
   Data, DataRoot, DataState, DataUpdate, Entity, User,
 } from './data/index.js';
 import type { State } from './state.types.js';
-import { systemSlice, userSlice } from './data/index.js';
+import { localeSlice, systemSlice, userSlice } from './data/index.js';
 import type { RootState } from './store.js';
 
 export interface DataComparison<D extends Data> {
@@ -28,6 +28,39 @@ const sliceByKey = <D extends Data = Data>(sliceKey: string) => (state: State) =
 
   return slice;
 };
+
+/**
+ * Selects a translations for an entity.
+ */
+const dataTranslation = createSelector(
+  [
+    (state: State) => state,
+    (state, data: Record<string, any>) => data,
+  ],
+  (state, data) => {
+    const tData = { ...data };
+    Object.keys(tData).forEach((key) => {
+      if (typeof tData[key] === 'string') {
+        tData[key] = localeSlice.select.translation(state, tData[key] as string, data) ?? data[key];
+      }
+    });
+    return tData;
+  },
+);
+
+/**
+ * Selects a translations for an entity.
+ */
+const dataArrayTranslation = createSelector(
+  [
+    (state: State) => state,
+    (state, dataArray: Record<string, any>[]) => dataArray,
+  ],
+  (state, dataArray) => {
+    const tDataArray = dataArray.map((data) => dataTranslation(state, data));
+    return tDataArray;
+  },
+);
 
 /**
  * Selects the slice for the given key.
@@ -240,6 +273,8 @@ export const stateSelect = {
   dataById,
   dataDifferenceKeys,
   dataOriginal,
+  dataTranslation,
+  dataArrayTranslation,
   dataComparison,
   isUserAdmin,
   isUserExec,

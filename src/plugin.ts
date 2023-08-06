@@ -1,5 +1,10 @@
 import type {
-  Plugin, ReduxSet, StateDataPromise, SchemaObject, ProcessSet,
+  Plugin,
+  ReduxSet,
+  StateDataPromise,
+  SchemaObject,
+  ProcessSet,
+  StateDataGuaranteed,
 } from '@amnis/state';
 
 /**
@@ -56,10 +61,10 @@ export function pluginDataMerge(
     return undefined;
   }
 
-  const dataMerged = async () => {
-    const dataResolved = await Promise.all(data.map((dataPromise) => dataPromise()));
-    return dataResolved.reduce((acc, data) => ({ ...acc, ...data }), {});
-  };
+  const dataMerged: StateDataPromise = async (dataGuaranteed) => data.reduce(async (acc, data) => {
+    const nextData = await acc;
+    return data(nextData) as Promise<StateDataGuaranteed>;
+  }, Promise.resolve(dataGuaranteed));
 
   return dataMerged;
 }

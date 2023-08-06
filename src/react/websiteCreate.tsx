@@ -8,7 +8,9 @@ import { set as apiSet } from '@amnis/api/set';
 import pluginState from '@amnis/state/plugin';
 import pluginApi from '@amnis/api/plugin';
 import pluginWeb from '@amnis/web/plugin';
-import type { DynamicPlugin, Plugin, ReduxSet } from '@amnis/state';
+import {
+  type DynamicPlugin, type Plugin, type ReduxSet,
+} from '@amnis/state';
 
 import { Mocker } from './Mocker.js';
 import { WebsiteContext } from './WebsiteContext.js';
@@ -17,6 +19,11 @@ import { pluginSetsMerge } from '../plugin.js';
 import { WebsiteApp } from './WebsiteApp.js';
 
 interface CreateWebsiteOptions {
+  /**
+   * The system this website depends on.
+   * If an array is used, the first index in the array is the default system.
+   */
+  system?: string | string[],
   plugins?: DynamicPlugin[],
 }
 
@@ -30,6 +37,7 @@ interface CreateWebsiteOptions {
  * ```
  */
 export function websiteCreate({
+  system = 'http://localhost:6006/api/sys/system',
   plugins = [],
 }: CreateWebsiteOptions = {}) {
   const ids = new Set<string>(['@amnis/state', '@amnis/api', '@amnis/web']);

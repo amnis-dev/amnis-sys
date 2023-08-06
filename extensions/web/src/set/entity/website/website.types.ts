@@ -23,6 +23,11 @@ export interface Website extends Data {
   title: string;
 
   /**
+   * Description of the website
+   */
+  description: string;
+
+  /**
    * Navigational routes for the website.
    */
   routes: UIDTree<Route>;

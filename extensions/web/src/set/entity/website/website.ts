@@ -6,6 +6,7 @@ export const websiteKey = 'website';
 export const websiteRoot = (): WebsiteRoot => ({
   hostname: 'localhost',
   title: 'Website Title',
+  description: 'Website description.',
   routes: [],
 });
 

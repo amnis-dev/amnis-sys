@@ -11,12 +11,12 @@
     "rootDir": "./src",
     "esModuleInterop": true,
     "preserveSymlinks": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@amnis/state/set": ["./set/index.ts"],
-      "@amnis/state/schema": ["./schema/index.ts"],
-      "@amnis/state/data": ["./records/index.ts"],
-      "@amnis/state/dataTest": ["./data/data.default.ts"],
+      "@amnis/state/set": ["./src/set/index.ts"],
+      "@amnis/state/schema": ["./src/schema/index.ts"],
+      "@amnis/state/data": ["./src/records/index.ts"],
+      "@amnis/state/dataTest": ["./src/data/data.default.ts"],
     }
   },
   "include": [

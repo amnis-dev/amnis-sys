@@ -19,11 +19,12 @@ import type { MockService } from './types.js';
 import { handlersCreate } from './handler.js';
 
 let service: SetupServer | SetupWorker | undefined;
+let started = false;
 
 export const mockService: MockService = {
   setup: async (options) => {
     if (service) {
-      console.warn('MSW Service has already been setup.');
+      // console.warn('MSW Service has already been setup.');
       return;
     }
 
@@ -98,7 +99,11 @@ export const mockService: MockService = {
   },
   start: (options) => {
     if (!service) {
-      console.error('Must call mockService.setup() before starting!');
+      // console.error('Must call mockService.setup() before starting!');
+      return;
+    }
+    if (started) {
+      // console.warn('MSW Service has already been started.');
       return;
     }
     // NodeJS uses listen();
@@ -109,12 +114,14 @@ export const mockService: MockService = {
     if ('start' in service) {
       service.start(options);
     }
+    started = true;
   },
   stop() {
     if (!service) {
       console.error('Must call mockService.setup() before stopping!');
       return;
     }
+
     // NodeJS uses close.
     if ('close' in service) {
       service.close();
@@ -123,6 +130,8 @@ export const mockService: MockService = {
     if ('stop' in service) {
       service.stop();
     }
+
+    started = false;
   },
 };
 

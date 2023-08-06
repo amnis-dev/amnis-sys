@@ -11,7 +11,7 @@ import {
 
 import { websiteSlice } from '../../../set/entity/index.js';
 
-import { useWebSelector } from '../../hooks/index.js';
+import { useTranslate, useWebSelector } from '../../hooks/index.js';
 import { placehold } from '../../../utility/index.js';
 import type { NavbarProps } from '../../interface/Navbar.types.js';
 
@@ -23,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   routes = [],
   routesHide = false,
 }) => {
-  const website = useWebSelector(websiteSlice.select.active);
+  const website = useTranslate(useWebSelector(websiteSlice.select.active));
 
   /**
    * Use prop values if they are provided.

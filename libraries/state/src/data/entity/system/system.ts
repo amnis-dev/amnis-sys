@@ -22,6 +22,7 @@ export const systemRoot = (): SystemRoot => ({
   emailNotify: 'notify@system.test',
   emailAuth: 'auth@system.test',
   fileSizeMax: 4096,
+  languages: ['en-us', 'de'],
   $adminRole: uid(roleSlice.key),
   $execRole: uid(roleSlice.key),
   $anonymousRole: uid(roleSlice.key),
@@ -36,8 +37,8 @@ export function systemCheck(system: System): LogMinimal[] {
 
   if (system.name.length < 1) {
     logs.push({
-      title: 'System Name Required',
-      description: 'The system must have a name.',
+      title: 'System Name',
+      description: 'The system description.',
       level: 'error',
     });
   }

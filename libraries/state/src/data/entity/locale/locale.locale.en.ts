@@ -1,17 +1,17 @@
 import type { DataCreator } from '../../data.types.js';
-import { localeCreate, localeSlice, tk } from './locale.js';
+import { localeCreate, localeSlice } from './locale.js';
 
 /**
  * English logs.
  */
 export const localeDataEnLogs = localeCreate({
-  code: 'en',
+  code: 'en-us',
   set: 'logs',
   t: {
-    [tk('error_required_name_title')]: 'Name Required',
-    [tk('error_required_name_desc')]: 'The {0} name must be defined.',
+    error_required_name_title: 'Name Required',
+    error_required_name_desc: 'The system "{active.system.name}" needs a name.',
+    error_required_name_desc_bad_var: 'The system "{active.sys.name}" needs a name.',
   },
-  v: ['system'],
 });
 
 /**
@@ -22,5 +22,3 @@ export const localeDataEnCreate: DataCreator = {
     localeDataEnLogs,
   ],
 };
-
-export default { localeDataEnLogs, localeDataEnCreate };

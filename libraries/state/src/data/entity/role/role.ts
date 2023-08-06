@@ -10,7 +10,7 @@ import { entitySliceCreate } from '../entity.slice.js';
 import type { State } from '../../../state.types.js';
 import type { DataState } from '../../data.types.js';
 
-const roleKey = 'role';
+export const roleKey = 'role';
 
 export const roleRoot = (): RoleRoot => ({
   name: 'Unconfigured Role',

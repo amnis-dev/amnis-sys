@@ -1,3 +1,4 @@
+export * from '../index.js';
 export * from './interface/index.js';
 export * from './hooks/index.js';
 

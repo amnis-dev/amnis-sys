@@ -1,7 +1,4 @@
-import type { EntityObjects } from '../data/index.js';
 import {
-  GrantTask, historyMake, historySlice,
-
   auditSlice,
   contactSlice,
   credentialSlice,
@@ -14,8 +11,8 @@ import {
   userSlice,
 } from '../data/index.js';
 import { cryptoWeb } from '../io/index.js';
-import { stateEntitiesCreate } from '../state.js';
 import { camelize, snakeize } from '../string.util.js';
+import type { StateDataPromise } from '../types.js';
 
 export interface RecordsProductionOptions {
   /**
@@ -57,17 +54,25 @@ export interface RecordsProductionOptions {
 /**
  * Conventional records for production use that sets up a single administrator account.
  */
-export async function data(
-  options: RecordsProductionOptions = {},
-): Promise<EntityObjects> {
+export const data: StateDataPromise = async (data) => {
+  const options = {
+    adminEmail: 'admin@localhost',
+    adminHandle: 'admin',
+    adminPassword: 'password',
+    adminPublicKey: '',
+    systemName: 'Core',
+    systemEmailDomain: 'localhost',
+    systemCors: [],
+  };
+
   const {
-    adminEmail = 'admin@localhost',
-    adminHandle = 'admin',
-    adminPassword = 'password',
-    adminPublicKey = '',
-    systemName = 'Core',
-    systemEmailDomain = 'localhost',
-    systemCors = [],
+    adminEmail,
+    adminHandle,
+    adminPassword,
+    adminPublicKey,
+    systemName,
+    systemEmailDomain,
+    systemCors,
   } = options;
 
   if (!adminEmail) {
@@ -233,34 +238,19 @@ export async function data(
     emailNotify: `notify@${systemEmailDomain}`,
   }, { committed: true, new: false });
 
-  const systems = [system];
-
   /**
    * ================================================================================
    * COMPLETE THE RECORDS
    * ================================================================================
    */
-  const recordsEntities: EntityObjects = {
-    [roleSlice.key]: roles,
+  return {
+    ...data,
     [userSlice.key]: users,
     [handleSlice.key]: handles,
     [credentialSlice.key]: credentials,
     [contactSlice.key]: contacts,
     [profileSlice.key]: profiles,
-    [systemSlice.key]: systems,
   };
-
-  /**
-   * Create with initial history.
-   */
-  const stateEntities: EntityObjects = {
-    ...recordsEntities,
-    ...stateEntitiesCreate({
-      [historySlice.key]: historyMake(recordsEntities, GrantTask.Create),
-    }, { committed: true, new: false }),
-  };
-
-  return stateEntities;
-}
+};
 
 export default data;

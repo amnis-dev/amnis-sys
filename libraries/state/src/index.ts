@@ -1,4 +1,5 @@
 export * from './types.js';
+export * from './data.minimal.js';
 export * from './string.util.js';
 export * from './accounts.js';
 export * from './localstorage.js';
