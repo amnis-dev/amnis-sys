@@ -26,10 +26,10 @@ typeSchemaFiles.forEach((filePath) => {
     const schema = createGenerator({
       schemaId: prefix,
       path: filePath,
-      tsconfig: 'scripts/tsconfig.schema.json',
+      tsconfig: 'scripts/tsconfig.genschema.json',
       type: '*',
     }).createSchema('*');
-    fse.writeJSONSync(`${dir}/${prefix}.genschema.json`, schema, { spaces: 2 });
+    fse.writeJSONSync(`${dir}/${prefix}.schema.json`, schema, { spaces: 2 });
   } catch (error: any) {
     console.error(error.message.slice(0, 255));
   }
