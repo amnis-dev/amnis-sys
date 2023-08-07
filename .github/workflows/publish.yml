@@ -50,9 +50,11 @@ jobs:
     - name: Install NodeJS Dependencies
       run: pnpm install --frozen-lockfile
 
+    - name: Generate Schemas
+      run: pnpm build:schema
+
     - name: Build Project
       run: |
-        pnpm schema
         pnpm build
         pnpm build:libs
 
