@@ -44,7 +44,7 @@
   "scripts": {
     "build:all": "pnpm build:libs && pnpm build",
     "build": "pnpm build:types && pnpm build:dist",
-    "build:schema": "ts-node-esm -P scripts/tsconfig.json scripts/schema",
+    "build:schema": "ts-node-esm -P ./scripts/tsconfig.json ./scripts/schema",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
     "build:libs": "pnpm --filter '@amnis/*...' build",
