@@ -15,12 +15,15 @@ export const selectLocaleState = (
 /**
  * Determines if a tranlsation key exists.
  */
-export const selectLocaleKeyExists = createSelector(
+export const selectLocaleCodeNameExists = createSelector(
   [
     selectLocaleState,
-    (state, key: string) => key,
+    (state, code: string) => code,
+    (state, code, name: string) => name,
   ],
-  (localeState, key) => Object.values(localeState.entities).some((locale) => locale.key === key),
+  (localeState, code, name) => Object.values(localeState.entities).some(
+    (locale) => locale.code === code && locale.name === name,
+  ),
 );
 
 /**
@@ -58,19 +61,6 @@ export const selectLocaleActiveCode = createSelector(
 );
 
 /**
- * Selects a locale entities by key.
- */
-export const selectLocaleByKey = createSelector(
-  [
-    selectLocaleState,
-    (state, key: string) => key,
-  ],
-  (localeState, key) => Object
-    .values(localeState.entities)
-    .find((locale) => locale.key === key),
-);
-
-/**
  * Selects a locale entities by code.
  */
 export const selectLocaleByCode = createSelector(
@@ -99,26 +89,29 @@ export const selectLocaleByName = createSelector(
  */
 export const selectLocaleByCodeName = createSelector(
   [
-    selectLocaleState,
+    (state) => state,
     (state, code: string) => code,
     (state, code, name: string) => name,
   ],
-  (localeState, code, name) => (
-    Object.values(localeState.entities).find((l) => l.code === code && l.name === name)
-  ),
+  (state, code, name) => {
+    const codes = selectLocaleByCode(state, code);
+    return codes.find((c) => c.name === name);
+  },
 );
 
 /**
- * Selects a locale by name.
+ * Selects an array of locales by names.
  */
-export const selectLocaleByKeys = createSelector(
+export const selectLocaleByCodeNames = createSelector(
   [
-    selectLocaleState,
-    (state, keys: string[]) => keys,
+    (state) => state,
+    (state, code: string) => code,
+    (state, code: string, names: string[]) => names,
   ],
-  (localeState, keys) => (
-    Object.values(localeState.entities).filter((l) => keys.includes(l.key))
-  ),
+  (state, code, names) => {
+    const codes = selectLocaleByCode(state, code);
+    return codes.filter((c) => names.includes(c.name));
+  },
 );
 
 /**
@@ -149,13 +142,19 @@ export const selectLocaleValue = createSelector(
  * Selects a full locale translation by a local reference with an optional context object.
  */
 export const selectLocaleTranslation = createSelector(
-  (state: State) => state,
-  selectLocaleValue,
-  (
-    state: State,
-    reference: string,
-    context?: Record<string, any>,
-  ) => context,
+  [
+    (state) => state,
+    (state, reference: string): string | undefined => {
+      const localeState = selectLocaleState(state);
+      const name = reference.substring(1);
+      if (!name) {
+        return undefined;
+      }
+      const locale = localeState.names[name];
+      return locale?.value;
+    },
+    (state, reference: string, context?: Record<string, any> | undefined) => context,
+  ],
   (state, value, context): string | undefined => {
     if (!value) {
       return undefined;

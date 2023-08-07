@@ -1,18 +1,22 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 import { uid } from '../../../core/uid.js';
 import type {
-  Locale, LocaleRoot, LocaleMinimal, LocaleTranslation, LocaleMeta,
+  Locale, LocaleRoot, LocaleMinimal, LocaleMeta,
 } from './locale.types.js';
 import { entitySliceCreate } from '../entity.slice.js';
-import type { Data } from '../../data.types.js';
 import {
   selectLocaleActiveCode,
   selectLocaleByCode,
-  selectLocaleByKey,
-  selectLocaleByKeys,
+  selectLocaleByCodeName,
+  selectLocaleByCodeNames,
   selectLocaleByName,
-  selectLocaleKeyExists,
+  selectLocaleSystemDefaultCode,
   selectLocaleTranslation,
 } from './locale.selectors.js';
+import { dataActions } from '../../data.actions.js';
+import type { Entity } from '../entity.types.js';
+import type { DataCreator } from '../../data.types.js';
 
 const localeKey = 'locale';
 
@@ -22,51 +26,12 @@ export const localeRoot: () => Omit<LocaleRoot, 'key'> = () => ({
   value: 'value',
 });
 
-/**
- * Translate method
- */
-export function t(
-  translations: LocaleTranslation,
-  key: string,
-  data: Data & Record<string, any> = { $id: uid('data') },
-) {
-  if (key.length > 64) {
-    return key;
-  }
-
-  const translation = translations[key];
-  if (translation !== 'string') {
-    return key;
-  }
-
-  return translation.replace(
-    /{.+?}/g,
-    (match) => {
-      const prop = match.substring(1, match.length - 1);
-      const value = data[prop];
-
-      if (typeof value === 'string') {
-        return value;
-      }
-      if (typeof value === 'number') {
-        return value.toString();
-      }
-      if (typeof value === 'boolean') {
-        return value ? 'true' : 'false';
-      }
-
-      return '◼';
-    },
-  );
-}
-
 export function localeCreate(
   locale: LocaleMinimal,
 ): Locale {
   return {
     ...localeRoot(),
     ...locale,
-    key: `${locale.code}:${locale.name}`,
     $id: uid(localeKey),
   };
 }
@@ -76,22 +41,81 @@ export function localeCreate(
  */
 const localeMeta: LocaleMeta = {
   code: 'en',
+  names: {},
+};
+
+/**
+ * Additional Locale Actions
+ */
+const localeActions = {
+  /**
+   * Inserts locale data into the slice.
+   */
+  insertData: createAction(`${localeKey}/insertCombo`, (locales: Locale[]) => ({
+    payload: locales,
+  })),
 };
 
 export const localeSlice = entitySliceCreate({
   key: localeKey,
   create: localeCreate,
   meta: localeMeta,
+  /**
+   * Sort locale by code. A-Z.
+   */
+  sort: (a, b) => a.code.localeCompare(b.code),
+  actions: localeActions,
+  reducersExtras: [{
+    cases: ({
+      builder,
+    }) => {
+      builder.addCase(localeActions.insertData, (state: LocaleMeta, action) => {
+        const locales = action.payload;
+
+        state.names = {
+          ...state.names,
+          ...locales.reduce <Record<string, Locale>>((acc, cur) => {
+            acc[cur.name] = cur;
+            return acc;
+          }, {}),
+        };
+      });
+    },
+    matchers: ({
+      builder,
+    }) => {
+      builder.addMatcher(
+        (action): action is PayloadAction<DataCreator<Entity>> => (
+          action.type === dataActions.insert.type || action.type === dataActions.create.type
+        ),
+        (state, action) => {
+          if (!action.payload?.locale) {
+            return;
+          }
+          const locales = action.payload.locale as Entity<Locale>[];
+
+          state.names = {
+            ...state.names,
+            ...locales.reduce <Record<string, Locale>>((acc, cur) => {
+              acc[cur.name] = {
+                $id: cur.$id,
+                code: cur.code,
+                name: cur.name,
+                value: cur.value,
+              };
+              return acc;
+            }, {}),
+          };
+        },
+      );
+    },
+  }],
   selectors: {
-    /**
-     * Selects a locale by key.
-     */
-    byKey: selectLocaleByKey,
 
     /**
-     * Selects an array of locale by keys.
+     * Selects the defaut locale code.
      */
-    byKeys: selectLocaleByKeys,
+    defaultCode: selectLocaleSystemDefaultCode,
 
     /**
      * Selects locales based on the active language code.
@@ -109,13 +133,18 @@ export const localeSlice = entitySliceCreate({
     byName: selectLocaleByName,
 
     /**
+     * Selects a locale by code and name.
+     */
+    byCodeName: selectLocaleByCodeName,
+
+    /**
+     * Selects a locale by code and name.
+     */
+    byCodeNames: selectLocaleByCodeNames,
+
+    /**
      * Select a transation given the expression.
      */
     translation: selectLocaleTranslation,
-
-    /**
-     * Checks if a translation key exists.
-     */
-    keyExists: selectLocaleKeyExists,
   },
 });

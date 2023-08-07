@@ -226,66 +226,11 @@ export const findRolesByIds = async (
 
 /**
  * Finds a locale by name.
- */
-export const findLocaleByName = async (
-  context: IoContext,
-  name: string,
-  code: string,
-): Promise<Entity<Locale> | undefined> => {
-  const { store, database } = context;
-  const key = `${code}:${name}`;
-  const stateResult = localeSlice.select.byKey(store.getState(), key);
-  if (stateResult) {
-    return stateResult;
-  }
-
-  const results1 = await database.read({
-    [localeSlice.key]: {
-      $query: {
-        key: {
-          $eq: key,
-        },
-      },
-    },
-  });
-
-  const localeEntity1 = results1[localeSlice.key]?.[0] as Entity<Locale> | undefined;
-
-  if (localeEntity1) {
-    localeSlice.action.insert(localeEntity1);
-    return localeEntity1;
-  }
-
-  const codeActive = localeSlice.select.activeCode(store.getState());
-
-  const key2 = `${codeActive}:${name}`;
-  const stateResult2 = localeSlice.select.byKey(store.getState(), key2);
-  if (stateResult2) {
-    return stateResult;
-  }
-
-  const results2 = await database.read({
-    [localeSlice.key]: {
-      $query: {
-        key: {
-          $eq: key2,
-        },
-      },
-    },
-  });
-
-  const localeEntity2 = results2[localeSlice.key]?.[0] as Entity<Locale> | undefined;
-
-  if (localeEntity2) {
-    localeSlice.action.insert(localeEntity2);
-    return localeEntity2;
-  }
-
-  return undefined;
-};
-
-/**
- * Finds a locale by name.
+ *
+ * If the any locale translation cannot be found, it'll
+ * attempt to fetch it from the database. If the locale
+ * translation is not found in the database, it'll attempt
+ * to fetch the default locale translation.
  */
 export const findLocaleByNames = async (
   context: IoContext,
@@ -293,17 +238,31 @@ export const findLocaleByNames = async (
   code: string,
 ): Promise<Entity<Locale>[]> => {
   const { store, database } = context;
-  const keys = names.map((n) => `${code}:${n}`);
-  const stateResult = localeSlice.select.byKeys(store.getState(), keys) ?? [];
-  if (stateResult.length === keys.length) {
+
+  /**
+   * STATE ATTEMPT
+   */
+  const stateResult = localeSlice.select.byCodeNames(store.getState(), code, names) ?? [];
+  if (stateResult.length === names.length) {
     return stateResult;
   }
 
+  let consolidated = stateResult.reduce((acc, locale) => {
+    acc[locale.name] = locale;
+    return acc;
+  }, {} as Record<string, Entity<Locale>>);
+
+  /**
+   * DATABASE ATTEMPT
+   */
   const results1 = await database.read({
     [localeSlice.key]: {
       $query: {
-        key: {
-          $in: keys,
+        code: {
+          $eq: code,
+        },
+        name: {
+          $in: names,
         },
       },
     },
@@ -311,25 +270,54 @@ export const findLocaleByNames = async (
 
   const localeEntity1 = results1[localeSlice.key] as Entity<Locale>[] | undefined ?? [];
 
-  if (localeEntity1?.length === keys.length) {
-    localeSlice.action.insertMany(localeEntity1);
-    return localeEntity1;
+  consolidated = {
+    ...consolidated,
+    ...localeEntity1.reduce((acc, locale) => {
+      acc[locale.name] = locale;
+      return acc;
+    }, {} as Record<string, Entity<Locale>>),
+  };
+
+  if (Object.keys(consolidated).length === names.length) {
+    localeSlice.action.insertMany(Object.values(consolidated));
+    return Object.values(consolidated);
   }
 
-  const codeActive = localeSlice.select.activeCode(store.getState());
+  /**
+   * STATE ATTEMPT W/ DEFAULT CODE
+   */
+  const defaultCode = localeSlice.select.defaultCode(store.getState());
 
-  const keys2 = names.map((n) => `${codeActive}:${n}`);
-  const stateResult2 = localeSlice.select.byKeys(store.getState(), keys2) ?? [];
-
-  if (stateResult2.length === keys.length) {
-    return stateResult2;
+  if (defaultCode === code) {
+    return Object.values(consolidated);
   }
 
+  const stateResult2 = localeSlice.select.byCodeNames(store.getState(), code, names) ?? [];
+
+  consolidated = {
+    ...consolidated,
+    ...stateResult2.reduce((acc, locale) => {
+      acc[locale.name] = locale;
+      return acc;
+    }, {} as Record<string, Entity<Locale>>),
+  };
+
+  if (Object.keys(consolidated).length === names.length) {
+    localeSlice.action.insertMany(Object.values(consolidated));
+    return Object.values(consolidated);
+  }
+
+  /**
+   * DATABASE ATTEMPT W/ DEFAULT CODE
+   */
   const results2 = await database.read({
     [localeSlice.key]: {
       $query: {
-        key: {
-          $eq: keys2,
+        code: {
+          $eq: defaultCode,
+        },
+        name: {
+          $in: names,
         },
       },
     },
@@ -337,12 +325,15 @@ export const findLocaleByNames = async (
 
   const localeEntity2 = results2[localeSlice.key] as Entity<Locale>[] | undefined ?? [];
 
-  localeSlice.action.insertMany([
-    ...stateResult,
-    ...localeEntity1,
-    ...stateResult2,
-    ...localeEntity2,
-  ]);
+  const uniqueRecords = Object.values({
+    ...consolidated,
+    ...localeEntity2.reduce((acc, locale) => {
+      acc[locale.name] = locale;
+      return acc;
+    }, {} as Record<string, Entity<Locale>>),
+  });
 
-  return localeSlice.select.byKeys(store.getState(), keys);
+  localeSlice.action.insertMany(uniqueRecords);
+
+  return uniqueRecords;
 };

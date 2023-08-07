@@ -17,15 +17,15 @@ export const data: StateDataPromise = async (data) => {
    */
   const localeWeb = [
     localeSlice.createEntity({
-    code: 'en',
-    name: 'web:title',
-    value: 'My Website',
-  }),
-  localeSlice.createEntity({
-    code: 'en',
-    name: 'web:description',
-    value: 'This is the description of the website.',
-  })
+      code: 'en',
+      name: 'web:title',
+      value: 'My Website',
+    }),
+    localeSlice.createEntity({
+      code: 'en',
+      name: 'web:description',
+      value: 'This is the description of the website.',
+    })
   ];
   // Insert the locale into the data.
   data[localeSlice.key].push(...localeWeb);

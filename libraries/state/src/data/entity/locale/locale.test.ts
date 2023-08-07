@@ -37,7 +37,6 @@ test('should create a locale', () => {
 
   expect(locale).toEqual(
     expect.objectContaining({
-      key: 'en:my_locale_name',
       code: 'en',
       name: 'my_locale_name',
       value: 'My Locale Value',

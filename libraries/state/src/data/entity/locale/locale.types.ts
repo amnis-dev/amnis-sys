@@ -3,25 +3,9 @@ import type {
 } from '../../data.types.js';
 
 /**
- * Record of locale translations.
- */
-export type LocaleTranslation = Record<string, string>;
-
-/**
- * A reference string to a locale.
- */
-export type LocaleReference = `%${string}:${string}`;
-
-/**
  * Locale entity
  */
 export interface Locale extends Data {
-  /**
-   * Key for the locale.
-   * code + ':' + name
-   */
-  key: string;
-
   /**
    * Two-character or five-character language code.
    * @minLength 2
@@ -52,11 +36,16 @@ export type LocaleRoot = DataRoot<Locale>;
 /**
  * Root properties in order to create a log.
  */
-export type LocaleMinimal = DataMinimal<Omit<Locale, 'key'>, 'code' | 'name' | 'value'>;
+export type LocaleMinimal = DataMinimal<Locale, 'code' | 'name' | 'value'>;
 
 export interface LocaleMeta {
   /**
    * The currently set language code.
    */
   code: string;
+
+  /**
+   * Cached translation names for quick access.
+   */
+  names: Record<string, Locale>;
 }
