@@ -64,7 +64,8 @@
     }
   },
   "scripts": {
-    "build": "pnpm build:types && pnpm build:dist",
+    "build": "pnpm build:schema && pnpm build:types && pnpm build:dist",
+    "build:schema": "pnpm run -w build:schema ./libraries/state",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
     "test": "vitest --run",

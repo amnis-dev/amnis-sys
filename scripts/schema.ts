@@ -3,7 +3,10 @@ import { createGenerator } from 'ts-json-schema-generator';
 import fse from 'fs-extra';
 import { glob } from 'glob';
 
-const typeSchemaFiles = glob.sync('./**/*.tyma.ts', {
+const args = process.argv.slice(2);
+const [filePath = '.'] = args;
+
+const typeSchemaFiles = glob.sync(`${filePath}/**/*.tyma.ts`, {
   nodir: true,
   ignore: [
     './**/node_modules/**',
