@@ -69,7 +69,6 @@
     "build:types": "tsc -p tsconfig.build.json",
     "test": "vitest --run",
     "test:watch": "vitest --watch",
-    "gen:schema": "ts-node-esm -P scripts/tsconfig.json scripts/schema",
     "lint": "tsc --noEmit && eslint --ext .ts --ext .tsx \"./\"",
     "clean": "rimraf ./dist ./lib ./types ./tsconfig.build.tsbuildinfo ./tsconfig.tsbuildinfo"
   },

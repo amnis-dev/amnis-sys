@@ -63,7 +63,6 @@
     "build": "pnpm build:types && pnpm build:dist",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
-    "gen:schema": "ts-node-esm -P scripts/tsconfig.json scripts/schema",
     "test": "vitest --run",
     "test:query": "vitest src/query",
     "test:process": "vitest src/process",

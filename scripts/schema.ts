@@ -29,7 +29,7 @@ typeSchemaFiles.forEach((filePath) => {
       tsconfig: 'scripts/tsconfig.schema.json',
       type: '*',
     }).createSchema('*');
-    fse.writeJSONSync(`${dir}/${prefix}.schema.json`, schema, { spaces: 2 });
+    fse.writeJSONSync(`${dir}/${prefix}.genschema.json`, schema, { spaces: 2 });
   } catch (error: any) {
     console.error(error.message.slice(0, 255));
   }
