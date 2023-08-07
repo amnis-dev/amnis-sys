@@ -1,4 +1,3 @@
-import type { LogMinimal } from '../log/index.js';
 import { uid } from '../../../core/uid.js';
 import type {
   Locale, LocaleRoot, LocaleMinimal, LocaleTranslation, LocaleMeta,
@@ -8,18 +7,20 @@ import type { Data } from '../../data.types.js';
 import {
   selectLocaleActiveCode,
   selectLocaleByCode,
+  selectLocaleByKey,
+  selectLocaleByKeys,
+  selectLocaleByName,
   selectLocaleKeyExists,
-  selectLocaleSet,
   selectLocaleTranslation,
 } from './locale.selectors.js';
 
 const localeKey = 'locale';
 
-export const localeRoot: Omit<LocaleRoot, 'key'> = {
-  code: 'en-us',
-  set: 'system',
-  t: {},
-};
+export const localeRoot: () => Omit<LocaleRoot, 'key'> = () => ({
+  code: 'en',
+  name: 'name',
+  value: 'value',
+});
 
 /**
  * Translate method
@@ -59,30 +60,13 @@ export function t(
   );
 }
 
-/**
- * Locale check method.
- */
-export function localeCheck(locale: Locale): LogMinimal[] {
-  const logs: LogMinimal[] = [];
-
-  if (locale.code.length !== 2) {
-    logs.push({
-      title: 'Invalid Locale Code',
-      description: 'Locale code must be a two-letter code for ISO 693 macrolanguage.',
-      level: 'error',
-    });
-  }
-
-  return logs;
-}
-
 export function localeCreate(
   locale: LocaleMinimal,
 ): Locale {
   return {
-    ...localeRoot,
+    ...localeRoot(),
     ...locale,
-    key: `${locale.code ?? localeRoot.code}:${locale.set ?? localeRoot.set}`,
+    key: `${locale.code}:${locale.name}`,
     $id: uid(localeKey),
   };
 }
@@ -91,7 +75,7 @@ export function localeCreate(
  * Meta object for the locale slice.
  */
 const localeMeta: LocaleMeta = {
-  code: 'en-us',
+  code: 'en',
 };
 
 export const localeSlice = entitySliceCreate({
@@ -99,6 +83,16 @@ export const localeSlice = entitySliceCreate({
   create: localeCreate,
   meta: localeMeta,
   selectors: {
+    /**
+     * Selects a locale by key.
+     */
+    byKey: selectLocaleByKey,
+
+    /**
+     * Selects an array of locale by keys.
+     */
+    byKeys: selectLocaleByKeys,
+
     /**
      * Selects locales based on the active language code.
      */
@@ -110,9 +104,9 @@ export const localeSlice = entitySliceCreate({
     byCode: selectLocaleByCode,
 
     /**
-     * Selects a single locale set.
+     * Selects a locale by name.
      */
-    set: selectLocaleSet,
+    byName: selectLocaleByName,
 
     /**
      * Select a transation given the expression.

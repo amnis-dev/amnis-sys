@@ -9,6 +9,6 @@ test('Should merge data from nested state data.', async () => {
   const stateDataCompiled = await stateData(dataMinimal());
   const webDataCompiled = await webData(stateDataCompiled);
   
-  const roleAnonymous = webDataCompiled.role.find((role: Entity<Role>) => role.name === 'Anonymous');
+  const roleAnonymous = webDataCompiled.role.find((role: Entity<Role>) => role.name === '%core:role_anon_name');
   expect(roleAnonymous?.grants).toHaveLength(3);
 });

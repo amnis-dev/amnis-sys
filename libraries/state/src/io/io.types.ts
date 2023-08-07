@@ -12,6 +12,7 @@ import type {
   Session,
   Credential,
   ApiCreator,
+  Locale,
 } from '../data/index.js';
 
 import type { Database } from './database/database.types.js';
@@ -170,6 +171,11 @@ export interface IoOutputJson<T = any> {
    * Return logs.
    */
   logs: LogMinimal[];
+
+  /**
+   * Localization data.
+   */
+  locale?: Locale[];
 
   /**
    * Result data.

@@ -21,8 +21,9 @@ import {
   historyMake,
   stateEntitiesCreate,
   systemSlice,
+  databaseMemoryStorage,
 } from '@amnis/state';
-import { findUserById } from '../utility/find.js';
+import { findLocaleByNames, findUserById } from '../utility/find.js';
 import { generateUserAnonymous } from '../utility/generate.js';
 import { permissionGrants } from '../utility/permission.js';
 
@@ -358,6 +359,42 @@ export const mwState: IoMiddleware<GrantTask> = (
             description: `Completed ${mwStateTaskName[task].toLowerCase()} operation in collection${successfulKeys.length > 1 ? 's' : ''}: ${successfulKeys.join(', ')}.`,
           });
         }
+      }
+
+      /**
+       * Cache the locale names to entities.
+       * Locale can only be applied by users granted access to the locale slice.
+       */
+      if (task === GrantTask.Create || task === GrantTask.Update) {
+        if (grants.some(([key]) => key === 'locale')) {
+          Object.values(outputNext.json.result as State).flat().map(async (entity) => {
+            const localeNames: string[] = [];
+            Object.values(entity).map(async (value) => {
+              if (typeof value === 'string' && value.startsWith('%')) {
+                const name = value.slice(1);
+                if (name.length > 0) {
+                  localeNames.push(name);
+                }
+              }
+            });
+            entity.locale = localeNames;
+          });
+        }
+      }
+
+      /**
+       * Compile a list of locale entities to return when READing.
+       */
+      if (task === GrantTask.Read) {
+        // const storage = databaseMemoryStorage();
+        const localeNames: string[] = [];
+        Object.values(outputNext.json.result as State).flat().map(async (entity) => {
+          if (entity.locale?.length > 0) {
+            localeNames.push(...entity.locale);
+          }
+        });
+        const localeEntities = await findLocaleByNames(context, localeNames, 'en');
+        outputNext.json.locale = localeEntities?.map((l) => entityStrip(l));
       }
 
       /**

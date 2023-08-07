@@ -15,16 +15,20 @@ export const data: StateDataPromise = async (data) => {
    * ================================================================================
    * Setup default localized translations.
    */
-  const localeWeb = localeSlice.createEntity({
-    code: 'en-us',
-    set: 'web',
-    t: {
-      title: 'My Website',
-      description: 'This is a brief description of the website.',
-    },
-  });
+  const localeWeb = [
+    localeSlice.createEntity({
+    code: 'en',
+    name: 'web:title',
+    value: 'My Website',
+  }),
+  localeSlice.createEntity({
+    code: 'en',
+    name: 'web:description',
+    value: 'This is the description of the website.',
+  })
+  ];
   // Insert the locale into the data.
-  data[localeSlice.key].push(localeWeb);
+  data[localeSlice.key].push(...localeWeb);
 
   /**
    * ================================================================================

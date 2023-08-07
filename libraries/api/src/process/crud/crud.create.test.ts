@@ -9,7 +9,7 @@ import type {
 } from '@amnis/state';
 import {
   userSlice,
-
+  roleSlice,
   ioProcess,
   ioOutputErrored,
   databaseMemoryStorage,
@@ -101,12 +101,50 @@ test('should login as administrator and create user', async () => {
 
   expect(outputCreator.status).toBe(200);
   expect(outputCreator.json.result?.user[0]?.committed).toBe(true);
+  expect(outputCreator.json.result?.user[0]?.locale).toHaveLength(0);
   expect(ioOutputErrored(outputCreator)).toBe(false);
 
   const storage = databaseMemoryStorage();
 
   expect(Object.values(storage.user)).toHaveLength(4);
   expect((Object.values(storage.user)[3] as Entity<User>)?.handle).toBe('NewUserByAdmin');
+});
+
+/**
+ * ================================================================================================
+ * ************************************************************************************************
+ * ================================================================================================
+ */
+
+test('should login as administrator and create role with local cache', async () => {
+  const admin = dataUsers.find((e) => e.handle === 'admin') as Entity<User>;
+  const outputLogin = await authenticateFinalize(
+    context,
+    admin.$id,
+    admin.$credentials[0],
+  );
+  const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
+
+  const roleNew = roleSlice.create({
+    name: '%cache',
+  });
+
+  const inputCreator: IoInput<DataCreator> = {
+    accessEncoded: bearerAccess.access,
+    body: {
+      [roleSlice.key]: [
+        roleNew,
+      ],
+    },
+    query: {},
+  };
+
+  const outputCreator = await io.create(inputCreator, ioOutput());
+
+  expect(outputCreator.status).toBe(200);
+  expect(outputCreator.json.result?.role[0]?.committed).toBe(true);
+  expect(outputCreator.json.result?.role[0]?.locale).toHaveLength(1);
+  expect(ioOutputErrored(outputCreator)).toBe(false);
 });
 
 /**

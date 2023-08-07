@@ -12,6 +12,7 @@ import {
   apiKey,
   bearerKey,
   dataActions,
+  localeSlice,
 } from '@amnis/state';
 import type { Middleware } from '@reduxjs/toolkit';
 import { isRejected, isFulfilled } from '@reduxjs/toolkit';
@@ -31,11 +32,17 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
      * Assume that the payload is possible IoOutput's json property.
      * Still need to check for the existence of the logs and bearers properties.
      */
-    const { logs, bearers, apis } = payload as Partial<IoOutput['json']>;
+    const {
+      logs, bearers, apis, locale,
+    } = payload as Partial<IoOutput['json']>;
     const dataCreator: DataCreator = {};
 
     if (logs) {
       dataCreator[logSlice.key] = logs.map((log) => logSlice.createEntity(log));
+    }
+
+    if (locale) {
+      dataCreator[localeSlice.key] = locale.map((l) => localeSlice.createEntity(l));
     }
 
     if (bearers) {

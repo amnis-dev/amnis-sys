@@ -25,6 +25,7 @@ export const entityCreate = <C extends Data>(
     created: now,
     updated: now,
     delete: false,
+    locale: [],
     $owner: id,
     $readers: uidList(),
     $creator: id,

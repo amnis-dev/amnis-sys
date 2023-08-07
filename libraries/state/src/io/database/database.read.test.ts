@@ -236,3 +236,29 @@ test('should read todos with a priority greater than or equal to 3', async () =>
   expect(todos[testDataTodoKey]).toHaveLength(expectation.length);
   expect(todos[testDataTodoKey]).toEqual(expectation);
 });
+
+/**
+ * ================================================================================================
+ * ************************************************************************************************
+ * ================================================================================================
+ */
+
+test('should read todos with a priority of 3 or 4', async () => {
+  const todos = await databaseMemory.read({
+    [testDataTodoKey]: {
+      $query: {
+        priority: {
+          $in: [3, 4],
+        },
+      },
+    },
+  });
+
+  const expectation = (dataOrder(testData[testDataTodoKey]) as Entity<TestDataTodo>[]).filter(
+    (t) => t.priority === 3 || t.priority === 4,
+  );
+
+  expect(Object.keys(todos)).toHaveLength(1);
+  expect(todos[testDataTodoKey]).toHaveLength(expectation.length);
+  expect(todos[testDataTodoKey]).toEqual(expectation);
+});

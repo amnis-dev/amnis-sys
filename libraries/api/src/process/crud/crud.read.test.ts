@@ -102,7 +102,7 @@ test('should read profile without access', async () => {
  * ================================================================================================
  */
 
-test('should login as administrator read users', async () => {
+test('should login as administrator read users and roles', async () => {
   const outputLogin = await authenticateFinalize(
     context,
     userAdmin.$id,
@@ -113,6 +113,9 @@ test('should login as administrator read users', async () => {
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: {
+        $query: {},
+      },
+      [roleSlice.key]: {
         $query: {},
       },
     },
@@ -126,14 +129,16 @@ test('should login as administrator read users', async () => {
   expect(output.json.logs).toHaveLength(1);
   expect(output.json.logs[0].level).toBe('success');
 
-  const { result } = output.json;
+  const { result, locale } = output.json;
 
   if (!result) {
     expect(result).toBeDefined();
     return;
   }
 
-  expect(Object.keys(result).length).toBe(1);
+  expect(Object.keys(result).length).toBe(2);
+  expect(locale).toBeDefined();
+  expect(locale).toHaveLength(6);
 
   const users = result[userSlice.key] as Entity<User>[];
 

@@ -18,28 +18,30 @@ export type LocaleReference = `%${string}:${string}`;
 export interface Locale extends Data {
   /**
    * Key for the locale.
-   * code + ':' + set
+   * code + ':' + name
    */
   key: string;
 
   /**
-   * Two-character language code.
+   * Two-character or five-character language code.
    * @minLength 2
-   * @maxLength 2
+   * @maxLength 5
    */
   code: string;
 
   /**
-   * Name of the translation set for organization.
+   * The variable name of the translation in the set.
    * @minLength 1
    * @maxLength 32
    */
-  set: string;
+  name: string;
 
   /**
-   * The language key value translations.
+   * The translation value.
+   * @minLength 0
+   * @maxLength 8192
    */
-  t: LocaleTranslation;
+  value: string;
 }
 
 /**
@@ -50,7 +52,7 @@ export type LocaleRoot = DataRoot<Locale>;
 /**
  * Root properties in order to create a log.
  */
-export type LocaleMinimal = DataMinimal<Omit<Locale, 'key'>, 'code' | 'set'>;
+export type LocaleMinimal = DataMinimal<Omit<Locale, 'key'>, 'code' | 'name' | 'value'>;
 
 export interface LocaleMeta {
   /**

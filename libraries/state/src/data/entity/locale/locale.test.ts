@@ -31,15 +31,16 @@ test('locale key should be is properly set', () => {
 test('should create a locale', () => {
   const locale = localeCreate({
     code: 'en',
-    set: 'core',
+    name: 'my_locale_name',
+    value: 'My Locale Value',
   });
 
   expect(locale).toEqual(
     expect.objectContaining({
-      key: 'en:core',
+      key: 'en:my_locale_name',
       code: 'en',
-      set: 'core',
-      t: expect.any(Object),
+      name: 'my_locale_name',
+      value: 'My Locale Value',
     }),
   );
 });
@@ -48,7 +49,7 @@ test('should create a locale', () => {
  * ============================================================
  */
 test('should select translated expression', () => {
-  const translation = localeSlice.select.translation(store.getState(), '%logs:error_required_name_desc');
+  const translation = localeSlice.select.translation(store.getState(), '%error_required_name_desc');
   expect(translation).toEqual('The system "My Locale System" needs a name.');
 });
 
@@ -56,6 +57,6 @@ test('should select translated expression', () => {
  * ============================================================
  */
 test('should use unicode block if variable is not found', () => {
-  const translation = localeSlice.select.translation(store.getState(), '%logs:error_required_name_desc_bad_var');
+  const translation = localeSlice.select.translation(store.getState(), '%error_required_name_desc_bad_var');
   expect(translation).toEqual('The system "\u25FC" needs a name.');
 });

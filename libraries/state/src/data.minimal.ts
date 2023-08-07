@@ -20,16 +20,34 @@ export const dataMinimal = (): StateDataGuaranteed => {
    */
   const locales: Entity<Locale>[] = [
     localeSlice.createEntity({
-      code: 'en-us',
-      set: 'roles',
-      t: {
-        admin_name: 'Administrator',
-        admin_desc: 'Most permissive role for overall system configuration and maintenance.',
-        exec_name: 'Executive',
-        exec_desc: 'Authoritative role for application configuration and maintenance.',
-        anon_name: 'Anonymous',
-        anon_desc: 'Permissions for accessing the application data without authentication.',
-      },
+      code: 'en',
+      name: 'core:role_admin_name',
+      value: 'Administrator',
+    }),
+    localeSlice.createEntity({
+      code: 'en',
+      name: 'core:role_admin_desc',
+      value: 'Most permissive role for overall system configuration and maintenance.',
+    }),
+    localeSlice.createEntity({
+      code: 'en',
+      name: 'core:role_exec_name',
+      value: 'Executive',
+    }),
+    localeSlice.createEntity({
+      code: 'en',
+      name: 'core:role_exec_desc',
+      value: 'Most permissive role for overall system configuration and maintenance.',
+    }),
+    localeSlice.createEntity({
+      code: 'en',
+      name: 'core:role_anon_name',
+      value: 'Anonymous',
+    }),
+    localeSlice.createEntity({
+      code: 'en',
+      name: 'core:role_anon_desc',
+      value: 'Permissions for accessing the application data without authentication.',
     }),
   ];
 
@@ -39,27 +57,29 @@ export const dataMinimal = (): StateDataGuaranteed => {
    */
   const roles: [Entity<Role>, Entity<Role>, Entity<Role>] = [
     roleSlice.createEntity({
-      name: '%roles:admin_name',
-      description: '%roles:admin_desc',
+      name: '%core:role_admin_name',
+      description: '%core:role_admin_desc',
       color: '#cc0000',
       fsLimits: [-1, -1, -1],
       grants: [
         [systemSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
         [roleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+        [localeSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
       ],
     }),
     roleSlice.createEntity({
-      name: '%roles:exec_name',
-      description: '%roles:exec_desc',
+      name: '%core:role_exec_name',
+      description: '%core:role_exec_desc',
       color: '#3e3ee6',
       fsLimits: [-1, -1, -1],
       grants: [
         [roleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+        [localeSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
       ],
     }),
     roleSlice.createEntity({
-      name: '%roles:anon_name',
-      description: '%roles:anon_desc',
+      name: '%core:role_anon_name',
+      description: '%core:role_anon_desc',
       color: '#000000',
       fsLimits: [0, 0, 0],
       grants: [],
@@ -74,7 +94,7 @@ export const dataMinimal = (): StateDataGuaranteed => {
       $execRole: roles[1].$id,
       $anonymousRole: roles[2].$id,
       $initialRoles: [],
-      languages: ['en-us', 'de'],
+      languages: ['en', 'de'],
     }, { committed: true, new: false }),
   ];
 

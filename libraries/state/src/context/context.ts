@@ -76,6 +76,23 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
    */
   if (!systems || systems?.length === 0) {
     const dataInitial = await data(dataMinimal());
+
+    /**
+     * Add locale cache.
+     */
+    Object.values(dataInitial).flat().forEach((entity) => {
+      const localeNames: string[] = [];
+      Object.values(entity).forEach((value) => {
+        if (typeof value === 'string' && value.charAt(0) === '%') {
+          const name = value.slice(1);
+          if (name.length > 0) {
+            localeNames.push(name);
+          }
+        }
+      });
+      entity.locale = localeNames;
+    });
+
     const dataWithHistory = stateEntitiesCreate({
       ...dataInitial,
       [historySlice.key]: historyMake(dataInitial, GrantTask.Create),

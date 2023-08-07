@@ -43,6 +43,11 @@ export type Entity<C extends Data = Data> = C & {
   delete: boolean;
 
   /**
+   * Locale names attached to this entity.
+   */
+  locale: string[];
+
+  /**
    * Entity that owns this data.
    */
   $owner: UID;

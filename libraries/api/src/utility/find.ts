@@ -10,6 +10,7 @@ import type {
   Handle,
   HandleNameId,
   Role,
+  Locale,
 } from '@amnis/state';
 import {
   credentialSlice,
@@ -19,6 +20,7 @@ import {
   handleSlice,
   roleSlice,
   dataActions,
+  localeSlice,
 } from '@amnis/state';
 
 /**
@@ -220,4 +222,127 @@ export const findRolesByIds = async (
   store.dispatch(dataActions.create(results));
 
   return results[roleSlice.key] as Entity<Role>[];
+};
+
+/**
+ * Finds a locale by name.
+ */
+export const findLocaleByName = async (
+  context: IoContext,
+  name: string,
+  code: string,
+): Promise<Entity<Locale> | undefined> => {
+  const { store, database } = context;
+  const key = `${code}:${name}`;
+  const stateResult = localeSlice.select.byKey(store.getState(), key);
+  if (stateResult) {
+    return stateResult;
+  }
+
+  const results1 = await database.read({
+    [localeSlice.key]: {
+      $query: {
+        key: {
+          $eq: key,
+        },
+      },
+    },
+  });
+
+  const localeEntity1 = results1[localeSlice.key]?.[0] as Entity<Locale> | undefined;
+
+  if (localeEntity1) {
+    localeSlice.action.insert(localeEntity1);
+    return localeEntity1;
+  }
+
+  const codeActive = localeSlice.select.activeCode(store.getState());
+
+  const key2 = `${codeActive}:${name}`;
+  const stateResult2 = localeSlice.select.byKey(store.getState(), key2);
+  if (stateResult2) {
+    return stateResult;
+  }
+
+  const results2 = await database.read({
+    [localeSlice.key]: {
+      $query: {
+        key: {
+          $eq: key2,
+        },
+      },
+    },
+  });
+
+  const localeEntity2 = results2[localeSlice.key]?.[0] as Entity<Locale> | undefined;
+
+  if (localeEntity2) {
+    localeSlice.action.insert(localeEntity2);
+    return localeEntity2;
+  }
+
+  return undefined;
+};
+
+/**
+ * Finds a locale by name.
+ */
+export const findLocaleByNames = async (
+  context: IoContext,
+  names: string[],
+  code: string,
+): Promise<Entity<Locale>[]> => {
+  const { store, database } = context;
+  const keys = names.map((n) => `${code}:${n}`);
+  const stateResult = localeSlice.select.byKeys(store.getState(), keys) ?? [];
+  if (stateResult.length === keys.length) {
+    return stateResult;
+  }
+
+  const results1 = await database.read({
+    [localeSlice.key]: {
+      $query: {
+        key: {
+          $in: keys,
+        },
+      },
+    },
+  });
+
+  const localeEntity1 = results1[localeSlice.key] as Entity<Locale>[] | undefined ?? [];
+
+  if (localeEntity1?.length === keys.length) {
+    localeSlice.action.insertMany(localeEntity1);
+    return localeEntity1;
+  }
+
+  const codeActive = localeSlice.select.activeCode(store.getState());
+
+  const keys2 = names.map((n) => `${codeActive}:${n}`);
+  const stateResult2 = localeSlice.select.byKeys(store.getState(), keys2) ?? [];
+
+  if (stateResult2.length === keys.length) {
+    return stateResult2;
+  }
+
+  const results2 = await database.read({
+    [localeSlice.key]: {
+      $query: {
+        key: {
+          $eq: keys2,
+        },
+      },
+    },
+  });
+
+  const localeEntity2 = results2[localeSlice.key] as Entity<Locale>[] | undefined ?? [];
+
+  localeSlice.action.insertMany([
+    ...stateResult,
+    ...localeEntity1,
+    ...stateResult2,
+    ...localeEntity2,
+  ]);
+
+  return localeSlice.select.byKeys(store.getState(), keys);
 };
