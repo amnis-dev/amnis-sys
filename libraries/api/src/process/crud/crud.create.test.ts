@@ -14,6 +14,7 @@ import {
   ioOutputErrored,
   databaseMemoryStorage,
   ioOutput,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { schemaState } from '@amnis/state/schema';
@@ -47,7 +48,7 @@ beforeAll(async () => {
  */
 
 test('should not create without bearer', async () => {
-  const inputCreator: IoInput<DataCreator> = {
+  const inputCreator: IoInput<DataCreator> = ioInput({
     body: {
       [userSlice.key]: [
         userSlice.create({
@@ -55,8 +56,7 @@ test('should not create without bearer', async () => {
         }),
       ],
     },
-    query: {},
-  };
+  });
 
   const outputCreator = await io.create(inputCreator, ioOutput());
 
@@ -87,7 +87,7 @@ test('should login as administrator and create user', async () => {
     handle: 'NewUserByAdmin',
   });
 
-  const inputCreator: IoInput<DataCreator> = {
+  const inputCreator: IoInput<DataCreator> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: [
@@ -95,7 +95,7 @@ test('should login as administrator and create user', async () => {
       ],
     },
     query: {},
-  };
+  });
 
   const outputCreator = await io.create(inputCreator, ioOutput());
 
@@ -129,7 +129,7 @@ test('should login as administrator and create role with local cache', async () 
     name: '%cache',
   });
 
-  const inputCreator: IoInput<DataCreator> = {
+  const inputCreator: IoInput<DataCreator> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [roleSlice.key]: [
@@ -137,7 +137,7 @@ test('should login as administrator and create role with local cache', async () 
       ],
     },
     query: {},
-  };
+  });
 
   const outputCreator = await io.create(inputCreator, ioOutput());
 
@@ -166,13 +166,12 @@ test('should login as executive and create user', async () => {
     handle: 'NewUserByExec',
   });
 
-  const inputCreator: IoInput<DataCreator> = {
+  const inputCreator: IoInput<DataCreator> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: [userNew],
     },
-    query: {},
-  };
+  });
 
   const outputCreator = await io.create(inputCreator, ioOutput());
 
@@ -205,13 +204,13 @@ test('should login as user and cannot create user', async () => {
     handle: 'NewUserByUser',
   });
 
-  const inputCreator: IoInput<DataCreator> = {
+  const inputCreator: IoInput<DataCreator> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: [userNew],
     },
     query: {},
-  };
+  });
 
   const outputCreator = await io.create(inputCreator, ioOutput());
 

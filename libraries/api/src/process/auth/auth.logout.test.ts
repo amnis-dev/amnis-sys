@@ -11,6 +11,7 @@ import {
   base64JsonEncode,
   ioOutput,
   systemSlice,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthLogin, ApiAuthLogout } from '../../api.auth.types.js';
@@ -38,10 +39,9 @@ beforeAll(async () => {
 test('should login and then logout as administrator', async () => {
   const { admin: adminAccount } = await accountsGet();
 
-  const inputStart: IoInput = {
+  const inputStart: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
 
@@ -60,23 +60,23 @@ test('should login and then logout as administrator', async () => {
 
   const signatureEncoded = await accountsSign(adminAccount.privateKey, apiAuthLogin);
 
-  const inputLogin: IoInput<ApiAuthLogin> = {
+  const inputLogin: IoInput<ApiAuthLogin> = ioInput({
     body: apiAuthLogin,
     query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
 
   const outputLogin = await processAuthLogin(context)(inputLogin, ioOutput());
 
   expect(outputLogin.status).toBe(200);
   expect(outputLogin.cookies[system.sessionKey]).toBeDefined();
 
-  const inputLogout: IoInput<ApiAuthLogout> = {
+  const inputLogout: IoInput<ApiAuthLogout> = ioInput({
     body: {},
     query: {},
     sessionEncrypted: outputLogin.cookies[system.sessionKey],
-  };
+  });
 
   const outputLogout = await processAuthLogout(context)(inputLogout, ioOutput());
 
@@ -93,10 +93,10 @@ test('should login and then logout as administrator', async () => {
  * ================================================================================================
  */
 test('should not logout without an existing session', async () => {
-  const inputLogout: IoInput<ApiAuthLogout> = {
+  const inputLogout: IoInput<ApiAuthLogout> = ioInput({
     body: {},
     query: {},
-  };
+  });
 
   const outputLogout = await processAuthLogout(context)(inputLogout, ioOutput());
 

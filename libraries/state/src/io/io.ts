@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { LogLevel } from '../data/index.js';
 import type {
-  IoMap, IoOutput, IoProcessMap, IoContext,
+  IoMap, IoOutput, IoProcessMap, IoContext, IoInput,
 } from './io.types.js';
 
 export function ioProcess<
@@ -19,6 +19,15 @@ export function ioProcess<
   );
 
   return io;
+}
+
+export function ioInput(input: Partial<IoInput>): IoInput {
+  return {
+    body: undefined,
+    query: {},
+    language: 'en',
+    ...input,
+  };
 }
 
 export function ioOutput<T = any>(): IoOutput<T> {

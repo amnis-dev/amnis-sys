@@ -21,6 +21,7 @@ import {
   ioOutputErrored,
   databaseMemoryStorage,
   ioOutput,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import { schemaState } from '@amnis/state/schema';
@@ -55,14 +56,13 @@ beforeAll(async () => {
  */
 
 test('should not read user without access', async () => {
-  const input: IoInput<DataQuery> = {
+  const input: IoInput<DataQuery> = ioInput({
     body: {
       [userSlice.key]: {
         $query: {},
       },
     },
-    query: {},
-  };
+  });
 
   const output = await io.read(input, ioOutput());
 
@@ -75,14 +75,13 @@ test('should not read user without access', async () => {
 });
 
 test('should read profile without access', async () => {
-  const input: IoInput<DataQuery> = {
+  const input: IoInput<DataQuery> = ioInput({
     body: {
       [profileSlice.key]: {
         $query: {},
       },
     },
-    query: {},
-  };
+  });
 
   const output = await io.read(input, ioOutput());
 
@@ -109,7 +108,7 @@ test('should login as administrator read users and roles', async () => {
     userAdmin.$credentials[0],
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
-  const input: IoInput<DataQuery> = {
+  const input: IoInput<DataQuery> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: {
@@ -119,8 +118,7 @@ test('should login as administrator read users and roles', async () => {
         $query: {},
       },
     },
-    query: {},
-  };
+  });
 
   const output = await io.read(input, ioOutput());
 
@@ -163,7 +161,7 @@ test('should login as administrator read user with a depth of 1', async () => {
     userAdmin.$credentials[0],
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
-  const input: IoInput<DataQuery> = {
+  const input: IoInput<DataQuery> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: {
@@ -171,8 +169,7 @@ test('should login as administrator read user with a depth of 1', async () => {
         $depth: 1,
       },
     },
-    query: {},
-  };
+  });
 
   const output = await io.read(input, ioOutput());
 

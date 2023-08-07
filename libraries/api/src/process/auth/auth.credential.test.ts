@@ -15,6 +15,7 @@ import {
   databaseMemoryStorage,
   ioOutput,
   accountsGet,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthCredential, ApiAuthLogin } from '../../api.auth.types.js';
@@ -100,13 +101,12 @@ test('should add a new credential to the user account', async () => {
   /**
    * Process the new credential creation.
    */
-  const input: IoInput<ApiAuthCredential> = {
+  const input: IoInput<ApiAuthCredential> = ioInput({
     body: apiAuthCredential,
-    query: {},
     challengeEncoded,
     signatureEncoded,
     otpEncoded,
-  };
+  });
   const output = await processAuthCredential(context)(input, ioOutput());
 
   /**
@@ -152,12 +152,11 @@ test('should add a new credential to the user account', async () => {
   );
   const signatureLoginEncoded = base64Encode(new Uint8Array(signatureLogin));
 
-  const inputLogin: IoInput<ApiAuthLogin> = {
+  const inputLogin: IoInput<ApiAuthLogin> = ioInput({
     body: apiAuthLogin,
-    query: {},
     challengeEncoded: challengeLoginEncoded,
     signatureEncoded: signatureLoginEncoded,
-  };
+  });
 
   const outputLogin = await processAuthLogin(context)(inputLogin, ioOutput());
 
@@ -203,12 +202,11 @@ test('should NOT add a new credential without a challenge object', async () => {
   /**
    * Process the new credential creation.
    */
-  const input: IoInput<ApiAuthCredential> = {
+  const input: IoInput<ApiAuthCredential> = ioInput({
     body: apiAuthCredential,
-    query: {},
     signatureEncoded,
     otpEncoded,
-  };
+  });
   const output = await processAuthCredential(context)(input, ioOutput());
 
   expect(output.status).toBe(401);
@@ -252,12 +250,11 @@ test('should NOT add a new credential to the user account without an OTP', async
   /**
    * Process the new credential creation.
    */
-  const input: IoInput<ApiAuthCredential> = {
+  const input: IoInput<ApiAuthCredential> = ioInput({
     body: apiAuthCredential,
-    query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
   const output = await processAuthCredential(context)(input, ioOutput());
 
   expect(output.status).toBe(401);
@@ -315,13 +312,12 @@ test('should NOT add a new credential to the user account with invalid OTP value
   /**
    * Process the new credential creation.
    */
-  const input: IoInput<ApiAuthCredential> = {
+  const input: IoInput<ApiAuthCredential> = ioInput({
     body: apiAuthCredential,
-    query: {},
     challengeEncoded,
     signatureEncoded,
     otpEncoded,
-  };
+  });
   const output = await processAuthCredential(context)(input, ioOutput());
 
   expect(output.status).toBe(401);

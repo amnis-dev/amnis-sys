@@ -18,6 +18,7 @@ import {
   ioOutputErrored,
   databaseMemoryStorage,
   ioOutput,
+  ioInput,
 } from '@amnis/state';
 import {
   schemaState,
@@ -53,7 +54,7 @@ beforeAll(async () => {
 });
 
 test('should not update without bearer', async () => {
-  const inputUpdate: IoInput<DataUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = ioInput({
     body: {
       [userSlice.key]: [
         {
@@ -62,8 +63,7 @@ test('should not update without bearer', async () => {
         },
       ],
     },
-    query: {},
-  };
+  });
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -84,7 +84,7 @@ test('should login as administrator and update user email', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const inputUpdate: IoInput<DataUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: [
@@ -96,7 +96,7 @@ test('should login as administrator and update user email', async () => {
       ],
     },
     query: {},
-  };
+  });
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -130,7 +130,7 @@ test('should login as administrator and update profile display name', async () =
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const nameNew = 'The New Administrator';
-  const inputUpdate: IoInput<DataUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [profileSlice.key]: [
@@ -142,7 +142,7 @@ test('should login as administrator and update profile display name', async () =
       ],
     },
     query: {},
-  };
+  });
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -174,7 +174,7 @@ test('should login as executive and update user email', async () => {
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const emailNew = 'new@email.com';
-  const inputUpdate: IoInput<DataUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: [
@@ -186,7 +186,7 @@ test('should login as executive and update user email', async () => {
       ],
     },
     query: {},
-  };
+  });
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -217,7 +217,7 @@ test('should login as executive and NOT update user handle', async () => {
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const handleNew = 'new_username';
-  const inputUpdate: IoInput<DataUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [userSlice.key]: [
@@ -229,7 +229,7 @@ test('should login as executive and NOT update user handle', async () => {
       ],
     },
     query: {},
-  };
+  });
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -253,7 +253,7 @@ test(
     const profile = outputLogin.json.result?.[profileSlice.key][0] as Entity<Profile>;
 
     const nameNew = 'The New User Me';
-    const inputUpdate: IoInput<DataUpdater> = {
+    const inputUpdate: IoInput<DataUpdater> = ioInput({
       accessEncoded: bearerAccess.access,
       body: {
         [profileSlice.key]: [
@@ -265,7 +265,7 @@ test(
         ],
       },
       query: {},
-    };
+    });
 
     const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -298,7 +298,7 @@ test('should login as user and be denied updating another profile', async () => 
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
   const nameNew = 'New Profile Name';
-  const inputUpdate: IoInput<DataUpdater> = {
+  const inputUpdate: IoInput<DataUpdater> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [profileSlice.key]: [
@@ -309,8 +309,7 @@ test('should login as user and be denied updating another profile', async () => 
         },
       ],
     },
-    query: {},
-  };
+  });
 
   const outputUpdate = await io.update(inputUpdate, ioOutput());
 
@@ -330,7 +329,7 @@ test('should login as user and view history of own profile', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const readQuery: IoInput<DataQuery> = {
+  const readQuery: IoInput<DataQuery> = ioInput({
     accessEncoded: bearerAccess.access,
     body: {
       [profileSlice.key]: {
@@ -343,7 +342,7 @@ test('should login as user and view history of own profile', async () => {
       },
     },
     query: {},
-  };
+  });
 
   const outputRead = await io.read(readQuery, ioOutput());
 

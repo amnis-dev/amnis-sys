@@ -27,6 +27,7 @@ import {
   roleComboCreate,
   uid,
   systemSlice,
+  ioInput,
 } from '@amnis/state';
 import { schemaState } from '@amnis/state/schema';
 import { contextSetup } from '@amnis/state/context';
@@ -56,38 +57,34 @@ const testIteration = [
 ];
 
 const testInputs: TestInputs = [
-  {
+  ioInput({
     body: {
       sliceA: [{ $id: uid('sliceA') }],
       sliceB: [{ $id: uid('sliceB') }],
       sliceC: [{ $id: uid('sliceC') }],
     },
-    query: {},
-  },
-  {
+  }),
+  ioInput({
     body: {
       sliceA: {},
       sliceB: {},
       sliceC: {},
     },
-    query: {},
-  },
-  {
+  }),
+  ioInput({
     body: {
       sliceA: [{ $id: uid('sliceA') }],
       sliceB: [{ $id: uid('sliceB') }],
       sliceC: [{ $id: uid('sliceC') }],
     },
-    query: {},
-  },
-  {
+  }),
+  ioInput({
     body: {
       sliceA: [],
       sliceB: [],
       sliceC: [],
     },
-    query: {},
-  },
+  }),
 ];
 
 let testUserInputs: TestInputs;
@@ -174,34 +171,30 @@ beforeAll(async () => {
   };
 
   testUserInputs = [
-    {
+    ioInput({
       body: {
         ...testInputs[0].body,
         user: [{ $id: userExisting.$id }],
       },
-      query: {},
-    },
-    {
+    }),
+    ioInput({
       body: {
         ...testInputs[1].body,
         user: {},
       },
-      query: {},
-    },
-    {
+    }),
+    ioInput({
       body: {
         ...testInputs[2].body,
         user: [{ $id: userExisting.$id }],
       },
-      query: {},
-    },
-    {
+    }),
+    ioInput({
       body: {
         ...testInputs[3].body,
         user: [userExisting.$id],
       },
-      query: {},
-    },
+    }),
   ];
 });
 

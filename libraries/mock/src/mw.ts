@@ -8,6 +8,7 @@ import type {
 import {
   auditSlice,
   entityCreate,
+  ioInput,
 } from '@amnis/state';
 import type { ResponseTransformer, RestContext, RestRequest } from 'msw';
 
@@ -43,12 +44,11 @@ export const mwInput = async (req: RestRequest, system: System): Promise<IoInput
   /**
    * Build the input object.
    */
-  const input: IoInput = {
+  const input: IoInput = ioInput({
     body,
-    query: {},
     sessionEncrypted,
     ip,
-  };
+  });
 
   /**
    * Extract query and param data.
@@ -83,6 +83,11 @@ export const mwInput = async (req: RestRequest, system: System): Promise<IoInput
    * Extract one-time password (OTP) header.
    */
   input.otpEncoded = req.headers.get('Otp') || undefined;
+
+  /**
+   * Extract the language code.
+   */
+  input.language = req.headers.get('Language') || 'en';
 
   return input;
 };

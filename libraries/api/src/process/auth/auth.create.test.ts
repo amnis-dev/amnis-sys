@@ -19,6 +19,7 @@ import {
   ioOutput,
   uid,
   systemSlice,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthCreate } from '../../api.auth.types.js';
@@ -54,7 +55,7 @@ test('should create a new account as an admin', async () => {
   /**
    * Get a challenge.
    */
-  const outputChallenge = await processAuthChallenge(context)({ body: {}, query: {} }, ioOutput());
+  const outputChallenge = await processAuthChallenge(context)(ioInput({ body: {} }), ioOutput());
 
   const challenge = outputChallenge.json.result;
   if (!challenge) {
@@ -75,13 +76,12 @@ test('should create a new account as an admin', async () => {
 
   const signatureEncoded = await accountsSign(admin.privateKey, apiAuthCreate);
 
-  const input: IoInput<ApiAuthCreate> = {
+  const input: IoInput<ApiAuthCreate> = ioInput({
     body: apiAuthCreate,
-    query: {},
     sessionEncrypted,
     signatureEncoded,
     challengeEncoded,
-  };
+  });
   const output = await processAuthCreate(context)(input, ioOutput());
 
   expect(output.status).toBe(200);

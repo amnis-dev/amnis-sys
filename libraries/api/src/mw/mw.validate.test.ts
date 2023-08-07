@@ -1,12 +1,12 @@
 import type {
   IoContext,
-  IoInput,
   IoProcess,
 } from '@amnis/state';
 import {
   contactSlice,
   ioOutput,
   ioOutputErrored,
+  ioInput,
 } from '@amnis/state';
 import { schemaState } from '@amnis/state/schema';
 import { contextSetup } from '@amnis/state/context';
@@ -28,12 +28,11 @@ beforeAll(async () => {
 test('should validate a valid contact object', async () => {
   const process = mwValidate('state/Contact')(noprocess);
 
-  const input: IoInput = {
+  const input = ioInput({
     body: contactSlice.create({
       name: 'Name',
     }),
-    query: {},
-  };
+  });
   const output = await process(context)(input, ioOutput());
 
   expect(output.status).toBe(200);
@@ -43,13 +42,12 @@ test('should validate a valid contact object', async () => {
 test('should NOT validate an ivalid contact object', async () => {
   const process = mwValidate('state/Contact')(noprocess);
 
-  const input: IoInput = {
+  const input = ioInput({
     body: {
       name: 0,
       prop: false,
     },
-    query: {},
-  };
+  });
   const output = await process(context)(input, ioOutput());
 
   expect(output.status).toBe(400);

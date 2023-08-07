@@ -507,42 +507,31 @@
         },
         "code": {
           "type": "string",
-          "description": "Two-character language code.",
+          "description": "Two-character or five-character language code.",
           "minLength": 2,
-          "maxLength": 2
+          "maxLength": 5
         },
-        "set": {
+        "name": {
           "type": "string",
-          "description": "Name of the translation set for organization.",
+          "description": "The variable name of the translation in the set.",
           "minLength": 1,
           "maxLength": 32
         },
-        "t": {
-          "$ref": "#/definitions/LocaleTranslation",
-          "description": "The language key value translations."
-        },
-        "v": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Variables that can be inserted into translation text."
+        "value": {
+          "type": "string",
+          "description": "The translation value.",
+          "minLength": 0,
+          "maxLength": 8192
         }
       },
       "required": [
         "$id",
         "code",
-        "set",
-        "t",
-        "v"
+        "name",
+        "value"
       ],
       "additionalProperties": false,
       "description": "Locale entity"
-    },
-    "LocaleTranslation": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Record of locale translations."
     },
     "Log": {
       "type": "object",
@@ -830,6 +819,13 @@
           "type": "string",
           "description": "Domain name of the system."
         },
+        "cors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Allowed CORS origins."
+        },
         "sessionKey": {
           "type": "string",
           "description": "Name of the session key."
@@ -880,6 +876,17 @@
           "type": "number",
           "description": "Maximum file size that can be uploaded in kilobytes."
         },
+        "proxyTrust": {
+          "type": "boolean",
+          "description": "Flag to trust the proxy server for a forwarded IP address."
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Supported language coded for the system."
+        },
         "$adminRole": {
           "$ref": "#/definitions/UID%3CRole%3E",
           "description": "Role identifier that considers the user an administrator. Administrators have complete control."
@@ -907,12 +914,14 @@
         "$initialRoles",
         "bearerExpires",
         "challengeExpiration",
+        "cors",
         "domain",
         "emailAuth",
         "emailNews",
         "emailNotify",
         "fileSizeMax",
         "handle",
+        "languages",
         "name",
         "otpExpiration",
         "otpLength",
@@ -1512,26 +1521,21 @@
         },
         "code": {
           "type": "string",
-          "description": "Two-character language code.",
+          "description": "Two-character or five-character language code.",
           "minLength": 2,
-          "maxLength": 2
+          "maxLength": 5
         },
-        "set": {
+        "name": {
           "type": "string",
-          "description": "Name of the translation set for organization.",
+          "description": "The variable name of the translation in the set.",
           "minLength": 1,
           "maxLength": 32
         },
-        "t": {
-          "$ref": "#/definitions/LocaleTranslation",
-          "description": "The language key value translations."
-        },
-        "v": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Variables that can be inserted into translation text."
+        "value": {
+          "type": "string",
+          "description": "The translation value.",
+          "minLength": 0,
+          "maxLength": 8192
         }
       },
       "required": [
@@ -1730,6 +1734,13 @@
           "type": "string",
           "description": "Domain name of the system."
         },
+        "cors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Allowed CORS origins."
+        },
         "sessionKey": {
           "type": "string",
           "description": "Name of the session key."
@@ -1779,6 +1790,17 @@
         "fileSizeMax": {
           "type": "number",
           "description": "Maximum file size that can be uploaded in kilobytes."
+        },
+        "proxyTrust": {
+          "type": "boolean",
+          "description": "Flag to trust the proxy server for a forwarded IP address."
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Supported language coded for the system."
         },
         "$adminRole": {
           "$ref": "#/definitions/UID%3CRole%3E",

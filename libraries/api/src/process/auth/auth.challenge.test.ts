@@ -5,6 +5,7 @@ import type {
 import {
   ioOutput,
   challengeSlice,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthChallenge } from '../../api.auth.types.js';
@@ -25,10 +26,10 @@ beforeAll(async () => {
  * ================================================================================================
  */
 test('should generate a challenge entity', async () => {
-  const input: IoInput<ApiAuthChallenge> = {
+  const input: IoInput<ApiAuthChallenge> = ioInput({
     body: {},
     query: {},
-  };
+  });
   const output = await processAuthChallenge(context)(input, ioOutput());
   const challenge = output.json.result;
   if (!challenge) {

@@ -2,7 +2,7 @@ import type { CookieOptions, RequestHandler } from 'express';
 import type {
   IoContext, IoInput,
 } from '@amnis/state';
-import { systemSlice, ioOutput } from '@amnis/state';
+import { systemSlice, ioOutput, ioInput } from '@amnis/state';
 import { httpAuthorizationParse } from '@amnis/api/utility';
 /**
  * Parses and prepares Amnis Input and responses from Amnis Output objects.
@@ -36,6 +36,7 @@ export const mwIo = (context: IoContext): RequestHandler => function ioMiddlewar
   const signatureEncoded = req.header('Signature');
   const challengeEncoded = req.header('Challenge');
   const otpEncoded = req.header('Otp');
+  const language = req.header('Language');
 
   const accessEncoded = httpAuthorizationParse(headerAuthorization);
 
@@ -57,7 +58,7 @@ export const mwIo = (context: IoContext): RequestHandler => function ioMiddlewar
   /**
    * Set the input on the HTTP request object for the processors.
    */
-  req.input = {
+  req.input = ioInput({
     body,
     ip: typeof ip === 'string' ? ip : undefined,
     sessionEncrypted,
@@ -65,12 +66,13 @@ export const mwIo = (context: IoContext): RequestHandler => function ioMiddlewar
     signatureEncoded,
     challengeEncoded,
     otpEncoded,
+    language,
     query,
     /**
      * The param must be set later in the express route.
      */
     param: undefined,
-  };
+  });
 
   /**
    * Applies the output to the HTTP response.

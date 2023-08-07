@@ -17,6 +17,7 @@ import {
   base64JsonEncode,
   accountsSign,
   systemSlice,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthLogin } from '../../api.auth.types.js';
@@ -41,10 +42,9 @@ beforeAll(async () => {
  * ================================================================================================
  */
 test('should start the login ritual by generating a challenge', async () => {
-  const input: IoInput = {
+  const input: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
 
   const output = await processAuthChallenge(context)(input, ioOutput());
 
@@ -68,10 +68,9 @@ test('should start the login ritual by generating a challenge', async () => {
 test('should login as a admin', async () => {
   const { admin: adminAccount } = await accountsGet();
 
-  const inputStart: IoInput = {
+  const inputStart: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
 
@@ -89,12 +88,12 @@ test('should login as a admin', async () => {
 
   const signatureEncoded = await accountsSign(adminAccount.privateKey, apiAuthLogin);
 
-  const input: IoInput<ApiAuthLogin> = {
+  const input: IoInput<ApiAuthLogin> = ioInput({
     body: apiAuthLogin,
     query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
 
   const output = await processAuthLogin(context)(input, ioOutput());
 
@@ -137,10 +136,9 @@ test('should login as a admin', async () => {
 test('should NOT login as an admin signed with a different private key', async () => {
   const { admin: adminAccount, user: userAccount } = await accountsGet();
 
-  const inputStart: IoInput = {
+  const inputStart: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
 
@@ -159,12 +157,11 @@ test('should NOT login as an admin signed with a different private key', async (
 
   const signatureEncoded = await accountsSign(userAccount.privateKey, apiAuthLogin);
 
-  const input: IoInput<ApiAuthLogin> = {
+  const input: IoInput<ApiAuthLogin> = ioInput({
     body: apiAuthLogin,
-    query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
 
   const output = await processAuthLogin(context)(input, ioOutput());
 
@@ -188,10 +185,9 @@ test('should NOT login as an admin signed with a different private key', async (
 test('should NOT login as an admin with different challenge', async () => {
   const { admin: adminAccount } = await accountsGet();
 
-  const inputStart: IoInput = {
+  const inputStart: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
   const outputStart = await processAuthChallenge(context)(inputStart, ioOutput());
   const challenge = outputStart.json.result as Challenge | undefined;
 
@@ -219,12 +215,11 @@ test('should NOT login as an admin with different challenge', async () => {
 
   const signatureEncoded = await accountsSign(adminAccount.privateKey, apiAuthLogin);
 
-  const input: IoInput<ApiAuthLogin> = {
+  const input: IoInput<ApiAuthLogin> = ioInput({
     body: apiAuthLogin,
-    query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
 
   const output = await processAuthLogin(context)(input, ioOutput());
 

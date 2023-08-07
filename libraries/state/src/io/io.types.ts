@@ -93,6 +93,11 @@ export interface IoInput<
   query: Record<string, string | undefined>;
 
   /**
+   * Language code for the input.
+   */
+  language: string;
+
+  /**
    * The input parameter. (e.g. /api/:id)
    */
   param?: string;

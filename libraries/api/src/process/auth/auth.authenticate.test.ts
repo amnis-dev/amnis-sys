@@ -21,6 +21,7 @@ import {
   dateNumeric,
   agentSign,
   base64JsonEncode,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthAuthenticate, ApiAuthChallenge } from '../../api.auth.types.js';
@@ -63,10 +64,10 @@ test('should create an admin session and authenticate using the admin keys', asy
   /**
    * Create a challenge.
    */
-  const inputChallenge: IoInput<ApiAuthChallenge> = {
+  const inputChallenge: IoInput<ApiAuthChallenge> = ioInput({
     body: {},
     query: {},
-  };
+  });
   const outputChallenge = await processAuthChallenge(context)(inputChallenge, ioOutput());
   const challenge = outputChallenge.json.result;
 
@@ -91,12 +92,12 @@ test('should create an admin session and authenticate using the admin keys', asy
   /**
    * Now that everything is prepared, start authenticating.
    */
-  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
+  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = ioInput({
     body: {},
     query: {},
     sessionEncrypted,
     challengeEncoded,
-  };
+  });
 
   /**
    * Sign the input body and attach it.
@@ -162,10 +163,9 @@ test('should create a user session and authenticate using the user keys', async 
   /**
    * Create a challenge.
    */
-  const inputChallenge: IoInput<ApiAuthChallenge> = {
+  const inputChallenge: IoInput<ApiAuthChallenge> = ioInput({
     body: {},
-    query: {},
-  };
+  });
   const outputChallenge = await processAuthChallenge(context)(inputChallenge, ioOutput());
   const challenge = outputChallenge.json.result;
 
@@ -179,12 +179,11 @@ test('should create a user session and authenticate using the user keys', async 
   /**
    * Now that everything is prepared, start authenticating.
    */
-  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
+  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = ioInput({
     body: {},
-    query: {},
     sessionEncrypted,
     challengeEncoded,
-  };
+  });
 
   /**
    * Sign the input body and attach it.
@@ -269,12 +268,11 @@ test('should create an admin session and fail authentication with an incorrect c
   /**
    * Now that everything is prepared, start authenticating.
    */
-  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
+  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = ioInput({
     body: {},
-    query: {},
     sessionEncrypted,
     challengeEncoded,
-  };
+  });
 
   /**
    * Sign the input body and attach it.
@@ -317,10 +315,9 @@ test('should create an admin session and fail authentication with an incorrect s
   /**
    * Create a challenge.
    */
-  const inputChallenge: IoInput<ApiAuthChallenge> = {
+  const inputChallenge: IoInput<ApiAuthChallenge> = ioInput({
     body: {},
-    query: {},
-  };
+  });
   const outputChallenge = await processAuthChallenge(context)(inputChallenge, ioOutput());
   const challenge = outputChallenge.json.result;
 
@@ -345,12 +342,11 @@ test('should create an admin session and fail authentication with an incorrect s
   /**
    * Now that everything is prepared, start authenticating.
    */
-  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = {
+  const inputAuthenticate: IoInput<ApiAuthAuthenticate> = ioInput({
     body: {},
-    query: {},
     sessionEncrypted,
     challengeEncoded,
-  };
+  });
 
   /**
    * Sign the input body and attach it.

@@ -13,7 +13,7 @@ import { websiteSlice } from '../../../set/entity/index.js';
 
 import { useTranslate, useWebSelector } from '../../hooks/index.js';
 import { placehold } from '../../../utility/index.js';
-import type { NavbarProps } from '../../interface/Navbar.types.js';
+import type { NavbarProps } from '../../../interface/Navbar.types.js';
 
 import { skeleton } from '../blueprint.utility.js';
 

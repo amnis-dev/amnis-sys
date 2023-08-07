@@ -19,6 +19,7 @@ import {
   base64JsonEncode,
   accountsSign,
   systemSlice,
+  ioInput,
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import type { ApiAuthRegister } from '../../api.auth.types.js';
@@ -40,10 +41,10 @@ beforeAll(async () => {
  * ================================================================================================
  */
 test('should start the registration ritual', async () => {
-  const input: IoInput = {
+  const input: IoInput = ioInput({
     body: {},
     query: {},
-  };
+  });
 
   const output = await processAuthChallenge(context)(input, ioOutput());
 
@@ -65,10 +66,9 @@ test('should start the registration ritual', async () => {
  * ================================================================================================
  */
 test('should not register with invalid body input', async () => {
-  const input: IoInput = {
+  const input: IoInput = ioInput({
     body: { invalid: true },
-    query: {},
-  };
+  });
 
   const output = await processAuthRegister(context)(input, ioOutput());
 
@@ -82,10 +82,9 @@ test('should not register with invalid body input', async () => {
  * ================================================================================================
  */
 test('should start ritual and complete registration', async () => {
-  const inputStart: IoInput = {
+  const inputStart: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
 
   const resultStart = await processAuthChallenge(context)(
     inputStart,
@@ -110,12 +109,11 @@ test('should start ritual and complete registration', async () => {
 
   const signatureEncoded = await accountsSign(privateKey, apiAuthRegistration);
 
-  const inputRegister: IoInput<ApiAuthRegister> = {
+  const inputRegister: IoInput<ApiAuthRegister> = ioInput({
     body: apiAuthRegistration,
-    query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
 
   const resultRegister = await processAuthRegister(context)(inputRegister, ioOutput());
 
@@ -191,10 +189,9 @@ test('should not be able to register when turned off by the system', async () =>
     registrationOpen: false,
   }));
 
-  const inputStart: IoInput = {
+  const inputStart: IoInput = ioInput({
     body: {},
-    query: {},
-  };
+  });
 
   const resultStart = await processAuthChallenge(context)(
     inputStart,
@@ -221,12 +218,12 @@ test('should not be able to register when turned off by the system', async () =>
 
   const signatureEncoded = await accountsSign(privateKey, apiAuthRegistration);
 
-  const inputRegister: IoInput<ApiAuthRegister> = {
+  const inputRegister: IoInput<ApiAuthRegister> = ioInput({
     body: apiAuthRegistration,
     query: {},
     challengeEncoded,
     signatureEncoded,
-  };
+  });
 
   const resultRegister = await processAuthRegister(context)(inputRegister, ioOutput());
 
