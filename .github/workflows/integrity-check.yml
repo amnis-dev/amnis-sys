@@ -55,6 +55,7 @@ jobs:
 
       - name: Run Build
         run: |
+          pnpm schema
           pnpm build:libs
           pnpm build
 
