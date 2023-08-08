@@ -36,7 +36,7 @@ export const mwIo = (context: IoContext): RequestHandler => function ioMiddlewar
   const signatureEncoded = req.header('Signature');
   const challengeEncoded = req.header('Challenge');
   const otpEncoded = req.header('Otp');
-  const language = req.header('Language');
+  const language = req.header('Language') ?? system.languages?.[0] ?? 'en';
 
   const accessEncoded = httpAuthorizationParse(headerAuthorization);
 

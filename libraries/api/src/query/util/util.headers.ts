@@ -14,6 +14,8 @@ import {
   bearerSlice,
   agentSign,
   base64JsonEncode,
+  localeSlice,
+  systemSlice,
 } from '@amnis/state';
 
 /**
@@ -119,4 +121,21 @@ export const headersOtp = (
 
   const otpEncoded = base64JsonEncode(otp);
   headers.set('Otp', otpEncoded);
+};
+
+/**
+ * Adds the language header.
+ */
+export const headersLanguage = (
+  headers: Headers,
+  state: State,
+) => {
+  const system = systemSlice.select.active(state as any);
+  let localeLanguage = localeSlice.select.activeCode(state as any);
+
+  if (system !== undefined && !system.languages.includes(localeLanguage)) {
+    localeLanguage = system.languages?.[0] ?? 'en';
+  }
+
+  headers.set('Language', localeLanguage);
 };

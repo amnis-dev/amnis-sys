@@ -6,6 +6,7 @@ import type {
 } from './locale.types.js';
 import { entitySliceCreate } from '../entity.slice.js';
 import {
+  selectLocaleActive,
   selectLocaleActiveCode,
   selectLocaleByCode,
   selectLocaleByCodeName,
@@ -17,6 +18,7 @@ import {
 import { dataActions } from '../../data.actions.js';
 import type { Entity } from '../entity.types.js';
 import type { DataCreator } from '../../data.types.js';
+import { entityCreate } from '../entity.js';
 
 const localeKey = 'locale';
 
@@ -37,6 +39,21 @@ export function localeCreate(
 }
 
 /**
+ * Convenience function to create multiple locale entities
+ * using a single object.
+ */
+export function localeDocumentToEntities(
+  code: string,
+  locales: Record<string, string>,
+): Entity<Locale>[] {
+  return Object.keys(locales).map((name) => (entityCreate<Locale>(localeCreate({
+    code,
+    name,
+    value: locales[name],
+  }))));
+}
+
+/**
  * Meta object for the locale slice.
  */
 const localeMeta: LocaleMeta = {
@@ -49,9 +66,16 @@ const localeMeta: LocaleMeta = {
  */
 const localeActions = {
   /**
+   * Sets the default locale code.
+   */
+  codeSet: createAction(`${localeKey}/codeSet`, (code: string) => ({
+    payload: code,
+  })),
+
+  /**
    * Inserts locale data into the slice.
    */
-  insertData: createAction(`${localeKey}/insertCombo`, (locales: Locale[]) => ({
+  insertData: createAction(`${localeKey}/insertData`, (locales: Locale[]) => ({
     payload: locales,
   })),
 };
@@ -69,6 +93,10 @@ export const localeSlice = entitySliceCreate({
     cases: ({
       builder,
     }) => {
+      builder.addCase(localeActions.codeSet, (state: LocaleMeta, action) => {
+        state.code = action.payload;
+      });
+
       builder.addCase(localeActions.insertData, (state: LocaleMeta, action) => {
         const locales = action.payload;
 
@@ -118,9 +146,14 @@ export const localeSlice = entitySliceCreate({
     defaultCode: selectLocaleSystemDefaultCode,
 
     /**
-     * Selects locales based on the active language code.
+     * Selects the defaut locale code.
      */
     activeCode: selectLocaleActiveCode,
+
+    /**
+     * Selects locales based on the active language code.
+     */
+    activeLocale: selectLocaleActive,
 
     /**
      * Selects locales based on the specified language code.

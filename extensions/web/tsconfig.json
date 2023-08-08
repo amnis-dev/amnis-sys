@@ -6,7 +6,6 @@
     "declarationDir": "./types",
     "rootDir": "./src",
     "jsx": "react",
-    "baseUrl": ".",
     "paths": {
       "@amnis/web/set": ["./src/set/index.ts"],
       "@amnis/web/data": ["./src/data/index.ts"],

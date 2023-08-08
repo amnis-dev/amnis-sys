@@ -7,28 +7,23 @@ import {
   grantTask,
   systemSlice,
   localeSlice,
+  localeDocumentToEntities,
 } from "@amnis/state";
 import { Website, websiteSlice } from "../set/entity/index.js";
+import dataLocaleEn from "./data.locale.en.js";
+import dataLocaleDe from "./data.locale.de.js";
+
 
 export const data: StateDataPromise = async (data) => {
   /**
-   * ================================================================================
    * Setup default localized translations.
    */
-  const localeWeb = [
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'web:title',
-      value: 'My Website',
-    }),
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'web:description',
-      value: 'This is the description of the website.',
-    })
-  ];
+  const localeWebEn = localeDocumentToEntities('en', dataLocaleEn);
+  const localeWebDe = localeDocumentToEntities('de', dataLocaleDe);
+
   // Insert the locale into the data.
-  data[localeSlice.key].push(...localeWeb);
+  data[localeSlice.key].push(...localeWebEn);
+  data[localeSlice.key].push(...localeWebDe);
 
   /**
    * ================================================================================

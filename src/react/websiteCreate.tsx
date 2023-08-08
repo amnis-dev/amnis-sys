@@ -37,7 +37,7 @@ interface CreateWebsiteOptions {
  * ```
  */
 export function websiteCreate({
-  system = 'http://localhost:6006/api/sys/system',
+  system,
   plugins = [],
 }: CreateWebsiteOptions = {}) {
   const ids = new Set<string>(['@amnis/state', '@amnis/api', '@amnis/web']);
@@ -159,8 +159,9 @@ export function websiteCreate({
       <ProviderRR store={store}>
         <WebsiteContext.Provider value={contextValue}>
           <Mocker plugins={pluginsDynamic}>
-            <WebsiteApp />
-            {children}
+            <WebsiteApp system={system}>
+              {children}
+            </WebsiteApp>
           </Mocker>
         </WebsiteContext.Provider>
       </ProviderRR>

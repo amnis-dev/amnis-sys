@@ -2,14 +2,13 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { Data, DataMeta, DataState } from '../../data.types.js';
 import type { State } from '../../../state.types.js';
 import type { LocaleMeta, Locale } from './locale.types.js';
-import type { System } from '../system/system.types.js';
 import type { Entity } from '../entity.types.js';
 
 /**
  * Selects the locale slice state.
  */
 export const selectLocaleState = (
-  state: State,
+  state: State<any>,
 ): LocaleMeta & DataState<Entity<Locale>> => state.locale;
 
 /**
@@ -18,8 +17,8 @@ export const selectLocaleState = (
 export const selectLocaleCodeNameExists = createSelector(
   [
     selectLocaleState,
-    (state, code: string) => code,
-    (state, code, name: string) => name,
+    (state: State<any>, code: string) => code,
+    (state: State<any>, code, name: string) => name,
   ],
   (localeState, code, name) => Object.values(localeState.entities).some(
     (locale) => locale.code === code && locale.name === name,
@@ -30,7 +29,7 @@ export const selectLocaleCodeNameExists = createSelector(
  * Selects the locale slice state.
  */
 export const selectLocaleSystemDefaultCode = (
-  state: { system: DataState<System> },
+  state: State<any>,
 ): string => {
   const systemActiveId = state.system?.active;
   if (!systemActiveId) {
@@ -40,9 +39,17 @@ export const selectLocaleSystemDefaultCode = (
 };
 
 /**
- * Selects a locale entities of the active language code.
+ * Selects the locale slice state.
  */
 export const selectLocaleActiveCode = createSelector(
+  selectLocaleState,
+  (localeState) => localeState.code,
+);
+
+/**
+ * Selects a locale entities of the active language code.
+ */
+export const selectLocaleActive = createSelector(
   [
     selectLocaleState,
     selectLocaleSystemDefaultCode,
@@ -66,7 +73,7 @@ export const selectLocaleActiveCode = createSelector(
 export const selectLocaleByCode = createSelector(
   [
     selectLocaleState,
-    (state, code: string) => code,
+    (state: State<any>, code: string) => code,
   ],
   (localeState, code) => Object
     .values(localeState.entities)
@@ -78,8 +85,8 @@ export const selectLocaleByCode = createSelector(
  */
 export const selectLocaleByName = createSelector(
   [
-    selectLocaleActiveCode,
-    (state, name: string) => name,
+    selectLocaleActive,
+    (state: State<any>, name: string) => name,
   ],
   (localeCodeEntities, name) => localeCodeEntities.find((locale) => locale.name === name),
 );
@@ -89,7 +96,7 @@ export const selectLocaleByName = createSelector(
  */
 export const selectLocaleByCodeName = createSelector(
   [
-    (state) => state,
+    (state: State<any>) => state,
     (state, code: string) => code,
     (state, code, name: string) => name,
   ],
@@ -104,9 +111,9 @@ export const selectLocaleByCodeName = createSelector(
  */
 export const selectLocaleByCodeNames = createSelector(
   [
-    (state) => state,
-    (state, code: string) => code,
-    (state, code: string, names: string[]) => names,
+    (state: State<any>) => state,
+    (state: State<any>, code: string) => code,
+    (state: State<any>, code: string, names: string[]) => names,
   ],
   (state, code, names) => {
     const codes = selectLocaleByCode(state, code);
@@ -122,8 +129,8 @@ export const selectLocaleByCodeNames = createSelector(
  */
 export const selectLocaleValue = createSelector(
   [
-    selectLocaleActiveCode,
-    (state, reference: string) => reference,
+    selectLocaleActive,
+    (state: State<any>, reference: string) => reference,
   ],
   (localeCodeEntities, reference): string | undefined => {
     const name = reference.substring(1);
@@ -146,7 +153,7 @@ export const selectLocaleTranslation = createSelector(
     (state) => state,
     (state, reference: string): string | undefined => {
       const localeState = selectLocaleState(state);
-      const name = reference.substring(1);
+      const name = reference.slice(1);
       if (!name) {
         return undefined;
       }

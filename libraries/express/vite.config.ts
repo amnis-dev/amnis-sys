@@ -29,6 +29,8 @@ export default defineConfig({
         '@amnis/state',
         '@amnis/api',
         '@amnis/api/process',
+        'crypto',
+        'node:crypto',
       ],
     },
   },

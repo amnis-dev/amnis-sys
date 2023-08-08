@@ -42,7 +42,7 @@ export const apiMiddleware: Middleware = () => (next) => (action) => {
     }
 
     if (locale) {
-      dataCreator[localeSlice.key] = locale.map((l) => localeSlice.createEntity(l));
+      next(localeSlice.action.insertData(locale));
     }
 
     if (bearers) {

@@ -43,7 +43,7 @@ const mwStateTaskName: Record<GrantTask, string> = {
  */
 export const mwState: IoMiddleware<GrantTask> = (
   (task) => (next) => (context) => async (input, output) => {
-    const { access } = input;
+    const { access, language } = input;
     const { store } = context;
 
     /**
@@ -392,7 +392,7 @@ export const mwState: IoMiddleware<GrantTask> = (
             localeNames.push(...entity.locale);
           }
         });
-        const localeEntities = await findLocaleByNames(context, localeNames, 'en');
+        const localeEntities = await findLocaleByNames(context, localeNames, language);
         outputNext.json.locale = localeEntities?.map((l) => entityStrip(l));
       }
 

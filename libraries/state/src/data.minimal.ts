@@ -4,12 +4,12 @@ import {
   grantTask,
   localeSlice,
   GrantScope,
+  localeDocumentToEntities,
 } from './data/index.js';
 import type {
   Role,
   Entity,
   System,
-  Locale,
 } from './data/index.js';
 import type { StateDataGuaranteed } from './types.js';
 
@@ -18,38 +18,14 @@ export const dataMinimal = (): StateDataGuaranteed => {
    * ================================================================================
    * Localized translations.
    */
-  const locales: Entity<Locale>[] = [
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'core:role_admin_name',
-      value: 'Administrator',
-    }),
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'core:role_admin_desc',
-      value: 'Most permissive role for overall system configuration and maintenance.',
-    }),
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'core:role_exec_name',
-      value: 'Executive',
-    }),
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'core:role_exec_desc',
-      value: 'Most permissive role for overall system configuration and maintenance.',
-    }),
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'core:role_anon_name',
-      value: 'Anonymous',
-    }),
-    localeSlice.createEntity({
-      code: 'en',
-      name: 'core:role_anon_desc',
-      value: 'Permissions for accessing the application data without authentication.',
-    }),
-  ];
+  const locales = localeDocumentToEntities('en', {
+    'core:role_admin_name': 'Administrator',
+    'core:role_admin_desc': 'Most permissive role for overall system configuration and maintenance.',
+    'core:role_exec_name': 'Executive',
+    'core:role_exec_desc': 'Most permissive role for overall system configuration and maintenance.',
+    'core:role_anon_name': 'Anonymous',
+    'core:role_anon_desc': 'Permissions for accessing the application data without authentication.',
+  });
 
   /**
    * ================================================================================

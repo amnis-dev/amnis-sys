@@ -10,6 +10,7 @@ import {
 import {
   headersAuthorizationToken,
   headersChallenge,
+  headersLanguage,
   headersOtp,
   headersSignature,
 } from './util.headers.js';
@@ -145,6 +146,11 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
       ) {
         headersOtp(headers, api.getState() as State);
       }
+
+      /**
+       * Set language headers.
+       */
+      headersLanguage(headers, api.getState() as State);
 
       return headers;
     },

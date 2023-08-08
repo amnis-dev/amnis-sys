@@ -1,7 +1,7 @@
 import React from 'react';
 import { useWebDispatch, websiteSlice } from '@amnis/web/react';
 import { apiCrud, apiSys } from '@amnis/api/react';
-import { systemSlice } from '@amnis/state';
+import { systemSlice, localeSlice } from '@amnis/state';
 import { useSysSelector } from './hooks/index.js';
 
 export interface WebsiteAppProps {
@@ -19,13 +19,18 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
    * State data
    */
   const system = useSysSelector((state) => systemSlice.select.active(state));
-  // const website = useWebSelector((state) => websiteSlice.select.active(state));
+  const language = useSysSelector(localeSlice.select.activeCode);
 
   /**
    * API lazy queries
    */
   const [systemTrigger] = apiSys.useLazySystemQuery();
   const [readWebsiteTrigger, readWebsiteResult] = apiCrud.useLazyReadQuery();
+
+  /**
+   * Remounts the website when this value toggles.
+   */
+  const [remount, remountSet] = React.useState(false);
 
   /**
    * Whenever the active system changes, then trigger a system query.
@@ -47,8 +52,6 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
       return;
     }
 
-    console.log('system', system);
-
     readWebsiteTrigger({
       [websiteSlice.key]: {
         $query: {
@@ -58,7 +61,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
         },
       },
     });
-  }, [system?.$id]);
+  }, [system?.$id, remount]);
 
   /**
    * Whenever the website query result changes, then set the active website.
@@ -73,9 +76,14 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
     webDispatch(websiteSlice.action.activeSet(result[websiteSlice.key][0].$id));
   }, [readWebsiteResult?.data?.result]);
 
-  return (<>
+  /**
+   * Remount effect.
+   */
+  React.useEffect(() => remountSet(!remount), [language]);
+
+  return (<div key={remount ? 0 : 1}>
     {children}
-  </>);
+  </div>);
 };
 
 export default WebsiteApp;
