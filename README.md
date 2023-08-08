@@ -10,7 +10,9 @@
 
 ## Introduction
 
-AmnisSys provides a solid foundation for developing and managing full-stack web/mobile applications. Greatly simplifies syncronizing, caching, and managing data behaviors between a clients and services.
+AmnisSys provides a solid foundation for developing and managing full-stack web/mobile applications. It greatly simplifies syncronizing, caching, and managing data behaviors between a clients and services.
+
+AmnisSys includes a user interface (UI) application for data management called **Crystalizer CMS**.
 
 ## Packages
 
