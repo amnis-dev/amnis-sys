@@ -21,19 +21,6 @@ import { skeleton } from '../blueprint.utility.js';
 
 import { ButtonLanguage } from '../button-language/index.js';
 
-const languageMap: Record<string, string> = {
-  'en': 'English',
-  'es': 'Español',
-  'fr': 'Français',
-  'de': 'Deutsch',
-  'it': 'Italiano',
-  'ja': '日本語',
-  'ko': '한국어',
-  'zh': '中文',
-  'pt': 'Português',
-  'ru': 'Русский',
-};
-
 export const Navbar: React.FC<NavbarProps> = ({
   title: propsTitle,
   titleHide = false,
@@ -60,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Button key={route.$id} minimal icon={route.icon as MaybeElement} text={route.label} />
           )) : null}
           <Divider />
-          <ButtonLanguage />
+          <ButtonLanguage hideText />
         </ButtonGroup>
       </BpNavbar.Group>
 

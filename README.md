@@ -10,13 +10,13 @@
 
 ## Introduction
 
-AmnisSys provides a solid foundation for developing full-stack web/mobile applications. Syncronizing and managing data between a clients and services has never ben easier.
+AmnisSys provides a solid foundation for developing and managing full-stack web/mobile applications. Greatly simplifies syncronizing, caching, and managing data behaviors between a clients and services.
 
 ## Packages
 
-### Extensions
+### Plugins
 
-These extensions are robust and complete functional systems that seamlessly extend the core capabilities of AmnisSys. These extensions add comprehensive, modular functionalities to the framework, allowing the situational enhancement of applications without having to build from scratch.
+These plugins are complete functional systems that extend the capabilities of AmnisSys. These plugin packages can be asynchronously imported, allowing the situational enhancements.
 
 | package | latest | description |
 | --- | --- | --- |
