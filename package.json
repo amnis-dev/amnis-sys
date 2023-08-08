@@ -64,6 +64,8 @@
   "author": "Eric Crowell",
   "license": "MIT",
   "resolutions": {
+    "trim": "1.0.1",
+    "got": "13.0.0",
     "semver": "7.5.4"
   },
   "dependencies": {
