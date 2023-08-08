@@ -8,16 +8,20 @@
         "websites"
       ]
     },
-    "configurations/eslint-config-node": {},
-    "configurations/eslint-config-react": {},
-    "configurations/tsconfig-node": {},
-    "configurations/tsconfig-react": {},
     "libraries/state": {},
     "libraries/mock": {},
     "libraries/api": {},
     "libraries/express": {},
     "libraries/db-cosmos": {},
     "libraries/emailer-mailjet": {},
-    "extensions/web": {}
+
+    "extensions/web": {},
+
+    "websites/documentation": {},
+    
+    "configurations/eslint-config-node": {},
+    "configurations/eslint-config-react": {},
+    "configurations/tsconfig-node": {},
+    "configurations/tsconfig-react": {}
   }
 }

@@ -2,3 +2,4 @@ packages:
   - 'configurations/*'
   - 'libraries/*'
   - 'extensions/*'
+  - 'websites/*'

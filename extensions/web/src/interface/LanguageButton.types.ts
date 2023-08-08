@@ -1,7 +1,7 @@
 /**
  * A button for selecting the preferred application language.
  */
-export interface ButtonLanguageProps {
+export interface LanguageButtonProps {
   /**
    * Hide language text in the button.
    */

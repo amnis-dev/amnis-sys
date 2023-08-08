@@ -2,6 +2,9 @@
 types/
 dist/
 
+# Meta files
+._*
+
 # Logs
 logs
 *.log

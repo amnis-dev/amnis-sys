@@ -57,6 +57,7 @@
     "test": "vitest --run src/*",
     "test:file": "vitest --run",
     "test:libs": "pnpm run --filter=!@amnis/db-cosmos --filter '@amnis/*' --if-present --parallel test",
+    "web:documentation": "pnpm --filter '@amnis-website/documentation' start",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
