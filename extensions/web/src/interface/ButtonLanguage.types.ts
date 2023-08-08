@@ -1,9 +1,7 @@
-import type { DataTree, Route } from '@amnis/state';
-
 /**
  * A button for selecting the preferred application language.
  */
-export interface LanguageButtonProps {
+export interface ButtonLanguageProps {
   /**
    * Hide language text in the button.
    */

@@ -18,9 +18,8 @@ import { placehold } from '../../../utility/index.js';
 import type { NavbarProps } from '../../../interface/Navbar.types.js';
 
 import { skeleton } from '../blueprint.utility.js';
-import { localeSlice, systemSlice } from '@amnis/state';
 
-import { LanguageButton } from '../language-button/index.js';
+import { ButtonLanguage } from '../button-language/index.js';
 
 const languageMap: Record<string, string> = {
   'en': 'English',
@@ -61,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Button key={route.$id} minimal icon={route.icon as MaybeElement} text={route.label} />
           )) : null}
           <Divider />
-          <LanguageButton />
+          <ButtonLanguage />
         </ButtonGroup>
       </BpNavbar.Group>
 
