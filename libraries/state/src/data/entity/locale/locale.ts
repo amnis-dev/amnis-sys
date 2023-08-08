@@ -19,6 +19,7 @@ import { dataActions } from '../../data.actions.js';
 import type { Entity } from '../entity.types.js';
 import type { DataCreator } from '../../data.types.js';
 import { entityCreate } from '../entity.js';
+import { localStorage } from '../../../localstorage.js';
 
 const localeKey = 'locale';
 
@@ -57,7 +58,9 @@ export function localeDocumentToEntities(
  * Meta object for the locale slice.
  */
 const localeMeta: LocaleMeta = {
-  code: 'en',
+  code: localStorage().getItem('locale-code') ?? (
+    typeof window === 'object' ? window.navigator.language ?? 'en' : 'en'
+  ),
   names: {},
 };
 
@@ -95,6 +98,7 @@ export const localeSlice = entitySliceCreate({
     }) => {
       builder.addCase(localeActions.codeSet, (state: LocaleMeta, action) => {
         state.code = action.payload;
+        localStorage().setItem('locale-code', action.payload);
       });
 
       builder.addCase(localeActions.insertData, (state: LocaleMeta, action) => {
