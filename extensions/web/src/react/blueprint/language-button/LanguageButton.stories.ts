@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { ButtonLanguage } from './ButtonLanguage.js';
+import { LanguageButton } from './LanguageButton.js';
 
 const meta: Meta = {
-  title: 'Web Blueprint/Buttons/Language',
-  component: ButtonLanguage,
+  title: 'Web Blueprint/Language Button',
+  component: LanguageButton,
   tags: ['autodocs'],
-} satisfies Meta<typeof ButtonLanguage>;
+} satisfies Meta<typeof LanguageButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

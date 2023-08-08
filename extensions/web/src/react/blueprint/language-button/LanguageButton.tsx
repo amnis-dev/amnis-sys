@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonLanguageProps } from '../../../interface/ButtonLanguage.types.js';
+import { LanguageButtonProps } from '../../../interface/LanguageButton.types.js';
 import { useWebDispatch, useWebSelector } from '../../hooks/index.js';
 import { Button, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { localeSlice, systemSlice } from '@amnis/state';
@@ -17,7 +17,7 @@ const languageMap: Record<string, string> = {
   'ru': 'Русский',
 };
 
-export const ButtonLanguage: React.FC<ButtonLanguageProps> = ({
+export const LanguageButton: React.FC<LanguageButtonProps> = ({
   hideText = false,
 }) => {
   const dispatch = useWebDispatch();
@@ -49,4 +49,4 @@ export const ButtonLanguage: React.FC<ButtonLanguageProps> = ({
   );
 };
 
-export default ButtonLanguage;
+export default LanguageButton;

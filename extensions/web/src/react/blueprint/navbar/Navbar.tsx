@@ -19,7 +19,7 @@ import type { NavbarProps } from '../../../interface/Navbar.types.js';
 
 import { skeleton } from '../blueprint.utility.js';
 
-import { ButtonLanguage } from '../button-language/index.js';
+import { LanguageButton } from '../language-button/index.js';
 
 export const Navbar: React.FC<NavbarProps> = ({
   title: propsTitle,
@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Button key={route.$id} minimal icon={route.icon as MaybeElement} text={route.label} />
           )) : null}
           <Divider />
-          <ButtonLanguage hideText />
+          <LanguageButton hideText />
         </ButtonGroup>
       </BpNavbar.Group>
 
