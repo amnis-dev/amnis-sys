@@ -118,7 +118,7 @@ export const mockService: MockService = {
   },
   stop() {
     if (!service) {
-      console.error('Must call mockService.setup() before stopping!');
+      // console.error('Must call mockService.setup() before stopping!');
       return;
     }
 

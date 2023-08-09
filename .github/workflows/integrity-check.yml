@@ -60,7 +60,6 @@ jobs:
 
       - name: Lint for Code-Style Errors
         run: |
-          pnpm lint:libs
           pnpm lint
 
       - name: Run Unit Tests

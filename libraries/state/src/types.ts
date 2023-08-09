@@ -3,7 +3,12 @@ import type { IoProcessDefinition } from './io/io.types.js';
 import type {
   systemKey,
   roleKey,
-  EntityObjects, System, Entity, Role,
+  routeKey,
+  EntityObjects,
+  System,
+  Entity,
+  Role,
+  Route,
 } from './data/index.js';
 
 interface _SchemaObject {
@@ -30,6 +35,8 @@ export type StateDataGuaranteed = {
   [K in (typeof systemKey)]: [Entity<System>]
 } & {
   [K in (typeof roleKey)]: [Entity<Role>, Entity<Role>, Entity<Role>]
+} & {
+  [K in (typeof routeKey)]: Entity<Route>[]
 } & EntityObjects;
 
 export type StateDataPromise = (data: StateDataGuaranteed) => Promise<StateDataGuaranteed>;

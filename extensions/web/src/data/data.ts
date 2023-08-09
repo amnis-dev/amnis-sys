@@ -8,25 +8,33 @@ import {
   systemSlice,
   localeSlice,
   localeDocumentToEntities,
-} from "@amnis/state";
-import { Website, websiteSlice } from "../set/entity/index.js";
-import dataLocaleEn from "./data.locale.en.js";
-import dataLocaleDe from "./data.locale.de.js";
-
+  routeMapEntities,
+  routeSlice,
+} from '@amnis/state';
+import type { Website } from '../set/entity/index.js';
+import { websiteSlice } from '../set/entity/index.js';
+import * as dataLocale from './data.locale.js';
 
 export const data: StateDataPromise = async (data) => {
   /**
    * Setup default localized translations.
    */
-  const localeWebEn = localeDocumentToEntities('en', dataLocaleEn);
-  const localeWebDe = localeDocumentToEntities('de', dataLocaleDe);
-
-  // Insert the locale into the data.
-  data[localeSlice.key].push(...localeWebEn);
-  data[localeSlice.key].push(...localeWebDe);
+  Object.keys(dataLocale).forEach((key) => {
+    const entities = localeDocumentToEntities(key, dataLocale[key as keyof typeof dataLocale]);
+    data[localeSlice.key].push(...entities);
+  });
 
   /**
-   * ================================================================================
+   * Routes
+   */
+  const routes = routeMapEntities({
+    '%web:route_home': { path: '/' },
+    '%web:route_about': { path: '/about' },
+    '%web:route_contact': { path: '/contact' },
+  });
+  data[routeSlice.key].push(...routes);
+
+  /**
    * Create default website.
    */
   const websites: Entity<Website>[] = [
@@ -34,7 +42,11 @@ export const data: StateDataPromise = async (data) => {
       hostname: 'localhost',
       title: '%web:title',
       description: '%web:description',
-      routes: [],
+      $routes: [
+        [routes[0].$id, null],
+        [routes[1].$id, null],
+        [routes[2].$id, null],
+      ],
     }),
   ];
 
@@ -65,3 +77,5 @@ export const data: StateDataPromise = async (data) => {
     ...stateEntitiesInital,
   };
 };
+
+export default data;

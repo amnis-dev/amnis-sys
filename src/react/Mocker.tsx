@@ -1,8 +1,9 @@
 import React from 'react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { type DynamicPlugin, databaseMemoryClear } from '@amnis/state';
+import { type DynamicPlugin, databaseMemoryClear, dataActions } from '@amnis/state';
 import { importerPlugins } from '../importer.js';
 import { pluginMerge } from '../plugin.js';
+import { useSysDispatch } from './hooks/index.js';
 
 /**
  * Check if node is in development mode.
@@ -59,6 +60,7 @@ export const Mocker: React.FC<MockerProps> = ({
    */
   if (!isDev) return <>{children}</>;
 
+  const dispatch = useSysDispatch();
   const [loading, loadingSet] = React.useState(true);
 
   /**
@@ -71,12 +73,15 @@ export const Mocker: React.FC<MockerProps> = ({
        * Clear the memory database.
        */
       databaseMemoryClear();
+      dispatch(dataActions.wipe());
 
       /**
        * Import contextSetup and mockService.
        */
       const { contextSetup } = await import('@amnis/state/context');
       const { mockService } = await import('@amnis/mock');
+
+      mockService.stop();
 
       /**
        * Import the all Amnis Plugins.

@@ -30,7 +30,7 @@ export interface Website extends Data {
   /**
    * Navigational routes for the website.
    */
-  routes: UIDTree<Route>;
+  $routes: UIDTree<Route>;
 }
 
 export type WebsiteRoot = DataRoot<Website>;

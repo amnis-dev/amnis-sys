@@ -1,6 +1,6 @@
 import type { Decorator } from "@storybook/react";
-import { Provider as ReduxProvider } from "react-redux";
-import { websiteCreate } from '../src/react/index.js';
+import { websiteCreate } from '../src/react/index.js'
+import { WebProvider } from '../extensions/web/src/react/index.js'
 
 const Website = websiteCreate();
 
@@ -9,7 +9,9 @@ const Website = websiteCreate();
  */
 export const decoratorWebsite: Decorator = (Story) => (
   <Website.Provider>
+    <WebProvider>
     <Story />
+    </WebProvider>
   </Website.Provider>
 );
 

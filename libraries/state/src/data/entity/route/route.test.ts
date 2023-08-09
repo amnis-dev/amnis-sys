@@ -1,10 +1,10 @@
-import { routeKey, routeCreate, routeRoot } from './route.js';
+import { routeCreate, routeRoot, routeSlice } from './route.js';
 
 /**
  * ============================================================
  */
 test('route key should be is properly set', () => {
-  expect(routeKey).toEqual('route');
+  expect(routeSlice.key).toEqual('route');
 });
 
 /**

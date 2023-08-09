@@ -84,9 +84,22 @@ export function stateReferenceQuery(creator: DataCreator): DataQuery {
           return;
         }
 
-        const ref = (entity as any)[propKey] as string;
+        const ref = (entity as any)[propKey] as string | string[] | [string][];
         if (ref !== entity.$id) {
-          references.push(ref);
+          if (Array.isArray(ref)) {
+            ref.forEach((r) => {
+              /**
+               * This is a UIDTree reference.
+               */
+              if (Array.isArray(r)) {
+                references.push(r[0]);
+              } else {
+                references.push(r);
+              }
+            });
+          } else if (typeof ref === 'string') {
+            references.push(ref);
+          }
         }
       });
     });

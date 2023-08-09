@@ -21,28 +21,13 @@ const meta: Meta = {
       },
       options: ['none', 'ex1', 'ex2'],
       mapping: {
-        none: [],
+        none: undefined,
         ex1: [
-          [{
-            $id: 'home',
-            label: 'Home',
-            path: '/',
-            icon: 'home',
-          }, null],
-          [{
-            $id: 'about',
-            label: 'About',
-            path: '/about',
-            icon: 'heart',
-          }, null],
+          ['1', null],
+          ['2', null],
         ],
         ex2: [
-          [{
-            $id: 'about',
-            label: 'About',
-            path: '/about',
-            icon: 'heart',
-          }, null],
+          ['2', null],
         ],
       },
     },

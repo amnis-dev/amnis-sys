@@ -220,7 +220,7 @@ export type DataState<D extends Data = Data> = EntityState<D, string> & DataMeta
 /**
  * A tree of data.
  */
-export type DataTree<D extends Data = Data> = [item: D, chilren: D[] | null][];
+export type DataTree<D extends Data = Data> = [item: D, chilren: DataTree][];
 
 export interface DataReducerOptions {
   save: boolean | Record<string, unknown>;

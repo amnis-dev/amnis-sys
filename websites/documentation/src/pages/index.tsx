@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import Link from '@docusaurus/Link';
+// import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures/index';
@@ -13,7 +13,9 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <img
-          style={{ position: 'absolute', top: '2.5rem', left: '50%', marginLeft: '-64px', zIndex: 0, opacity: 0.75 }}
+          style={{
+            position: 'absolute', top: '2.5rem', left: '50%', marginLeft: '-64px', zIndex: 0, opacity: 0.75,
+          }}
           className="hero__logo"
           src="android-chrome-192x192.png"
           alt="Logo"

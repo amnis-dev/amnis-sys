@@ -1,20 +1,22 @@
 import React from 'react';
-import { LanguageButtonProps } from '../../../interface/LanguageButton.types.js';
-import { useWebDispatch, useWebSelector } from '../../hooks/index.js';
-import { Button, Menu, MenuItem, Popover } from '@blueprintjs/core';
+import {
+  Button, Menu, MenuItem, Popover,
+} from '@blueprintjs/core';
 import { localeSlice, systemSlice } from '@amnis/state';
+import type { LanguageButtonProps } from '../../../interface/LanguageButton.types.js';
+import { useWebDispatch, useWebSelector } from '../../hooks/index.js';
 
 const languageMap: Record<string, string> = {
-  'en': 'English',
-  'es': 'Español',
-  'fr': 'Français',
-  'de': 'Deutsch',
-  'it': 'Italiano',
-  'ja': '日本語',
-  'ko': '한국어',
-  'zh': '中文',
-  'pt': 'Português',
-  'ru': 'Русский',
+  en: 'English',
+  es: 'Español',
+  fr: 'Français',
+  de: 'Deutsch',
+  it: 'Italiano',
+  ja: '日本語',
+  ko: '한국어',
+  zh: '中文',
+  pt: 'Português',
+  ru: 'Русский',
 };
 
 export const LanguageButton: React.FC<LanguageButtonProps> = ({

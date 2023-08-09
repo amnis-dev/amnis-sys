@@ -5,17 +5,18 @@ import {
   localeSlice,
   GrantScope,
   localeDocumentToEntities,
+  routeSlice,
 } from './data/index.js';
 import type {
   Role,
   Entity,
   System,
+  Route,
 } from './data/index.js';
 import type { StateDataGuaranteed } from './types.js';
 
 export const dataMinimal = (): StateDataGuaranteed => {
   /**
-   * ================================================================================
    * Localized translations.
    */
   const locales = localeDocumentToEntities('en', {
@@ -28,7 +29,11 @@ export const dataMinimal = (): StateDataGuaranteed => {
   });
 
   /**
-   * ================================================================================
+   * Routes
+   */
+  const routes: Entity<Route>[] = [];
+
+  /**
    * Roles to be assigned to users
    */
   const roles: [Entity<Role>, Entity<Role>, Entity<Role>] = [
@@ -41,6 +46,7 @@ export const dataMinimal = (): StateDataGuaranteed => {
         [systemSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
         [roleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
         [localeSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+        [routeSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
       ],
     }),
     roleSlice.createEntity({
@@ -51,6 +57,7 @@ export const dataMinimal = (): StateDataGuaranteed => {
       grants: [
         [roleSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
         [localeSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
+        [routeSlice.key, GrantScope.Global, grantTask(1, 1, 1, 1)],
       ],
     }),
     roleSlice.createEntity({
@@ -58,7 +65,9 @@ export const dataMinimal = (): StateDataGuaranteed => {
       description: '%core:role_anon_desc',
       color: '#000000',
       fsLimits: [0, 0, 0],
-      grants: [],
+      grants: [
+        [routeSlice.key, GrantScope.Global, grantTask(0, 1, 0, 0)],
+      ],
     }),
   ];
 
@@ -78,6 +87,7 @@ export const dataMinimal = (): StateDataGuaranteed => {
     [systemSlice.key]: systems,
     [roleSlice.key]: roles,
     [localeSlice.key]: locales,
+    [routeSlice.key]: routes,
   };
 };
 

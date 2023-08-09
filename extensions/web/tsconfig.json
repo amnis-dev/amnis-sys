@@ -9,6 +9,7 @@
     "paths": {
       "@amnis/web/set": ["./src/set/index.ts"],
       "@amnis/web/data": ["./src/data/index.ts"],
+      "@amnis/web/crystalizer": ["./src/crystalizer/index.ts"],
     }
   },
   "include": [

@@ -1,5 +1,9 @@
 import React from 'react';
-import { useWebDispatch, websiteSlice } from '@amnis/web/react';
+import {
+  useWebDispatch,
+  websiteSlice,
+  WebProvider,
+} from '@amnis/web/react';
 import { apiCrud, apiSys } from '@amnis/api/react';
 import { systemSlice, localeSlice } from '@amnis/state';
 import { useSysSelector } from './hooks/index.js';
@@ -25,6 +29,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
    * API lazy queries
    */
   const [systemTrigger] = apiSys.useLazySystemQuery();
+  // const [authnTrigger, authnResult] = apiAuth.useAuthenticateMutation();
   const [readWebsiteTrigger, readWebsiteResult] = apiCrud.useLazyReadQuery();
 
   /**
@@ -52,6 +57,14 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
       return;
     }
 
+    /**
+     * Check for user authentication.
+     */
+    // authnTrigger({});
+
+    /**
+     * Get the website data.
+     */
     readWebsiteTrigger({
       [websiteSlice.key]: {
         $query: {
@@ -59,6 +72,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
             $eq: window.location.hostname,
           },
         },
+        $depth: 1,
       },
     });
   }, [system?.$id, remount]);
@@ -81,9 +95,13 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
    */
   React.useEffect(() => remountSet(!remount), [language]);
 
-  return (<div key={remount ? 0 : 1}>
-    {children}
-  </div>);
+  return (
+    <div key={remount ? 0 : 1}>
+      <WebProvider crystalizer={true}>
+        {children}
+      </WebProvider>
+    </div>
+  );
 };
 
 export default WebsiteApp;

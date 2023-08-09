@@ -14,6 +14,7 @@ import type { Log } from '../data/entity/log/log.types.js';
 import type { Note } from '../data/entity/note/note.types.js';
 import type { Profile } from '../data/entity/profile/profile.types.js';
 import type { Role } from '../data/entity/role/role.types.js';
+import type { Route } from '../data/entity/route/route.types.js';
 import type { Service } from '../data/entity/service/service.types.js';
 import type { System } from '../data/entity/system/system.types.js';
 import type { User } from '../data/entity/user/user.types.js';
@@ -32,6 +33,7 @@ export interface DataCreator {
   note?: Note[];
   profile?: Profile[];
   role?: Role[];
+  route?: Route[];
   service?: Service[];
   system?: System[];
   user?: User[];
@@ -50,6 +52,7 @@ export interface DataUpdater {
   note?: DataUpdate<Note>[];
   profile?: DataUpdate<Profile>[];
   role?: DataUpdate<Role>[];
+  route?: DataUpdate<Route>[];
   service?: DataUpdate<Service>[];
   system?: DataUpdate<System>[];
   user?: DataUpdate<User>[];

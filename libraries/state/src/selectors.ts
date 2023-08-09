@@ -49,7 +49,7 @@ const dataTranslation = createSelector(
 );
 
 /**
- * Selects a translations for an entity.
+ * Selects translations for an array of entities.
  */
 const dataArrayTranslation = createSelector(
   [
@@ -59,6 +59,26 @@ const dataArrayTranslation = createSelector(
   (state, dataArray) => {
     const tDataArray = dataArray.map((data) => dataTranslation(state, data));
     return tDataArray;
+  },
+);
+
+/**
+ * Selects translations for an object of entity.
+ */
+const dataObjectTranslation = createSelector(
+  [
+    (state: State) => state,
+    (state, dataObject: Record<string, Record<string, any>>) => dataObject,
+  ],
+  (state, dataObject) => {
+    const tDataObject = Object.keys(dataObject).reduce(
+      (acc, key) => {
+        acc[key] = dataTranslation(state, dataObject[key]);
+        return acc;
+      },
+      {} as Record<string, Record<string, any>>,
+    );
+    return tDataObject;
   },
 );
 
@@ -275,6 +295,7 @@ export const stateSelect = {
   dataOriginal,
   dataTranslation,
   dataArrayTranslation,
+  dataObjectTranslation,
   dataComparison,
   isUserAdmin,
   isUserExec,

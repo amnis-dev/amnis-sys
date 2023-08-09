@@ -1,3 +1,3 @@
-import { NavbarProps } from "./Navbar.types.js";
+import type { NavbarProps } from './Navbar.types.js';
 
 export type InterfaceProps = NavbarProps;

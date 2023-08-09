@@ -41,10 +41,16 @@
       "types": "./types/react/index.d.ts",
       "import": "./dist/react.js",
       "require": "./dist/react.cjs"
+    },
+    "./crystalizer": {
+      "types": "./types/crystalizer/index.d.ts",
+      "import": "./dist/crystalizer.js",
+      "require": "./dist/crystalizer.cjs"
     }
   },
   "scripts": {
     "build": "pnpm build:types && pnpm build:dist",
+    "build:watch": "pnpm build:types && pnpm build:dist --watch",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
     "test": "vitest --run src/*"

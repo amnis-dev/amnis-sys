@@ -1,8 +1,8 @@
-import type { DataTree, Route } from '@amnis/state';
+import type { Route, UIDTree } from '@amnis/state';
 
 /**
  * A navigational bar that displays links for routing, application/account settings,
- * and language selections.
+ * searching, and language selections.
  */
 export interface NavbarProps {
   /**
@@ -18,7 +18,7 @@ export interface NavbarProps {
   /**
    * Routing information.
    */
-  routes?: DataTree<Route>;
+  routes?: UIDTree<Route>;
 
   /**
    * Hides the navigation bar routes.
