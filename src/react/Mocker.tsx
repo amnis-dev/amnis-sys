@@ -1,9 +1,9 @@
 import React from 'react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { type DynamicPlugin, databaseMemoryClear, dataActions } from '@amnis/state';
+import { useWebDispatch } from '@amnis/web/react';
 import { importerPlugins } from '../importer.js';
 import { pluginMerge } from '../plugin.js';
-import { useSysDispatch } from './hooks/index.js';
 
 /**
  * Check if node is in development mode.
@@ -60,7 +60,7 @@ export const Mocker: React.FC<MockerProps> = ({
    */
   if (!isDev) return <>{children}</>;
 
-  const dispatch = useSysDispatch();
+  const dispatch = useWebDispatch();
   const [loading, loadingSet] = React.useState(true);
 
   /**

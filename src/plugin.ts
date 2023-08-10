@@ -88,6 +88,16 @@ export function pluginSchemaMerge(
 
   const schemaMerged = schema.flat();
 
+  /**
+   * Combine schemas with the same id.
+   */
+  // const seen = {};
+  // const schemaMergedCombined = schemaMerged.filter<SchemaObject[]>((schema) => {
+  //   if (!schema.$idseen[schema.$id]) {
+
+  //   const schemaIndex = acc.findIndex((schemaAcc) => schemaAcc.$id === schema.$id);
+  // });
+
   return schemaMerged;
 }
 

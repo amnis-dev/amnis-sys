@@ -12,6 +12,7 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
         plugin: resolve(__dirname, 'src/plugin.ts'),
         set: resolve(__dirname, 'src/set/index.ts'),
+        schema: resolve(__dirname, 'src/schema/index.ts'),
         data: resolve(__dirname, 'src/data/index.ts'),
         react: resolve(__dirname, 'src/react/index.ts'),
         crystalizer: resolve(__dirname, 'src/crystalizer/index.ts'),
@@ -24,6 +25,7 @@ export default defineConfig({
       },
       external: [
         '@amnis/web/set',
+        '@amnis/web/schema',
         '@amnis/web/data',
         '@amnis/web/dataTest',
         '@amnis/web/crystalizer',
