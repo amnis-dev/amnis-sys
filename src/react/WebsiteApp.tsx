@@ -97,7 +97,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
 
   return (
     <div key={remount ? 0 : 1}>
-      <WebProvider crystalizer={true}>
+      <WebProvider>
         {children}
       </WebProvider>
     </div>

@@ -1,49 +1,73 @@
 import React from 'react';
-import { Card } from '@blueprintjs/core';
-import type { Entity } from '@amnis/state';
+import { createPortal } from 'react-dom';
+import { css } from '@emotion/react';
 
-export interface HighlighterProps<E extends Entity> {
-  entity: E;
-  prop?: string;
-  children: React.ReactNode;
+// import {
+//   Popover, Stack, Breadcrumbs, Chip,
+// } from '@mui/material';
+
+export interface HighlighterProps {
+  anchor?: React.RefObject<HTMLElement>;
 }
 
-export const Highlighter = <E extends Entity>({
-  children,
-}: HighlighterProps<E>) => {
-  const [hovering, hoveringSet] = React.useState(false);
+const cssCard = css`
+  position: absolute;
+  cursor: pointer;
+  z-index: 1000;
+  border-radius: 4px;
+  padding: 0;
+  opacity: 0;
+  top: -5px;
+  left: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  transition: opacity 0.2s ease-in-out, border-radius 0.2s ease-in-out;
 
-  return (
-    <div
-      onMouseEnter={() => { hoveringSet(true); }}
-      onMouseLeave={() => { hoveringSet(false); }}
-      style={{
-        position: 'relative',
-      }}
-    >
-      {children}
-      <Card
-        onMouseOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-        interactive
-        style={{
-          position: 'absolute',
-          cursor: 'pointer',
-          zIndex: 9999,
-          borderWidth: hovering ? 1 : undefined,
-          borderStyle: hovering ? 'dashed' : undefined,
-          borderColor: hovering ? 'inherit' : undefined,
-          boxShadow: hovering ? undefined : 'none',
-          border: 'none',
-          borderRadius: 4,
-          background: 'none',
-          padding: 0,
-          top: -5,
-          left: -5,
-          width: 'calc(100% + 10px)',
-          height: 'calc(100% + 10px)',
-        }}
-      />
-    </div>);
+  &:hover {
+    opacity: 1;
+    box-shadow: 0 0 12px 4px #00000044;
+    border-width: 2px;
+    border-style: dashed;
+    border-color: #888888;
+  }
+
+  &:focus {
+    opacity: 1;
+    box-shadow: 0 0 0 999999px #00000044;
+    border-width: 2px;
+    border-style: dashed;
+    border-color: #888888;
+  }
+`;
+
+export const Highlighter: React.FC<HighlighterProps> = ({
+  anchor,
+}) => {
+  const element = React.useMemo(() => anchor?.current, [anchor, anchor?.current]);
+
+  return element ? (
+    createPortal(<div
+      css={cssCard}
+      onMouseOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      tabIndex={0}
+    >&nbsp;</div>, element)
+  ) : null;
 };
+
+/* <Popover
+        open={focused}
+        anchorEl={elAnchor.current}
+        onClose={() => { focusedSet(false); }}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+      >
+        <Stack p={1}>
+          <Breadcrumbs>
+            <Chip label={entityName} />
+          </Breadcrumbs>
+        </Stack>
+      </Popover> */
 
 export default Highlighter;

@@ -5,7 +5,8 @@
     "outDir": "./types",
     "declarationDir": "./types",
     "rootDir": "./src",
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
     "paths": {
       "@amnis/web/set": ["./src/set/index.ts"],
       "@amnis/web/schema": ["./src/schema/index.ts"],

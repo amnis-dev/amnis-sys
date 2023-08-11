@@ -88,17 +88,49 @@ export function pluginSchemaMerge(
 
   const schemaMerged = schema.flat();
 
+  // Schema definitions to combine if they have the same id.
+  const combineDefinitions = [
+    'DataCreator',
+    'DataUpdater',
+  ];
+
   /**
    * Combine schemas with the same id.
    */
-  // const seen = {};
-  // const schemaMergedCombined = schemaMerged.filter<SchemaObject[]>((schema) => {
-  //   if (!schema.$idseen[schema.$id]) {
+  const schemaMergedCombined = schemaMerged.reduce<Record<string, SchemaObject>>((acc, schema) => {
+    const schemaId = schema.$id;
+    if (!schema || !schemaId || !schema.definitions) {
+      return acc;
+    }
 
-  //   const schemaIndex = acc.findIndex((schemaAcc) => schemaAcc.$id === schema.$id);
-  // });
+    if (acc[schemaId]) {
+      // Combine schema definitions.
+      acc[schemaId].definitions = {
+        ...schema.definitions,
+        ...acc[schemaId].definitions,
+      };
 
-  return schemaMerged;
+      // Special case: combine definition properties.
+      combineDefinitions.forEach((definition) => {
+        if (
+          acc[schemaId].definitions?.[definition]?.properties
+          && schema.definitions?.[definition]?.properties
+        ) {
+          acc[schemaId].definitions[definition].properties = {
+            ...schema.definitions[definition].properties,
+            ...acc[schemaId].definitions[definition].properties,
+          };
+        }
+      });
+
+      return acc;
+    }
+
+    acc[schemaId] = schema;
+    return acc;
+  }, {});
+
+  return Object.values(schemaMergedCombined);
 }
 
 /**

@@ -33,6 +33,7 @@ export default defineConfig({
         '@amnis/mock',
         '@amnis/api',
         '@blueprintjs/core',
+        '@mui/material',
         'react',
         'react-dom',
         'node:crypto',
