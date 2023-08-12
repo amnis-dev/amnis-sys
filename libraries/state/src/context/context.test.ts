@@ -16,7 +16,7 @@ test('should create initial node context', async () => {
   expect(roleAdmin?.locale).toHaveLength(2);
 
   const roleAnonymous = roles.find((role) => role.name === '%core:role_anon_name');
-  expect(roleAnonymous?.grants).toHaveLength(2);
+  expect(roleAnonymous?.grants).toHaveLength(3);
   expect(roleAdmin?.locale).toHaveLength(2);
 
   const [system] = systems;
