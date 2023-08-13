@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Navbar } from './Navbar.js';
 
 const meta: Meta = {
-  title: 'UI Material/Navbar',
+  title: 'Material/Navbar',
   component: Navbar,
   tags: ['autodocs'],
   parameters: {

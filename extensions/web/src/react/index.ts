@@ -1,5 +1,5 @@
-export * from '../index.js';
 export * from './hooks/index.js';
+export * from './WebContext.js';
 export * from './WebProvider.js';
 
 /**

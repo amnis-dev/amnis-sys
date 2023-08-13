@@ -3,7 +3,17 @@ import type { Entity, Route } from '@amnis/state';
 import { routeSlice } from '@amnis/state';
 
 import {
-  AppBar, Box, Button, Container, Divider, IconButton, Menu, MenuItem, Stack, Toolbar, Typography,
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  Stack,
+  Toolbar,
+  Typography,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 
@@ -11,6 +21,7 @@ import type { NavbarProps } from '../../../interface/index.js';
 import { useTranslate, useWebSelector } from '../../hooks/index.js';
 import { websiteSlice } from '../../../set/index.js';
 import { Ider, iderEn } from '../../Ider.js';
+import { LanguageButton } from '../language-button/index.js';
 
 export const Navbar: React.FC<NavbarProps> = ({
   titleHide,
@@ -104,6 +115,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               ))}
             </Box>
             <Divider orientation="vertical" flexItem />
+            <Box>
+              <LanguageButton />
+            </Box>
           </Stack>
         </Toolbar>
       </Container>

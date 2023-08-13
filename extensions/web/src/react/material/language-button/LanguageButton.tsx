@@ -1,10 +1,10 @@
 import React from 'react';
-import {
-  Button, Menu, MenuItem, Popover,
-} from '@blueprintjs/core';
+
 import { localeSlice, systemSlice } from '@amnis/state';
-import type { LanguageButtonProps } from '../../../interface/LanguageButton.types.js';
-import { useWebDispatch, useWebSelector } from '../../hooks/index.js';
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import { Language as LanguageIcon } from '@mui/icons-material';
+import { useMenu, useWebDispatch, useWebSelector } from '../../hooks/index.js';
+import type { LanguageButtonProps } from '../../../interface/index.js';
 
 const languageMap: Record<string, string> = {
   en: 'English',
@@ -20,35 +20,37 @@ const languageMap: Record<string, string> = {
 };
 
 export const LanguageButton: React.FC<LanguageButtonProps> = ({
-  hideText = false,
+  hideText,
 }) => {
   const dispatch = useWebDispatch();
 
   const systemLanguages = useWebSelector((state) => systemSlice.select.active(state)?.languages ?? ['en']);
   const language = useWebSelector((state) => localeSlice.select.activeCode(state));
 
+  const { buttonProps, menuProps, handleClose } = useMenu('select-language');
+
   const handleLanguageChange = React.useCallback((code: string) => {
     dispatch(localeSlice.action.codeSet(code));
   }, [localeSlice]);
 
-  return (
-    <Popover
-      content={
-        <Menu>
-          {systemLanguages?.map((code) => (
-            <MenuItem
-              key={code}
-              text={languageMap[code]}
-              onClick={() => handleLanguageChange(code)}
-            />
-          ))}
-        </Menu>
-      }
-      placement={'bottom'}
-    >
-      <Button icon="globe">{(!hideText && languageMap[language]) ?? null}</Button>
-    </Popover>
-  );
+  return (<>
+    <IconButton {...buttonProps}>
+      <LanguageIcon />
+    </IconButton>
+    <Menu {...menuProps}>
+      {systemLanguages?.map((code) => (
+        <MenuItem
+          key={code}
+          onClick={() => {
+            handleLanguageChange(code);
+            handleClose();
+          }}
+        >
+          {languageMap[code]}
+        </MenuItem>
+      ))}
+    </Menu>
+  </>);
 };
 
 export default LanguageButton;

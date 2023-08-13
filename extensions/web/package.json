@@ -63,6 +63,8 @@
   },
   "dependencies": {
     "@amnis/api": "workspace:^",
-    "@amnis/state": "workspace:^"
+    "@amnis/state": "workspace:^",
+    "@mui/icons-material": "^5.14.3",
+    "@mui/material": "^5.14.4"
   }
 }

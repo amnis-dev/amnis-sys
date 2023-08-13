@@ -1,7 +1,7 @@
 <div align="center">
   <img src="./res/amnis-sys-logo-256.webp" alt="Amnis Sys" width="100" height="100">
   <h1 align="center">AmnisSys</h1>
-  <p align="center">A Free and Open Source System for Scalable Web and Mobile Projects.</p>
+  <p align="center">An Open Source System for Managable Web and Mobile(WIP) Projects.</p>
 
   [![GitHub license](https://img.shields.io/github/license/amnis-dev/amnis-sys)](https://github.com/amnis-dev/amnis-sys/blob/main/LICENSE)
   [![Build Status](https://img.shields.io/github/actions/workflow/status/amnis-dev/amnis-sys/integrity-check.yml?label=Integrity%20Check)](https://github.com/amnis-dev/amnis-sys/actions)
@@ -10,9 +10,30 @@
 
 ## Introduction
 
-AmnisSys provides a solid foundation for developing full-stack web/mobile applications and enabling **anyone** to manage it. It greatly simplifies syncronizing, caching, and managing data behaviors between a clients and services.
+AmnisSys provides a solid foundation for developing full-stack web/mobile(WIP) applications that _anyone_ can manage. It greatly simplifies syncronizing, caching, and managing behaviors within clients and services.
 
-AmnisSys includes a user interface (UI) application for data management called **Crystalizer CMS**.
+AmnisSys includes a user interface (UI) manager called **Crystalizer MS**.
+
+⚠ This project supports modern Node 16+ ESM only.
+
+## Installation
+
+AmnisSys can be installed using npm, yarn, or pnpm.
+
+**NPM**
+```sh
+npm install @amnis/sys
+```
+
+**Yarn**
+```sh
+yarn add @amnis/sys
+```
+
+**PNPM**
+```sh
+pnpm add @amnis/sys
+```
 
 ## Packages
 

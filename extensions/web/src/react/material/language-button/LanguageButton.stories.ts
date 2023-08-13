@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { LanguageButton } from './LanguageButton.js';
 
 const meta: Meta = {
-  title: 'Web Blueprint/Language Button',
+  title: 'Material/Language Button',
   component: LanguageButton,
   tags: ['autodocs'],
 } satisfies Meta<typeof LanguageButton>;

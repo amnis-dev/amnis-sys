@@ -2,10 +2,6 @@ import type { Preview } from "@storybook/react";
 // import { decoratorRedux } from "./decorator.redux.js";
 // import { loaderMock } from "./loader.mock.js";
 
-/**
- * Import the blueprint css file.
- */
-import "@blueprintjs/core/lib/css/blueprint.css";
 import decoratorWebsite from "./decorator.website.js";
 
 const preview: Preview = {

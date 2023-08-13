@@ -1,2 +1,3 @@
 export * from './types.js';
-export * from './set/entity/index.js';
+export * from './set/index.js';
+export * from './react/index.js';

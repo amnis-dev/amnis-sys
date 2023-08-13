@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material';
 import type { WebContextIder, WebContextIderMap } from './WebContext.js';
 import { WebContext } from './WebContext.js';
+import type { CrystalizerProps } from '../crystalizer/Crystalizer.js';
 
 const Crystalizer = React.lazy(
   () => import('@amnis/web/crystalizer').then((module) => ({ default: module.Crystalizer })),
@@ -15,11 +16,17 @@ export interface WebProviderProps {
    */
   crystalizer?: boolean;
 
+  /**
+   * Crystalizer dynamic React component.
+   */
+  CrystalizerDynamic?: React.LazyExoticComponent<React.FC<CrystalizerProps>>;
+
   children: React.ReactNode;
 }
 
 export const WebProvider: React.FC<WebProviderProps> = ({
-  crystalizer: crystalizerProp = true,
+  crystalizer: crystalizerProp = false,
+  CrystalizerDynamic = Crystalizer,
   children,
 }) => {
   const [crystalizer, crystalizerSet] = React.useState(crystalizerProp);
@@ -57,10 +64,12 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   return (
     <WebContext.Provider value={value}>
       <ThemeProvider theme={theme}>
-        {children}
+        <div aria-hidden={crystalizer}>
+          {children}
+        </div>
         {crystalizer ? (
           <React.Suspense fallback={null}>
-            <Crystalizer iders={iders} />
+            <CrystalizerDynamic iders={iders} />
           </React.Suspense>
         ) : null}
       </ThemeProvider>

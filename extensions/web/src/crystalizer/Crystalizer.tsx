@@ -1,6 +1,6 @@
 import { createTheme, useTheme, ThemeProvider } from '@mui/material';
 import React from 'react';
-import type { WebContextIderMap } from '../react/WebContext.js';
+import type { WebContextIderMap } from '../react/index.js';
 import { Highlighter } from './highlighter/index.js';
 
 export interface CrystalizerProps {
@@ -10,20 +10,38 @@ export interface CrystalizerProps {
 export const Crystalizer: React.FC<CrystalizerProps> = ({ iders }) => {
   const themeWeb = useTheme();
 
+  const [iderSelected, iderSelectedSet] = React.useState<string | null>(null);
+
   const themeCrystalizer = React.useMemo(() => createTheme({
     palette: {
       mode: themeWeb.palette.mode === 'light' ? 'dark' : 'light',
     },
   }), [themeWeb]);
 
-  // console.log({ iders });
+  const handleHighlighterClick = React.useCallback((id: string) => {
+    iderSelectedSet(id);
+  }, [iders]);
+
+  const handleHighlighterClose = React.useCallback(() => {
+    iderSelectedSet(null);
+  }, []);
 
   return (
     <ThemeProvider theme={themeCrystalizer}>
       <div style={{ poition: 'absolute' }}>
-        {Object.keys(iders).map((key) => {
-          const [, ref] = iders[key];
-          return <Highlighter key={key} anchor={ref} />;
+        {Object.keys(iders).map((id) => {
+          const [, ref] = iders[id];
+          return (
+            <Highlighter
+              key={id}
+              anchor={ref}
+              selected={id === iderSelected}
+              onClick={() => handleHighlighterClick(id)}
+              onClose={handleHighlighterClose}
+            >
+              <span>Test</span>
+            </Highlighter>
+          );
         })}
       </div>
     </ThemeProvider>
