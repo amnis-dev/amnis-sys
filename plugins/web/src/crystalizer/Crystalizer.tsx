@@ -64,3 +64,5 @@ export const Crystalizer: React.FC<CrystalizerProps> = () => {
     </ThemeProvider>
   );
 };
+
+export default Crystalizer;

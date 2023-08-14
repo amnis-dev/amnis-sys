@@ -1,9 +1,9 @@
 import React from 'react';
 import { type Entity } from '@amnis/state';
-import { Popover, Popper, css } from '@mui/material';
-import { CrystalizerProvider } from '@amnis/web/crystalizer';
+import { Popper, css, Popover } from '@mui/material';
+import { CrystalizerProvider } from '../crystalizer/CrystalizerProvider.js';
 import { WebContext, type WebContextIderEntities } from './WebContext.js';
-import { useIder } from './hooks/index.js';
+import { useIder, usePopover } from './hooks/index.js';
 
 export function iderEn<E extends Entity>(
   entity?: E,
@@ -56,6 +56,8 @@ export const Ider = ({
   const timerRef2 = React.useRef<NodeJS.Timeout | null>(null);
 
   const [trigger, triggerSet] = React.useState(false);
+
+  const { buttonProps, popoverProps } = crystalizer ? usePopover('entity-data') : {} as ReturnType<typeof usePopover>;
 
   /**
    * Efficiently get the computed display of the child element.
@@ -133,18 +135,20 @@ export const Ider = ({
         placement="left-start"
         sx={{ zIndex: 4000 }}
       >
-        <div
+        <button
           css={cssHighlighter}
           style={{
             height: refPosition.height,
             width: refPosition.width,
           }}
+          {...buttonProps}
+          type="button"
         />
       </Popper>
       <CrystalizerProvider>
-        {/* <Popover> */}
+        <Popover {...popoverProps}>
 
-        {/* </Popover> */}
+        </Popover>
       </CrystalizerProvider>
     </>
     ) : children.props.children,

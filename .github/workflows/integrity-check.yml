@@ -55,7 +55,6 @@ jobs:
 
       - name: Run Build
         run: |
-          pnpm build:libs
           pnpm build
 
       - name: Lint for Code-Style Errors

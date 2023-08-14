@@ -80,7 +80,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
               <Typography variant="caption">Management Mode</Typography>
             </div>
           ) : null}
-          {children}
+          <div>{children}</div>
         </div>
         {crystalizer ? (
           <React.Suspense fallback={null}>
@@ -91,3 +91,5 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     </WebContext.Provider>
   );
 };
+
+export default WebProvider;

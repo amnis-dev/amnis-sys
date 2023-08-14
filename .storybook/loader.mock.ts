@@ -2,7 +2,7 @@ import type { Loader } from '@storybook/react';
 import { contextSetup } from '@amnis/state/context';
 import { schemaState } from '@amnis/state/schema';
 import { schemaAuth } from '@amnis/api/schema';
-import * as processes from '@amnis/api/process';
+import { process as processes } from '@amnis/api/process';
 import { mockService } from '@amnis/mock';
 
 let started = false;

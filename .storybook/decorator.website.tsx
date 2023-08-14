@@ -1,6 +1,6 @@
 import type { Decorator } from "@storybook/react";
 import { websiteCreate } from '../src/react/index.js'
-import { WebProvider } from '../plugins/web/src/react/index.js'
+import { WebProvider } from '../plugins/web/src/index.js'
 
 const Website = websiteCreate();
 
@@ -9,8 +9,8 @@ const Website = websiteCreate();
  */
 export const decoratorWebsite: Decorator = (Story) => (
   <Website.Provider>
-    <WebProvider>
-      <Story />
+      <WebProvider>
+        <Story />
     </WebProvider>
   </Website.Provider>
 );

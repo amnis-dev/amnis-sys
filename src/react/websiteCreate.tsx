@@ -24,6 +24,12 @@ interface CreateWebsiteOptions {
    * If an array is used, the first index in the array is the default system.
    */
   system?: string | string[],
+
+  /**
+   * Plugins to be dynamically imported.
+   *
+   * The plugins are imported on a need-to-use basis, and not in the order they are declared.
+   */
   plugins?: DynamicPlugin[],
 }
 
