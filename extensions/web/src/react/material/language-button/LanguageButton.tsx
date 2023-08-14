@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { localeSlice, systemSlice } from '@amnis/state';
-import { IconButton, Menu, MenuItem } from '@mui/material';
-import { Language as LanguageIcon } from '@mui/icons-material';
+import {
+  Box, IconButton, Menu, MenuItem, Stack,
+} from '@mui/material';
+import { Language as LanguageIcon, Check as CheckIcon } from '@mui/icons-material';
 import { useMenu, useWebDispatch, useWebSelector } from '../../hooks/index.js';
 import type { LanguageButtonProps } from '../../../interface/index.js';
 
@@ -46,7 +48,14 @@ export const LanguageButton: React.FC<LanguageButtonProps> = ({
             handleClose();
           }}
         >
-          {languageMap[code]}
+          <Stack direction="row" alignItems="center" justifyContent="center">
+            <Box width="1.8rem">
+              {language === code ? <CheckIcon sx={{ mr: 1 }} /> : null}
+            </Box>
+            <Box flex={1}>
+              {languageMap[code]}
+            </Box>
+          </Stack>
         </MenuItem>
       ))}
     </Menu>

@@ -18,7 +18,7 @@ import {
 import { Menu as MenuIcon } from '@mui/icons-material';
 
 import type { NavbarProps } from '../../../interface/index.js';
-import { useTranslate, useWebSelector } from '../../hooks/index.js';
+import { useMenu, useTranslate, useWebSelector } from '../../hooks/index.js';
 import { websiteSlice } from '../../../set/index.js';
 import { Ider, iderEn } from '../../Ider.js';
 import { LanguageButton } from '../language-button/index.js';
@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const website = useTranslate(useWebSelector(websiteSlice.select.active));
   const routes = useTranslate(useWebSelector(routeSlice.select.entities));
 
-  const refMenuButton = React.useRef<HTMLButtonElement>(null);
+  const { buttonProps, menuProps } = useMenu('navbar-mobile');
 
   const title = React.useMemo(() => website?.title, [website]);
   const routeTree = React.useMemo(() => {
@@ -66,22 +66,12 @@ export const Navbar: React.FC<NavbarProps> = ({
            */}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
-              ref={refMenuButton}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="navigation menu"
+              {...buttonProps}
             >
               <MenuIcon />
             </IconButton>
             <Menu
-              id="navbar-menu"
-              anchorEl={refMenuButton.current}
-              open={false}
-              onClose={() => {}}
-              MenuListProps={{
-                'aria-labelledby': 'navbar-menu',
-              }}
+              {...menuProps}
             >
               {routeTree.map((route) => (
                 <Ider

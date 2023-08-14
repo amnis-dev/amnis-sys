@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, Typography, createTheme } from '@mui/material';
 import type { WebContextIder, WebContextIderMap } from './WebContext.js';
 import { WebContext } from './WebContext.js';
 import type { CrystalizerProps } from '../crystalizer/Crystalizer.js';
@@ -64,7 +64,22 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   return (
     <WebContext.Provider value={value}>
       <ThemeProvider theme={theme}>
-        <div aria-hidden={crystalizer}>
+        <div
+          style={crystalizer ? {
+            border: '2px solid #88F',
+          } : undefined}
+        >
+          {crystalizer ? (
+            <div
+              style={{
+                width: '100%',
+                backgroundColor: '#88F',
+                textAlign: 'center',
+              }}
+            >
+              <Typography variant="caption">Management Mode</Typography>
+            </div>
+          ) : null}
           {children}
         </div>
         {crystalizer ? (

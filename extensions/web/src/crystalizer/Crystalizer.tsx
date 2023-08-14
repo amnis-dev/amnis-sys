@@ -1,16 +1,30 @@
-import { createTheme, useTheme, ThemeProvider } from '@mui/material';
+import {
+  createTheme, useTheme, ThemeProvider, SpeedDial, SpeedDialAction, Box, Backdrop,
+} from '@mui/material';
 import React from 'react';
+import {
+  AdminPanelSettings, Language, PeopleAlt, Save, Settings as SettingsIcon,
+} from '@mui/icons-material';
 import type { WebContextIderMap } from '../react/index.js';
-import { Highlighter } from './highlighter/index.js';
 
 export interface CrystalizerProps {
   iders: WebContextIderMap;
 }
 
-export const Crystalizer: React.FC<CrystalizerProps> = ({ iders }) => {
+const actions = [
+  { icon: <Save />, name: 'Save' },
+  { icon: <Language />, name: 'Languages' },
+  { icon: <PeopleAlt />, name: 'Accounts' },
+  { icon: <AdminPanelSettings />, name: 'Administration' },
+];
+
+export const Crystalizer: React.FC<CrystalizerProps> = () => {
   const themeWeb = useTheme();
 
-  const [iderSelected, iderSelectedSet] = React.useState<string | null>(null);
+  // const [iderSelected, iderSelectedSet] = React.useState<string | null>(null);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const themeCrystalizer = React.useMemo(() => createTheme({
     palette: {
@@ -18,32 +32,35 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({ iders }) => {
     },
   }), [themeWeb]);
 
-  const handleHighlighterClick = React.useCallback((id: string) => {
-    iderSelectedSet(id);
-  }, [iders]);
-
-  const handleHighlighterClose = React.useCallback(() => {
-    iderSelectedSet(null);
-  }, []);
-
   return (
     <ThemeProvider theme={themeCrystalizer}>
-      <div style={{ poition: 'absolute' }}>
-        {Object.keys(iders).map((id) => {
-          const [, ref] = iders[id];
-          return (
-            <Highlighter
-              key={id}
-              anchor={ref}
-              selected={id === iderSelected}
-              onClick={() => handleHighlighterClick(id)}
-              onClose={handleHighlighterClose}
-            >
-              <span>Test</span>
-            </Highlighter>
-          );
-        })}
-      </div>
+      <Box style={{
+        poition: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+      }}>
+        <Backdrop open={open} onClick={handleClose} />
+        <SpeedDial
+          ariaLabel='Management System Actions'
+          sx={{
+            position: 'absolute',
+            bottom: 16,
+            right: 16,
+          }}
+          icon={<SettingsIcon />}
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+        >
+          {actions.map((action) => (
+            <SpeedDialAction
+              key={action.name}
+              icon={action.icon}
+              tooltipTitle={action.name}
+              tooltipOpen
+              onClick={handleClose}
+            />
+          ))}
+        </SpeedDial>
+      </Box>
     </ThemeProvider>
   );
 };
