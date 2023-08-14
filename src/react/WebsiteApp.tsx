@@ -3,7 +3,7 @@ import {
   useWebDispatch,
   websiteSlice,
   WebProvider,
-} from '@amnis/web/react';
+} from '@amnis/web';
 import { apiCrud, apiSys } from '@amnis/api/react';
 import { systemSlice, localeSlice } from '@amnis/state';
 import { useSysSelector } from './hooks/index.js';
