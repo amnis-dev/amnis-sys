@@ -1,6 +1,6 @@
 import type { Decorator } from "@storybook/react";
 import { websiteCreate } from '../src/react/index.js'
-import { WebProvider } from '../extensions/web/src/react/index.js'
+import { WebProvider } from '../plugins/web/src/react/index.js'
 
 const Website = websiteCreate();
 

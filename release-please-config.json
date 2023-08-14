@@ -3,7 +3,7 @@
     ".": {
       "exclude-paths": [
         "configurations",
-        "extensions",
+        "plugins",
         "libraries",
         "websites"
       ]
@@ -15,7 +15,7 @@
     "libraries/db-cosmos": {},
     "libraries/emailer-mailjet": {},
 
-    "extensions/web": {},
+    "plugins/web": {},
 
     "websites/documentation": {},
     

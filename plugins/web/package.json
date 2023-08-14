@@ -58,7 +58,7 @@
     "build:watch": "pnpm build:types && pnpm build:dist --watch",
     "build:dist": "vite build --mode production",
     "build:types": "tsc -p tsconfig.build.json",
-    "build:schema": "pnpm run -w build:schema ./extensions/web",
+    "build:schema": "pnpm run -w build:schema ./plugins/web",
     "test": "vitest --run src/*"
   },
   "dependencies": {

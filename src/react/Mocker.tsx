@@ -1,7 +1,7 @@
 import React from 'react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { type DynamicPlugin, databaseMemoryClear, dataActions } from '@amnis/state';
 import { useWebDispatch } from '@amnis/web';
+import { type DynamicPlugin, databaseMemoryClear, dataActions } from '@amnis/state';
 import { importerPlugins } from '../importer.js';
 import { pluginMerge } from '../plugin.js';
 

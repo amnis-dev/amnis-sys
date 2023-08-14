@@ -3,7 +3,7 @@ src/
 
 # Projects
 configurations/
-extensions/
+plugins/
 libraries/
 websites/
 

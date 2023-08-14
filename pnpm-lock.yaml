@@ -31,7 +31,7 @@ importers:
         version: link:configurations/tsconfig-node
       '@amnis/web':
         specifier: workspace:^
-        version: link:extensions/web
+        version: link:plugins/web
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.1(@types/react@18.2.17)(react@18.2.0)
@@ -258,21 +258,6 @@ importers:
         specifier: '>=5'
         version: 5.1.6
 
-  extensions/web:
-    dependencies:
-      '@amnis/api':
-        specifier: workspace:^
-        version: link:../../libraries/api
-      '@amnis/state':
-        specifier: workspace:^
-        version: link:../../libraries/state
-      '@mui/icons-material':
-        specifier: ^5.14.3
-        version: 5.14.3(@mui/material@5.14.4)(@types/react@18.2.17)(react@18.2.0)
-      '@mui/material':
-        specifier: ^5.14.4
-        version: 5.14.4(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)
-
   libraries/api:
     dependencies:
       '@amnis/state':
@@ -339,6 +324,21 @@ importers:
         version: 1.2.3(typescript@5.1.6)
 
   libraries/state: {}
+
+  plugins/web:
+    dependencies:
+      '@amnis/api':
+        specifier: workspace:^
+        version: link:../../libraries/api
+      '@amnis/state':
+        specifier: workspace:^
+        version: link:../../libraries/state
+      '@mui/icons-material':
+        specifier: ^5.14.3
+        version: 5.14.3(@mui/material@5.14.4)(@types/react@18.2.17)(react@18.2.0)
+      '@mui/material':
+        specifier: ^5.14.4
+        version: 5.14.4(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)
 
   websites/documentation:
     dependencies:
