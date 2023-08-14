@@ -1,7 +1,7 @@
 import React from 'react';
 import { noop } from '@amnis/state';
 
-export interface EntryContextType<T> {
+export interface EntryContextProps<T> {
   entryId: string;
   entryBoxId: string;
   entryInputId: string;
@@ -31,7 +31,7 @@ export interface EntryContextType<T> {
   hasErrorElementSetter: (arg0: boolean) => void;
 }
 
-export const entryContextDefault: EntryContextType<unknown> = {
+export const entryContextDefault: EntryContextProps<unknown> = {
   entryId: 'entry',
   entryBoxId: 'entry-box',
   entryInputId: 'entry-input',
@@ -61,6 +61,6 @@ export const entryContextDefault: EntryContextType<unknown> = {
   onChange: noop,
 };
 
-export const EntryContext = React.createContext<EntryContextType<unknown>>(entryContextDefault);
+export const EntryContext = React.createContext<EntryContextProps<unknown>>(entryContextDefault);
 
 export default EntryContext;
