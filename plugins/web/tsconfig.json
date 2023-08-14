@@ -9,6 +9,7 @@
     "jsxImportSource": "@emotion/react",
     "paths": {
       "@amnis/web/set": ["./src/set/index.ts"],
+      "@amnis/web/react": ["./src/react/index.ts"],
       "@amnis/web/schema": ["./src/schema/index.ts"],
       "@amnis/web/data": ["./src/data/index.ts"],
       "@amnis/web/crystalizer": ["./src/crystalizer/index.ts"],

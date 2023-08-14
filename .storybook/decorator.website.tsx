@@ -9,8 +9,8 @@ const Website = websiteCreate();
  */
 export const decoratorWebsite: Decorator = (Story) => (
   <Website.Provider>
-      <WebProvider>
-        <Story />
+    <WebProvider>
+      <Story />
     </WebProvider>
   </Website.Provider>
 );

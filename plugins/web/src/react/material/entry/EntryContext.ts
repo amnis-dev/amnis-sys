@@ -2,7 +2,6 @@ import React from 'react';
 import { noop } from '@amnis/state';
 
 export interface EntryContextType<T> {
-  entryRef: React.RefObject<HTMLDivElement>;
   entryId: string;
   entryBoxId: string;
   entryInputId: string;
@@ -33,7 +32,6 @@ export interface EntryContextType<T> {
 }
 
 export const entryContextDefault: EntryContextType<unknown> = {
-  entryRef: React.createRef<HTMLDivElement>(),
   entryId: 'entry',
   entryBoxId: 'entry-box',
   entryInputId: 'entry-input',

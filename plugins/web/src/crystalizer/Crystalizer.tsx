@@ -5,7 +5,7 @@ import React from 'react';
 import {
   AdminPanelSettings, Language, PeopleAlt, Save, Settings as SettingsIcon,
 } from '@mui/icons-material';
-import type { WebContextIderMap } from '../react/index.js';
+import type { WebContextIderMap } from '@amnis/web/react';
 
 export interface CrystalizerProps {
   iders: WebContextIderMap;

@@ -13,10 +13,11 @@ export function usePopover(label: string) {
   }, [anchorElSet]);
 
   const handleClose = React.useCallback(() => {
+    anchorEl?.blur();
     anchorElSet(null);
   }, [anchorElSet]);
 
-  const buttonProps = React.useMemo<React.HTMLProps<HTMLButtonElement>>(() => ({
+  const buttonProps = React.useMemo < React.HTMLProps<any>>(() => ({
     id: buttonId,
     'aria-controls': open ? popoverId : undefined,
     'aria-haspopover': 'true',
@@ -29,9 +30,6 @@ export function usePopover(label: string) {
     anchorEl,
     open,
     onClose: handleClose,
-    MenuListProps: {
-      'aria-labelledby': buttonId,
-    },
   }), [anchorEl, open, handleClose, buttonId, popoverId]);
 
   return {

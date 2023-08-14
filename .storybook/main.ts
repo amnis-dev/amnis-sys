@@ -1,4 +1,6 @@
 import type { StorybookConfig } from "@storybook/react-vite";
+import { mergeConfig } from 'vite';
+import { resolve } from 'node:path';
 
 const config: StorybookConfig = {
   stories: [
@@ -29,5 +31,45 @@ const config: StorybookConfig = {
     <meta name="msapplication-TileColor" content="#65297d">
     <meta name="theme-color" content="#65297d">
   `,
+  viteFinal: (config) => {
+    return mergeConfig(config, {
+      resolve: {
+        alias: [
+          // {
+          //   find: /^@amnis\/state(\/.*)/,
+          //   replacement: resolve("libraries/state/src$1"),
+          // },
+          // {
+          //   find: /^@amnis\/mock(\/.*)/,
+          //   replacement: resolve("libraries/mock/src$1"),
+          // },
+          // {
+          //   find: /^@amnis\/api(\/.*)/,
+          //   replacement: resolve("libraries/api/src$1"),
+          // },
+          {
+            find: /^@amnis\/express(\/.*)/,
+            replacement: resolve("libraries/express/src$1"),
+          },
+          {
+            find: /^@amnis\/db-cosmos(\/.*)/,
+            replacement: resolve("libraries/db-cosmos/src$1"),
+          },
+          {
+            find: /^@amnis\/db-cosmos(\/.*)/,
+            replacement: resolve("libraries/emailer-mailjet/src$1"),
+          },
+          {
+            find: /^@amnis\/web(\/.*)/,
+            replacement: resolve("plugins/web/src$1"),
+          },
+          {
+            find: /^@amnis\/sys(\/.*)/,
+            replacement: resolve("src$1"),
+          },
+        ]
+      }
+    });
+  },
 };
 export default config;

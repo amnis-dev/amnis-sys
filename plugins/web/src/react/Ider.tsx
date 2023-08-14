@@ -1,9 +1,10 @@
 import React from 'react';
 import { type Entity } from '@amnis/state';
 import { Popper, css, Popover } from '@mui/material';
-import { CrystalizerProvider } from '../crystalizer/CrystalizerProvider.js';
+// import { CrystalizerProvider } from '@amnis/web/crystalizer';
+import { CrystalizerProvider } from '@amnis/web/crystalizer';
 import { WebContext, type WebContextIderEntities } from './WebContext.js';
-import { useIder, usePopover } from './hooks/index.js';
+import { useId, usePopover } from './hooks/index.js';
 
 export function iderEn<E extends Entity>(
   entity?: E,
@@ -14,6 +15,7 @@ export function iderEn<E extends Entity>(
 
 const cssHighlighter = css`
   position: absolute;
+  display: block;
   top: -4px;
   left: -4px;
   padding: 2px;
@@ -21,16 +23,16 @@ const cssHighlighter = css`
   z-index: 2000;
   border-radius: 4px;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out, border-width 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   background: none;
-  border-width: 0;
+  box-shadow: 0 0 0 0 #00000044;
+  border-width: 2px;
+  border-style: dashed;
+  border-color: #888888;
 
-  &:hover, &:focus {
+  &:hover {
     opacity: 1;
     box-shadow: 0 0 12px 4px #00000044;
-    border-width: 2px;
-    border-style: dashed;
-    border-color: #888888;
   }
 `;
 
@@ -49,15 +51,23 @@ export const Ider = ({
 }: IderProps) => {
   React.Children.only(children);
 
+  const id = useId();
+
   const { crystalizer } = React.useContext(WebContext);
 
-  const ref = useIder<HTMLElement>(entities as WebContextIderEntities);
+  // const ref = useIder<HTMLElement>(entities as WebContextIderEntities);
+  const ref = React.useRef<HTMLElement>(null);
   const timerRef1 = React.useRef<NodeJS.Timeout | null>(null);
   const timerRef2 = React.useRef<NodeJS.Timeout | null>(null);
 
   const [trigger, triggerSet] = React.useState(false);
 
-  const { buttonProps, popoverProps } = crystalizer ? usePopover('entity-data') : {} as ReturnType<typeof usePopover>;
+  const {
+    popoverOpen,
+    buttonProps,
+    popoverProps,
+    handleOpen: handlePopoverOpen,
+  } = crystalizer ? usePopover(`ider-${id}`) : {} as ReturnType<typeof usePopover>;
 
   /**
    * Efficiently get the computed display of the child element.
@@ -134,20 +144,39 @@ export const Ider = ({
         anchorEl={ref.current}
         placement="left-start"
         sx={{ zIndex: 4000 }}
+        role="generic"
       >
-        <button
+        <div
           css={cssHighlighter}
           style={{
-            height: refPosition.height,
-            width: refPosition.width,
+            opacity: popoverOpen ? 1 : undefined,
+            boxShadow: popoverOpen ? '0 0 12px 999999px #00000044' : undefined,
+            height: refPosition.height ?? 0,
+            width: refPosition.width ?? 0,
           }}
+          tabIndex={0}
+          role="button"
           {...buttonProps}
-          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handlePopoverOpen(e);
+          }}
         />
       </Popper>
       <CrystalizerProvider>
-        <Popover {...popoverProps}>
-
+        <Popover
+          style={{ zIndex: 4001 }}
+          {...popoverProps}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <div>&nbsp;</div>
         </Popover>
       </CrystalizerProvider>
     </>
