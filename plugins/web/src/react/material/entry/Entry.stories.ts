@@ -11,9 +11,26 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Text: Story = {
   args: {
     type: 'text',
-    label: 'My Entry',
+    label: 'My Text Entry',
+    required: true,
+    schema: {
+      type: 'string',
+      maxLength: 10,
+      minLength: 0,
+    },
+  },
+};
+
+export const Number: Story = {
+  args: {
+    type: 'number',
+    label: 'My Number Entry',
+    required: true,
+    schema: {
+      type: 'number',
+    },
   },
 };

@@ -7,7 +7,7 @@ import type { EntryContextProps } from '../EntryContext.js';
 import { EntryContext } from '../EntryContext.js';
 import { Description, Label } from './parts/index.js';
 
-export const Text: React.FC = () => {
+export const Number: React.FC = () => {
   const {
     entryId,
     entryInputId,
@@ -17,8 +17,7 @@ export const Text: React.FC = () => {
     description,
     value,
     disabled,
-    onChange,
-  } = React.useContext(EntryContext) as EntryContextProps<string>;
+  } = React.useContext(EntryContext) as EntryContextProps<number>;
 
   return (
     <FormControl
@@ -34,13 +33,13 @@ export const Text: React.FC = () => {
         id={entryInputId}
         label={labelInput}
         value={value}
+        type="number"
         notched
         aria-describedby={description ? entryDescriptionId : undefined}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e)}
       />
       <Description />
     </FormControl>
   );
 };
 
-export default Text;
+export default Number;

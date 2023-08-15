@@ -1,7 +1,8 @@
 import React from 'react';
 import { noop } from '@amnis/state';
+import type { EntrySchemaErrors } from './EntrySchemas.types.js';
 
-export interface EntryContextProps<T> {
+export interface EntryContextProps<T = any> {
   entryId: string;
   entryBoxId: string;
   entryInputId: string;
@@ -9,12 +10,16 @@ export interface EntryContextProps<T> {
   entryErrorId: string;
   entryDescriptionId: string;
   entrySuggestionsId: string;
-  value: T;
+  value: T | undefined;
   label: string;
-  description: string;
-  errors: string[];
+  labelInput: string;
+  description: string | null;
+  errors: EntrySchemaErrors[];
+  errored: boolean;
+  errorText: Record<EntrySchemaErrors, string>;
   required: boolean;
   disabled: boolean;
+  optionalText: string;
   focused: boolean;
   focusedSetter: (arg0: boolean) => void;
   suggestions: string[];
@@ -31,7 +36,7 @@ export interface EntryContextProps<T> {
   hasErrorElementSetter: (arg0: boolean) => void;
 }
 
-export const entryContextDefault: EntryContextProps<unknown> = {
+export const entryContextDefault: EntryContextProps = {
   entryId: 'entry',
   entryBoxId: 'entry-box',
   entryInputId: 'entry-input',
@@ -39,10 +44,25 @@ export const entryContextDefault: EntryContextProps<unknown> = {
   entryErrorId: 'entry-error',
   entryDescriptionId: 'entry-desc',
   entrySuggestionsId: 'entry-sugg',
-  value: null,
+  value: undefined,
   label: 'unlabelled',
-  description: '',
+  labelInput: 'unlabelled',
+  description: null,
   errors: [],
+  errorText: {
+    required: 'A value is required.',
+    type: 'The value is not the correct type.',
+    maxLength: 'The text is too long.',
+    minLength: 'The text is too short.',
+    pattern: 'The value does not match the a valid pattern.',
+    minimum: 'The value is too small.',
+    maximum: 'The value is too large.',
+    exclusiveMinimum: 'The value is too small.',
+    exclusiveMaximum: 'The value is too large.',
+    multipleOf: 'The value is not a multiple of the given number.',
+  },
+  errored: false,
+  optionalText: '(Optional)',
   suggestions: [],
   suggestionFilter: '',
   suggestionFilterSetter: noop,
@@ -61,6 +81,6 @@ export const entryContextDefault: EntryContextProps<unknown> = {
   onChange: noop,
 };
 
-export const EntryContext = React.createContext<EntryContextProps<unknown>>(entryContextDefault);
+export const EntryContext = React.createContext<EntryContextProps>(entryContextDefault);
 
 export default EntryContext;
