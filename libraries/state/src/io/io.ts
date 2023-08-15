@@ -21,9 +21,9 @@ export function ioProcess<
   return io;
 }
 
-export function ioInput(input: Partial<IoInput>): IoInput {
+export function ioInput<T = any>(input: Partial<IoInput<T>>): IoInput<T> {
   return {
-    body: undefined,
+    body: {} as any,
     query: {},
     language: 'en',
     ...input,

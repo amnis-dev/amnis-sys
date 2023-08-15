@@ -14,11 +14,10 @@
     "preserveSymlinks": true,
     "declarationMap": true,
     "declaration": true,
-    "baseUrl": "./src",
     "paths": {
-      "@amnis/api/set": ["./set/index.ts"],
-      "@amnis/api/schema": ["./schema/index.ts"],
-      "@amnis/api/process": ["./process/index.ts"],
+      "@amnis/api/set": ["./src/set/index.ts"],
+      "@amnis/api/schema": ["./src/schema/index.ts"],
+      "@amnis/api/process": ["./src/process/index.ts"],
     }
   },
   "include": [

@@ -7,7 +7,6 @@ export type EntrySchemaErrors =
   | 'minLength'
   | 'maxLength'
   | 'pattern'
-  | 'format'
   | 'minimum'
   | 'maximum'
   | 'exclusiveMinimum'
