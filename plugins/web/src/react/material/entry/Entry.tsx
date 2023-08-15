@@ -1,6 +1,7 @@
 import React from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import { kababize, noop } from '@amnis/state';
+import { Skeleton } from '@mui/material';
 import type { EntryContextProps } from './EntryContext.js';
 import { EntryContext, entryContextDefault } from './EntryContext.js';
 import { Text, Number } from './inputs/index.js';
@@ -11,6 +12,11 @@ export interface EntryProps {
    * The label of the entry.
    */
   label: string;
+
+  /**
+   * Controlled value of the input.
+   */
+  value?: unknown;
 
   /**
    * If the entry is required.
@@ -29,17 +35,13 @@ export interface EntryProps {
 }
 
 export type EntryPropsVariations = {
-  value?: string;
-  type: 'text';
-  schema: EntrySchemaString;
+  schema?: EntrySchemaString;
   onChange?: (
     value: string | undefined,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
 } | {
-  value?: number;
-  type: 'number';
-  schema: EntrySchemaNumber;
+  schema?: EntrySchemaNumber;
   onChange?: (
     value: number | undefined,
     event: React.ChangeEvent<HTMLInputElement>
@@ -49,7 +51,6 @@ export type EntryPropsVariations = {
 export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
   value: valueProp,
   label,
-  type,
   schema,
   required = false,
   errorText = entryContextDefault.errorText,
@@ -88,10 +89,14 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
     };
   }, [label, uid]);
 
-  const errors = React.useMemo(() => {
+  const errors = React.useMemo<EntrySchemaErrors[]>(() => {
     const result: EntrySchemaErrors[] = [];
-    if (type === 'text' && typeof value === 'string') {
-      const { maxLength, minLength, pattern } = schema;
+    if (!schema) {
+      return result;
+    }
+
+    if (typeof value === 'string') {
+      const { maxLength, minLength, pattern } = schema as EntrySchemaString;
       if (required && (!value || value.length === 0)) {
         result.push('required');
         return result;
@@ -115,7 +120,7 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
     }
 
     return result;
-  }, [type, schema, required, value]);
+  }, [schema, required, value]);
 
   const errored = React.useMemo(() => errors.length > 0, [errors]);
 
@@ -157,16 +162,35 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
     onChange,
   ]);
 
+  const type = React.useMemo(() => {
+    if (schema) {
+      return schema.type;
+    }
+
+    if (typeof value === 'string') {
+      return 'string';
+    }
+
+    if (typeof value === 'number') {
+      return 'number';
+    }
+
+    return 'none';
+  }, [schema]);
+
   return (
     <EntryContext.Provider value={contextValue}>
       {((): React.ReactNode => {
         switch (type) {
-          case 'text':
+          case 'string':
             return <Text />;
           case 'number':
             return <Number />;
           default:
-            return <span>&nbsp;</span>;
+            return <Skeleton
+              height={32}
+              width="100%"
+            />;
         }
       })()}
     </EntryContext.Provider>

@@ -7,7 +7,6 @@ import { Navbar, WebProvider } from '../react/index.js';
 const meta: Meta = {
   title: 'Crystalizer/Crystalizer',
   component: Crystalizer,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

@@ -13,7 +13,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Text: Story = {
   args: {
-    type: 'text',
     label: 'My Text Entry',
     required: true,
     schema: {
@@ -26,7 +25,6 @@ export const Text: Story = {
 
 export const Number: Story = {
   args: {
-    type: 'number',
     label: 'My Number Entry',
     required: true,
     schema: {

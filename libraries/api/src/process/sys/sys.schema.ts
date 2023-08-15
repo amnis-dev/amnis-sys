@@ -6,7 +6,7 @@ import type {
 import {
   systemSlice,
 } from '@amnis/state';
-import { mwAccess, mwValidate } from '../../mw/index.js';
+import { mwAccess } from '../../mw/index.js';
 import type { ApiSysSchema } from '../../api.sys.types.js';
 import { permissionGrants } from '../../utility/permission.js';
 
@@ -18,7 +18,7 @@ Io<ApiSysSchema, JSON>
 > = (context) => (
   async (input, output) => {
     const { store, schemas } = context;
-    const { body: { type }, access } = input;
+    const { query: { type }, access } = input;
 
     if (!access) {
       output.status = 401; // 401 Unauthorized
@@ -41,6 +41,16 @@ Io<ApiSysSchema, JSON>
         level: 'error',
         title: 'Inactive System',
         description: 'There is no active system available.',
+      });
+      return output;
+    }
+
+    if (!type) {
+      output.status = 400; // 400 Bad Request
+      output.json.logs.push({
+        level: 'error',
+        title: 'No Schema Type',
+        description: 'A schema type is required.',
       });
       return output;
     }
@@ -129,9 +139,7 @@ Io<ApiSysSchema, JSON>
 );
 
 export const processSysSchema = mwAccess()(
-  mwValidate('sys/ApiSysSchema')(
-    process,
-  ),
+  process,
 ) as IoProcess<
 Io<undefined, EntityObjects>
 >;

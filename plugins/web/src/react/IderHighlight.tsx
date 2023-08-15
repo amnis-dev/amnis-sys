@@ -1,11 +1,12 @@
 import React from 'react';
 import {
-  Box, Popover, Popper, css,
+  Box, Popover, Popper, Stack, Typography, css,
 } from '@mui/material';
 import { CrystalizerProvider } from '@amnis/web/crystalizer';
 import { type WebContextIderEntities } from './WebContext.js';
 import { useId, usePopover } from './hooks/index.js';
 import { IderEntityChips } from './IderEntityChips.js';
+import { IderInput } from './IderInput.js';
 
 export interface IderHighlightProps {
   /**
@@ -162,7 +163,18 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
           }}
         >
           <Box p={1}>
-            <IderEntityChips entities={entities} />
+            <Box pl={1} pr={1} mb={1}>
+              <Typography variant="caption" sx={{ opacity: 0.5 }}>
+                {entities[entities.length - 1][0]?.$id}
+              </Typography>
+            </Box>
+            <Stack direction="column" gap={2}>
+              <IderEntityChips entities={entities} />
+              <IderInput
+                entity={entities[entities.length - 1][0]}
+                prop={entities[entities.length - 1][1]}
+              />
+            </Stack>
           </Box>
         </Popover>
       </CrystalizerProvider>

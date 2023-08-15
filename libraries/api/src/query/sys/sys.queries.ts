@@ -4,6 +4,7 @@ import type { BaseQueryFn, EndpointBuilder } from '@reduxjs/toolkit/query';
 import type {
   IoOutputJson,
   EntityObjects,
+  SchemaObject,
 } from '@amnis/state';
 import type { ApiSysSchema } from '../../api.sys.types.js';
 
@@ -22,13 +23,12 @@ export const apiSysQueries = <T extends EndpointBuilder<BaseQueryFn, string, str
   }),
 
   schema: builder.query<
-  IoOutputJson<JSON>,
+  IoOutputJson<SchemaObject>,
   ApiSysSchema
   >({
     query: (payload) => ({
-      url: 'schema',
+      url: `schema/?type=${payload.type}`,
       method: 'get',
-      body: payload,
     }),
   }),
 
