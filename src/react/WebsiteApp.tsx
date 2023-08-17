@@ -3,10 +3,13 @@ import {
   useWebDispatch,
   websiteSlice,
   WebProvider,
+  useWebSelector,
 } from '@amnis/web';
-import { apiCrud, apiSys } from '@amnis/api/react';
-import { systemSlice, localeSlice } from '@amnis/state';
-import { useSysSelector } from './hooks/index.js';
+import { apiCrud, apiSys, apiAuth } from '@amnis/api/react';
+import {
+  systemSlice, localeSlice, userSlice,
+} from '@amnis/state';
+import { useUpdateEffect } from './hooks/useUpdateEffect.js';
 
 export interface WebsiteAppProps {
   system?: string | string[],
@@ -17,19 +20,19 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
   system: systemUrl,
   children,
 }) => {
-  const webDispatch = useWebDispatch();
+  const dispatch = useWebDispatch();
 
   /**
    * State data
    */
-  const system = useSysSelector((state) => systemSlice.select.active(state));
-  const language = useSysSelector(localeSlice.select.activeCode);
+  const system = useWebSelector(systemSlice.select.active);
+  const language = useWebSelector(localeSlice.select.activeCode);
+  const user = useWebSelector(userSlice.select.active);
 
   /**
    * API lazy queries
    */
   const [systemTrigger] = apiSys.useLazySystemQuery();
-  // const [authnTrigger, authnResult] = apiAuth.useAuthenticateMutation();
   const [readWebsiteTrigger, readWebsiteResult] = apiCrud.useLazyReadQuery();
 
   /**
@@ -47,6 +50,19 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
       url: systemUrlDefault || `${window.location.origin}/api/sys/system`,
       set: true,
     });
+  }, [systemUrl]);
+
+  /**
+   * Check the authentication status.
+   */
+  React.useEffect(() => {
+    if (!system?.$id) {
+      return;
+    }
+
+    (async () => {
+      await dispatch(apiAuth.endpoints.authenticate.initiate({ silent: true }));
+    })();
   }, [system?.$id]);
 
   /**
@@ -87,21 +103,28 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
       return;
     }
 
-    webDispatch(websiteSlice.action.activeSet(result[websiteSlice.key][0].$id));
+    dispatch(websiteSlice.action.activeSet(result[websiteSlice.key][0].$id));
   }, [readWebsiteResult?.data?.result]);
 
   /**
-   * Remount effect.
+   * Reset effect.
    */
-  React.useEffect(() => remountSet(!remount), [language]);
+  useUpdateEffect(() => {
+    dispatch(apiCrud.util.resetApiState());
 
-  return (
+    /**
+     * Trigger all child components to remount.
+     */
+    remountSet(!remount);
+  }, [language, user?.$id]);
+
+  return system?.$id ? (
     <div key={remount ? 0 : 1}>
       <WebProvider>
         {children}
       </WebProvider>
     </div>
-  );
+  ) : null;
 };
 
 export default WebsiteApp;

@@ -27,6 +27,7 @@ export interface DataSliceOptions<
   key: K;
   create: C;
   meta?: M & Partial<DataMeta>;
+  data?: D[];
   actions?: A;
   selectors?: S;
   reducersExtras?: DataExtraReducers<B, M>[];
@@ -45,6 +46,7 @@ export const dataSliceCreate = <
   key,
   create,
   meta,
+  data: dataInitial,
   actions = {} as A,
   selectors = {} as S,
   reducersExtras = [],
@@ -80,12 +82,16 @@ export const dataSliceCreate = <
     sortComparer: sort,
   });
 
-  const initialState = adapter.getInitialState({
+  let initialState = adapter.getInitialState({
     ...dataMetaInitial(meta),
     ...storedMeta,
   }) as DataState<D> & M;
 
-  const nextState = adapter.upsertMany(initialState, storedEntities);
+  if (dataInitial) {
+    initialState = adapter.addMany(initialState, dataInitial as D[]);
+  }
+
+  initialState = adapter.upsertMany(initialState, storedEntities);
 
   const reducersExtraArray: DataExtraReducers<D, M>[] = [];
   reducersExtraArray.push(dataExtraReducers);
@@ -93,7 +99,7 @@ export const dataSliceCreate = <
 
   const slice = createSlice({
     name: key,
-    initialState: nextState,
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
       extraReducersApply<D, M>({

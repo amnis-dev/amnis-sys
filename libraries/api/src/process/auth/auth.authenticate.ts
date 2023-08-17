@@ -2,6 +2,8 @@ import type {
   Io,
   IoProcess,
   EntityObjects,
+  IoMiddleware,
+  IoInput,
 } from '@amnis/state';
 import {
   systemSlice,
@@ -66,12 +68,32 @@ Io<ApiAuthAuthenticate, EntityObjects>
   }
 );
 
+/**
+ * Specific middleware to silence log output.
+ */
+const mwSilencer: IoMiddleware = () => (next) => (context) => async (
+  input: IoInput<ApiAuthAuthenticate>,
+  output,
+) => {
+  const { body: { silent } } = input;
+  const outputNext = await next(context)(input, output);
+
+  if (silent) {
+    outputNext.status = 200;
+    outputNext.json.logs = [];
+  }
+
+  return outputNext;
+};
+
 export const processAuthAuthenticate = mwValidate('auth/ApiAuthAuthenticate')(
-  mwSession()(
-    mwChallenge()(
-      mwCredential()(
-        mwSignature()(
-          process,
+  mwSilencer()(
+    mwSession()(
+      mwChallenge()(
+        mwCredential()(
+          mwSignature()(
+            process,
+          ),
         ),
       ),
     ),

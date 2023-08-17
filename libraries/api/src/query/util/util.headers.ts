@@ -8,14 +8,15 @@ import type {
   State,
   EntityObjects,
   System,
+  Agent,
 } from '@amnis/state';
 import {
   otpSlice,
   bearerSlice,
-  agentSign,
   base64JsonEncode,
   localeSlice,
   systemSlice,
+  agentLocalSign,
 } from '@amnis/state';
 
 /**
@@ -69,10 +70,11 @@ export const headersAuthorizationToken = async (
  */
 export const headersSignature = async (
   headers: Headers,
+  agent: Agent,
   body: Record<string, unknown> | string,
 ) => {
   const bodyEncoded = typeof body === 'string' ? body : JSON.stringify(body);
-  const signature = await agentSign(bodyEncoded);
+  const signature = await agentLocalSign(agent, bodyEncoded);
   headers.set('Signature', signature);
 };
 

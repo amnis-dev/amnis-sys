@@ -97,8 +97,6 @@ test('should add the current agent credential to the admin account and login', a
   const message = mailbox[adminUser.email as string][0];
   const messageOtp = message.body.match(/one-time passcode is (\w+)/m)?.[1];
 
-  console.log(message.body);
-
   if (!messageOtp) {
     expect(messageOtp).toBeDefined();
     return;

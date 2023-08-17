@@ -1,4 +1,5 @@
 import {
+  agentSlice,
   apiSlice,
   appSlice,
   auditSlice,
@@ -24,6 +25,7 @@ import {
 } from '../data/index.js';
 
 export const reducers = {
+  [agentSlice.name]: agentSlice.reducer,
   [apiSlice.name]: apiSlice.reducer,
   [appSlice.name]: appSlice.reducer,
   [auditSlice.name]: auditSlice.reducer,

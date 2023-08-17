@@ -19,6 +19,7 @@ export function usePopover(label: string) {
 
   const buttonProps = React.useMemo < React.HTMLProps<any>>(() => ({
     id: buttonId,
+    'aria-role': 'button',
     'aria-controls': open ? popoverId : undefined,
     'aria-haspopover': 'true',
     'aria-expanded': open ? 'true' : undefined,

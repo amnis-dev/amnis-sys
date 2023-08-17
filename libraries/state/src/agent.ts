@@ -11,14 +11,14 @@ import {
   base64JsonEncode,
 } from './core/index.js';
 
-export interface Agent {
+export interface AgentLegacy {
   name: string;
   publicKey: string;
   privateKey: string;
   credentialId: UID<Credential>;
 }
 
-let agent: Agent | undefined;
+let agent: AgentLegacy | undefined;
 
 /**
  * Get the browser and operating system name the user agent string.
@@ -67,7 +67,7 @@ export function agentFingerprint() {
 /**
  * Create new agent keys.
  */
-export const agentCreate = async (): Promise<Agent> => {
+export const agentCreate = async (): Promise<AgentLegacy> => {
   /**
    * Get the agent name.
    */
@@ -115,12 +115,12 @@ export const agentCreate = async (): Promise<Agent> => {
 /**
  * Gets the agent singleton.
  */
-export const agentGet = async (): Promise<Agent> => {
+export const agentGet = async (): Promise<AgentLegacy> => {
   if (!agent) {
     const encoded = localStorage().getItem('agent');
     if (encoded) {
       try {
-        const decoded = base64JsonDecode<Agent>(encoded);
+        const decoded = base64JsonDecode<AgentLegacy>(encoded);
         agent = decoded;
       } catch (e) {
         agent = await agentCreate();
@@ -171,7 +171,7 @@ export const agentSign = async (data: string): Promise<string> => {
 /**
  * Update attributes of the existing agent.
  */
-export const agentUpdate = async (agentProps: Partial<Agent>) => {
+export const agentUpdate = async (agentProps: Partial<AgentLegacy>) => {
   const agentCurrent = await agentGet();
 
   agent = {

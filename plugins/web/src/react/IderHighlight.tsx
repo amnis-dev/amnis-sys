@@ -99,6 +99,11 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
     timerRef2.current = null;
   }, [trigger]);
 
+  /** Trigger when entities update */
+  React.useEffect(() => {
+    handleTrigger();
+  }, [entities]);
+
   /**
    * Listens for window resize events and triggers a two-stage re-render timer.
    */
@@ -162,7 +167,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
             horizontal: 'center',
           }}
         >
-          <Box p={1}>
+          <Box p={2}>
             <Box pl={1} pr={1} mb={1}>
               <Typography variant="caption" sx={{ opacity: 0.5 }}>
                 {entities[entities.length - 1][0]?.$id}

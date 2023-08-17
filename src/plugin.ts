@@ -70,6 +70,31 @@ export function pluginDataMerge(
 }
 
 /**
+ * Merge test data from an array of plugins.
+ */
+export function pluginDataTestMerge(
+  /**
+   * Plugins to merge.
+   */
+  plugins: Plugin[],
+): Plugin['dataTest'] {
+  const data = plugins
+    .map((plugin) => plugin.dataTest)
+    .filter((data): data is StateDataPromise => !!data);
+
+  if (data.length === 0) {
+    return undefined;
+  }
+
+  const dataMerged: StateDataPromise = async (dataGuaranteed) => data.reduce(async (acc, data) => {
+    const nextData = await acc;
+    return data(nextData) as Promise<StateDataGuaranteed>;
+  }, Promise.resolve(dataGuaranteed));
+
+  return dataMerged;
+}
+
+/**
  * Merge schema from an array of plugins.
  */
 export function pluginSchemaMerge(
@@ -181,7 +206,7 @@ export function pluginMerge(
   pluginMerged.data = pluginDataMerge(plugins);
 
   /** Merge dataTest */
-  pluginMerged.dataTest = pluginDataMerge(plugins);
+  pluginMerged.dataTest = pluginDataTestMerge(plugins);
 
   /** Merge schema */
   pluginMerged.schema = pluginSchemaMerge(plugins);

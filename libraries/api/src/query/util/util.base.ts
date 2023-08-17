@@ -4,8 +4,11 @@ import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type { Api, State } from '@amnis/state';
 import {
-  apiCreate, apiSlice, systemSlice,
-  agentCredential, agentGet,
+  apiCreate,
+  apiSlice,
+  systemSlice,
+  agentSlice,
+  credentialSlice,
 } from '@amnis/state';
 import {
   headersAuthorizationToken,
@@ -29,6 +32,25 @@ export type DynamicBaseQuerySetup = (
   reducerPath: string,
   bearerId?: string
 ) => BaseQueryFn<string | FetchArgs, unknown, ApiError>;
+
+/**
+ * Default agent.
+ */
+const agentDefault = agentSlice.create({
+  name: 'Anonymous',
+  device: 'Unknown Device',
+  type: 'default',
+  publicKey: '',
+});
+
+/**
+ * Default credential.
+ */
+const credentialDefault = credentialSlice.create({
+  name: 'Unknown Device',
+  publicKey: '',
+});
+credentialDefault.$id = agentDefault.$credential;
 
 /**
  * Gets the baseURL based on configuration.
@@ -70,11 +92,15 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
     && typeof args !== 'string'
   ) {
     if (['reset'].includes(args.url)) {
-      const agent = await agentGet();
-      args.body.$credential = agent.credentialId;
+      const agent = agentSlice.select.active(store.getState() as State) ?? agentDefault;
+      args.body.$credential = agent.$credential;
     }
     if (['login', 'register', 'credential'].includes(args.url)) {
-      const credential = await agentCredential();
+      const agent = agentSlice.select.active(store.getState() as State) ?? agentDefault;
+      const credential = agentSlice.select.credential(
+        store.getState() as State,
+        agent.$id || '',
+      ) ?? credentialDefault;
       args.body.credential = credential;
     }
   }
@@ -118,10 +144,14 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
         apiMeta?.signature
         && (apiMeta.signature === true || apiMeta.signature.includes(api.endpoint))
       ) {
+        /**
+         * Set the agent.
+         */
+        const agent = agentSlice.select.active(store.getState() as State) ?? agentDefault;
         if (typeof args === 'string') {
-          await headersSignature(headers, args);
+          await headersSignature(headers, agent, args);
         } else {
-          await headersSignature(headers, args.body);
+          await headersSignature(headers, agent, args.body);
         }
       }
 

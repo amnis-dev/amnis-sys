@@ -3,6 +3,8 @@ import type { Preview } from "@storybook/react";
 // import { loaderMock } from "./loader.mock.js";
 
 import decoratorWebsite from "./decorator.website.js";
+import decoratorAccounts, { accountOptions } from "./decorator.accounts.js";
+import loaderDefer from "./loader.defer.js";
 
 const preview: Preview = {
   parameters: {
@@ -14,9 +16,19 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [decoratorWebsite],
-  // decorators: [decoratorRedux],
-  // loaders: [loaderMock]
+  globalTypes: {
+    account: {
+      name: "Account",
+      description: "Account to use for the preview",
+      defaultValue: Object.keys(accountOptions)[0],
+      type: "string",
+      toolbar: {
+        icon: "user",
+        items: Object.keys(accountOptions),
+      }
+    },
+  },
+  decorators: [decoratorAccounts, decoratorWebsite],
 };
 
 export default preview;

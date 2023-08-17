@@ -15,7 +15,8 @@ export const base64Encode = (u8: Uint8Array, unpad = false): string => {
     return replaced;
   }
 
-  const value = window.btoa(String.fromCharCode(...u8));
+  const binString = Array.from(u8, (x) => String.fromCodePoint(x)).join('');
+  const value = window.btoa(binString);
   const replaced = value.replaceAll('+', '-').replaceAll('/', '_');
   if (unpad) {
     return replaced.replaceAll('=', '');
@@ -34,8 +35,8 @@ export const base64Decode = (str: string): Uint8Array => {
   }
 
   const replaced = str.replaceAll('-', '+').replaceAll('_', '/');
-  const value = window.atob(replaced).split('').map((c) => c.charCodeAt(0));
-  return new Uint8Array(value);
+  const binString = window.atob(replaced);
+  return Uint8Array.from(binString, (m) => m.codePointAt(0)!);
 };
 
 /**

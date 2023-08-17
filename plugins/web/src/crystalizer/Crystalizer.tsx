@@ -3,7 +3,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import {
-  AdminPanelSettings, Language, PeopleAlt, Save, Settings as SettingsIcon,
+  AdminPanelSettings, Build, Language, PeopleAlt, Save, Settings,
 } from '@mui/icons-material';
 import type { WebContextIderMap } from '@amnis/web/react';
 
@@ -13,7 +13,8 @@ export interface CrystalizerProps {
 
 const actions = [
   { icon: <Save />, name: 'Save' },
-  { icon: <Language />, name: 'Languages' },
+  { icon: <Build />, name: 'Configuration' },
+  { icon: <Language />, name: 'Localization' },
   { icon: <PeopleAlt />, name: 'Accounts' },
   { icon: <AdminPanelSettings />, name: 'Administration' },
 ];
@@ -45,7 +46,7 @@ export const Crystalizer: React.FC<CrystalizerProps> = () => {
             bottom: 16,
             right: 16,
           }}
-          icon={<SettingsIcon />}
+          icon={<Settings />}
           onClose={handleClose}
           onOpen={handleOpen}
           open={open}

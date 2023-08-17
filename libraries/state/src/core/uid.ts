@@ -1,11 +1,18 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { regexUuid } from './regex.js';
-import type { UID, UIDList, UIDTree } from './core.types.js';
+import type {
+  UID, UIDv2, UIDList, UIDTree,
+} from './core.types.js';
 
 /**
  * Create a identifier to another type.
  */
 export const uid = <T>(key: string, id = nanoid()) => `${key}:${id}` as UID<T>;
+
+/**
+ * Create a version 2 identifier
+ */
+export const uidv2 = <S extends string>(key: S, id = nanoid(21)): UIDv2<S> => `${key}:${id}`;
 
 /**
  * Validates a unique idenifier.

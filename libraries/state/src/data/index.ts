@@ -1,3 +1,4 @@
+export * from './agent/index.js';
 export * from './api/index.js';
 export * from './app/index.js';
 export * from './bearer/index.js';

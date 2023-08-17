@@ -19,9 +19,18 @@ export enum SURLNominal { _ = '' }
  *
  * @pattern ^[a-z]{1,24}:[A-Za-z0-9_-]{16,32}$
  * @minLength 18
- * @maxLength 56
+ * @maxLength 32
  */
 export type UID<T = unknown> = UIDNominal & string;
+
+/**
+ * A id identifier to another document.
+ *
+ * @pattern ^[a-z]{1,21}:[A-Za-z0-9_-]{21}$
+ * @minLength 22
+ * @maxLength 42
+ */
+export type UIDv2<S extends string = string> = `${S}:${string}`;
 
 /**
  * List of identifiers.

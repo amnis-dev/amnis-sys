@@ -1,4 +1,5 @@
 import {
+  agentSlice,
   apiSlice,
   appSlice,
   auditSlice,
@@ -24,6 +25,7 @@ import {
 } from './data/index.js';
 
 export const stateSlices = {
+  [agentSlice.name]: agentSlice,
   [apiSlice.name]: apiSlice,
   [appSlice.name]: appSlice,
   [auditSlice.name]: auditSlice,

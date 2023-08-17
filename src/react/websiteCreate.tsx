@@ -12,7 +12,7 @@ import {
   type DynamicPlugin, type Plugin, type ReduxSet,
 } from '@amnis/state';
 
-import { Mocker } from './Mocker.js';
+import { Mocker } from './mocker/Mocker.js';
 import { WebsiteContext } from './WebsiteContext.js';
 import { importerPlugin } from '../importer.js';
 import { pluginSetsMerge } from '../plugin.js';

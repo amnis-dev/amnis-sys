@@ -53,7 +53,12 @@ export interface ApiAuthCredential {
  * A request to authenticate with a session.
  * User must log in if authentication fails.
  */
-export type ApiAuthAuthenticate = Record<string, never>;
+export interface ApiAuthAuthenticate {
+  /**
+   * Performs a silent authentication (no logs returned).
+   */
+  silent?: boolean;
+}
 
 /**
  * Payload for an registration request.

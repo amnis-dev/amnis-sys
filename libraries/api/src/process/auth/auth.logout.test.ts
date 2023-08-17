@@ -92,7 +92,7 @@ test('should login and then logout as administrator', async () => {
  * ************************************************************************************************
  * ================================================================================================
  */
-test('should not logout without an existing session', async () => {
+test('should still logout even without an existing session', async () => {
   const inputLogout: IoInput<ApiAuthLogout> = ioInput({
     body: {},
     query: {},
@@ -100,5 +100,5 @@ test('should not logout without an existing session', async () => {
 
   const outputLogout = await processAuthLogout(context)(inputLogout, ioOutput());
 
-  expect(outputLogout.status).toBe(401);
+  expect(outputLogout.status).toBe(200);
 });

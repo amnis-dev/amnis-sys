@@ -2,13 +2,15 @@ import type {
   Io,
   IoProcess,
   DataDeleter,
+  IoMiddleware,
+  IoInput,
 } from '@amnis/state';
 import {
   sessionSlice,
   uidList,
   systemSlice,
 } from '@amnis/state';
-import type { ApiAuthLogout } from '../../api.auth.types.js';
+import type { ApiAuthAuthenticate, ApiAuthLogout } from '../../api.auth.types.js';
 import { mwSession, mwValidate } from '../../mw/index.js';
 
 /**
@@ -53,9 +55,25 @@ Io<ApiAuthLogout, DataDeleter>
   }
 );
 
-export const processAuthLogout = mwSession()(
-  mwValidate('auth/ApiAuthLogout')(
-    process,
+/**
+ * Specific middleware to silence log output.
+ */
+const mwSilencer: IoMiddleware = () => (next) => (context) => async (
+  input: IoInput<ApiAuthAuthenticate>,
+  output,
+) => {
+  const outputNext = await next(context)(input, output);
+  outputNext.status = 200;
+  outputNext.json.logs = [];
+
+  return outputNext;
+};
+
+export const processAuthLogout = mwSilencer()(
+  mwSession()(
+    mwValidate('auth/ApiAuthLogout')(
+      process,
+    ),
   ),
 ) as IoProcess<
 Io<ApiAuthLogout, DataDeleter>

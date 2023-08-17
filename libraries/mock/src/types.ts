@@ -1,4 +1,10 @@
-import type { IoContext, IoProcessDefinition, IoProcessMapMethods } from '@amnis/state';
+import type {
+  IoContext,
+  IoProcessDefinition,
+  IoProcessMapMethods,
+  Agent,
+  UID,
+} from '@amnis/state';
 import type {
   RestHandler,
   StartOptions,
@@ -19,8 +25,36 @@ export type MockHandlers = (
   endpoints: IoProcessMapMethods,
 ) => RestHandler[];
 
+export type MockAgentAdmin = Agent & {
+  $id: UID;
+  name: 'Administrator Mock Agent',
+  type: 'mock',
+  publicKey: string;
+  privateKey: string;
+  $credential: UID;
+};
+
+export type MockAgentExec = Agent & {
+  $id: UID;
+  name: 'Executive Mock Agent',
+  type: 'mock',
+  publicKey: string;
+  privateKey: string;
+  $credential: UID;
+};
+
+export type MockAgentUser = Agent & {
+  $id: UID;
+  name: 'User Mock Agent',
+  type: 'mock',
+  publicKey: string;
+  privateKey: string;
+  $credential: UID;
+};
+
 export type MockService = {
   setup: (options?: MockOptions) => Promise<void>;
   start: (options?: StartOptions) => void;
+  agents: () => Agent[];
   stop: () => void;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {
   grantTask,
   GrantScope,
@@ -31,13 +32,13 @@ export const dataTest: StateDataPromise = async (data) => {
   const system = data[systemSlice.key][0];
   const roleAdmin = data[roleSlice.key]?.find(
     (role) => role.$id === system?.$adminRole,
-  );
+  )!;
   const roleExec = data[roleSlice.key]?.find(
     (role) => role.$id === system?.$execRole,
-  );
+  )!;
   const roleAnonymous = data[roleSlice.key]?.find(
     (role) => role.$id === system?.$anonymousRole,
-  );
+  )!;
 
   /**
    * ================================================================================
@@ -76,7 +77,7 @@ export const dataTest: StateDataPromise = async (data) => {
       password: await cryptoWeb.passHash(accounts.admin.password),
       email: 'admin@email.addr',
       emailVerified: true,
-      $roles: roleAdmin ? [roleAdmin.$id] : [],
+      $roles: [roleAdmin.$id, roleAnonymous.$id],
       $permits: [],
     }),
     userSlice.createEntity({
@@ -84,7 +85,7 @@ export const dataTest: StateDataPromise = async (data) => {
       password: await cryptoWeb.passHash(accounts.exec.password),
       email: 'exec@email.addr',
       emailVerified: true,
-      $roles: roleExec ? [roleExec.$id] : [],
+      $roles: [roleExec.$id, roleAnonymous.$id],
       $permits: [],
     }),
     userSlice.createEntity({
@@ -92,7 +93,7 @@ export const dataTest: StateDataPromise = async (data) => {
       password: await cryptoWeb.passHash(accounts.user.password),
       email: 'user@email.addr',
       emailVerified: true,
-      $roles: [roleBase.$id],
+      $roles: [roleBase.$id, roleAnonymous.$id],
       $permits: [],
     }),
   ];
@@ -216,6 +217,7 @@ export const dataTest: StateDataPromise = async (data) => {
   }
 
   // Push new base role.
+  system.$initialRoles.push(roleAnonymous.$id);
   system.$initialRoles.push(roleBase.$id);
 
   const stateEntitiesInital: EntityObjects = {
