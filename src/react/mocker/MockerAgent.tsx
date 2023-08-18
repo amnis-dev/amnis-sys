@@ -2,12 +2,11 @@ import React from 'react';
 import {
   Backdrop, CircularProgress, Stack, Typography,
 } from '@mui/material';
-import type { AgentID } from '@amnis/state';
 import { agentSlice } from '@amnis/state';
 import { useWebDispatch, useWebSelector } from '@amnis/web';
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import { apiAuth } from '@amnis/api';
-import type { MockerAccount } from './MockerContext.js';
 import { MockerContext } from './MockerContext.js';
 
 export const MockerAgent: React.FC = () => {
@@ -16,16 +15,11 @@ export const MockerAgent: React.FC = () => {
 
   const { account } = React.useContext(MockerContext);
 
+  const agentMocks = React.useRef<MockAgents | undefined>();
   const [accountPrev, accountPrevSet] = React.useState(account);
-  const [agentMocks, agentMocksSet] = React.useState<
-  Record<Extract<MockerAccount, string>, AgentID | undefined>>({
-    adminMock: undefined,
-    execMock: undefined,
-    userMock: undefined,
-  });
   const [loading, loadingSet] = React.useState(true);
 
-  const accountDisplayNames = React.useMemo<Record<Extract<MockerAccount, string>, string>>(() => ({
+  const accountDisplayNames = React.useMemo<Record<keyof MockAgents, string>>(() => ({
     adminMock: 'Administrator',
     execMock: 'Executive',
     userMock: 'User',
@@ -33,16 +27,12 @@ export const MockerAgent: React.FC = () => {
 
   React.useEffect(() => {
     const mocked = mockService.agents();
-    dispatch(agentSlice.action.insertMany([...mocked]));
-    agentMocksSet({
-      adminMock: mocked[0].$id,
-      execMock: mocked[1].$id,
-      userMock: mocked[2].$id,
-    });
+    dispatch(agentSlice.action.insertMany(Object.values(mocked)));
+    agentMocks.current = mocked;
   }, []);
 
   React.useEffect(() => {
-    dispatch(agentSlice.action.activeSet((account && agentMocks[account]) || null));
+    dispatch(agentSlice.action.activeSet((account && agentMocks.current?.[account].$id) || null));
   }, [account]);
 
   React.useEffect(() => {

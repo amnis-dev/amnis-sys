@@ -58,7 +58,7 @@ export const slice = createSlice({
     add: (state, action: PayloadAction<AgentCreator>) => {
       adapter.addOne(state, agentSliceCreate(action.payload));
     },
-    addSetActive: (state: AgentSlice, action: PayloadAction<AgentCreator>) => {
+    addActiveSet: (state: AgentSlice, action: PayloadAction<AgentCreator>) => {
       const agent = agentSliceCreate(action.payload);
       adapter.addOne(state, agent);
       state.active = agent.$id;
@@ -68,6 +68,10 @@ export const slice = createSlice({
     },
     insert: (state, action: PayloadAction<Agent>) => {
       adapter.upsertOne(state, action.payload);
+    },
+    insertActiveSet: (state: AgentSlice, action: PayloadAction<Agent>) => {
+      adapter.addOne(state, action.payload);
+      state.active = action.payload.$id;
     },
     insertMany: (state, action: PayloadAction<Agent[]>) => {
       adapter.upsertMany(state, action.payload.map((p) => p));

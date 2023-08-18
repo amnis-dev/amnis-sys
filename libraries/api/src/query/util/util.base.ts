@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch, { Headers, Request } from 'cross-fetch';
-import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
+import type { BaseQueryApi, BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type { Api, State } from '@amnis/state';
 import {
@@ -8,7 +8,7 @@ import {
   apiSlice,
   systemSlice,
   agentSlice,
-  credentialSlice,
+  agentLocalGenerate,
 } from '@amnis/state';
 import {
   headersAuthorizationToken,
@@ -34,23 +34,22 @@ export type DynamicBaseQuerySetup = (
 ) => BaseQueryFn<string | FetchArgs, unknown, ApiError>;
 
 /**
- * Default agent.
+ * Ensures there's an active agent for the authentication API.
  */
-const agentDefault = agentSlice.create({
-  name: 'Anonymous',
-  device: 'Unknown Device',
-  type: 'default',
-  publicKey: '',
-});
+const getApiAgent = async (store: BaseQueryApi) => {
+  const agentActive = agentSlice.select.active(store.getState() as State);
 
-/**
- * Default credential.
- */
-const credentialDefault = credentialSlice.create({
-  name: 'Unknown Device',
-  publicKey: '',
-});
-credentialDefault.$id = agentDefault.$credential;
+  /**
+   * If there's no active agent, create a new local agent.
+   */
+  if (!agentActive) {
+    const agentCreateNew = agentSlice.create(await agentLocalGenerate('Local'));
+    store.dispatch(agentSlice.action.insertActiveSet(agentCreateNew));
+    return agentCreateNew;
+  }
+
+  return agentActive;
+};
 
 /**
  * Gets the baseURL based on configuration.
@@ -92,15 +91,15 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
     && typeof args !== 'string'
   ) {
     if (['reset'].includes(args.url)) {
-      const agent = agentSlice.select.active(store.getState() as State) ?? agentDefault;
+      const agent = await getApiAgent(store);
       args.body.$credential = agent.$credential;
     }
     if (['login', 'register', 'credential'].includes(args.url)) {
-      const agent = agentSlice.select.active(store.getState() as State) ?? agentDefault;
+      const agent = await getApiAgent(store);
       const credential = agentSlice.select.credential(
         store.getState() as State,
-        agent.$id || '',
-      ) ?? credentialDefault;
+        agent.$id,
+      );
       args.body.credential = credential;
     }
   }
@@ -147,7 +146,7 @@ export const dynamicBaseQuery: DynamicBaseQuerySetup = (
         /**
          * Set the agent.
          */
-        const agent = agentSlice.select.active(store.getState() as State) ?? agentDefault;
+        const agent = await getApiAgent(store);
         if (typeof args === 'string') {
           await headersSignature(headers, agent, args);
         } else {

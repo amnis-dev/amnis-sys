@@ -26,6 +26,7 @@ export const registerAccount = async (
     ip,
   });
   // Ensure we don't change the credential identifier.
+  // This is a very unique case that we use a client generated ID.
   credential.$id = apiAuthRegistration.credential.$id;
 
   const output = await accountCreate(

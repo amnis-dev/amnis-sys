@@ -1,11 +1,11 @@
 import {
-  accountsGet,
-  agentUpdate,
+  agentSlice,
   contactSlice,
   profileSlice,
   sessionSlice,
   userSlice,
 } from '@amnis/state';
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import { apiAuth } from '../index.js';
 import { clientStore } from './store.js';
@@ -15,9 +15,15 @@ import {
 import { apiSys } from '../../sys/index.js';
 import type { ApiError } from '../../query.types.js';
 
+let agents: MockAgents;
+
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+
+  agents = mockService.agents();
+  clientStore.dispatch(agentSlice.action.insertMany(Object.values(agents)));
+
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',
@@ -34,11 +40,11 @@ test('should be able to login as user', async () => {
   /**
    * Get the user account information.
    */
-  const { user } = await accountsGet();
+  clientStore.dispatch(agentSlice.action.activeSet(agents.userMock.$id));
 
   const result = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: user.handle,
-    password: user.password,
+    handle: 'userMock',
+    password: 'password',
   }));
 
   if ('error' in result) {
@@ -69,11 +75,11 @@ test('should NOT be able to login with a bad password', async () => {
   /**
    * Get the user account information.
    */
-  const { user } = await accountsGet();
+  clientStore.dispatch(agentSlice.action.activeSet(agents.userMock.$id));
 
   const result = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: user.handle,
-    password: user.password.slice(1),
+    handle: 'userMock',
+    password: 'password'.slice(1),
   }));
 
   if ('data' in result) {
@@ -92,16 +98,15 @@ test('should not login as admin with improper agent private key', async () => {
   /**
    * Get the user account information.
    */
-  const { admin } = await accountsGet();
+  clientStore.dispatch(agentSlice.action.activeSet(agents.adminMock.$id));
 
-  await agentUpdate({
-    credentialId: admin.credential.$id,
-    publicKey: admin.credential.publicKey,
-  });
+  clientStore.dispatch(agentSlice.action.updateActive({
+    privateKey: agents.userMock.privateKey,
+  }));
 
   const result = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: admin.handle,
-    password: admin.password,
+    handle: 'adminMock',
+    password: 'password',
   }));
 
   if ('data' in result) {
@@ -115,32 +120,3 @@ test('should not login as admin with improper agent private key', async () => {
   expect(logs).toHaveLength(1);
   expect(logs?.[0]?.title).toBe('Invalid Signature');
 });
-
-/**
- * TODO: This test will fail because audits are not being saved to the database yet.
- */
-// test('should see audits of login requests as admin', async () => {
-//   /**
-//    * Get the user account information.
-//    */
-//   const { admin } = await accountsGet();
-
-//   await agentUpdate({
-//     credentialId: admin.credential.$id,
-//     privateKey: admin.privateKey,
-//   });
-
-//   const resultLogin = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-//     handle: admin.handle,
-//     password: admin.password,
-//   }));
-
-//   if ('error' in resultLogin) {
-//     expect(resultLogin.error).toBeUndefined();
-//   }
-
-//   const audits = databaseMemoryStorage()[auditKey];
-
-//   expect(Object.keys(audits)).toHaveLength(1);
-//   expect(Object.keys(audits).length).toBeGreaterThan(1);
-// });

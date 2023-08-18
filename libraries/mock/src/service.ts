@@ -7,7 +7,7 @@ import {
 import type { RequestHandler, SetupWorker } from 'msw';
 import type { SetupServer } from 'msw/node';
 import { setupWorker } from 'msw';
-import type { Api, IoContext } from '@amnis/state';
+import type { Api } from '@amnis/state';
 import {
   localStorage,
   systemSlice,
@@ -16,13 +16,13 @@ import {
   apiCreate,
   agentSlice,
 } from '@amnis/state';
-import type { MockService } from './types.js';
+import type { MockAgents, MockService } from './types.js';
 import { handlersCreate } from './handler.js';
 import { mockData } from './data.js';
 
 let service: SetupServer | SetupWorker | undefined;
 let started = false;
-let contextMock: IoContext;
+let mockAgents: MockAgents;
 
 export const mockService: MockService = {
   setup: async (options) => {
@@ -43,8 +43,6 @@ export const mockService: MockService = {
       debug = false,
       clearStorage = true,
     } = opt;
-
-    contextMock = context;
 
     if (clearStorage) {
       localStorage().removeItem('state-entities');
@@ -71,6 +69,11 @@ export const mockService: MockService = {
     const { agent, ...mockDataCreator } = await mockData(system);
     context.store.dispatch(agentSlice.action.addMany(agent));
     context.database.create(mockDataCreator);
+    mockAgents = {
+      adminMock: agent[0],
+      execMock: agent[1],
+      userMock: agent[2],
+    };
 
     const apis: Api[] = [];
     const handlers: RequestHandler[] = [];
@@ -146,17 +149,7 @@ export const mockService: MockService = {
     service = undefined;
     started = false;
   },
-  agents: () => {
-    if (!contextMock) {
-      return [];
-    }
-    const system = systemSlice.select.active(contextMock.store.getState());
-    if (!system) {
-      return [];
-    }
-    const state = contextMock.store.getState();
-    return agentSlice.select.type(state, 'mock');
-  },
+  agents: () => mockAgents,
 };
 
 export default mockService;

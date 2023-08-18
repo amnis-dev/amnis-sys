@@ -52,9 +52,15 @@ export type MockAgentUser = Agent & {
   $credential: UID;
 };
 
+export type MockAgents = {
+  adminMock: Agent;
+  execMock: Agent;
+  userMock: Agent;
+}
+
 export type MockService = {
   setup: (options?: MockOptions) => Promise<void>;
   start: (options?: StartOptions) => void;
-  agents: () => Agent[];
+  agents: () => MockAgents;
   stop: () => void;
 }

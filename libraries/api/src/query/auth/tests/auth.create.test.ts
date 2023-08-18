@@ -1,7 +1,7 @@
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import {
-  accountsGet,
-  agentUpdate,
+  agentSlice,
   contactSlice,
   profileSlice,
   userSlice,
@@ -16,9 +16,15 @@ import {
 } from './store.js';
 import type { ApiError } from '../../query.types.js';
 
+let agents: MockAgents;
+
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+
+  agents = mockService.agents();
+  clientStore.dispatch(agentSlice.action.insertMany(Object.values(agents)));
+
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',
@@ -35,19 +41,14 @@ test('should NOT create a new account as a regular user', async () => {
   /**
    * Set the agent credentials to the user.
    */
-  const { user } = await accountsGet();
-  await agentUpdate({
-    credentialId: user.credential.$id,
-    publicKey: user.credential.publicKey,
-    privateKey: user.privateKey,
-  });
+  clientStore.dispatch(agentSlice.action.activeSet(agents.userMock.$id));
 
   /**
    * Login
    */
   await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: user.handle,
-    password: user.password,
+    handle: 'userMock',
+    password: 'password',
   }));
 
   /**
@@ -75,19 +76,14 @@ test('should create a new account as a privileged account', async () => {
   /**
    * Set the agent credentials to the administrators.
    */
-  const { admin } = await accountsGet();
-  await agentUpdate({
-    credentialId: admin.credential.$id,
-    publicKey: admin.credential.publicKey,
-    privateKey: admin.privateKey,
-  });
+  clientStore.dispatch(agentSlice.action.activeSet(agents.adminMock.$id));
 
   /**
    * Login
    */
   await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: admin.handle,
-    password: admin.password,
+    handle: 'adminMock',
+    password: 'password',
   }));
 
   /**

@@ -1,7 +1,8 @@
 import React from 'react';
 import { noop } from '@amnis/state';
+import type { MockAgents } from '@amnis/mock';
 
-export type MockerAccount = 'userMock' | 'execMock' | 'adminMock' | undefined;
+export type MockerAccount = keyof MockAgents | undefined;
 
 export interface MockerContextProps {
   /**

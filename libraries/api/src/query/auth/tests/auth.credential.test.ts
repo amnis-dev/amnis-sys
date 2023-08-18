@@ -1,3 +1,4 @@
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import type {
   Entity,
@@ -7,10 +8,9 @@ import {
   credentialSlice,
   otpSlice,
   userSlice,
-  accountsGet,
-  agentCredential,
   databaseMemoryStorage,
   emailerboxStorage,
+  agentSlice,
 } from '@amnis/state';
 import { apiSys } from '../../sys/index.js';
 import { apiAuth } from '../index.js';
@@ -21,6 +21,7 @@ import { clientStore } from './store.js';
 import type { ApiError } from '../../query.types.js';
 
 let adminUser: Entity<User>;
+let agents: MockAgents;
 
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
@@ -29,7 +30,10 @@ beforeAll(async () => {
   const storage = databaseMemoryStorage();
   const storageUsers = Object.values(storage[userSlice.key]) as Entity<User>[];
 
-  adminUser = storageUsers.find((u) => u.handle === 'admin') as Entity<User>;
+  adminUser = storageUsers.find((u) => u.handle === 'adminMock') as Entity<User>;
+
+  agents = mockService.agents();
+  clientStore.dispatch(agentSlice.action.insertMany(Object.values(agents)));
 
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
@@ -44,14 +48,12 @@ afterAll(() => {
 });
 
 test('should NOT login as an administrator without matching credentials', async () => {
-  const { admin } = await accountsGet();
-
   /**
    * Login
    */
   const response = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: admin.handle,
-    password: admin.password,
+    handle: 'adminMock',
+    password: 'password',
   }));
 
   if ('data' in response) {
@@ -67,15 +69,15 @@ test('should NOT login as an administrator without matching credentials', async 
   expect(logs[0].title).toBe('Unknown Agent');
 });
 
-test('should add the current agent credential to the admin account and login', async () => {
-  const { admin } = await accountsGet();
-  const credentialAgent = await agentCredential();
+test('should add the user agent credential to the admin account and login', async () => {
+  const { userMock } = agents;
+  clientStore.dispatch(agentSlice.action.activeSet(userMock.$id));
 
   /**
    * Need to start with obtaining a one-time password
    */
   const responseOtp = await clientStore.dispatch(apiAuth.endpoints.otp.initiate({
-    $subject: `@${admin.handle}`,
+    $subject: '@adminMock',
   }));
 
   if ('error' in responseOtp) {
@@ -112,7 +114,7 @@ test('should add the current agent credential to the admin account and login', a
    * attempt to add the new credential using the admin password.
    */
   const response = await clientStore.dispatch(apiAuth.endpoints.credential.initiate({
-    password: admin.password,
+    password: 'password',
   }));
 
   if ('error' in response) {
@@ -146,8 +148,7 @@ test('should add the current agent credential to the admin account and login', a
   }
 
   expect(credential).toEqual(result[credentialSlice.key][0]);
-  expect(credential.$id).toBe(credentialAgent.$id);
-  expect(credential).toMatchObject(credentialAgent);
+  expect(credential.$id).toBe(userMock.$credential);
   expect(user).toEqual(result[userSlice.key][0]);
   expect(user.$credentials.includes(credential.$id)).toBe(true);
 
@@ -155,8 +156,8 @@ test('should add the current agent credential to the admin account and login', a
    * Should now be able to login
    */
   const responseLogin = await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: admin.handle,
-    password: admin.password,
+    handle: 'adminMock',
+    password: 'password',
   }));
 
   if ('error' in responseLogin) {

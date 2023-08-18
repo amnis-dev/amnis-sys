@@ -1,10 +1,10 @@
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import {
   entityStrip,
-  accountsGet,
-  agentUpdate,
   contactSlice,
   userSlice,
+  agentSlice,
 } from '@amnis/state';
 import { apiAuth } from '../../auth/index.js';
 import { apiSys } from '../../sys/index.js';
@@ -12,9 +12,15 @@ import { apiCrud } from '../index.js';
 import { serviceConfig } from './config.js';
 import { clientStore } from './store.js';
 
+let agents: MockAgents;
+
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+
+  agents = mockService.agents();
+  clientStore.dispatch(agentSlice.action.insertMany(Object.values(agents)));
+
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',
@@ -29,19 +35,13 @@ afterAll(() => {
 
 test('should be able to create a new contact', async () => {
   /**
-   * Get the user account information.
+   * Set the user account information.
    */
-  const { admin } = await accountsGet();
-
-  await agentUpdate({
-    credentialId: admin.credential.$id,
-    publicKey: admin.credential.publicKey,
-    privateKey: admin.privateKey,
-  });
+  clientStore.dispatch(agentSlice.action.activeSet(agents.adminMock.$id));
 
   await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: admin.handle,
-    password: admin.password,
+    handle: 'adminMock',
+    password: 'password',
   }));
 
   const contactCreatorAction = contactSlice.action.create({

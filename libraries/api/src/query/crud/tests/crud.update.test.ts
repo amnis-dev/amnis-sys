@@ -1,3 +1,4 @@
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import type {
   Entity,
@@ -5,10 +6,9 @@ import type {
   Profile,
 } from '@amnis/state';
 import {
+  agentSlice,
   historySlice,
   profileSlice,
-  accountsGet,
-  agentUpdate,
 } from '@amnis/state';
 import { apiAuth } from '../../auth/index.js';
 import { apiSys } from '../../sys/index.js';
@@ -16,9 +16,15 @@ import { apiCrud } from '../index.js';
 import { serviceConfig } from './config.js';
 import { clientStore } from './store.js';
 
+let agents: MockAgents;
+
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+
+  agents = mockService.agents();
+  clientStore.dispatch(agentSlice.action.insertMany(Object.values(agents)));
+
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',
@@ -33,19 +39,13 @@ afterAll(() => {
 
 test('should be able to update user profile', async () => {
   /**
-   * Get the user account information.
+   * Activate the administrator
    */
-  const { admin } = await accountsGet();
-
-  await agentUpdate({
-    credentialId: admin.credential.$id,
-    publicKey: admin.credential.publicKey,
-    privateKey: admin.privateKey,
-  });
+  clientStore.dispatch(agentSlice.action.activeSet(agents.adminMock.$id));
 
   await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: admin.handle,
-    password: admin.password,
+    handle: 'adminMock',
+    password: 'password',
   }));
 
   /**
@@ -58,7 +58,7 @@ test('should be able to update user profile', async () => {
   }));
 
   const profiles = profileSlice.select.all(clientStore.getState());
-  expect(profiles).toHaveLength(3);
+  expect(profiles).toHaveLength(6);
 
   const userProfile = profiles.find((profile) => profile.nameDisplay === 'User');
   if (!userProfile) {

@@ -1,8 +1,9 @@
 import {
-  accountsGet,
+  agentSlice,
   dataActions,
   userSlice,
 } from '@amnis/state';
+import type { MockAgents } from '@amnis/mock';
 import { mockService } from '@amnis/mock';
 import { apiAuth } from '../index.js';
 import { clientStore } from './store.js';
@@ -12,9 +13,15 @@ import {
 import { apiSys } from '../../sys/index.js';
 import type { ApiError } from '../../query.types.js';
 
+let agents: MockAgents;
+
 beforeAll(async () => {
   await mockService.setup(await serviceConfig());
   mockService.start();
+
+  agents = mockService.agents();
+  clientStore.dispatch(agentSlice.action.insertMany(Object.values(agents)));
+
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',
@@ -44,14 +51,11 @@ test('should not be able to authenticate without existing session', async () => 
 });
 
 test('should be able to login as user', async () => {
-  /**
-   * Get the user account information.
-   */
-  const { user } = await accountsGet();
+  clientStore.dispatch(agentSlice.action.activeSet(agents.userMock.$id));
 
   await clientStore.dispatch(apiAuth.endpoints.login.initiate({
-    handle: user.handle,
-    password: user.password,
+    handle: 'userMock',
+    password: 'password',
   }));
 
   const userActive = userSlice.select.active(clientStore.getState());
@@ -59,8 +63,13 @@ test('should be able to login as user', async () => {
   expect(userActive?.$id).toBeDefined();
 });
 
+/**
+ * Even with the agent information wiped, the session can still verify authentication
+ * for a limited time.
+ */
 test('should be able to authenticate with existing session', async () => {
   clientStore.dispatch(dataActions.wipe());
+
   await clientStore.dispatch(
     apiSys.endpoints.system.initiate({
       url: 'http://localhost/api/sys/system',

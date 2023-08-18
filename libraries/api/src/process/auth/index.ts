@@ -13,7 +13,7 @@ export const auth: IoProcessDefinition = {
   meta: {
     reducerPath: 'apiAuth',
     auth: true,
-    signature: ['authenticate', 'login', 'register', 'credential', 'create'],
+    signature: ['login', 'register', 'credential', 'create'],
     challenge: ['authenticate', 'login', 'register', 'credential', 'create'],
     otp: ['credential'],
   },

@@ -201,7 +201,9 @@ export const accountCredentialAdd = async (
     [credentialSlice.key]: [credential],
   };
   const stateEntities = stateEntitiesCreate(stateCreator);
-  await database.create(stateEntities);
+
+  // No need to wait for this promise...
+  database.create(stateEntities);
 
   const stateUpdater: DataUpdater = {
     [userSlice.key]: [

@@ -15,8 +15,6 @@ import {
   mwValidate,
   mwSession,
   mwChallenge,
-  mwSignature,
-  mwCredential,
 } from '../../mw/index.js';
 import { authenticateFinalize, findUserById } from '../../utility/index.js';
 
@@ -90,11 +88,7 @@ export const processAuthAuthenticate = mwValidate('auth/ApiAuthAuthenticate')(
   mwSilencer()(
     mwSession()(
       mwChallenge()(
-        mwCredential()(
-          mwSignature()(
-            process,
-          ),
-        ),
+        process,
       ),
     ),
   ),
