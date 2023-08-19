@@ -79,6 +79,23 @@ export const Mocker: React.FC<MockerProps> = ({
   const [loading, loadingSet] = React.useState(true);
   const [account, accountSet] = React.useState<MockerAccount>(undefined);
 
+  const ping = React.useCallback(async ({ attempts = 20 }) => {
+    try {
+      let attempt = 0;
+      let status = false;
+      while (!status && attempt <= attempts) {
+        // eslint-disable-next-line no-await-in-loop
+        const response = await fetch('/api/mock/ping');
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve) => { setTimeout(resolve, 500); });
+        status = response.ok;
+        attempt += 1;
+      }
+    } catch (e) {
+      throw new Error(JSON.stringify(e));
+    }
+  }, []);
+
   /**
    * Starts/Restarts the mocker service.
    */
@@ -148,9 +165,9 @@ export const Mocker: React.FC<MockerProps> = ({
     });
 
     /**
-     * Wait one second for the mock service to start.
+     * Wait until the mocker service returns a successful ping.
      */
-    await new Promise((resolve) => { setTimeout(resolve, 1000); });
+    await ping({});
 
     /**
      * Set loading to false.

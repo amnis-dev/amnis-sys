@@ -19,6 +19,7 @@ import {
 import type { MockAgents, MockService } from './types.js';
 import { handlersCreate } from './handler.js';
 import { mockData } from './data.js';
+import { handlerPing } from './handlers/ping.js';
 
 let service: SetupWorker | undefined;
 let started = false;
@@ -98,6 +99,11 @@ export const mockService: MockService = {
 
       handlers.push(...handlersCreate(combinedUrl, context, endpoints));
     });
+
+    /**
+     * Setup a ping handler.
+     */
+    handlers.push(handlerPing(baseUrl));
 
     context.store.dispatch(dataActions.create({
       [apiKey]: apis,
