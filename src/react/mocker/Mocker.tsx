@@ -192,29 +192,31 @@ export const Mocker: React.FC<MockerProps> = ({
 
   return (
     <MockerContext.Provider value={contextValue}>
-      {loading ? (
-        <Backdrop
-          sx={{ color: '#fff', backgroundColor: '#888888' }}
-          open={true}
-        >
-          <Stack alignItems="center" sx={{ position: 'relative' }}>
-            <Box sx={{
-              position: 'absolute', opacity: 0.5, top: -75, zIndex: -1,
-            }}>
-              <CircularProgress size={256} thickness={4} />
-            </Box>
-            <Stack alignItems="center" gap={2}>
-              <Typography variant="h2" sx={{ margin: 0, padding: 0 }}>Development Mode</Typography>
-              <Typography variant="subtitle1">Mock Service is Starting...</Typography>
+      <Box minHeight={250}>
+        {loading ? (
+          <Backdrop
+            sx={{ color: '#fff', backgroundColor: '#888888' }}
+            open={true}
+          >
+            <Stack alignItems="center" sx={{ position: 'relative' }}>
+              <Box sx={{
+                position: 'absolute', opacity: 0.5, top: -75, zIndex: -1,
+              }}>
+                <CircularProgress size={256} thickness={4} />
+              </Box>
+              <Stack alignItems="center" gap={2}>
+                <Typography variant="h2" sx={{ margin: 0, padding: 0 }}>Development Mode</Typography>
+                <Typography variant="subtitle1">Mock Service is Starting...</Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        </Backdrop>
-      ) : (<>
-        {system?.$id ? <MockerAgent /> : null}
-        <React.Suspense fallback="DEVELOPMENT MODE: Loading components...">
-          {children}
-        </React.Suspense>
-      </>)}
+          </Backdrop>
+        ) : (<>
+          {system?.$id ? <MockerAgent /> : null}
+          <React.Suspense fallback="DEVELOPMENT MODE: Loading components...">
+            {children}
+          </React.Suspense>
+        </>)}
+      </Box>
     </MockerContext.Provider>
   );
 };

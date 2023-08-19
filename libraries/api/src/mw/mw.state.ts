@@ -338,6 +338,7 @@ export const mwState: IoMiddleware<GrantTask> = (
     }
 
     if (deniedKeys.length) {
+      output.json.denied = deniedKeys;
       output.json.logs.push({
         level: 'error',
         title: `${mwStateTaskName[task]} Disallowed`,

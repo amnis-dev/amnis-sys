@@ -188,6 +188,11 @@ export interface IoOutputJson<T = any> {
   result?: T;
 
   /**
+   * Denied access to slices.
+   */
+  denied?: string[];
+
+  /**
    * Possible bearers.
    */
   bearers?: Bearer[];

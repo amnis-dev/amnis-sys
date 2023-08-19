@@ -1,12 +1,7 @@
 name: Storybook Deployment
 
 on:
-  push:
-    branches:
-      - 'main'
-  pull_request:
-    types: [opened, synchronize, reopened, edited]
-    
+  workflow_dispatch:
 
 jobs:
   build_and_publish:

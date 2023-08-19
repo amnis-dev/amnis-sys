@@ -85,7 +85,9 @@ export const Localization: React.FC = () => {
   }, []), [localeBaseEntites, localeTransEntites]);
 
   // Trigger a read.
-  apiCrud.useReadQuery(localeReadQueryBase('en')) as QueryResult<Locale>;
+  const { data } = apiCrud.useReadQuery(localeReadQueryBase('en')) as QueryResult<Locale>;
+
+  const denied = React.useMemo(() => !!data?.denied?.includes(localeSlice.key), [data]);
 
   return (
     <Box p={2}>
@@ -114,7 +116,7 @@ export const Localization: React.FC = () => {
               }}
             />
           ) : (
-            <p>loading...</p>
+            <p>{denied ? 'Access to data denied' : 'loading...' }</p>
           )}
         </Box>
       </Stack>
