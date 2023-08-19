@@ -51,41 +51,85 @@ export type DataDeleter = { [key: string]: UID[] };
 export interface DataFilter {
   /**
    * Matches values that are equal to a specified value.
+   *
+   * Types: string, number, boolean
    */
   $eq?: unknown;
 
   /**
    * Matches values that do not equal to a specified value.
+   *
+   * Types: string, number, boolean
    */
   $neq?: unknown;
 
   /**
    * Matches values that are greater than a specified value.
+   *
+   * Types: number
    */
   $gt?: number;
 
   /**
    * Matches values that are greater than or equal to a specified value.
+   *
+   * Types: number
    */
   $gte?: number;
 
   /**
    * Matches values that are less than a specified value.
+   *
+   * Types: number
    */
   $lt?: number;
 
   /**
    * Matches values that are less than or equal to a specified value.
+   *
+   * Types: number
    */
   $lte?: number;
 
   /**
+   * Matches values that start with a string.
+   *
+   * Types: string
+   */
+  $stw?: string;
+
+  /**
+   * Matches values that end with a string.
+   *
+   * Types: string
+   */
+  $enw?: string;
+
+  /**
+   * Matches values that includes a string.
+   *
+   * Types: string
+   */
+  $inc?: string;
+
+  /**
+   * Matches values that satisfies the regular expression.
+   *
+   * Types: string
+   */
+  $rgx?: string;
+
+  /**
    * Matches any of the values specified in an array.
+   *
+   * Types: number, string, boolean
    */
   $in?: unknown[];
 
   /**
    * Matches any of the values specified not in an array.
+   *
+   * Types: number, string, boolean
    */
   $nin?: unknown[];
 }
@@ -171,6 +215,16 @@ export type DataQueryOptions = {
   * A query object to search for data.
   */
 export type DataQuery = Record<string, DataQueryOptions>;
+
+/**
+ * Parameters to wipe all data.
+ */
+export interface DataWipe {
+  /**
+   * Spares the specified slice keys from being wiped.
+   */
+  spare?: string[];
+}
 
 /**
  * Meta information for data collections.

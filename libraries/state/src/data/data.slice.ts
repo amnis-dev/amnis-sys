@@ -100,7 +100,22 @@ export const dataSliceCreate = <
   const slice = createSlice({
     name: key,
     initialState,
-    reducers: {},
+    reducers: {
+      clear: (state) => {
+        const metaDefault = dataMetaInitial<Data>();
+
+        state.active = metaDefault.active;
+        state.focused = metaDefault.focused;
+        state.selection = metaDefault.selection;
+
+        Object.keys(state.original).forEach((k) => {
+          delete state.original[k as keyof typeof state.original];
+        });
+        Object.keys(state.differences).forEach((k) => {
+          delete state.differences[k as keyof typeof state.differences];
+        });
+      },
+    },
     extraReducers: (builder) => {
       extraReducersApply<D, M>({
         key,
@@ -169,6 +184,7 @@ export const dataSliceCreate = <
       },
     }),
     ...actions,
+    ...slice.actions,
   };
 
   /**

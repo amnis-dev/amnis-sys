@@ -1,0 +1,52 @@
+name: Storybook Deployment
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+    
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+
+    steps:
+
+    - uses: pnpm/action-setup@v2
+      with:
+        version: latest
+
+    - name: Setup NodeJS with PNPM Caching
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        registry-url: 'https://registry.npmjs.org'
+        scope: '@amnis'
+        cache: 'pnpm'
+
+    - name: Install NodeJS Dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Build Packages
+      run: pnpm build
+
+    - name: Build Storybook
+      run: build-storybook
+
+    - name: Deploy Test Application
+      id: cits-cms-test-deploy
+      uses: Azure/static-web-apps-deploy@v1
+      with:
+        azure_static_web_apps_api_token: ${{ secrets.STORYBOOK_DEPLOYMENT_TOKEN }}
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        action: "upload"
+        app_location: "/storybook-static"
+        skip_app_build: true
+        skip_api_build: true
+        is_static_export: true
+        production_branch: main
+
+    

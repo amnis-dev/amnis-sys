@@ -200,6 +200,30 @@ export const databaseMemory: Database = {
             matches += 1;
           }
 
+          if (
+            filter.$stw !== undefined
+            && typeof entity[entityKey] === 'string'
+            && (entity[entityKey] as unknown as string).startsWith(filter.$stw)
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$enw !== undefined
+            && typeof entity[entityKey] === 'string'
+            && (entity[entityKey] as unknown as string).endsWith(filter.$enw)
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$inc !== undefined
+            && typeof entity[entityKey] === 'string'
+            && (entity[entityKey] as unknown as string).includes(filter.$inc)
+          ) {
+            matches += 1;
+          }
+
           if (filter.$in !== undefined && filter.$in.includes(entity[entityKey])) {
             matches += 1;
           }

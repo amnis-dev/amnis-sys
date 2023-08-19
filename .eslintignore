@@ -9,6 +9,8 @@ types/
 # Ignore js files
 # *.js
 validators/
+# Storybook
+storybook-static/
 
 # Backup
 test-backup/

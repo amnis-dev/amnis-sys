@@ -5,7 +5,7 @@ import {
   contextSetup,
 } from '@amnis/state/context';
 import type { RequestHandler, SetupWorker } from 'msw';
-import type { SetupServer } from 'msw/node';
+// import type { SetupServer } from 'msw/node';
 import { setupWorker } from 'msw';
 import type { Api } from '@amnis/state';
 import {
@@ -20,7 +20,7 @@ import type { MockAgents, MockService } from './types.js';
 import { handlersCreate } from './handler.js';
 import { mockData } from './data.js';
 
-let service: SetupServer | SetupWorker | undefined;
+let service: SetupWorker | undefined;
 let started = false;
 let mockAgents: MockAgents;
 
@@ -106,7 +106,7 @@ export const mockService: MockService = {
     // On NodeJS
     if (typeof window === 'undefined') {
       const msw = await import('msw/node');
-      service = msw.setupServer(...handlers);
+      (service as any) = msw.setupServer(...handlers);
     // On Browser
     } else {
       service = setupWorker(...handlers);
@@ -123,7 +123,7 @@ export const mockService: MockService = {
     }
     // NodeJS uses listen();
     if ('listen' in service) {
-      service.listen();
+      (service as any).listen();
     }
     // Browser uses start();
     if ('start' in service) {
@@ -139,7 +139,7 @@ export const mockService: MockService = {
 
     // NodeJS uses close.
     if ('close' in service) {
-      service.close();
+      (service as any).close();
     }
     // Browser uses stop().
     if ('stop' in service) {

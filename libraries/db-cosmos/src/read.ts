@@ -27,6 +27,10 @@ const sqlOperatorMap: SqlOperatorMap = {
   $gte: '>=',
   $lt: '<',
   $lte: '<=',
+  $stw: 'STARTSWITH',
+  $enw: 'ENDSWITH',
+  $inc: 'CONTAINS',
+  $rgx: 'RegexMatch',
   $in: 'IN',
   $nin: 'NOT IN',
 };
@@ -84,6 +88,22 @@ const buildSqlQuerySpec = (
           filterParts.push(`NOT ARRAY_CONTAINS(${parameterName}, c.${key})`);
           break;
 
+        case sqlOperatorMap.$stw:
+          filterParts.push(`STARTSWITH(${parameterName}, c.${key})`);
+          break;
+
+        case sqlOperatorMap.$enw:
+          filterParts.push(`ENDSWITH(${parameterName}, c.${key})`);
+          break;
+
+        case sqlOperatorMap.$inc:
+          filterParts.push(`CONTAINS(${parameterName}, c.${key})`);
+          break;
+
+        case sqlOperatorMap.$rgx:
+          filterParts.push(`RegexMatch(${parameterName}, c.${key})`);
+          break;
+
         default:
           filterParts.push(`c.${key} ${sqlOperator} ${parameterName}`);
       }
@@ -134,6 +154,10 @@ export const cosmosReadInitializer: CosmosDatabaseMethodInitalizer<DatabaseReadM
       $gte: {},
       $lt: {},
       $lte: {},
+      $stw: {},
+      $enw: {},
+      $inc: {},
+      $rgx: {},
       $in: {},
       $nin: {},
     };

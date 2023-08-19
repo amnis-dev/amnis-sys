@@ -33,6 +33,19 @@ const config: StorybookConfig = {
   `,
   viteFinal: (config) => {
     return mergeConfig(config, {
+      build: {
+        rollupOptions: {
+          external: [
+            'node:crypto',
+            'crypto',
+            'timers',
+            'http',
+            'https',
+            'stream',
+            'zlib',
+          ],
+        }
+      },
       resolve: {
         alias: [
           // {

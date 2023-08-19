@@ -2,7 +2,12 @@ import type { Decorator } from "@storybook/react";
 import { websiteCreate } from '../src/react/index.js'
 import { WebProvider } from '../plugins/web/src/index.js'
 
-const Website = websiteCreate();
+const Website = websiteCreate({
+  hostname: 'localhost',
+  mocker: {
+    production: true
+  }
+});
 
 /**
  * Decorator that provides the redux store to the stories.

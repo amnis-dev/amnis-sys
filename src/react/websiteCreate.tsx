@@ -8,8 +8,8 @@ import { set as apiSet } from '@amnis/api/set';
 import pluginState from '@amnis/state/plugin';
 import pluginApi from '@amnis/api/plugin';
 import pluginWeb from '@amnis/web/plugin';
-import {
-  type DynamicPlugin, type Plugin, type ReduxSet,
+import type {
+  Plugin, ReduxSet,
 } from '@amnis/state';
 
 import { Mocker } from './mocker/Mocker.js';
@@ -17,21 +17,7 @@ import { WebsiteContext } from './WebsiteContext.js';
 import { importerPlugin } from '../importer.js';
 import { pluginSetsMerge } from '../plugin.js';
 import { WebsiteApp } from './WebsiteApp.js';
-
-interface CreateWebsiteOptions {
-  /**
-   * The system this website depends on.
-   * If an array is used, the first index in the array is the default system.
-   */
-  system?: string | string[],
-
-  /**
-   * Plugins to be dynamically imported.
-   *
-   * The plugins are imported on a need-to-use basis, and not in the order they are declared.
-   */
-  plugins?: DynamicPlugin[],
-}
+import type { WebsiteCreateOptions } from './websiteCreate.types.js';
 
 /**
  * Initializes the system for web-based react applications.
@@ -44,8 +30,10 @@ interface CreateWebsiteOptions {
  */
 export function websiteCreate({
   system,
+  hostname,
   plugins = [],
-}: CreateWebsiteOptions = {}) {
+  mocker: mockerOptions,
+}: WebsiteCreateOptions = {}) {
   const ids = new Set<string>(['@amnis/state', '@amnis/api', '@amnis/web']);
   const pluginsDynamic = [
     pluginState,
@@ -164,8 +152,8 @@ export function websiteCreate({
     return (
       <ProviderRR store={store}>
         <WebsiteContext.Provider value={contextValue}>
-          <Mocker plugins={pluginsDynamic}>
-            <WebsiteApp system={system}>
+          <Mocker {...mockerOptions} plugins={pluginsDynamic}>
+            <WebsiteApp system={system} hostname={hostname}>
               {children}
             </WebsiteApp>
           </Mocker>

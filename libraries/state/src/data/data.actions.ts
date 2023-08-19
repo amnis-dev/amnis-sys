@@ -6,6 +6,7 @@ import type {
   DataDeleter,
   DataMeta,
   DataUpdater,
+  DataWipe,
 } from './data.types.js';
 
 export type DataMetaSetter<D extends Data = Data> = Record<string, Partial<DataMeta<D>>>;
@@ -39,7 +40,7 @@ export const dataActions = {
   /**
    * Wipes all entity data from the state.
    */
-  wipe: createAction('@data/wipe'),
+  wipe: createAction<DataWipe | undefined>('@data/wipe'),
 };
 
 export default { dataActions };

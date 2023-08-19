@@ -140,8 +140,12 @@ export const slice = createSlice({
     );
 
     builder.addMatcher(
-      (action) => action.type === dataActions.wipe.type,
-      (state) => {
+      dataActions.wipe.match,
+      (state, { payload }) => {
+        if (payload?.spare?.includes(agentKey)) {
+          return;
+        }
+
         adapter.removeAll(state);
         adapter.addMany(state, agentsLocal);
       },

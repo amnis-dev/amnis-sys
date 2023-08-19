@@ -1,5 +1,8 @@
 import React from 'react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {
+  Backdrop, Box, CircularProgress, Stack, Typography,
+} from '@mui/material';
 import { useWebDispatch, useWebSelector } from '@amnis/web';
 import {
   databaseMemoryClear,
@@ -13,12 +16,13 @@ import { importerPlugins } from '../../importer.js';
 import { pluginMerge } from '../../plugin.js';
 import { MockerContext, type MockerAccount, type MockerContextProps } from './MockerContext.js';
 import { MockerAgent } from './MockerAgent.js';
+import type { WebsiteCreateMockerOptions } from '../websiteCreate.types.js';
 /**
  * Check if node is in development mode.
  */
 export const isDev = process.env.NODE_ENV === 'development';
 
-export interface MockerProps {
+export interface MockerProps extends WebsiteCreateMockerOptions {
   /**
    * An array of import paths to amnis systems.
    *
@@ -61,13 +65,14 @@ export interface MockerProps {
    */
 export const Mocker: React.FC<MockerProps> = ({
   plugins: pluginsDynamic,
+  production = false,
   children,
 }) => {
   /**
    * If the node environment is not in development mode, then
    * return the children as-is.
    */
-  if (!isDev) return <>{children}</>;
+  if (!production && !isDev) return <>{children}</>;
 
   const dispatch = useWebDispatch();
   const system = useWebSelector(systemSlice.select.active);
@@ -171,7 +176,22 @@ export const Mocker: React.FC<MockerProps> = ({
   return (
     <MockerContext.Provider value={contextValue}>
       {loading ? (
-        <div>DEVELOPMENT MODE: Mock service is starting...</div>
+        <Backdrop
+          sx={{ color: '#fff', backgroundColor: '#888888' }}
+          open={true}
+        >
+          <Stack alignItems="center" sx={{ position: 'relative' }}>
+            <Box sx={{
+              position: 'absolute', opacity: 0.5, top: -75, zIndex: -1,
+            }}>
+              <CircularProgress size={256} thickness={4} />
+            </Box>
+            <Stack alignItems="center" gap={2}>
+              <Typography variant="h2" sx={{ margin: 0, padding: 0 }}>Development Mode</Typography>
+              <Typography variant="subtitle1">Mock Service is Starting...</Typography>
+            </Stack>
+          </Stack>
+        </Backdrop>
       ) : (<>
         {system?.$id ? <MockerAgent /> : null}
         <React.Suspense fallback="DEVELOPMENT MODE: Loading components...">

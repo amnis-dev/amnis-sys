@@ -7,16 +7,20 @@ import {
 } from '@amnis/web';
 import { apiCrud, apiSys, apiAuth } from '@amnis/api/react';
 import {
-  systemSlice, localeSlice, userSlice,
+  systemSlice, localeSlice, userSlice, dataActions,
 } from '@amnis/state';
 import { useUpdateEffect } from './hooks/useUpdateEffect.js';
 
+export const isDev = process.env.NODE_ENV === 'development';
+
 export interface WebsiteAppProps {
+  hostname?: string,
   system?: string | string[],
   children?: React.ReactNode,
 }
 
 export const WebsiteApp: React.FC<WebsiteAppProps> = ({
+  hostname,
   system: systemUrl,
   children,
 }) => {
@@ -85,7 +89,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
       [websiteSlice.key]: {
         $query: {
           hostname: {
-            $eq: window.location.hostname,
+            $eq: isDev ? 'localhost' : (hostname ?? window.location.hostname),
           },
         },
         $depth: 1,
@@ -110,6 +114,16 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
    * Reset effect.
    */
   useUpdateEffect(() => {
+    /**
+     * Clear all but essential data.
+     */
+    dispatch(dataActions.wipe({
+      spare: [
+        'agent', 'system', 'api', 'bearer', 'session',
+        'website', 'user', 'profile', 'contact', 'language',
+      ],
+    }));
+
     dispatch(apiCrud.util.resetApiState());
 
     /**

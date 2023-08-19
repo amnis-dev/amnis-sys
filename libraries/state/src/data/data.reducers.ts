@@ -188,7 +188,14 @@ export const dataExtraReducers = {
       adapter.removeMany(state, payload[key]);
     });
 
-    builder.addCase(dataActions.wipe, (state) => {
+    builder.addCase(dataActions.wipe, (state, { payload }) => {
+      /**
+       * Don't wipe spared slices.
+       */
+      if (payload?.spare?.includes(key)) {
+        return;
+      }
+
       /** @ts-ignore */
       adapter.removeAll(state);
 
