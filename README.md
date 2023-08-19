@@ -47,9 +47,11 @@ These plugins are complete functional systems that extend the capabilities of Am
 
 ## Dependencies
 
+External dependencies that will be bundled based on the `@amnis/express` export used.
+
 | Name | Package | License | Justification | `/` | `/web` | `/express` |
 | --- | --- | --- | --- | --- | --- | --- |
-| [Redux Toolkit](https://redux-toolkit.js.org/) | [`@reduxjs/toolkit`](https://github.com/reduxjs/redux-toolkit) | [MIT](https://github.com/reduxjs/redux-toolkit/blob/master/LICENSE) | Solid library to implement a predicable application state with efficient query managment. | &check; | &check; | &check; |
-| [Cross-Fetch](https://github.com/lquixada/cross-fetch) | [`cross-fetch`](https://github.com/lquixada/cross-fetch) | [MIT](https://github.com/lquixada/cross-fetch/blob/v4.x/LICENSE) | Effective cross-platform polyfill functions and types for fetching data across a network. | &check; | &check; | &check; | 
-| [Mock Service Worker](https://mswjs.io/) | [`msw`](https://github.com/mswjs/msw) | [MIT](https://github.com/mswjs/msw/blob/main/LICENSE.md) | Productive cross-platform API mocking for safe and offline application usage. | | &check; | | 
-| [AJV Validator](https://ajv.js.org/) | [`ajv`](https://github.com/ajv-validator/ajv) | [MIT](https://github.com/ajv-validator/ajv/blob/master/LICENSE) | Highly performant JSON Schema validator for varifying data integrity. | | | &check; |
+| [Redux Toolkit](https://redux-toolkit.js.org/) | [`@reduxjs/toolkit`](https://github.com/reduxjs/redux-toolkit) | [MIT](https://github.com/reduxjs/redux-toolkit/blob/master/LICENSE) | Implements a predicable application state with efficient query managment. | &check; | &check; | &check; |
+| [Cross-Fetch](https://github.com/lquixada/cross-fetch) | [`cross-fetch`](https://github.com/lquixada/cross-fetch) | [MIT](https://github.com/lquixada/cross-fetch/blob/v4.x/LICENSE) | Cross-platform polyfill functions and types for fetching data across a network. | &check; | &check; | &check; | 
+| [Mock Service Worker](https://mswjs.io/) | [`msw`](https://github.com/mswjs/msw) | [MIT](https://github.com/mswjs/msw/blob/main/LICENSE.md) | Cross-platform API mocking for safe and offline application usage. | | &check; | | 
+| [AJV Validator](https://ajv.js.org/) | [`ajv`](https://github.com/ajv-validator/ajv) | [MIT](https://github.com/ajv-validator/ajv/blob/master/LICENSE) | Performant JSON Schema validator for verifying data integrity. | | | &check; |

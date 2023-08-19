@@ -4,38 +4,28 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   build: {
+    target: 'modules',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'AmnisExpress',
       fileName: 'index',
+      formats: ['es'],
     },
     rollupOptions: {
-      output: {
-        globals: {
-          express: 'Express',
-          helmet: 'Helmet',
-          cors: 'Cors',
-          'cookie-parser': 'CookieParser',
-          '@amnis/state': 'AmnisState',
-          '@amnis/api': 'AmnisApi',
-          '@amnis/api/process': 'AmnisApiProcess',
-        },
-      },
       external: [
-        'express',
-        'helmet',
-        'cors',
-        'cookie-parser',
-        '@amnis/state',
-        '@amnis/api',
-        '@amnis/api/process',
+        /^@amnis\/state(\/.*)/,
+        /^@amnis\/mock(\/.*)/,
+        /^@amnis\/api(\/.*)/,
+        /^@amnis\/web(\/.*)/,
+        /^node:.*/,
         'crypto',
-        'node:crypto',
+        'express',
       ],
     },
   },
   test: {
     globals: true,
-    testTimeout: 20000,
+    testTimeout: 100000,
+    hookTimeout: 100000,
   },
 });

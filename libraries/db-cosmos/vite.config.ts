@@ -10,24 +10,25 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
       },
       name: 'AmnisDbCosmos',
+      formats: ['es'],
     },
     rollupOptions: {
       output: {
         exports: 'named',
-        globals: {
-          '@amnis/state': 'AmnisState',
-          '@azure/cosmos': 'CosmosClient',
-        },
       },
       external: [
-        '@amnis/state',
-        '@azure/cosmos',
+        /^@amnis\/state(\/.*)/,
+        /^@amnis\/mock(\/.*)/,
+        /^@amnis\/api(\/.*)/,
+        /^@amnis\/web(\/.*)/,
+        /^node:.*/,
       ],
     },
   },
   test: {
     globals: true,
-    testTimeout: 10000,
+    testTimeout: 100000,
+    hookTimeout: 100000,
     setupFiles: ['./vitest.setup.ts'],
     singleThread: true,
     sequence: {

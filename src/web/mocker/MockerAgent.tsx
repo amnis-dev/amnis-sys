@@ -5,15 +5,16 @@ import {
 import { agentSlice } from '@amnis/state';
 import { useWebDispatch, useWebSelector } from '@amnis/web';
 import type { MockAgents } from '@amnis/mock';
-import { mockService } from '@amnis/mock';
 import { apiAuth } from '@amnis/api';
 import { MockerContext } from './MockerContext.js';
 
 export const MockerAgent: React.FC = () => {
+  const { account, service } = React.useContext(MockerContext);
+
+  if (!service) { return null; }
+
   const dispatch = useWebDispatch();
   const agent = useWebSelector(agentSlice.select.active);
-
-  const { account } = React.useContext(MockerContext);
 
   const agentMocks = React.useRef<MockAgents | undefined>();
   const [accountPrev, accountPrevSet] = React.useState(account);
@@ -26,7 +27,7 @@ export const MockerAgent: React.FC = () => {
   }), []);
 
   React.useEffect(() => {
-    const mocked = mockService.agents();
+    const mocked = service.agents();
     dispatch(agentSlice.action.insertMany(Object.values(mocked)));
     agentMocks.current = mocked;
   }, []);

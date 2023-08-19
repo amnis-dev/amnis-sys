@@ -17,22 +17,18 @@ export default defineConfig({
         dataTest: resolve(__dirname, 'src/data/data.default.ts'),
       },
       name: 'AmnisState',
+      formats: ['es'],
     },
     rollupOptions: {
       output: {
         exports: 'named',
-        globals: {
-          '@reduxjs/toolkit': 'ReduxToolkit',
-        },
       },
       external: [
-        '@amnis/state/set',
-        '@amnis/state/schema',
-        '@amnis/state/data',
-        '@amnis/state/dataTest',
-        '@reduxjs/toolkit',
-        'node:crypto',
-        'crypto',
+        /^@amnis\/state(\/.*)/,
+        /^@amnis\/mock(\/.*)/,
+        /^@amnis\/api(\/.*)/,
+        /^@amnis\/web(\/.*)/,
+        /^node:.*/,
       ],
     },
   },

@@ -18,6 +18,7 @@ export default defineConfig({
         crystalizer: resolve(__dirname, 'src/crystalizer/index.ts'),
       },
       name: 'AmnisWeb',
+      formats: ['es'],
     },
     rollupOptions: {
       output: {

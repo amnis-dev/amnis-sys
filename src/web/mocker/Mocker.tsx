@@ -76,6 +76,7 @@ export const Mocker: React.FC<MockerProps> = ({
 
   const dispatch = useWebDispatch();
   const system = useWebSelector(systemSlice.select.active);
+  const [service, serviceSet] = React.useState<MockerContextProps['service']>();
   const [loading, loadingSet] = React.useState(true);
   const [account, accountSet] = React.useState<MockerAccount>(undefined);
 
@@ -115,6 +116,7 @@ export const Mocker: React.FC<MockerProps> = ({
      */
     const { contextSetup } = await import('@amnis/state/context');
     const { mockService } = await import('@amnis/mock');
+    serviceSet(mockService);
 
     mockService.stop();
 
@@ -183,9 +185,11 @@ export const Mocker: React.FC<MockerProps> = ({
   }, []);
 
   const contextValue = React.useMemo<MockerContextProps>(() => ({
+    service,
     account,
     accountSet,
   }), [
+    service,
     account,
     accountSet,
   ]);

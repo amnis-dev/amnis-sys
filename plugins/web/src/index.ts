@@ -1,3 +1,3 @@
 export * from './types.js';
-export * from '@amnis/web/set';
-export * from '@amnis/web/react';
+export * from './set/index.js';
+export * from './react/index.js';
