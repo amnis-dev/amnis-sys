@@ -22,6 +22,9 @@ importers:
       '@amnis/state':
         specifier: workspace:^
         version: link:libraries/state
+      '@amnis/web':
+        specifier: workspace:^
+        version: link:plugins/web
     devDependencies:
       '@amnis/eslint-config-node':
         specifier: workspace:^
@@ -29,9 +32,6 @@ importers:
       '@amnis/tsconfig-node':
         specifier: workspace:^
         version: link:configurations/tsconfig-node
-      '@amnis/web':
-        specifier: workspace:^
-        version: link:plugins/web
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.1(@types/react@18.2.17)(react@18.2.0)
