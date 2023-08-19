@@ -36,8 +36,8 @@ jobs:
     - name: Build Storybook
       run: build-storybook
 
-    - name: Deploy Test Application
-      id: cits-cms-test-deploy
+    - name: Deploy Storybook Application
+      id: amnis-storybook-deploy
       uses: Azure/static-web-apps-deploy@v1
       with:
         azure_static_web_apps_api_token: ${{ secrets.STORYBOOK_DEPLOYMENT_TOKEN }}
