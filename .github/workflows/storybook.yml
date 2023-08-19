@@ -36,7 +36,7 @@ jobs:
       run: pnpm build
 
     - name: Build Storybook
-      run: build-storybook
+      run: pnpm build-storybook
 
     - name: Deploy Storybook Application
       id: amnis-storybook-deploy
