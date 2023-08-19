@@ -39,10 +39,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./react": {
-      "types": "./types/react/index.d.ts",
-      "import": "./dist/react.js",
-      "require": "./dist/react.cjs"
+    "./web": {
+      "types": "./types/web/index.d.ts",
+      "import": "./dist/web.js",
+      "require": "./dist/web.cjs"
     }
   },
   "scripts": {
@@ -71,12 +71,12 @@
   "dependencies": {
     "@amnis/api": "workspace:^",
     "@amnis/mock": "workspace:^",
-    "@amnis/state": "workspace:^"
+    "@amnis/state": "workspace:^",
+    "@amnis/web": "workspace:^"
   },
   "devDependencies": {
     "@amnis/eslint-config-node": "workspace:^",
     "@amnis/tsconfig-node": "workspace:^",
-    "@amnis/web": "workspace:^",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.3",
