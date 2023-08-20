@@ -92,6 +92,7 @@ export const Mocker: React.FC<MockerProps> = ({
         status = response.ok;
         attempt += 1;
       }
+      return status;
     } catch (e) {
       throw new Error(JSON.stringify(e));
     }
@@ -116,6 +117,7 @@ export const Mocker: React.FC<MockerProps> = ({
      */
     const { contextSetup } = await import('@amnis/state/context');
     const { mockService } = await import('@amnis/mock');
+
     serviceSet(mockService);
 
     mockService.stop();
@@ -162,9 +164,7 @@ export const Mocker: React.FC<MockerProps> = ({
     /**
      * Start the mock service.
      */
-    mockService.start({
-      onUnhandledRequest: 'bypass',
-    });
+    await mockService.start();
 
     /**
      * Wait until the mocker service returns a successful ping.

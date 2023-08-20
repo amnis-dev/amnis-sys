@@ -118,7 +118,7 @@ export const mockService: MockService = {
       service = setupWorker(...handlers);
     }
   },
-  start: (options) => {
+  start: async (options) => {
     if (!service) {
       // console.error('Must call mockService.setup() before starting!');
       return;
@@ -133,7 +133,21 @@ export const mockService: MockService = {
     }
     // Browser uses start();
     if ('start' in service) {
-      service.start(options);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      /** @ts-ignore */
+      // eslint-disable-next-line import/extensions
+      // const {
+      //   default: workerUrl,
+      // }: { default: string } = await import('@amnis/mock/worker?worker&url');
+      // console.log('workerUrl', workerUrl);
+
+      service.start({
+        // serviceWorker: {
+        //   url: workerUrl,
+        // },
+        onUnhandledRequest: 'bypass',
+        ...options,
+      });
     }
     started = true;
   },

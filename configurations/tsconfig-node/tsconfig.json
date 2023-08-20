@@ -17,5 +17,6 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "preserveSymlinks": true,
+    "useDefineForClassFields": true
   }
 }

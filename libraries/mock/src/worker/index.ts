@@ -1,2 +1,4 @@
 // eslint-disable-next-line import/extensions
-export * from './mockServiceWorker.js';
+import * as mockServiceWorker from './mockServiceWorker.js';
+
+export default mockServiceWorker;

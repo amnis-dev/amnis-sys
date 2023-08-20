@@ -60,7 +60,7 @@ export type MockAgents = {
 
 export type MockService = {
   setup: (options?: MockOptions) => Promise<void>;
-  start: (options?: StartOptions) => void;
+  start: (options?: StartOptions) => Promise<void>;
   agents: () => MockAgents;
   stop: () => void;
 }
