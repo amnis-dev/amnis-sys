@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch from 'cross-fetch';
-import type { BaseQueryApi } from '@reduxjs/toolkit/query';
+import type { BaseQueryApi } from '@amnis/state/rtk/query';
 import type {
   Api,
   Challenge,

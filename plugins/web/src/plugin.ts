@@ -5,7 +5,7 @@ export const plugin: DynamicPlugin = {
   set: async () => (await import('@amnis/web/set')).set,
   schema: async () => (await import('@amnis/web/schema')).schema,
   data: async () => (await import('@amnis/web/data')).data,
-  dataTest: async () => (await import('@amnis/web/data')).data,
+  dataTest: async () => (await import('@amnis/web/data/test')).dataTest,
 };
 
 export default plugin;

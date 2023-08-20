@@ -1,6 +1,6 @@
 import React from 'react';
 import { noop } from '@amnis/state';
-import type { EntrySchemaErrors } from './EntrySchemas.types.js';
+import type { EntryContextSchemaErrors } from './EntryContextSchemas.types.js';
 
 export interface EntryContextProps<T = any> {
   entryId: string;
@@ -14,9 +14,9 @@ export interface EntryContextProps<T = any> {
   label: string;
   labelInput: string;
   description: string | null;
-  errors: EntrySchemaErrors[];
+  errors: EntryContextSchemaErrors[];
   errored: boolean;
-  errorText: Record<EntrySchemaErrors, string>;
+  errorText: Record<EntryContextSchemaErrors, string>;
   required: boolean;
   disabled: boolean;
   optionalText: string;

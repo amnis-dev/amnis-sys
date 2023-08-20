@@ -1,4 +1,4 @@
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from '@amnis/state/rtk';
 import type { DateJSON } from '../../core/index.js';
 import { dateJSON } from '../../core/index.js';
 import type {

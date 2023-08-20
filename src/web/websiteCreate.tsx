@@ -1,8 +1,8 @@
 import React from 'react';
 import '@amnis/api';
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { Provider as ProviderRR } from 'react-redux';
-import { set as webSet } from '@amnis/web/set';
+import { configureStore, combineReducers } from '@amnis/state/rtk';
+import { set as webSet } from '@amnis/web';
 import { set as stateSet } from '@amnis/state/set';
 import { set as apiSet } from '@amnis/api/set';
 import pluginState from '@amnis/state/plugin';

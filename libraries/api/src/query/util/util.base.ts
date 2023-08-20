@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fetch, { Headers, Request } from 'cross-fetch';
-import type { BaseQueryApi, BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
-import { fetchBaseQuery } from '@reduxjs/toolkit/query';
+import type { BaseQueryApi, BaseQueryFn, FetchArgs } from '@amnis/state/rtk/query';
+import { fetchBaseQuery } from '@amnis/state/rtk/query';
 import type { Api, State } from '@amnis/state';
 import {
   apiCreate,

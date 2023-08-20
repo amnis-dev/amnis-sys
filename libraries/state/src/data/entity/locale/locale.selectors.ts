@@ -1,4 +1,4 @@
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector } from '@amnis/state/rtk';
 import type { Data, DataMeta, DataState } from '../../data.types.js';
 import type { State } from '../../../state.types.js';
 import type { LocaleMeta, Locale } from './locale.types.js';

@@ -1,5 +1,5 @@
-import type { EntityState } from '@reduxjs/toolkit';
-import { nanoid } from '@reduxjs/toolkit';
+import type { EntityState } from '@amnis/state/rtk';
+import { nanoid } from '@amnis/state/rtk';
 import type { UID } from '../../core/index.js';
 import { dateNumeric, uid } from '../../core/index.js';
 import type { Challenge } from './challenge.types.js';

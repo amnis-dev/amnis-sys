@@ -6,9 +6,13 @@ export default defineConfig({
   build: {
     target: 'modules',
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        msw: resolve(__dirname, 'src/msw/index.ts'),
+        mswNode: resolve(__dirname, 'src/msw/node/index.ts'),
+        worker: resolve(__dirname, 'src/worker/index.ts'),
+      },
       name: 'AmnisMock',
-      fileName: 'index',
       formats: ['es'],
     },
     rollupOptions: {
@@ -16,11 +20,12 @@ export default defineConfig({
         exports: 'named',
       },
       external: [
-        /^@amnis\/state(\/.*)/,
-        /^@amnis\/mock(\/.*)/,
-        /^@amnis\/api(\/.*)/,
-        /^@amnis\/web(\/.*)/,
-        /^msw(\/.*)/,
+        /^@amnis\/state(\/?.*)/,
+        /^@amnis\/mock(\/?.*)/,
+        /^@amnis\/api(\/?.*)/,
+        /^@amnis\/web(\/?.*)/,
+        /^@amnis\/mock(\/?.*)/,
+        /^msw(\/?.*)/,
         /^node:.*/,
       ],
     },

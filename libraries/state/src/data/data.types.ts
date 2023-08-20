@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { ActionReducerMapBuilder, EntityState, EntityStateAdapter } from '@reduxjs/toolkit';
+import type { ActionReducerMapBuilder, EntityState, EntityStateAdapter } from '@amnis/state/rtk';
 import type { UID } from '../core/index.js';
 
 export type Data = { $id: UID };

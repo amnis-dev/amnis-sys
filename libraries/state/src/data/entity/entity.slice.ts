@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { AnyAction, Selector } from '@reduxjs/toolkit';
+import type { AnyAction, Selector } from '@amnis/state/rtk';
 import type { Data } from '../data.types.js';
 import { entityCreate } from './entity.js';
 import { entityExtraReducers } from './entity.reducers.js';

@@ -1,4 +1,4 @@
-import type { Middleware, Reducer } from '@reduxjs/toolkit';
+import type { Middleware, Reducer } from '@amnis/state/rtk';
 import type { IoProcessDefinition } from './io/io.types.js';
 import type {
   systemKey,

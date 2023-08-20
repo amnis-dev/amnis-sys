@@ -1,4 +1,4 @@
-import type { SchemaObject } from 'ajv';
+import type { SchemaObject } from '@amnis/state/ajv';
 import type {
   Entity, EntityObjects, System,
 } from '../data/index.js';

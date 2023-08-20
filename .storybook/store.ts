@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@amnis/state/rtk';
 import { set as stateSet } from '@amnis/state/set';
 // import { webSet } from '@amnis/web/set';
 

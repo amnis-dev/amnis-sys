@@ -1,11 +1,15 @@
 import React from 'react';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from '@amnis/state/rtk';
 import { kababize, noop } from '@amnis/state';
 import { Skeleton } from '@mui/material';
-import type { EntryContextProps } from './EntryContext.js';
-import { EntryContext, entryContextDefault } from './EntryContext.js';
+import type {
+  EntryContextProps,
+  EntryContextSchemaErrors,
+  EntryContextSchemaNumber,
+  EntryContextSchemaString,
+} from '@amnis/web/react/context';
+import { EntryContext, entryContextDefault } from '@amnis/web/react/context';
 import { Text, Number } from './inputs/index.js';
-import type { EntrySchemaErrors, EntrySchemaNumber, EntrySchemaString } from './EntrySchemas.types.js';
 
 export interface EntryProps {
   /**
@@ -26,7 +30,7 @@ export interface EntryProps {
   /**
    * Text for errors.
    */
-  errorText?: Record<EntrySchemaErrors, string>;
+  errorText?: Record<EntryContextSchemaErrors, string>;
 
   /**
    * Optional text.
@@ -35,13 +39,13 @@ export interface EntryProps {
 }
 
 export type EntryPropsVariations = {
-  schema?: EntrySchemaString;
+  schema?: EntryContextSchemaString;
   onChange?: (
     value: string | undefined,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
 } | {
-  schema?: EntrySchemaNumber;
+  schema?: EntryContextSchemaNumber;
   onChange?: (
     value: number | undefined,
     event: React.ChangeEvent<HTMLInputElement>
@@ -89,14 +93,14 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
     };
   }, [label, uid]);
 
-  const errors = React.useMemo<EntrySchemaErrors[]>(() => {
-    const result: EntrySchemaErrors[] = [];
+  const errors = React.useMemo<EntryContextSchemaErrors[]>(() => {
+    const result: EntryContextSchemaErrors[] = [];
     if (!schema) {
       return result;
     }
 
     if (typeof value === 'string') {
-      const { maxLength, minLength, pattern } = schema as EntrySchemaString;
+      const { maxLength, minLength, pattern } = schema as EntryContextSchemaString;
       if (required && (!value || value.length === 0)) {
         result.push('required');
         return result;

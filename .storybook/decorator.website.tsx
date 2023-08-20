@@ -1,5 +1,5 @@
 import type { Decorator } from "@storybook/react";
-import { websiteCreate } from '../src/react/index.js'
+import { websiteCreate } from '../src/web/index.js'
 import { WebProvider } from '../plugins/web/src/index.js'
 
 const Website = websiteCreate({

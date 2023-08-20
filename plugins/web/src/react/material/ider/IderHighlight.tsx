@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Box, Popover, Popper, Stack, Typography, css,
 } from '@mui/material';
+import type { WebContextIderEntities } from '@amnis/web/react/context';
 import { CrystalizerProvider } from '@amnis/web/crystalizer';
-import { type WebContextIderEntities } from './WebContext.js';
-import { useId, usePopover } from './hooks/index.js';
+import { useId, usePopover } from '@amnis/web/react/hooks';
 import { IderEntityChips } from './IderEntityChips.js';
 import { IderInput } from './IderInput.js';
 

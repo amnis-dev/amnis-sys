@@ -2,8 +2,8 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Box, Container, Paper } from '@mui/material';
+import { CrystalizerProvider } from '@amnis/web/crystalizer';
 import { Localization } from './Localization.js';
-import { CrystalizerProvider } from '../CrystalizerProvider.js';
 
 const meta: Meta = {
   title: 'Crystalizer/Localization',

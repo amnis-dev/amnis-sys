@@ -4,8 +4,8 @@ import type {
   DataDeleter,
 } from '@amnis/state';
 import { dataActions } from '@amnis/state';
-import type { Middleware } from '@reduxjs/toolkit';
-import { isAnyOf } from '@reduxjs/toolkit';
+import type { Middleware } from '@amnis/state/rtk';
+import { isAnyOf } from '@amnis/state/rtk';
 import { apiCrud } from './crud.api.js';
 
 export const apiCrudMiddleware: Middleware = () => (next) => (action) => {

@@ -1,5 +1,5 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@amnis/state/rtk';
+import { createAction } from '@amnis/state/rtk';
 import { uid } from '../../../core/uid.js';
 import type {
   Locale, LocaleRoot, LocaleMinimal, LocaleMeta,

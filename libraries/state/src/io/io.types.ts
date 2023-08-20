@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
-import type { Store } from '@reduxjs/toolkit';
+import type { SchemaObject } from '@amnis/state/ajv';
+import type { BaseQueryFn, FetchArgs } from '@amnis/state/rtk/query';
+import type { Store } from '@amnis/state/rtk';
 
-import type { SchemaObject } from 'ajv';
 import type {
   Api,
   Bearer,

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   FormHelperText,
 } from '@mui/material';
-import { EntryContext } from '../../EntryContext.js';
+import { EntryContext } from '@amnis/web/react/context';
 
 export const Description: React.FC = () => {
   const {

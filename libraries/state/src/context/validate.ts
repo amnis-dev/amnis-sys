@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { SchemaObject, AnyValidateFunction } from 'ajv/dist/types';
-import Ajv from 'ajv';
+import { Ajv } from '@amnis/state/ajv';
 import type { IoOutput, Validator, Validators } from '../io/io.types.js';
 
 /**

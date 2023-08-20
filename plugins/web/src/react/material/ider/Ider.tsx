@@ -1,6 +1,6 @@
 import React from 'react';
 import { type Entity } from '@amnis/state';
-import { WebContext, type WebContextIderEntities } from './WebContext.js';
+import { WebContext, type WebContextIderEntities } from '@amnis/web/react/context';
 import { IderHighlight } from './IderHighlight.js';
 
 export function iderEn<E extends Entity>(

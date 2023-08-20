@@ -15,42 +15,55 @@
     "dist"
   ],
   "types": "./types/index.d.ts",
-  "main": "./dist/index.umd.cjs",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js"
     },
     "./plugin": {
       "types": "./types/plugin.d.ts",
-      "import": "./dist/plugin.js",
-      "require": "./dist/plugin.cjs"
+      "import": "./dist/plugin.js"
     },
     "./set": {
       "types": "./types/set/index.d.ts",
-      "import": "./dist/set.js",
-      "require": "./dist/set.cjs"
+      "import": "./dist/set.js"
     },
     "./schema": {
       "types": "./types/schema/index.d.ts",
-      "import": "./dist/schema.js",
-      "require": "./dist/schema.cjs"
+      "import": "./dist/schema.js"
     },
     "./data": {
       "types": "./types/data/index.d.ts",
-      "import": "./dist/data.js",
-      "require": "./dist/data.cjs"
+      "import": "./dist/data.js"
+    },
+    "./data/test": {
+      "types": "./types/data/test/index.d.ts",
+      "import": "./dist/dataTest.js"
     },
     "./react": {
       "types": "./types/react/index.d.ts",
-      "import": "./dist/react.js",
-      "require": "./dist/react.cjs"
+      "import": "./dist/react.js"
+    },
+    "./react/hooks": {
+      "types": "./types/react/hooks/index.d.ts",
+      "import": "./dist/reactHooks.js"
+    },
+    "./react/context": {
+      "types": "./types/react/context/index.d.ts",
+      "import": "./dist/reactContext.js"
+    },
+    "./react/material": {
+      "types": "./types/react/materialindex.d.ts",
+      "import": "./dist/reactMaterial.js"
+    },
+    "./interface": {
+      "types": "./types/interface/index.d.ts",
+      "import": "./dist/interface.js"
     },
     "./crystalizer": {
       "types": "./types/crystalizer/index.d.ts",
-      "import": "./dist/crystalizer.js",
-      "require": "./dist/crystalizer.cjs"
+      "import": "./dist/crystalizer.js"
     }
   },
   "scripts": {
@@ -64,7 +77,10 @@
   "dependencies": {
     "@amnis/api": "workspace:^",
     "@amnis/state": "workspace:^",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.3",
-    "@mui/material": "^5.14.4"
+    "@mui/material": "^5.14.4",
+    "@mui/x-data-grid": "^6.11.2"
   }
 }

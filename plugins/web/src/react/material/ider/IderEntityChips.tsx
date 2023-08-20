@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumbs, Chip } from '@mui/material';
-import type { WebContextIderEntities } from './WebContext.js';
+import type { WebContextIderEntities } from '@amnis/web/react/context';
 
 export interface IderEntityChipsProps {
   entities: WebContextIderEntities;

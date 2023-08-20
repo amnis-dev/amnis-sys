@@ -10,7 +10,7 @@ import {
   entityCreate,
   ioInput,
 } from '@amnis/state';
-import type { ResponseTransformer, RestContext, RestRequest } from 'msw';
+import type { ResponseTransformer, RestContext, RestRequest } from '@amnis/mock/msw';
 
 function httpAuthorizationParse(authorization?: string | null): string | undefined {
   if (!authorization) {

@@ -9,9 +9,14 @@
     "jsxImportSource": "@emotion/react",
     "paths": {
       "@amnis/web/set": ["./src/set/index.ts"],
-      "@amnis/web/react": ["./src/react/index.ts"],
       "@amnis/web/schema": ["./src/schema/index.ts"],
       "@amnis/web/data": ["./src/data/index.ts"],
+      "@amnis/web/data/test": ["./src/data/test/index.ts"],
+      "@amnis/web/react": ["./src/react/index.ts"],
+      "@amnis/web/react/hooks": ["./src/react/hooks/index.ts"],
+      "@amnis/web/react/context": ["./src/react/context/index.ts"],
+      "@amnis/web/react/material": ["./src/react/material/index.ts"],
+      "@amnis/web/interface": ["./src/interface/index.ts"],
       "@amnis/web/crystalizer": ["./src/crystalizer/index.ts"],
     }
   },

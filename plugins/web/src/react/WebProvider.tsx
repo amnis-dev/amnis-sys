@@ -4,9 +4,9 @@ import {
   Typography,
   createTheme,
 } from '@mui/material';
-import type { WebContextIder, WebContextIderMap } from './WebContext.js';
-import { WebContext } from './WebContext.js';
-import type { CrystalizerProps } from '../crystalizer/Crystalizer.js';
+import type { WebContextIder, WebContextIderMap } from '@amnis/web/react/context';
+import { WebContext } from '@amnis/web/react/context';
+import type { CrystalizerProps } from '@amnis/web/crystalizer';
 
 const Crystalizer = React.lazy(
   () => import('@amnis/web/crystalizer').then((module) => ({ default: module.Crystalizer })),

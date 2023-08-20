@@ -1,4 +1,4 @@
-import type { Reducer } from '@reduxjs/toolkit';
+import type { Reducer } from '@amnis/state/rtk';
 import type { reducers } from './reducers.js';
 
 export type ExtractPropRootState<Type> = Type extends Reducer<infer X> ? X : never;

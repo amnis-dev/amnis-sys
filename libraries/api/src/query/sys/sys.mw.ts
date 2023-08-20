@@ -1,7 +1,7 @@
 import {
   dataActions, systemSlice, systemKey,
 } from '@amnis/state';
-import type { Middleware } from '@reduxjs/toolkit';
+import type { Middleware } from '@amnis/state/rtk';
 import { apiSys } from './sys.api.js';
 
 export const apiSysMiddleware: Middleware = () => (next) => (action) => {

@@ -1,6 +1,6 @@
 /* eslint-disable no-bitwise */
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@amnis/state/rtk';
+import { createEntityAdapter, createSlice } from '@amnis/state/rtk';
 import { uid, uidv2 } from '../../core/uid.js';
 import { localStorage } from '../../localstorage.js';
 import type { Credential } from '../entity/credential/index.js';

@@ -1,7 +1,7 @@
 <div align="center">
   <img src="./res/amnis-sys-logo-256.webp" alt="Amnis Sys" width="100" height="100">
   <h1 align="center">AmnisSys</h1>
-  <p align="center">An Open Source System for Managable Web and Mobile(WIP) Projects.</p>
+  <p align="center"><strong>Team Managable Web Applications</strong>.</p>
 
   [![GitHub license](https://img.shields.io/github/license/amnis-dev/amnis-sys)](https://github.com/amnis-dev/amnis-sys/blob/main/LICENSE)
   [![Build Status](https://img.shields.io/github/actions/workflow/status/amnis-dev/amnis-sys/integrity-check.yml?label=Integrity%20Check)](https://github.com/amnis-dev/amnis-sys/actions)
@@ -10,15 +10,17 @@
 
 ## Introduction
 
-AmnisSys is a library/framework (depending on how it's used) for developing full-stack web applications with tools that enable **_anyone_** to manage it. It takes care of syncronizing, caching, communications, and other governing behaviors within clients and services. It provides optimized components for displaying and configuring information.
+AmnisSys is a library/framework (depending on how it's used) for developing full-stack web applications with tools that enable **_anyone_** on a team manage it. It takes care of synchronizing, caching, communicating, and other governing behaviors for both clients and services. It provides optimized components for displaying and configuring information.
 
-AmnisSys contains a complete graphical user interface (GUI) management system called **Crystalizer MS**.
+Thanks to API mocking, AmnisSys applications can be safely tested and developed locally. Additionally, it can be especially helpful training cases where users can expore and learn in a local sandbox environment.
+
+AmnisSys contains a complete **graphical user interface (GUI) management system** that overlays the web application when administrating.
 
 ## Installation
 
 AmnisSys can be installed using npm, yarn, or pnpm.
 
-Important to note that this package is only capatible with modern NodeJS 16+ ESM projects.
+This package only exports (Pure ESM modules)(https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
 
 **NPM**
 ```sh
@@ -43,7 +45,7 @@ These plugins are complete functional systems that extend the capabilities of Am
 
 | package | latest | description |
 | --- | --- | --- |
-| `@amnis/web` | [![@amnis/web](https://img.shields.io/npm/v/@amnis/web)](https://www.npmjs.com/package/@amnis/web) | Includes the essential tools and components for implementing and managing web applications. This package is already included with `@amnis/sys/web`. |
+| `@amnis/web` | [![@amnis/web](https://img.shields.io/npm/v/@amnis/web)](https://www.npmjs.com/package/@amnis/web) | Includes the essential tools and components for implementing and managing web applications. **This package is already included with `@amnis/sys/web`**. |
 
 ## Dependencies
 

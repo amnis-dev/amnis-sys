@@ -1,8 +1,8 @@
-export interface EntrySchema {
+export interface EntryContextSchema {
   description?: string;
 }
 
-export type EntrySchemaErrors =
+export type EntryContextSchemaErrors =
   'required'
   | 'minLength'
   | 'maxLength'
@@ -14,7 +14,7 @@ export type EntrySchemaErrors =
   | 'multipleOf'
   | 'type';
 
-export interface EntrySchemaString {
+export interface EntryContextSchemaString {
   type: 'string';
   minLength?: number;
   maxLength?: number;
@@ -22,7 +22,7 @@ export interface EntrySchemaString {
   format?: 'email' | 'search' | 'date-time' | 'date' | 'time' | 'uri' | 'hostname' | 'ipv4' | 'ipv6';
 }
 
-export interface EntrySchemaNumber {
+export interface EntryContextSchemaNumber {
   type: 'number' | 'integer';
   minimum?: number;
   maximum?: number;
@@ -32,7 +32,7 @@ export interface EntrySchemaNumber {
   format?: 'float' | 'double';
 }
 
-export interface EntrySchemaBoolean {
+export interface EntryContextSchemaBoolean {
   type: 'boolean';
   format?: 'checkbox';
 }

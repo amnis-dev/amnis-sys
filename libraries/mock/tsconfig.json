@@ -12,8 +12,16 @@
     "rootDir": "./src",
     "esModuleInterop": true,
     "preserveSymlinks": true,
+    "paths": {
+      "@amnis/mock/msw": ["./src/msw/index.ts"],
+      "@amnis/mock/msw/node": ["./src/msw/node/index.ts"],
+      "@amnis/mock/worker": ["./src/worker/index.ts"],
+    }
   },
   "include": [
     "./src/**/*.ts*"
+  ],
+  "files": [
+    "./src/worker/mockServiceWorker.js"
   ]
 }

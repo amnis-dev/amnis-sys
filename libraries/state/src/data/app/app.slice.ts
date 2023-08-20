@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@amnis/state/rtk';
+import type { PayloadAction } from '@amnis/state/rtk';
 import { appGet, appKey } from './app.js';
 import type { App, AppSystems } from './app.types.js';
 import type { State } from '../../state.types.js';

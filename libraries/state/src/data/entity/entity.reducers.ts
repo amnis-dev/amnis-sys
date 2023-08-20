@@ -3,7 +3,7 @@
 import type {
   Action,
   PayloadAction,
-} from '@reduxjs/toolkit';
+} from '@amnis/state/rtk';
 import type { UID } from '../../core/index.js';
 import { dataActions } from '../data.actions.js';
 import type {

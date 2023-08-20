@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   Action, Comparer, Selector,
-} from '@reduxjs/toolkit';
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+} from '@amnis/state/rtk';
+import { createSlice, createEntityAdapter } from '@amnis/state/rtk';
 import type {
   Data, DataExtraReducers, DataMeta, DataState, DataUpdate,
 } from './data.types.js';

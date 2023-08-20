@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ThunkAction, UnknownAction } from '@reduxjs/toolkit';
+import type { ThunkAction, UnknownAction } from '@amnis/state/rtk';
 import type { RootStateWeb } from '../../types.js';
 import { useWebDispatch } from './useWebDispatch.js';
 

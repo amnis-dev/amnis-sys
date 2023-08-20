@@ -15,6 +15,18 @@ export default defineConfig({
         set: resolve(__dirname, 'src/set/index.ts'),
         data: resolve(__dirname, 'src/records/index.ts'),
         dataTest: resolve(__dirname, 'src/data/data.default.ts'),
+
+        /**
+         * Redux Toolkit
+         */
+        rtk: resolve(__dirname, 'src/rtk/index.ts'),
+        rtkQuery: resolve(__dirname, 'src/rtk/query/index.ts'),
+        rtkQueryReact: resolve(__dirname, 'src/rtk/query/react/index.ts'),
+
+        /**
+         * AJV JSON Schema Validator
+         */
+        ajv: resolve(__dirname, 'src/ajv/index.ts'),
       },
       name: 'AmnisState',
       formats: ['es'],
@@ -24,11 +36,13 @@ export default defineConfig({
         exports: 'named',
       },
       external: [
-        /^@amnis\/state(\/.*)/,
-        /^@amnis\/mock(\/.*)/,
-        /^@amnis\/api(\/.*)/,
-        /^@amnis\/web(\/.*)/,
+        /^@amnis\/state(\/?.*)/,
+        /^@amnis\/mock(\/?.*)/,
+        /^@amnis\/api(\/?.*)/,
+        /^@amnis\/web(\/?.*)/,
         /^node:.*/,
+        'react',
+        'react-dom',
       ],
     },
   },

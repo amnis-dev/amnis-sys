@@ -2,9 +2,9 @@ import React from 'react';
 import { dataActions, pascalize, stateSelect } from '@amnis/state';
 import type { SchemaObject, Entity } from '@amnis/state';
 import { apiSys } from '@amnis/api/react';
-import { Entry } from './material/entry/index.js';
-import type { QueryResult } from './types.js';
-import { useWebDispatch, useWebSelector } from './hooks/index.js';
+import { Entry } from '@amnis/web/react/material';
+import { useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
+import type { QueryResult } from '@amnis/web';
 
 export interface IderInputProps<E extends Entity> {
   entity?: E;

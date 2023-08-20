@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createAction } from '@reduxjs/toolkit';
+import { createAction } from '@amnis/state/rtk';
 import type {
   Data,
   DataCreator,

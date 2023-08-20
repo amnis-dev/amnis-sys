@@ -11,8 +11,8 @@ import {
   routeMapEntities,
   routeSlice,
 } from '@amnis/state';
-import type { Website } from '../set/entity/index.js';
-import { websiteSlice } from '../set/entity/index.js';
+import type { Website } from '@amnis/web/set';
+import { websiteSlice } from '@amnis/web/set';
 import * as dataLocale from './data.locale.js';
 
 export const data: StateDataPromise = async (data) => {

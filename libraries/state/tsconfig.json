@@ -16,6 +16,10 @@
       "@amnis/state/schema": ["./src/schema/index.ts"],
       "@amnis/state/data": ["./src/records/index.ts"],
       "@amnis/state/dataTest": ["./src/data/data.default.ts"],
+      "@amnis/state/rtk": ["./src/rtk/index.ts"],
+      "@amnis/state/rtk/query": ["./src/rtk/query/index.ts"],
+      "@amnis/state/rtk/query/react": ["./src/rtk/query/react/index.ts"],
+      "@amnis/state/ajv": ["./src/ajv/index.ts"],
     }
   },
   "include": [

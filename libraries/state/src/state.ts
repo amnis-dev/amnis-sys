@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { EntityState } from '@reduxjs/toolkit';
+import type { EntityState } from '@amnis/state/rtk';
 import type {
   Entity,
   Data,

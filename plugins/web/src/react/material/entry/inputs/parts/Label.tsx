@@ -3,7 +3,7 @@ import {
   InputLabel, Stack, Tooltip, Typography,
 } from '@mui/material';
 import { Error } from '@mui/icons-material';
-import { EntryContext } from '../../EntryContext.js';
+import { EntryContext } from '@amnis/web/react/context';
 
 export const Label: React.FC = () => {
   const {

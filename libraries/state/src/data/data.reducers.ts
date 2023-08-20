@@ -4,7 +4,7 @@ import type {
   Action,
   Draft,
   PayloadAction,
-} from '@reduxjs/toolkit';
+} from '@amnis/state/rtk';
 import { dataActions } from './data.actions.js';
 import type {
   Data,

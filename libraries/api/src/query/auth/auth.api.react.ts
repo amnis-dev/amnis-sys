@@ -1,4 +1,4 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@amnis/state/rtk/query/react';
 import { dynamicBaseQuery } from '../util/index.js';
 import { apiAuthQueries } from './auth.queries.js';
 

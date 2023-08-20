@@ -3,8 +3,8 @@ import {
   OutlinedInput,
   FormControl,
 } from '@mui/material';
-import type { EntryContextProps } from '../EntryContext.js';
-import { EntryContext } from '../EntryContext.js';
+import type { EntryContextProps } from '@amnis/web/react/context';
+import { EntryContext } from '@amnis/web/react/context';
 import { Description, Label } from './parts/index.js';
 
 export const Text: React.FC = () => {

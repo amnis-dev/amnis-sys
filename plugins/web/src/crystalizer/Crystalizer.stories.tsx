@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { Navbar, WebProvider } from '@amnis/web/react';
 import { Crystalizer } from './Crystalizer.js';
-import { Navbar, WebProvider } from '../react/index.js';
 
 const meta: Meta = {
   title: 'Crystalizer/Crystalizer',

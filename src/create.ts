@@ -1,5 +1,5 @@
-import type { EnhancedStore } from '@reduxjs/toolkit';
-import { combineSlices, configureStore } from '@reduxjs/toolkit';
+import type { EnhancedStore } from '@amnis/state/rtk';
+import { combineSlices, configureStore } from '@amnis/state/rtk';
 
 export interface Sys<T extends EnhancedStore> {
   store: T;

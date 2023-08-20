@@ -1,4 +1,4 @@
-import { createApi } from '@reduxjs/toolkit/query';
+import { createApi } from '@amnis/state/rtk/query';
 import { dynamicBaseQuery } from '../util/index.js';
 import { apiCrudQueries } from './crud.queries.js';
 

@@ -138,6 +138,9 @@ dist
 # Schemas
 *.schema.json
 
+# MSW Worker
+mockServiceWorker.js
+
 # yarn v2
 .yarn/cache
 .yarn/unplugged

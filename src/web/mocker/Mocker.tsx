@@ -1,8 +1,8 @@
 import React from 'react';
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   Backdrop, Box, CircularProgress, Stack, Typography,
 } from '@mui/material';
+import { combineReducers, configureStore } from '@amnis/state/rtk';
 import { useWebDispatch, useWebSelector } from '@amnis/web';
 import {
   databaseMemoryClear,

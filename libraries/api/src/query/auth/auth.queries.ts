@@ -3,7 +3,7 @@
 import type {
   EndpointBuilder,
   BaseQueryFn,
-} from '@reduxjs/toolkit/query';
+} from '@amnis/state/rtk/query';
 import type {
   IoOutputJson,
   Otp,

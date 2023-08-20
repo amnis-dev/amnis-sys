@@ -13,10 +13,10 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        /^@amnis\/state(\/.*)/,
-        /^@amnis\/mock(\/.*)/,
-        /^@amnis\/api(\/.*)/,
-        /^@amnis\/web(\/.*)/,
+        /^@amnis\/state(\/?.*)/,
+        /^@amnis\/mock(\/?.*)/,
+        /^@amnis\/api(\/?.*)/,
+        /^@amnis\/web(\/?.*)/,
         /^node:.*/,
         'crypto',
         'express',

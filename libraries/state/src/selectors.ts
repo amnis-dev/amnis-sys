@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector } from '@amnis/state/rtk';
 import type { UID } from './core/core.types.js';
 import type {
   Data, DataRoot, DataState, DataUpdate, Entity, User,

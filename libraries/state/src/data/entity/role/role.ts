@@ -1,4 +1,4 @@
-import { createAction, nanoid } from '@reduxjs/toolkit';
+import { createAction, nanoid } from '@amnis/state/rtk';
 import type { UID } from '../../../core/index.js';
 import { uid } from '../../../core/index.js';
 import type { Grant } from '../../grant/index.js';

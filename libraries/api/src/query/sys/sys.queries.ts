@@ -1,6 +1,6 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { BaseQueryFn, EndpointBuilder } from '@reduxjs/toolkit/query';
+import type { BaseQueryFn, EndpointBuilder } from '@amnis/state/rtk/query';
 import type {
   IoOutputJson,
   EntityObjects,

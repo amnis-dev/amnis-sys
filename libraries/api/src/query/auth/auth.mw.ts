@@ -14,8 +14,8 @@ import {
   sessionSlice,
   dataActions,
 } from '@amnis/state';
-import type { Middleware } from '@reduxjs/toolkit';
-import { isAnyOf } from '@reduxjs/toolkit';
+import type { Middleware } from '@amnis/state/rtk';
+import { isAnyOf } from '@amnis/state/rtk';
 import { apiAuth } from './auth.api.js';
 
 export const apiAuthMiddleware: Middleware = (store) => (next) => (action) => {

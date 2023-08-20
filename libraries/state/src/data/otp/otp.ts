@@ -1,5 +1,5 @@
-import type { Action, EntityState, PayloadAction } from '@reduxjs/toolkit';
-import { createAction } from '@reduxjs/toolkit';
+import type { Action, EntityState, PayloadAction } from '@amnis/state/rtk';
+import { createAction } from '@amnis/state/rtk';
 import type { UID } from '../../core/index.js';
 import { dateNumeric, uid } from '../../core/index.js';
 import { dataSliceCreate } from '../data.slice.js';

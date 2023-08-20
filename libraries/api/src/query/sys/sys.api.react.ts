@@ -1,5 +1,5 @@
-import '@reduxjs/toolkit';
-import { createApi } from '@reduxjs/toolkit/query/react';
+import '@amnis/state/rtk';
+import { createApi } from '@amnis/state/rtk/query/react';
 import { dynamicBaseQuery } from '../util/index.js';
 import { apiSysQueries } from './sys.queries.js';
 

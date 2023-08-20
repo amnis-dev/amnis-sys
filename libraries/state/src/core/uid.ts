@@ -1,4 +1,4 @@
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid } from '@amnis/state/rtk';
 import { regexUuid } from './regex.js';
 import type {
   UID, UIDv2, UIDList, UIDTree,

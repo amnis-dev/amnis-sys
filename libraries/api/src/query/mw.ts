@@ -14,8 +14,8 @@ import {
   dataActions,
   localeSlice,
 } from '@amnis/state';
-import type { Middleware } from '@reduxjs/toolkit';
-import { isRejected, isFulfilled } from '@reduxjs/toolkit';
+import type { Middleware } from '@amnis/state/rtk';
+import { isRejected, isFulfilled } from '@amnis/state/rtk';
 
 export const apiMiddleware: Middleware = () => (next) => (action) => {
   /**

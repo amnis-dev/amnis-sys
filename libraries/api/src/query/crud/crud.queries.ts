@@ -8,7 +8,7 @@ import type {
   DataQuery,
   DataUpdater,
 } from '@amnis/state';
-import type { BaseQueryFn, EndpointBuilder } from '@reduxjs/toolkit/query';
+import type { BaseQueryFn, EndpointBuilder } from '@amnis/state/rtk/query';
 
 export const apiCrudQueries = <T extends EndpointBuilder<BaseQueryFn, string, string>>(
   builder: T,

@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import type { EntityState } from '@reduxjs/toolkit';
+import type { EntityState } from '@amnis/state/rtk';
 import type { UID, UIDv2 } from '../../core/index.js';
 
 /**

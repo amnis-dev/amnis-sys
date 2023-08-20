@@ -61,23 +61,23 @@ const config: StorybookConfig = {
           //   replacement: resolve("libraries/api/src$1"),
           // },
           {
-            find: /^@amnis\/express(\/.*)/,
+            find: /^@amnis\/express(\/?.*)/,
             replacement: resolve("libraries/express/src$1"),
           },
           {
-            find: /^@amnis\/db-cosmos(\/.*)/,
+            find: /^@amnis\/db-cosmos(\/?.*)/,
             replacement: resolve("libraries/db-cosmos/src$1"),
           },
           {
-            find: /^@amnis\/db-cosmos(\/.*)/,
+            find: /^@amnis\/db-cosmos(\/?.*)/,
             replacement: resolve("libraries/emailer-mailjet/src$1"),
           },
           {
-            find: /^@amnis\/web(\/.*)/,
+            find: /^@amnis\/web(\/?.*)/,
             replacement: resolve("plugins/web/src$1"),
           },
           {
-            find: /^@amnis\/sys(\/.*)/,
+            find: /^@amnis\/sys(\/?.*)/,
             replacement: resolve("src$1"),
           },
         ]

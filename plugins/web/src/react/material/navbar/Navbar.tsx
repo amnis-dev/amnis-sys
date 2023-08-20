@@ -16,12 +16,11 @@ import {
   Typography,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
+import { Ider, iderEn, LanguageButton } from '@amnis/web/react/material';
 import { websiteSlice } from '@amnis/web/set';
 
-import type { NavbarProps } from '../../../interface/index.js';
-import { useMenu, useTranslate, useWebSelector } from '../../hooks/index.js';
-import { Ider, iderEn } from '../../Ider.js';
-import { LanguageButton } from '../language-button/index.js';
+import { useMenu, useTranslate, useWebSelector } from '@amnis/web/react/hooks';
+import type { NavbarProps } from '@amnis/web/interface';
 
 export const Navbar: React.FC<NavbarProps> = ({
   titleHide,

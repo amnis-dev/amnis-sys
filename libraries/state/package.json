@@ -61,6 +61,26 @@
       "types": "./types/data/data.default.d.ts",
       "import": "./dist/dataTest.js",
       "require": "./dist/dataTest.cjs"
+    },
+    "./rtk": {
+      "types": "./types/rtk/index.d.ts",
+      "import": "./dist/rtk.js",
+      "require": "./dist/rtk.cjs"
+    },
+    "./rtk/query": {
+      "types": "./types/rtk/query/index.d.ts",
+      "import": "./dist/rtkQuery.js",
+      "require": "./dist/rtkQuery.cjs"
+    },
+    "./rtk/query/react": {
+      "types": "./types/rtk/query/react/index.d.ts",
+      "import": "./dist/rtkQueryReact.js",
+      "require": "./dist/rtkQueryReact.cjs"
+    },
+    "./ajv": {
+      "types": "./types/ajv/index.d.ts",
+      "import": "./dist/ajv.js",
+      "require": "./dist/ajv.cjs"
     }
   },
   "scripts": {

@@ -4,9 +4,6 @@ import {
 import {
   contextSetup,
 } from '@amnis/state/context';
-import type { RequestHandler, SetupWorker } from 'msw';
-// import type { SetupServer } from 'msw/node';
-import { setupWorker } from 'msw';
 import type { Api } from '@amnis/state';
 import {
   localStorage,
@@ -16,6 +13,9 @@ import {
   apiCreate,
   agentSlice,
 } from '@amnis/state';
+import type { RequestHandler, SetupWorker } from '@amnis/mock/msw';
+// import type { SetupServer } from 'msw/node';
+import { setupWorker } from '@amnis/mock/msw';
 import type { MockAgents, MockService } from './types.js';
 import { handlersCreate } from './handler.js';
 import { mockData } from './data.js';
@@ -111,7 +111,7 @@ export const mockService: MockService = {
 
     // On NodeJS
     if (typeof window === 'undefined') {
-      const msw = await import('msw/node');
+      const msw = await import('@amnis/mock/msw/node');
       (service as any) = msw.setupServer(...handlers);
     // On Browser
     } else {
