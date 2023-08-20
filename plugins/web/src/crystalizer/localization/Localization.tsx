@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import type { GridColDef } from '@mui/x-data-grid';
 import { GridColumnMenu, DataGrid } from '@mui/x-data-grid';
-import type { QueryResult } from '@amnis/web';
-import { useWebSelector } from '@amnis/web';
+import { useWebDispatch, type QueryResult } from '@amnis/web';
+import { useLocaleFetch } from './useLocaleFetch.js';
 
 const localeReadQueryBase = (code: string): DataQuery => ({
   [localeSlice.name]: {
@@ -52,16 +52,19 @@ const columns: GridColDef[] = [
 ];
 
 export const Localization: React.FC = () => {
-  const localeBaseEntites = useWebSelector((state) => localeSlice.select.byCode(state, 'en'));
-  const localeTransEntites = useWebSelector((state) => localeSlice.select.byCode(state, 'de').reduce<
-  Record<string, Locale>
-  >(
-    (acc, curr) => {
-      acc[curr.$id] = curr;
-      return acc;
-    },
-    {},
-  ));
+  const dispatch = useWebDispatch();
+  const [localeBaseEntites, localeTransEntitesPre] = useLocaleFetch();
+
+  const localeTransEntites = React.useMemo(
+    () => localeTransEntitesPre.reduce<Record<string, Locale>>(
+      (acc, curr) => {
+        acc[curr.name] = curr;
+        return acc;
+      },
+      {},
+    ),
+    [localeTransEntitesPre],
+  );
 
   const rows = React.useMemo(() => localeBaseEntites.reduce<{
     id: string,
@@ -77,30 +80,30 @@ export const Localization: React.FC = () => {
       $id: curr.$id,
       name: curr.name,
       value: curr.value,
-      $id2: localeTransEntites[curr.$id]?.$id ?? null,
-      name2: localeTransEntites[curr.$id]?.name ?? null,
-      value2: localeTransEntites[curr.$id]?.value ?? null,
+      $id2: localeTransEntites[curr.name]?.name ?? null,
+      name2: localeTransEntites[curr.name]?.name ?? null,
+      value2: localeTransEntites[curr.name]?.value ?? null,
     });
     return acc;
   }, []), [localeBaseEntites, localeTransEntites]);
 
   // Trigger a read.
   const { data } = apiCrud.useReadQuery(localeReadQueryBase('en')) as QueryResult<Locale>;
-
   const denied = React.useMemo(() => !!data?.denied?.includes(localeSlice.key), [data]);
+
+  React.useEffect(() => () => {
+    dispatch(localeSlice.action.clear());
+  }, []);
 
   return (
     <Box p={2}>
       <Stack gap={1}>
         <Typography variant="h4">Localization</Typography>
-        <Box maxHeight={400} width="100%" sx={{ overflow: 'auto' }}>
+        <Box height={400} width="100%" sx={{ overflow: 'auto' }}>
           {rows.length ? (
             <DataGrid
-              autoHeight
               rows={rows}
               columns={columns}
-              hideFooterPagination
-              hideFooterSelectedRowCount
               sortModel={[{ field: 'name', sort: 'asc' }]}
               slots={{
                 loadingOverlay: LinearProgress,

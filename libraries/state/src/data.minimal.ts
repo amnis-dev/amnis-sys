@@ -23,7 +23,7 @@ export const dataMinimal = (): StateDataGuaranteed => {
     'core:role_admin_name': 'Administrator',
     'core:role_admin_desc': 'Most permissive role for overall system configuration and maintenance.',
     'core:role_exec_name': 'Executive',
-    'core:role_exec_desc': 'Most permissive role for overall system configuration and maintenance.',
+    'core:role_exec_desc': 'Authoritative role for application configuration and maintenance.',
     'core:role_anon_name': 'Anonymous',
     'core:role_anon_desc': 'Permissions for accessing the application data without authentication.',
   });

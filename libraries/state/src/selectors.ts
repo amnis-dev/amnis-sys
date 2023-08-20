@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import type { EntityState } from '@amnis/state/rtk';
 import { createSelector } from '@amnis/state/rtk';
 import type { UID } from './core/core.types.js';
 import type {
-  Data, DataRoot, DataState, DataUpdate, Entity, User,
+  Data, DataQuery, DataRoot, DataState, DataUpdate, Entity, User,
 } from './data/index.js';
 import type { State } from './state.types.js';
-import { localeSlice, systemSlice, userSlice } from './data/index.js';
+import {
+  dataOrder, localeSlice, systemSlice, userSlice,
+} from './data/index.js';
 import type { RootState } from './store.js';
 
 export interface DataComparison<D extends Data> {
@@ -28,6 +31,140 @@ const sliceByKey = <D extends Data = Data>(sliceKey: string) => (state: State) =
 
   return slice;
 };
+
+export type GetSelectQueryResult<T extends Record<string, any>> = {
+  [key in keyof T]?: T[key] extends EntityState<infer D, any> ? D[] : [];
+};
+
+export type SelectQueryResult = GetSelectQueryResult<RootState>;
+
+/**
+ * Selects entities on slices based on a data query.
+ */
+const query = createSelector(
+  [
+    (state: RootState) => state,
+    (state, query: DataQuery) => query,
+  ],
+  (state, query): SelectQueryResult => {
+    const result: Record<string, any[]> = {};
+
+    Object.keys(query).forEach((sliceKey) => {
+      const key = sliceKey as keyof RootState;
+      const slice = state[key] as DataState;
+
+      if (!slice?.entities) {
+        return;
+      }
+
+      const data: Data[] = Object.values(slice.entities);
+      result[key] = data;
+
+      /**
+       * Define the start index and limit.
+       */
+      const start = query[key].$range?.start ?? 0;
+      const limit = query[key].$range?.limit ?? 999999;
+
+      const queryOptions = query[key].$query;
+      if (!queryOptions) {
+        return;
+      }
+      Object.keys(queryOptions).forEach((queryKey) => {
+        const entityKey = queryKey as keyof Data;
+        const filter = queryOptions[queryKey];
+
+        result[key] = dataOrder(
+          result[key],
+          query[key].$order,
+        ).slice(start, limit + start).filter((entity) => {
+          if (!filter) {
+            return true;
+          }
+
+          const filterKeyLength = Object.keys(filter).length;
+          let matches = 0;
+
+          if (filter.$eq !== undefined && filter.$eq === entity[entityKey]) {
+            matches += 1;
+          }
+
+          if (filter.$neq !== undefined && filter.$neq !== entity[entityKey]) {
+            matches += 1;
+          }
+
+          if (
+            filter.$lt !== undefined
+            && typeof entity[entityKey] === 'number'
+            && (entity[entityKey] as unknown as number) < filter.$lt
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$lte !== undefined
+            && typeof entity[entityKey] === 'number'
+            && (entity[entityKey] as unknown as number) <= filter.$lte
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$gt !== undefined
+            && typeof entity[entityKey] === 'number'
+            && (entity[entityKey] as unknown as number) > filter.$gt
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$gte !== undefined
+            && typeof entity[entityKey] === 'number'
+            && (entity[entityKey] as unknown as number) >= filter.$gte
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$stw !== undefined
+            && typeof entity[entityKey] === 'string'
+            && (entity[entityKey] as unknown as string).startsWith(filter.$stw)
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$enw !== undefined
+            && typeof entity[entityKey] === 'string'
+            && (entity[entityKey] as unknown as string).endsWith(filter.$enw)
+          ) {
+            matches += 1;
+          }
+
+          if (
+            filter.$inc !== undefined
+            && typeof entity[entityKey] === 'string'
+            && (entity[entityKey] as unknown as string).includes(filter.$inc)
+          ) {
+            matches += 1;
+          }
+
+          if (filter.$in !== undefined && filter.$in.includes(entity[entityKey])) {
+            matches += 1;
+          }
+
+          if (filter.$nin !== undefined && !filter.$nin.includes(entity[entityKey])) {
+            matches += 1;
+          }
+
+          return matches === filterKeyLength;
+        });
+      });
+    });
+
+    return result as SelectQueryResult;
+  },
+);
 
 /**
  * Selects a translations for an entity.
@@ -289,6 +426,7 @@ const stagedEntities = (state: RootState): Entity[] => {
 };
 
 export const stateSelect = {
+  query,
   sliceByKey,
   dataById,
   dataDifferenceKeys,

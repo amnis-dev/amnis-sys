@@ -106,6 +106,13 @@ export const slice = createSlice({
     removeMany: (state, action: PayloadAction<AgentID[]>) => {
       adapter.removeMany(state, action.payload);
     },
+    removeType: (state, action: PayloadAction<AgentType>) => {
+      const entites = adapterSelectors.selectAll(state).filter((a) => a.type === action.payload);
+      adapter.removeMany(state, entites.map((e) => e.$id));
+    },
+    removeAll: (state) => {
+      adapter.removeAll(state);
+    },
     activeSet(state, action: PayloadAction<AgentID | null>) {
       state.active = action.payload;
     },

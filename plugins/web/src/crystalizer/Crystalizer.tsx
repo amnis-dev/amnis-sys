@@ -1,5 +1,5 @@
 import {
-  createTheme, useTheme, ThemeProvider, SpeedDial, SpeedDialAction, Box, Backdrop,
+  createTheme, useTheme, ThemeProvider, SpeedDial, SpeedDialAction, Box, Backdrop, Drawer,
 } from '@mui/material';
 import React from 'react';
 import {
@@ -33,6 +33,18 @@ export const Crystalizer: React.FC<CrystalizerProps> = () => {
     },
   }), [themeWeb]);
 
+  const container = React.useCallback(() => window.document.body, [window]);
+
+  /**
+   * Get the route from the query parameter cyst.
+   */
+  const routeLocation = React.useMemo(() => {
+    const url = new URL(window.location.href);
+    console.log({ url });
+    const route = url.searchParams.get('cryst');
+    return route;
+  }, [window?.location?.href]);
+
   return (
     <ThemeProvider theme={themeCrystalizer}>
       <Box style={{
@@ -62,6 +74,19 @@ export const Crystalizer: React.FC<CrystalizerProps> = () => {
           ))}
         </SpeedDial>
       </Box>
+      <Drawer
+        open={routeLocation !== null}
+        container={container}
+        variant="temporary"
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          width: '100%',
+        }}
+      >
+        <Box>&nbsp;</Box>
+      </Drawer>
     </ThemeProvider>
   );
 };

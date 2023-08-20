@@ -30,7 +30,7 @@ export const MockerAgent: React.FC = () => {
     const mocked = service.agents();
     dispatch(agentSlice.action.insertMany(Object.values(mocked)));
     agentMocks.current = mocked;
-  }, []);
+  }, [service]);
 
   React.useEffect(() => {
     dispatch(agentSlice.action.activeSet((account && agentMocks.current?.[account].$id) || null));

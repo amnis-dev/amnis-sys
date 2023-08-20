@@ -114,7 +114,7 @@ export const databaseMemory: Database = {
       }
 
       /**
-       * Ensure delete-marked entities are not queryStateed by default.
+       * Ensure delete-marked entities are not queried by default.
        */
       if (query.delete === undefined) {
         query.delete = { $eq: false };

@@ -8,6 +8,7 @@ import {
   databaseMemoryClear,
   dataActions,
   systemSlice,
+  agentSlice,
 } from '@amnis/state';
 import type {
   DynamicPlugin,
@@ -165,6 +166,11 @@ export const Mocker: React.FC<MockerProps> = ({
      * Start the mock service.
      */
     await mockService.start();
+
+    if (wipe) {
+      const mocked = mockService.agents();
+      dispatch(agentSlice.action.insertMany(Object.values(mocked)));
+    }
 
     /**
      * Wait until the mocker service returns a successful ping.

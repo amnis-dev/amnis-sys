@@ -53,7 +53,7 @@ export const dataSliceCreate = <
   sort = (a, b) => a.$id.localeCompare(b.$id),
   persist = false,
 }: DataSliceOptions<K, DataExtended, C, M, A, S, ReturnType<C>>) => {
-  type D = Data & ReturnType<C>;
+  type D = ReturnType<C>;
 
   if (/^[a-z0-9]+$/i.test(key) === false) {
     throw new Error(`Data key must be alphanumeric: ${key}`);
