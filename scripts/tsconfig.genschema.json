@@ -3,6 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@amnis/state/rtk": ["../libraries/state/src/rtk/index.ts"],
+      "@amnis/web/interface": ["../plugins/web/src/interface/index.ts"],
+      "@amnis/web/set": ["../plugins/web/src/set/index.ts"],
     }
   }
 }
