@@ -57,7 +57,9 @@
     "test:root": "vitest --run src/*",
     "test:file": "vitest --run",
     "test:libs": "pnpm run --filter=!@amnis/db-cosmos --filter '@amnis/*' --if-present --parallel test",
-    "clean": "rimraf --glob \"!node_modules\" ./libraries/**/dist ./libraries/**/types ./plugins/**/dist ./plugins/**/types",
+    "clean": "pnpm clean:libraries && clean:plugins",
+    "clean:libraries": "rimraf --glob \"!node_modules\" ./libraries/**/dist ./libraries/**/types ./libraries/**/*.tsbuildinfo",
+    "clean:plugins": "rimraf --glob \"!node_modules\" ./plugins/**/dist ./plugins/**/types ./plugins/**/*.tsbuildinfo",
     "web:documentation": "pnpm --filter '@amnis-website/documentation' start",
     "storybook": "storybook dev --no-open -p 6006",
     "build-storybook": "storybook build"
