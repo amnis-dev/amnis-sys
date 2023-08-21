@@ -1,14 +1,29 @@
+import type { Theme } from '@mui/material';
 import {
-  createTheme, useTheme, ThemeProvider, SpeedDial, SpeedDialAction, Box, Backdrop, Drawer,
+  createTheme,
+  useTheme,
+  ThemeProvider,
+  SpeedDial,
+  SpeedDialAction,
+  Box,
+  Backdrop,
+  Drawer,
+  Stack,
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import React from 'react';
 import {
-  AdminPanelSettings, Build, Language, PeopleAlt, Save, Settings,
+  AdminPanelSettings,
+  Build,
+  Language,
+  PeopleAlt,
+  Save,
+  Settings,
 } from '@mui/icons-material';
-import type { WebContextIderMap } from '@amnis/web/react';
+import { Toggles } from './toggles/index.js';
 
 export interface CrystalizerProps {
-  iders: WebContextIderMap;
+  children: React.ReactNode;
 }
 
 const actions = [
@@ -19,7 +34,11 @@ const actions = [
   { icon: <AdminPanelSettings />, name: 'Administration' },
 ];
 
-export const Crystalizer: React.FC<CrystalizerProps> = () => {
+const drawerWidth = '35%';
+
+export const Crystalizer: React.FC<CrystalizerProps> = ({
+  children,
+}) => {
   const themeWeb = useTheme();
 
   // const [iderSelected, iderSelectedSet] = React.useState<string | null>(null);
@@ -27,9 +46,23 @@ export const Crystalizer: React.FC<CrystalizerProps> = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const themeWebMode = React.useMemo(() => themeWeb.palette.mode, [themeWeb]);
+
   const themeCrystalizer = React.useMemo(() => createTheme({
     palette: {
-      mode: themeWeb.palette.mode === 'light' ? 'dark' : 'light',
+      mode: themeWebMode === 'light' ? 'dark' : 'light',
+      ...(themeWebMode === 'light' ? {
+        divider: grey[600],
+        background: {
+          default: grey[800],
+          paper: grey[900],
+        },
+      } : {
+        divider: grey[700],
+        background: {
+          paper: grey[100],
+        },
+      }),
     },
   }), [themeWeb]);
 
@@ -45,50 +78,147 @@ export const Crystalizer: React.FC<CrystalizerProps> = () => {
     return route;
   }, [window?.location?.href]);
 
+  // const drawerOpen = React.useMemo(() => routeLocation !== null, [routeLocation]);
+  const drawerOpen = React.useMemo(() => false, []);
+
+  /**
+   * Trigger a window resize event to help the web application
+   * to reconsider its layout.
+   */
+  React.useEffect(() => {
+    const timerId = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [drawerOpen]);
+
   return (
-    <ThemeProvider theme={themeCrystalizer}>
-      <Box style={{
-        poition: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-      }}>
-        <Backdrop open={open} onClick={handleClose} />
-        <SpeedDial
-          ariaLabel='Management System Actions'
-          sx={{
-            position: 'absolute',
-            bottom: 16,
-            right: 16,
-          }}
-          icon={<Settings />}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          open={open}
-        >
-          {actions.map((action) => (
-            <SpeedDialAction
-              key={action.name}
-              icon={action.icon}
-              tooltipTitle={action.name}
-              tooltipOpen
-              onClick={handleClose}
-            />
-          ))}
-        </SpeedDial>
-      </Box>
-      <Drawer
-        open={routeLocation !== null}
-        container={container}
-        variant="temporary"
-        ModalProps={{
-          keepMounted: true,
-        }}
+    <Stack direction="row" width="100%" minHeight="100vh">
+
+      {/**
+        * Begin the crystalizer application for managing the web application.
+        */}
+      <ThemeProvider theme={themeCrystalizer}>
+        <Box sx={{
+          width: '0%',
+          transition: (theme: Theme) => theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          ...(drawerOpen && { width: drawerWidth }),
+        }}>
+          {/**
+           * The perminant drawer is used to display the crystalizer menu.
+           */}
+          <Drawer
+            open={drawerOpen}
+            variant="persistent"
+            sx={{
+              '& .MuiDrawer-paper': {
+                transition: 'width 0.5s ease-in-out',
+                width: drawerWidth,
+                boxSizing: 'border-box',
+              },
+            }}
+          >
+            <Box>&nbsp;</Box>
+          </Drawer>
+          {/* <Drawer
+            open={drawerOpen}
+            container={container}
+            variant="temporary"
+            ModalProps={{
+              keepMounted: true,
+            }}
+          >
+            <Box width={450}>&nbsp;</Box>
+          </Drawer> */}
+
+          <Box style={{
+            poition: 'fixed', top: 0, left: 0,
+          }}>
+            <Backdrop open={open} onClick={handleClose} />
+            <SpeedDial
+              ariaLabel='Management System Actions'
+              sx={{
+                position: 'absolute',
+                bottom: 16,
+                right: 16,
+              }}
+              icon={<Settings />}
+              onClose={handleClose}
+              onOpen={handleOpen}
+              open={open}
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  key={action.name}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  tooltipOpen
+                  onClick={handleClose}
+                />
+              ))}
+            </SpeedDial>
+          </Box>
+        </Box>
+      </ThemeProvider>
+
+      {/**
+        * Wraps the main content of the web application.
+        */}
+      <Box
         sx={{
+          position: 'relative',
           width: '100%',
+          transition: (theme: Theme) => theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          ...(drawerOpen && { width: `calc(100% - ${drawerWidth})` }),
         }}
       >
-        <Box>&nbsp;</Box>
-      </Drawer>
-    </ThemeProvider>
+        <ThemeProvider theme={themeCrystalizer}>
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              bgcolor: 'background.default',
+              textAlign: 'center',
+              paddingTop: '4px',
+            }}
+          >
+            <Toggles />
+          </Box>
+        </ThemeProvider>
+
+        <Box
+          width="100%"
+          height="calc(100% - 42px)"
+          flex={1}
+          sx={{
+            position: 'absolute',
+            boxSizing: 'border-box',
+            marginTop: '48px',
+            padding: '0 4px 4px 4px',
+          }}
+        >
+          <Box
+            height="100%"
+            overflow="scroll"
+          >
+            {children}
+          </Box>
+        </Box>
+      </Box>
+    </Stack>
   );
 };
+
+// background: 'linear-gradient(64deg, rgba(153,102,174,1) 0%, rgba(113,157,255,1) 100%);',
 
 export default Crystalizer;

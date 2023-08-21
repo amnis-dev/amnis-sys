@@ -33,6 +33,11 @@ export type UID<T = unknown> = UIDNominal & string;
 export type UIDv2<S extends string = string> = `${S}:${string}`;
 
 /**
+ * Extracts the key value from a UIDv2 type.
+ */
+export type UIDv2Key<ID extends UIDv2> = ID extends `${infer S}:${infer _}` ? S : never;
+
+/**
  * List of identifiers.
  */
 export type UIDList<T = unknown> = UID<T>[];

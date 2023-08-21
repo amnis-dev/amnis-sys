@@ -1,7 +1,7 @@
 import React from 'react';
 import {
+  Paper,
   ThemeProvider,
-  Typography,
   createTheme,
 } from '@mui/material';
 import type { WebContextIder, WebContextIderMap } from '@amnis/web/react/context';
@@ -12,7 +12,11 @@ const Crystalizer = React.lazy(
   () => import('@amnis/web/crystalizer').then((module) => ({ default: module.Crystalizer })),
 );
 
-const theme = createTheme({});
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 
 export interface WebProviderProps {
   /**
@@ -65,34 +69,27 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     idersRemove,
   ]);
 
-  return (
-    <WebContext.Provider value={value}>
-      <ThemeProvider theme={theme}>
-        <div
-          style={crystalizer ? {
-            border: '2px solid #88F',
-          } : undefined}
-        >
-          {crystalizer ? (
-            <div
-              style={{
-                width: '100%',
-                backgroundColor: '#88F',
-                textAlign: 'center',
-              }}
-            >
-              <Typography variant="caption">Management Mode</Typography>
-            </div>
-          ) : null}
+  return (<>
+    {crystalizer ? (
+      <React.Suspense fallback={null}>
+        <CrystalizerDynamic>
+          <WebContext.Provider value={value}>
+            <ThemeProvider theme={theme}>
+              <Paper sx={{ minHeight: '100vh' }}>
+                {children}
+              </Paper>
+            </ThemeProvider>
+          </WebContext.Provider>
+        </CrystalizerDynamic>
+      </React.Suspense>
+    ) : (
+      <WebContext.Provider value={value}>
+        <ThemeProvider theme={theme}>
           <div>{children}</div>
-        </div>
-        {crystalizer ? (
-          <React.Suspense fallback={null}>
-            <CrystalizerDynamic iders={iders} />
-          </React.Suspense>
-        ) : null}
-      </ThemeProvider>
-    </WebContext.Provider>
+        </ThemeProvider>
+      </WebContext.Provider>
+    )}
+  </>
   );
 };
 
