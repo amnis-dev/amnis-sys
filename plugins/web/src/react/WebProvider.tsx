@@ -4,9 +4,13 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import type { WebContextIder, WebContextIderMap } from '@amnis/web/react/context';
+import {
+  dataActions, localeSlice, noop, userSlice,
+} from '@amnis/state';
+import { apiCrud } from '@amnis/api';
 import { WebContext } from '@amnis/web/react/context';
 import type { CrystalizerProps } from '@amnis/web/crystalizer';
+import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
 
 const Crystalizer = React.lazy(
   () => import('@amnis/web/crystalizer').then((module) => ({ default: module.Crystalizer })),
@@ -22,70 +26,111 @@ export interface WebProviderProps {
   /**
    * Default value for the crystalizer manager.
    */
-  crystalizer?: boolean;
+  manager?: boolean;
 
   /**
    * Crystalizer dynamic React component.
    */
-  CrystalizerDynamic?: React.LazyExoticComponent<React.FC<CrystalizerProps>>;
+  ManagerDynamic?: React.LazyExoticComponent<React.FC<CrystalizerProps>>;
+
+  /**
+   * Callback when the website is remounted.
+   */
+  onRemount?: () => void;
 
   children: React.ReactNode;
 }
 
 export const WebProvider: React.FC<WebProviderProps> = ({
-  crystalizer: crystalizerProp = false,
-  CrystalizerDynamic = Crystalizer,
+  manager: managerProp = false,
+  ManagerDynamic = Crystalizer,
+  onRemount = noop,
   children,
 }) => {
-  const [crystalizer, crystalizerSet] = React.useState(crystalizerProp);
-  const [iders, idersSet] = React.useState<WebContextIderMap>({});
+  /**
+   * Dispatcher
+   */
+  const dispatch = useWebDispatch();
 
-  const idersAdd = React.useCallback((id: string, ref: WebContextIder) => {
-    idersSet((iders) => ({
-      ...iders,
-      [id]: ref,
-    }));
-  }, [idersSet, iders]);
+  /**
+   * State data
+   */
+  const language = useWebSelector(localeSlice.select.activeCode);
+  const user = useWebSelector(userSlice.select.active);
 
-  const idersRemove = React.useCallback((id: string) => {
-    idersSet((iders) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [id]: _, ...rest } = iders;
-      return rest;
-    });
-  }, [idersSet, iders]);
+  /**
+   * Remounts the website when this value toggles.
+   */
+  const [remount, remountSet] = React.useState(false);
+
+  /**
+   * Enables the manager.
+   */
+  const [manager, managerSet] = React.useState<WebContext['manager']>(managerProp);
+  const [webSelect, webSelectSet] = React.useState<WebContext['webSelect']>();
 
   const value = React.useMemo(() => ({
-    crystalizer,
-    crystalizerSet,
-    iders,
-    idersAdd,
-    idersRemove,
+    manager,
+    managerSet,
+    webSelect,
+    webSelectSet,
   }), [
-    crystalizer,
-    crystalizerSet,
-    iders,
-    idersAdd,
-    idersRemove,
+    manager,
+    managerSet,
+    webSelect,
+    webSelectSet,
   ]);
 
+  /**
+   * Reset effect.
+   */
+  useUpdateEffect(() => {
+    /**
+     * Clear all but essential data.
+     */
+    dispatch(dataActions.wipe({
+      spare: [
+        'agent', 'system', 'api', 'bearer', 'session',
+        'website', 'user', 'profile', 'contact', 'language',
+      ],
+    }));
+
+    /**
+     * Clear all cache established by the APIs.
+     */
+    dispatch(apiCrud.util.resetApiState());
+
+    /**
+     * Trigger the remount callback
+     */
+    onRemount();
+
+    /**
+     * Trigger all child components to remount.
+     */
+    remountSet(!remount);
+  }, [language, user?.$id]);
+
   return (<>
-    {crystalizer ? (
+    {manager ? (
       <React.Suspense fallback={null}>
-        <CrystalizerDynamic>
+        <ManagerDynamic
+          webSelect={webSelect}
+          onWebSelect={webSelectSet}
+        >
           <WebContext.Provider value={value}>
             <ThemeProvider theme={theme}>
-              <Paper sx={{ minHeight: '100vh' }}>
+              <Paper key={remount ? 0 : 1} sx={{ minHeight: '100vh' }}>
                 {children}
               </Paper>
             </ThemeProvider>
           </WebContext.Provider>
-        </CrystalizerDynamic>
+        </ManagerDynamic>
       </React.Suspense>
     ) : (
       <WebContext.Provider value={value}>
         <ThemeProvider theme={theme}>
-          <div>{children}</div>
+          <div key={remount ? 0 : 1}>{children}</div>
         </ThemeProvider>
       </WebContext.Provider>
     )}

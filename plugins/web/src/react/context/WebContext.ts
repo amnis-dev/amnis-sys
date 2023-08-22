@@ -10,39 +10,35 @@ export type WebContextIder = [
   WebContextIderEntities, React.RefObject<HTMLElement>
 ];
 
+export type WebContextWebSelect = 'data' | 'component';
+
 export type WebContextIderMap = Record<string, WebContextIder>;
 
-export interface WebContextProps {
+export interface WebContext {
   /**
-   * Whether the crystalizer manager is enabled.
+   * Whether the UI manager is enabled.
    */
-  crystalizer: boolean;
+  manager: boolean;
 
   /**
    * Sets the crytalizer manager state.
    */
-  crystalizerSet: (value: boolean) => void;
+  managerSet: (value: boolean) => void;
 
   /**
-   * List of registered ID'd element references.
+   * Sets the web selection state (only useful when the manager is enabled)
    */
-  iders: WebContextIderMap;
+  webSelect?: WebContextWebSelect;
 
   /**
-   * Adds an ID'd element reference to the list.
+   * Sets the web selection state (only useful when the manager is enabled)
    */
-  idersAdd: (id: string, ider: WebContextIder) => void;
-
-  /**
-   * Removes an ID'd element reference from the list.
-   */
-  idersRemove: (id: string) => void;
+  webSelectSet: (value?: WebContextWebSelect) => void;
 }
 
-export const WebContext = React.createContext<WebContextProps>({
-  crystalizer: false,
-  crystalizerSet: noop,
-  iders: {},
-  idersAdd: noop,
-  idersRemove: noop,
+export const WebContext = React.createContext<WebContext>({
+  manager: false,
+  managerSet: noop,
+  webSelect: undefined,
+  webSelectSet: noop,
 });

@@ -20,9 +20,22 @@ import {
   Save,
   Settings,
 } from '@mui/icons-material';
+import { noop } from '@amnis/state';
+import type { WebContext } from '@amnis/web/react/context';
 import { Toggles } from './toggles/index.js';
+import ModeChip from './modechip/ModeChip.js';
 
 export interface CrystalizerProps {
+  /**
+   * Sets the web select state.
+   */
+  webSelect?: WebContext['webSelect'];
+
+  /**
+   * Callback when the web select state changes.
+   */
+  onWebSelect?: WebContext['webSelectSet'];
+
   children: React.ReactNode;
 }
 
@@ -37,6 +50,8 @@ const actions = [
 const drawerWidth = '35%';
 
 export const Crystalizer: React.FC<CrystalizerProps> = ({
+  webSelect,
+  onWebSelect = noop,
   children,
 }) => {
   const themeWeb = useTheme();
@@ -99,6 +114,40 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
     <Stack direction="row" width="100%" minHeight="100vh">
 
       {/**
+        * Wraps the main content of the web application.
+        */}
+      <Box
+        sx={{
+          position: 'relative',
+          background: 'linear-gradient(64deg, rgba(153,102,174,1) 0%, rgba(113,157,255,1) 100%);',
+          width: '100%',
+          transition: (theme: Theme) => theme.transitions.create('width', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          ...(drawerOpen && { width: `calc(100% - ${drawerWidth})` }),
+        }}
+      >
+        <Box
+          width="100%"
+          height="100%"
+          flex={1}
+          sx={{
+            position: 'absolute',
+            boxSizing: 'border-box',
+            padding: '4px 4px 4px 4px',
+          }}
+        >
+          <Box
+            height="100%"
+            overflow="scroll"
+          >
+            {children}
+          </Box>
+        </Box>
+      </Box>
+
+      {/**
         * Begin the crystalizer application for managing the web application.
         */}
       <ThemeProvider theme={themeCrystalizer}>
@@ -110,6 +159,8 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
           }),
           ...(drawerOpen && { width: drawerWidth }),
         }}>
+          <Backdrop open={open} onClick={handleClose} />
+
           {/**
            * The perminant drawer is used to display the crystalizer menu.
            */}
@@ -140,7 +191,23 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
           <Box style={{
             poition: 'fixed', top: 0, left: 0,
           }}>
-            <Backdrop open={open} onClick={handleClose} />
+
+            <ModeChip
+              label="Data Selection Mode"
+              show={webSelect === 'data'}
+              onDelete={() => onWebSelect(undefined)}
+            />
+            <ModeChip
+              label="Component Selection Mode"
+              show={webSelect === 'component'}
+              onDelete={() => onWebSelect(undefined)}
+            />
+
+            <Toggles
+              webSelect={webSelect}
+              onWebSelect={onWebSelect}
+            />
+
             <SpeedDial
               ariaLabel='Management System Actions'
               sx={{
@@ -167,54 +234,6 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
         </Box>
       </ThemeProvider>
 
-      {/**
-        * Wraps the main content of the web application.
-        */}
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          transition: (theme: Theme) => theme.transitions.create('width', {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          ...(drawerOpen && { width: `calc(100% - ${drawerWidth})` }),
-        }}
-      >
-        <ThemeProvider theme={themeCrystalizer}>
-          <Box
-            sx={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              bgcolor: 'background.default',
-              textAlign: 'center',
-              paddingTop: '4px',
-            }}
-          >
-            <Toggles />
-          </Box>
-        </ThemeProvider>
-
-        <Box
-          width="100%"
-          height="calc(100% - 42px)"
-          flex={1}
-          sx={{
-            position: 'absolute',
-            boxSizing: 'border-box',
-            marginTop: '48px',
-            padding: '0 4px 4px 4px',
-          }}
-        >
-          <Box
-            height="100%"
-            overflow="scroll"
-          >
-            {children}
-          </Box>
-        </Box>
-      </Box>
     </Stack>
   );
 };

@@ -8,7 +8,7 @@ export const webComponentKey: UIDv2Key<WebComponentID> = 'webComponent';
 
 export const webComponentRoot = (): WebComponentRoot => ({
   name: 'Unnamed',
-  type: 'div',
+  type: 'other',
   description: '',
   schema: '',
 });

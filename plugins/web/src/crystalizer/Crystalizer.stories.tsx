@@ -18,8 +18,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <WebProvider
-      crystalizer={true}
-      CrystalizerDynamic={React.lazy(async () => ({ default: Crystalizer }))}
+      manager={true}
+      ManagerDynamic={React.lazy(async () => ({ default: Crystalizer }))}
     >
       <Navbar />
     </WebProvider>

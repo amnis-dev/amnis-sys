@@ -89,7 +89,13 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/**
            * Wide Display
            */}
-          <Stack sx={{ display: { xs: 'none', md: 'flex' } }} direction="row" gap={1}>
+          <Stack
+            sx={{
+              display: { xs: 'none', md: 'flex' },
+            }}
+            direction="row"
+            gap={1}
+          >
             <Box>
               {routeTree.map((route) => (
                 <Ider

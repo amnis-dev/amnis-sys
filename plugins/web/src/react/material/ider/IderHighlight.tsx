@@ -23,6 +23,7 @@ export interface IderHighlightProps {
 const cssHighlighter = css`
   position: absolute;
   display: block;
+  box-sizing: content-box;
   top: -4px;
   left: -4px;
   padding: 2px;
@@ -36,6 +37,8 @@ const cssHighlighter = css`
   border-width: 2px;
   border-style: dashed;
   border-color: #888888;
+  line-height: inherit;
+  margin: 0;
 
   &:hover {
     opacity: 1;
@@ -58,7 +61,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
   const timerRef1 = React.useRef<NodeJS.Timeout | null>(null);
   const timerRef2 = React.useRef<NodeJS.Timeout | null>(null);
 
-  const [trigger, triggerSet] = React.useState(false);
+  const [trigger, triggerSet] = React.useState(0);
 
   const {
     popoverOpen,
@@ -72,7 +75,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
    */
   const refDisplayed = React.useMemo(
     () => (element ? window.getComputedStyle(element).display !== 'none' : false),
-    [element],
+    [element, trigger],
   );
 
   /**
@@ -88,37 +91,27 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
     return {
       top, left, width, height,
     };
-  }, [element, trigger, refDisplayed]);
-
-  /**
-   * Handles the trigger toggle.
-   */
-  const handleTrigger = React.useCallback(() => {
-    triggerSet(!trigger);
-    timerRef1.current = null;
-    timerRef2.current = null;
-  }, [trigger]);
-
-  /** Trigger when entities update */
-  React.useEffect(() => {
-    handleTrigger();
-  }, [entities]);
+  }, [element, trigger, refDisplayed, entities]);
 
   /**
    * Listens for window resize events and triggers a two-stage re-render timer.
    */
   React.useEffect(() => {
-    window.addEventListener('resize', handleTrigger);
+    function incrementTrigger() {
+      triggerSet(trigger + 1);
+    }
+
+    window.addEventListener('resize', incrementTrigger);
 
     if (!timerRef1.current) {
-      timerRef1.current = setTimeout(handleTrigger, 150);
+      timerRef1.current = setTimeout(incrementTrigger, 250);
     }
     if (!timerRef2.current) {
-      timerRef2.current = setTimeout(handleTrigger, 500);
+      timerRef2.current = setTimeout(incrementTrigger, 500);
     }
 
     return () => {
-      window.removeEventListener('resize', handleTrigger);
+      window.removeEventListener('resize', incrementTrigger);
       if (timerRef1.current) {
         clearTimeout(timerRef1.current);
       }
@@ -126,18 +119,19 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
         clearTimeout(timerRef2.current);
       }
     };
-  }, []);
+  }, [trigger]);
 
   return (
     <>
       <Popper
+        key={trigger}
         open={true}
         anchorEl={element}
         placement="left-start"
         sx={{ zIndex: 4000 }}
         role="generic"
       >
-        <div
+        <button
           css={cssHighlighter}
           style={{
             opacity: popoverOpen ? 1 : undefined,
@@ -145,8 +139,6 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
             height: refPosition.height ?? 0,
             width: refPosition.width ?? 0,
           }}
-          tabIndex={0}
-          role="button"
           {...buttonProps}
           onClick={(e) => {
             e.stopPropagation();

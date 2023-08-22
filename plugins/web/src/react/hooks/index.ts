@@ -6,3 +6,4 @@ export * from './useId.js';
 export * from './useMenu.js';
 export * from './usePopover.js';
 export * from './useReadLazy.js';
+export * from './useUpdateEffect.js';

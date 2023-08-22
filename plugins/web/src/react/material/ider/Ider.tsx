@@ -21,7 +21,7 @@ export const Ider = ({
 }: IderProps) => {
   React.Children.only(children);
 
-  const { crystalizer } = React.useContext(WebContext);
+  const { manager, webSelect } = React.useContext(WebContext);
 
   const ref = React.useRef<HTMLElement>(null);
 
@@ -31,7 +31,7 @@ export const Ider = ({
       ...children.props.style,
       position: 'relative',
     },
-    children: (crystalizer === true) ? (<>
+    children: (manager && webSelect === 'data') ? (<>
       {children.props.children}
       <IderHighlight refAnchor={ref} entities={entities ?? []} />
     </>

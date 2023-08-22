@@ -8,7 +8,7 @@ export function usePopover(label: string) {
   const buttonId = React.useMemo(() => `popover-button-${label}`, [label]);
   const popoverId = React.useMemo(() => `popover-${label}`, [label]);
 
-  const handleOpen = React.useCallback((event: React.MouseEvent<HTMLElement>) => {
+  const handleOpen = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     anchorElSet(event.currentTarget);
   }, [anchorElSet]);
 
@@ -17,7 +17,7 @@ export function usePopover(label: string) {
     anchorElSet(null);
   }, [anchorElSet]);
 
-  const buttonProps = React.useMemo < React.HTMLProps<any>>(() => ({
+  const buttonProps = React.useMemo < React.ButtonHTMLAttributes<HTMLButtonElement>>(() => ({
     id: buttonId,
     'aria-role': 'button',
     'aria-controls': open ? popoverId : undefined,

@@ -1,64 +1,49 @@
 import { noop } from '@amnis/state';
 import {
   DataObject,
-  Laptop,
-  PhoneAndroid,
-  Tablet,
   Widgets,
 } from '@mui/icons-material';
-import type {
-  Theme,
-} from '@mui/material';
 import {
   Box,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
 } from '@mui/material';
 import React from 'react';
-
-export type TogglesWebSelect = 'data' | 'component';
-
-export type TogglesScreenSelect = 'mobile' | 'tablet' | 'desktop';
+import type { WebContext } from '@amnis/web/react/context';
 
 export interface TogglesProps {
-  webSelect?: TogglesWebSelect;
-  screenSelect?: TogglesScreenSelect;
-  onWebSelect?: (value: TogglesWebSelect) => void;
-  onScreenSelect?: (value: TogglesScreenSelect) => void;
+  webSelect?: WebContext['webSelect'];
+  onWebSelect?: WebContext['webSelectSet'];
 }
 
 export const Toggles: React.FC<TogglesProps> = ({
   webSelect,
-  screenSelect,
   onWebSelect = noop,
-  onScreenSelect = noop,
 }) => {
   const handleWebSelect = React.useCallback(
     (event: React.MouseEvent<HTMLElement>, value: string) => {
       const valueNext = value;
-      const result = valueNext === webSelect ? undefined : valueNext;
-      onWebSelect(result as TogglesWebSelect);
+      const result = (!webSelect && valueNext === webSelect) ? undefined : valueNext;
+      onWebSelect(result as WebContext['webSelect']);
     },
     [onWebSelect],
   );
 
-  const handleScreenSelect = React.useCallback(
-    (event: React.MouseEvent<HTMLElement>, value: string) => {
-      const valueNext = value;
-      const result = valueNext === screenSelect ? undefined : valueNext;
-      onScreenSelect(result as TogglesScreenSelect);
-    },
-    [onScreenSelect],
-  );
+  console.log({ webSelect });
 
   return (
     <Stack
       direction="row"
-      color="white"
-      alignItems="center"
       justifyContent="center"
-      gap={2}
+      alignItems="center"
+      sx={{
+        width: '100%',
+        position: 'absolute',
+        left: 0,
+        bottom: 16,
+      }}
     >
       <Box>
         <ToggleButtonGroup
@@ -69,33 +54,19 @@ export const Toggles: React.FC<TogglesProps> = ({
           onChange={handleWebSelect}
           sx={{ bgcolor: 'background.paper' }}
         >
-          <ToggleButton value="data">
-            <DataObject />
-          </ToggleButton>
-          <ToggleButton value="component">
-            <Widgets />
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </Box>
 
-      <Box>
-        <ToggleButtonGroup
-          size="small"
-          value={screenSelect}
-          exclusive
-          aria-label="screen size mode"
-          onChange={handleScreenSelect}
-          sx={{ bgcolor: 'background.paper' }}
-        >
-          <ToggleButton value="desktop">
-            <Laptop />
+          <ToggleButton value="data" color={webSelect === 'data' ? 'info' : undefined}>
+            <Tooltip title="Data Select" placement='top'>
+              <DataObject />
+            </Tooltip>
           </ToggleButton>
-          <ToggleButton value="tablet">
-            <Tablet />
+
+          <ToggleButton value="component" color={webSelect === 'component' ? 'info' : undefined}>
+            <Tooltip title="Component Select" placement='top'>
+              <Widgets />
+            </Tooltip>
           </ToggleButton>
-          <ToggleButton value="phone">
-            <PhoneAndroid />
-          </ToggleButton>
+
         </ToggleButtonGroup>
       </Box>
     </Stack>
