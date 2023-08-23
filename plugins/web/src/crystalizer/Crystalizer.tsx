@@ -23,7 +23,7 @@ import {
 import { noop } from '@amnis/state';
 import type { WebContext } from '@amnis/web/react/context';
 import { Toggles } from './toggles/index.js';
-import ModeChip from './modechip/ModeChip.js';
+import { ModeChip } from './modechip/ModeChip.js';
 
 export interface CrystalizerProps {
   /**

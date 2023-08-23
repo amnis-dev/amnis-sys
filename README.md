@@ -14,7 +14,7 @@ AmnisSys is a library/framework (depending on how it's used) for developing full
 
 Thanks to API mocking, AmnisSys applications can be safely tested and developed locally. Additionally, it can be especially helpful training cases where users can expore and learn in a local sandbox environment.
 
-AmnisSys contains a complete **graphical user interface (GUI) management system** that overlays the web application when administrating.
+AmnisSys contains a complete **graphical user interface (GUI) management system** that dynamically overlays the web application when administrating.
 
 ## Installation
 
