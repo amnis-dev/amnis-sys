@@ -20,7 +20,7 @@ export default defineConfig({
         reactContext: resolve(__dirname, 'src/react/context/index.ts'),
         reactMaterial: resolve(__dirname, 'src/react/material/index.ts'),
         interface: resolve(__dirname, 'src/interface/index.ts'),
-        crystalizer: resolve(__dirname, 'src/crystalizer/index.ts'),
+        manager: resolve(__dirname, 'src/manager/index.ts'),
       },
       name: 'AmnisWeb',
       formats: ['es'],

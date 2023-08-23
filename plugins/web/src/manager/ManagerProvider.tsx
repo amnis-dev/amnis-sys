@@ -1,26 +1,26 @@
 import { ThemeProvider, createTheme, useTheme } from '@mui/material';
 import React from 'react';
 
-export interface CrystalizerProviderProps {
+export interface ManagerProviderProps {
   children?: React.ReactNode;
 }
 
-export const CrystalizerProvider: React.FC<CrystalizerProviderProps> = ({
+export const ManagerProvider: React.FC<ManagerProviderProps> = ({
   children,
 }) => {
   const themeWeb = useTheme();
 
-  const themeCrystalizer = React.useMemo(() => createTheme({
+  const themeManager = React.useMemo(() => createTheme({
     palette: {
       mode: themeWeb.palette.mode === 'light' ? 'dark' : 'light',
     },
   }), [themeWeb]);
 
   return (
-    <ThemeProvider theme={themeCrystalizer}>
+    <ThemeProvider theme={themeManager}>
       {children}
     </ThemeProvider>
   );
 };
 
-export default CrystalizerProvider;
+export default ManagerProvider;

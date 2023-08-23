@@ -2,15 +2,15 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Navbar, WebContext } from '@amnis/web/react';
-import { Crystalizer } from './Crystalizer.js';
+import { Manager } from './Manager.js';
 
 const meta: Meta = {
-  title: 'Crystalizer/Crystalizer',
-  component: Crystalizer,
+  title: 'Manager/Manager',
+  component: Manager,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Crystalizer>;
+} satisfies Meta<typeof Manager>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

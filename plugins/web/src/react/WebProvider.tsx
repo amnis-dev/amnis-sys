@@ -14,12 +14,12 @@ import {
 import { apiCrud } from '@amnis/api';
 import { BackdropProgress } from '@amnis/web/react/material';
 import { Outlet } from 'react-router-dom';
+import type { ManagerProps } from '@amnis/web/manager';
 import { WebContext } from '@amnis/web/react/context';
-import type { CrystalizerProps } from '@amnis/web/crystalizer';
 import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
 
-const Crystalizer = React.lazy(
-  () => import('@amnis/web/crystalizer').then((module) => ({ default: module.Crystalizer })),
+const Manager = React.lazy(
+  () => import('@amnis/web/manager').then((module) => ({ default: module.Manager })),
 );
 
 const theme = createTheme({
@@ -30,14 +30,14 @@ const theme = createTheme({
 
 export interface WebProviderProps {
   /**
-   * Default value for the crystalizer manager.
+   * Default value for the manager manager.
    */
   manager?: boolean;
 
   /**
-   * Crystalizer dynamic React component.
+   * Manager dynamic React component.
    */
-  ManagerDynamic?: React.LazyExoticComponent<React.FC<CrystalizerProps>>;
+  ManagerDynamic?: React.LazyExoticComponent<React.FC<ManagerProps>>;
 
   /**
    * Callback when the website is remounted.
@@ -49,7 +49,7 @@ export interface WebProviderProps {
 
 export const WebProvider: React.FC<WebProviderProps> = ({
   manager: managerProp = false,
-  ManagerDynamic = Crystalizer,
+  ManagerDynamic = Manager,
   onRemount = noop,
   children,
 }) => {

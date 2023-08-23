@@ -25,7 +25,7 @@ import type { WebContext } from '@amnis/web/react/context';
 import { Toggles } from './toggles/index.js';
 import { ModeChip } from './modechip/ModeChip.js';
 
-export interface CrystalizerProps {
+export interface ManagerProps {
   /**
    * Sets the web select state.
    */
@@ -47,7 +47,7 @@ const actions = [
 
 const drawerWidth = '35%';
 
-export const Crystalizer: React.FC<CrystalizerProps> = ({
+export const Manager: React.FC<ManagerProps> = ({
   webSelect,
   onWebSelect = noop,
 }) => {
@@ -60,7 +60,7 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
 
   const themeWebMode = React.useMemo(() => themeWeb.palette.mode, [themeWeb]);
 
-  const themeCrystalizer = React.useMemo(() => createTheme({
+  const themeManager = React.useMemo(() => createTheme({
     palette: {
       mode: themeWebMode === 'light' ? 'dark' : 'light',
       ...(themeWebMode === 'light' ? {
@@ -121,9 +121,9 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
     >
 
       {/**
-        * Begin the crystalizer application for managing the web application.
+        * Begin the manager application for managing the web application.
         */}
-      <ThemeProvider theme={themeCrystalizer}>
+      <ThemeProvider theme={themeManager}>
         <Box sx={{
           width: '0%',
           zIndex: 100,
@@ -136,7 +136,7 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
           <Backdrop open={open} onClick={handleClose} />
 
           {/**
-           * The perminant drawer is used to display the crystalizer menu.
+           * The perminant drawer is used to display the manager menu.
            */}
           <Drawer
             open={drawerOpen}
@@ -214,4 +214,4 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
 
 // background: 'linear-gradient(64deg, rgba(153,102,174,1) 0%, rgba(113,157,255,1) 100%);',
 
-export default Crystalizer;
+export default Manager;

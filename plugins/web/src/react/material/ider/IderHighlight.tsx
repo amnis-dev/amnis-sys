@@ -2,8 +2,8 @@ import React from 'react';
 import {
   Box, Popover, Popper, Stack, Typography, css,
 } from '@mui/material';
+import { ManagerProvider } from '@amnis/web/manager';
 import type { WebContextIderEntities } from '@amnis/web/react/context';
-import { CrystalizerProvider } from '@amnis/web/crystalizer';
 import { useId, usePopover } from '@amnis/web/react/hooks';
 import { IderEntityChips } from './IderEntityChips.js';
 import { IderInput } from './IderInput.js';
@@ -150,7 +150,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
           }}
         />
       </Popper>
-      <CrystalizerProvider>
+      <ManagerProvider>
         <Popover
           style={{ zIndex: 4001 }}
           {...popoverProps}
@@ -178,7 +178,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
             </Stack>
           </Box>
         </Popover>
-      </CrystalizerProvider>
+      </ManagerProvider>
     </>
   );
 };

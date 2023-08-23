@@ -61,9 +61,9 @@
       "types": "./types/interface/index.d.ts",
       "import": "./dist/interface.js"
     },
-    "./crystalizer": {
-      "types": "./types/crystalizer/index.d.ts",
-      "import": "./dist/crystalizer.js"
+    "./manager": {
+      "types": "./types/manager/index.d.ts",
+      "import": "./dist/manager.js"
     }
   },
   "scripts": {

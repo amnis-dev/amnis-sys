@@ -17,7 +17,7 @@
       "@amnis/web/react/context": ["./src/react/context/index.ts"],
       "@amnis/web/react/material": ["./src/react/material/index.ts"],
       "@amnis/web/interface": ["./src/interface/index.ts"],
-      "@amnis/web/crystalizer": ["./src/crystalizer/index.ts"],
+      "@amnis/web/manager": ["./src/manager/index.ts"],
     }
   },
   "include": [

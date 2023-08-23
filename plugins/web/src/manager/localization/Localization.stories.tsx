@@ -2,18 +2,18 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Box, Container, Paper } from '@mui/material';
-import { CrystalizerProvider } from '@amnis/web/crystalizer';
+import { ManagerProvider } from '@amnis/web/manager';
 import { Localization } from './Localization.js';
 
 const meta: Meta = {
-  title: 'Crystalizer/Localization',
+  title: 'Manager/Localization',
   component: Localization,
   parameters: {
     layout: 'fullscreen',
   },
   decorators: [
     (Story: React.FC) => (
-      <CrystalizerProvider>
+      <ManagerProvider>
         <Box p={4}>
           <Container maxWidth="lg">
             <Paper>
@@ -21,7 +21,7 @@ const meta: Meta = {
             </Paper>
           </Container>
         </Box>
-      </CrystalizerProvider>
+      </ManagerProvider>
     ),
   ],
 } satisfies Meta<typeof Localization>;
