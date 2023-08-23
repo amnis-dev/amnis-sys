@@ -35,13 +35,11 @@ export interface CrystalizerProps {
    * Callback when the web select state changes.
    */
   onWebSelect?: WebContext['webSelectSet'];
-
-  children: React.ReactNode;
 }
 
 const actions = [
   { icon: <Save />, name: 'Save' },
-  { icon: <Build />, name: 'Configuration' },
+  { icon: <Build />, name: 'Manager' },
   { icon: <Language />, name: 'Localization' },
   { icon: <PeopleAlt />, name: 'Accounts' },
   { icon: <AdminPanelSettings />, name: 'Administration' },
@@ -52,7 +50,6 @@ const drawerWidth = '35%';
 export const Crystalizer: React.FC<CrystalizerProps> = ({
   webSelect,
   onWebSelect = noop,
-  children,
 }) => {
   const themeWeb = useTheme();
 
@@ -111,41 +108,17 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
   }, [drawerOpen]);
 
   return (
-    <Stack direction="row" width="100%" minHeight="100vh">
-
-      {/**
-        * Wraps the main content of the web application.
-        */}
-      <Box
-        sx={{
-          position: 'relative',
-          background: 'linear-gradient(64deg, rgba(153,102,174,1) 0%, rgba(113,157,255,1) 100%);',
-          width: '100%',
-          transition: (theme: Theme) => theme.transitions.create('width', {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          ...(drawerOpen && { width: `calc(100% - ${drawerWidth})` }),
-        }}
-      >
-        <Box
-          width="100%"
-          height="100%"
-          flex={1}
-          sx={{
-            position: 'absolute',
-            boxSizing: 'border-box',
-            padding: '4px 4px 4px 4px',
-          }}
-        >
-          <Box
-            height="100%"
-            overflow="scroll"
-          >
-            {children}
-          </Box>
-        </Box>
-      </Box>
+    <Stack
+      direction="row"
+      width="100%"
+      minHeight="100vh"
+      sx={{
+        position: 'absolute',
+        background: 'linear-gradient(64deg, rgba(153,102,174,1) 0%, rgba(113,157,255,1) 100%);',
+        top: 0,
+        left: 0,
+      }}
+    >
 
       {/**
         * Begin the crystalizer application for managing the web application.
@@ -153,6 +126,7 @@ export const Crystalizer: React.FC<CrystalizerProps> = ({
       <ThemeProvider theme={themeCrystalizer}>
         <Box sx={{
           width: '0%',
+          zIndex: 100,
           transition: (theme: Theme) => theme.transitions.create('width', {
             easing: theme.transitions.easing.easeInOut,
             duration: theme.transitions.duration.enteringScreen,

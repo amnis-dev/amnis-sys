@@ -5,6 +5,7 @@ import {
 } from '@mui/icons-material';
 import {
   Box,
+  Grow,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
@@ -46,28 +47,30 @@ export const Toggles: React.FC<TogglesProps> = ({
       }}
     >
       <Box>
-        <ToggleButtonGroup
-          size="small"
-          value={webSelect}
-          exclusive
-          aria-label="website selection mode"
-          onChange={handleWebSelect}
-          sx={{ bgcolor: 'background.paper' }}
-        >
+        <Grow in={true}>
+          <ToggleButtonGroup
+            size="small"
+            value={webSelect}
+            exclusive
+            aria-label="website selection mode"
+            onChange={handleWebSelect}
+            sx={{ bgcolor: 'background.paper' }}
+          >
 
-          <ToggleButton value="data" color={webSelect === 'data' ? 'info' : undefined}>
-            <Tooltip title="Data Select" placement='top'>
-              <DataObject />
-            </Tooltip>
-          </ToggleButton>
+            <ToggleButton value="data" color={webSelect === 'data' ? 'info' : undefined}>
+              <Tooltip title="Data Select" placement='top'>
+                <DataObject />
+              </Tooltip>
+            </ToggleButton>
 
-          <ToggleButton value="component" color={webSelect === 'component' ? 'info' : undefined}>
-            <Tooltip title="Component Select" placement='top'>
-              <Widgets />
-            </Tooltip>
-          </ToggleButton>
+            <ToggleButton value="component" color={webSelect === 'component' ? 'info' : undefined}>
+              <Tooltip title="Component Select" placement='top'>
+                <Widgets />
+              </Tooltip>
+            </ToggleButton>
 
-        </ToggleButtonGroup>
+          </ToggleButtonGroup>
+        </Grow>
       </Box>
     </Stack>
   );

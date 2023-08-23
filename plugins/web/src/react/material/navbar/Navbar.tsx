@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Ider, iderEn, LanguageButton } from '@amnis/web/react/material';
+import { Link } from 'react-router-dom';
 import { websiteSlice } from '@amnis/web/set';
 
 import { useMenu, useTranslate, useWebSelector } from '@amnis/web/react/hooks';
@@ -98,15 +99,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <Box>
               {routeTree.map((route) => (
-                <Ider
-                  key={route.$id}
-                  entities={[
-                    iderEn(website, '$routes'),
-                    iderEn(route, 'label'),
-                  ]}
-                >
-                  <Button sx={{ color: 'text.primary' }}>{route.label}</Button>
-                </Ider>
+                <Link key={route.$id} to={route.path} style={{ textDecoration: 'none' }}>
+                  <Ider
+                    entities={[
+                      iderEn(website, '$routes'),
+                      iderEn(route, 'label'),
+                    ]}
+                  >
+                    <Button sx={{ color: 'text.primary' }}>{route.label}</Button>
+                  </Ider>
+                </Link>
               ))}
             </Box>
             <Divider orientation="vertical" flexItem />

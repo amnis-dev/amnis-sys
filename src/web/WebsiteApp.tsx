@@ -1,8 +1,11 @@
 import React from 'react';
+import type {
+  Website,
+} from '@amnis/web';
 import {
+  Web,
   useWebDispatch,
   websiteSlice,
-  WebProvider,
   useWebSelector,
 } from '@amnis/web';
 import { apiCrud, apiSys, apiAuth } from '@amnis/api/react';
@@ -98,14 +101,15 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
       return;
     }
 
-    dispatch(websiteSlice.action.activeSet(result[websiteSlice.key][0].$id));
+    const websiteEntity = result[websiteSlice.key][0] as Website;
+    dispatch(websiteSlice.action.activeSet(websiteEntity.$id));
   }, [readWebsiteResult?.data?.result]);
 
   return system?.$id ? (
     <div>
-      <WebProvider onRemount={readWebsiteQuery}>
+      <Web onRemount={readWebsiteQuery}>
         {children}
-      </WebProvider>
+      </Web>
     </div>
   ) : null;
 };

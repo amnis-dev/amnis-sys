@@ -7,7 +7,7 @@ import type {
   UID,
   UIDv2,
 } from '@amnis/state';
-import type { WebComponentID } from '../webComponent/index.js';
+import type { WebComponentID } from '@amnis/web/set';
 
 export type WebInstanceID = UIDv2<'webInstance'>;
 

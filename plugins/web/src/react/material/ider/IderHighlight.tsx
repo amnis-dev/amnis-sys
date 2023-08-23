@@ -68,7 +68,10 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
     buttonProps,
     popoverProps,
     handleOpen: handlePopoverOpen,
-  } = usePopover(`ider-${id}`);
+  } = usePopover(`ider-${id}`, {
+    closePreventDefault: true,
+    closeStopPropagation: true,
+  });
 
   /**
    * Efficiently get the computed display of the child element.
@@ -142,6 +145,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
           {...buttonProps}
           onClick={(e) => {
             e.stopPropagation();
+            e.preventDefault();
             handlePopoverOpen(e);
           }}
         />

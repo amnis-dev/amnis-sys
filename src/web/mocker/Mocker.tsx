@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-  Backdrop, Box, CircularProgress, Stack, Typography,
+  Box,
 } from '@mui/material';
 import { combineReducers, configureStore } from '@amnis/state/rtk';
-import { useWebDispatch, useWebSelector } from '@amnis/web';
+import {
+  useWebDispatch,
+  useWebSelector,
+  BackdropProgress,
+} from '@amnis/web';
 import {
   databaseMemoryClear,
   dataActions,
@@ -204,22 +208,10 @@ export const Mocker: React.FC<MockerProps> = ({
     <MockerContext.Provider value={contextValue}>
       <Box minHeight={250}>
         {loading ? (
-          <Backdrop
-            sx={{ color: '#fff', backgroundColor: '#888888' }}
-            open={true}
-          >
-            <Stack alignItems="center" sx={{ position: 'relative' }}>
-              <Box sx={{
-                position: 'absolute', opacity: 0.5, top: -75, zIndex: -1,
-              }}>
-                <CircularProgress size={256} thickness={4} />
-              </Box>
-              <Stack alignItems="center" gap={2}>
-                <Typography variant="h2" sx={{ margin: 0, padding: 0 }}>Development Mode</Typography>
-                <Typography variant="subtitle1">Mock Service is Starting...</Typography>
-              </Stack>
-            </Stack>
-          </Backdrop>
+          <BackdropProgress
+            title="Development Mode"
+            subtitle="Mock Service is Starting..."
+          />
         ) : (<>
           {system?.$id ? <MockerAgent /> : null}
           <React.Suspense fallback="DEVELOPMENT MODE: Loading components...">

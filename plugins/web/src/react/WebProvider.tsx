@@ -1,13 +1,19 @@
 import React from 'react';
+import type { Theme } from '@mui/material';
 import {
-  Paper,
+  Box,
   ThemeProvider,
   createTheme,
 } from '@mui/material';
 import {
-  dataActions, localeSlice, noop, userSlice,
+  dataActions,
+  localeSlice,
+  noop,
+  userSlice,
 } from '@amnis/state';
 import { apiCrud } from '@amnis/api';
+import { BackdropProgress } from '@amnis/web/react/material';
+import { Outlet } from 'react-router-dom';
 import { WebContext } from '@amnis/web/react/context';
 import type { CrystalizerProps } from '@amnis/web/crystalizer';
 import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
@@ -38,7 +44,7 @@ export interface WebProviderProps {
    */
   onRemount?: () => void;
 
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const WebProvider: React.FC<WebProviderProps> = ({
@@ -113,29 +119,49 @@ export const WebProvider: React.FC<WebProviderProps> = ({
 
   return (<>
     {manager ? (
-      <React.Suspense fallback={null}>
+      <React.Suspense
+        fallback={(
+          <BackdropProgress
+            title="Loading Manager"
+            subtitle="Please wait..."
+          />
+        )}
+      >
         <ManagerDynamic
           webSelect={webSelect}
           onWebSelect={webSelectSet}
-        >
-          <WebContext.Provider value={value}>
-            <ThemeProvider theme={theme}>
-              <Paper key={remount ? 0 : 1} sx={{ minHeight: '100vh' }}>
-                {children}
-              </Paper>
-            </ThemeProvider>
-          </WebContext.Provider>
-        </ManagerDynamic>
+        />
       </React.Suspense>
-    ) : (
-      <WebContext.Provider value={value}>
-        <ThemeProvider theme={theme}>
-          <div key={remount ? 0 : 1}>{children}</div>
-        </ThemeProvider>
-      </WebContext.Provider>
-    )}
-  </>
-  );
+    ) : null}
+
+    <WebContext.Provider value={value}>
+      <ThemeProvider theme={theme}>
+        <Box sx= {{
+          position: 'relative',
+          height: '100vh',
+          boxSizing: 'border-box',
+          padding: '0',
+          transition: (theme: Theme) => theme.transitions.create('padding', {
+            easing: theme.transitions.easing.easeInOut,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+          ...(manager && { padding: '4px 4px 4px 4px' }),
+        }}>
+          <Box
+            key={remount ? 0 : 1}
+            sx={{
+              bgcolor: '#fff',
+              height: '100%',
+              overflow: 'scroll',
+            }}
+          >
+            <Outlet />
+          </Box>
+        </Box>
+      </ThemeProvider>
+    </WebContext.Provider>
+
+  </>);
 };
 
 export default WebProvider;

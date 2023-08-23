@@ -1,5 +1,5 @@
 import React from 'react';
-import { EntryContext } from '../../context/EntryContext.js';
+import { EntryContext } from '@amnis/web/react/context';
 
 /**
  * Generates HTML aria properties from the entry context.

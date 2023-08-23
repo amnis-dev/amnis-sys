@@ -1,7 +1,18 @@
 import type { PopoverProps } from '@mui/material';
 import React from 'react';
 
-export function usePopover(label: string) {
+export interface UsePopoverOptions {
+  closeStopPropagation?: boolean;
+  closePreventDefault?: boolean;
+}
+
+export function usePopover(
+  label: string,
+  options: UsePopoverOptions = {
+    closeStopPropagation: false,
+    closePreventDefault: false,
+  },
+) {
   const [anchorEl, anchorElSet] = React.useState<HTMLElement | null>(null);
   const open = React.useMemo(() => Boolean(anchorEl), [anchorEl]);
 
@@ -12,9 +23,11 @@ export function usePopover(label: string) {
     anchorElSet(event.currentTarget);
   }, [anchorElSet]);
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     anchorEl?.blur();
     anchorElSet(null);
+    if (options.closeStopPropagation) { event.stopPropagation(); }
+    if (options.closePreventDefault) { event.preventDefault(); }
   }, [anchorElSet]);
 
   const buttonProps = React.useMemo < React.ButtonHTMLAttributes<HTMLButtonElement>>(() => ({
