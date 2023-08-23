@@ -54,7 +54,7 @@
       "import": "./dist/reactContext.js"
     },
     "./react/material": {
-      "types": "./types/react/materialindex.d.ts",
+      "types": "./types/react/material/index.d.ts",
       "import": "./dist/reactMaterial.js"
     },
     "./interface": {
@@ -64,6 +64,18 @@
     "./manager": {
       "types": "./types/manager/index.d.ts",
       "import": "./dist/manager.js"
+    },
+    "./manager/locale/en": {
+      "types": "./types/manager/locale/en/index.d.ts",
+      "import": "./dist/managerLocale_en.js"
+    },
+    "./manager/locale/de": {
+      "types": "./types/manager/locale/de/index.d.ts",
+      "import": "./dist/managerLocale_de.js"
+    },
+    "./lib/react-router-dom": {
+      "types": "./types/lib/react-router-dom/index.d.ts",
+      "import": "./dist/libReactRouterDom.js"
     }
   },
   "scripts": {

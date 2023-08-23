@@ -1,8 +1,8 @@
 import React from 'react';
-import { RouterProvider, createBrowserRouter, redirect } from 'react-router-dom';
 import {
   noop,
 } from '@amnis/state';
+import { RouterProvider, createBrowserRouter } from '@amnis/web/lib/react-router-dom';
 import { useTranslate, useWebSelector } from '@amnis/web/react/hooks';
 import { websiteSlice } from '@amnis/web/set';
 import { WebProvider } from './WebProvider.js';

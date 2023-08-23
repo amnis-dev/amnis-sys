@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import type { WebContext } from '@amnis/web/react/context';
+import { ManagerContext } from '../ManagerContext.js';
 
 export interface TogglesProps {
   webSelect?: WebContext['webSelect'];
@@ -23,6 +24,8 @@ export const Toggles: React.FC<TogglesProps> = ({
   webSelect,
   onWebSelect = noop,
 }) => {
+  const { locale } = React.useContext(ManagerContext);
+
   const handleWebSelect = React.useCallback(
     (event: React.MouseEvent<HTMLElement>, value: string) => {
       const valueNext = value;
@@ -31,8 +34,6 @@ export const Toggles: React.FC<TogglesProps> = ({
     },
     [onWebSelect],
   );
-
-  console.log({ webSelect });
 
   return (
     <Stack
@@ -58,13 +59,13 @@ export const Toggles: React.FC<TogglesProps> = ({
           >
 
             <ToggleButton value="data" color={webSelect === 'data' ? 'info' : undefined}>
-              <Tooltip title="Data Select" placement='top'>
+              <Tooltip title={locale?.['web:manager:state_data_select_button'] ?? '...'} placement='top'>
                 <DataObject />
               </Tooltip>
             </ToggleButton>
 
             <ToggleButton value="component" color={webSelect === 'component' ? 'info' : undefined}>
-              <Tooltip title="Component Select" placement='top'>
+              <Tooltip title={locale?.['web:manager:state_component_select_button'] ?? '...'} placement='top'>
                 <Widgets />
               </Tooltip>
             </ToggleButton>

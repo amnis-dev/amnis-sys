@@ -21,6 +21,10 @@ export default defineConfig({
         reactMaterial: resolve(__dirname, 'src/react/material/index.ts'),
         interface: resolve(__dirname, 'src/interface/index.ts'),
         manager: resolve(__dirname, 'src/manager/index.ts'),
+        managerLocale_en: resolve(__dirname, 'src/manager/locale/en/index.ts'),
+        managerLocale_de: resolve(__dirname, 'src/manager/locale/de/index.ts'),
+
+        libReactRouterDom: resolve(__dirname, 'src/lib/react-router-dom/index.ts'),
       },
       name: 'AmnisWeb',
       formats: ['es'],

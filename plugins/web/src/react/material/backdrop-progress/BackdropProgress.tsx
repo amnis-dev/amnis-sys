@@ -13,6 +13,13 @@ export interface BackdropProgressProps {
    * Subtitle of the progress.
    */
   subtitle?: string;
+
+  /**
+   * Whether the backdrop is open.
+   *
+   * @default true
+   */
+  open?: boolean;
 }
 
 /**
@@ -21,10 +28,11 @@ export interface BackdropProgressProps {
 export const BackdropProgress: React.FC<BackdropProgressProps> = ({
   title = 'Loading',
   subtitle = 'Please wait while we load some content',
+  open = true,
 }) => (
   <Backdrop
     sx={{ color: '#fff', backgroundColor: '#888888' }}
-    open={true}
+    open={open}
   >
     <Stack alignItems="center" sx={{ position: 'relative' }}>
       <Box sx={{

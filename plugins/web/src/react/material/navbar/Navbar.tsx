@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Ider, iderEn, LanguageButton } from '@amnis/web/react/material';
-import { Link } from 'react-router-dom';
+import { Link } from '@amnis/web/lib/react-router-dom';
 import { websiteSlice } from '@amnis/web/set';
 
 import { useMenu, useTranslate, useWebSelector } from '@amnis/web/react/hooks';

@@ -1,15 +1,34 @@
 import React from 'react';
-import type { WebContextWebSelect } from '@amnis/web/react/context';
+import { noop } from '@amnis/state';
+import type { ManagerLocale, ManagerLocaleCode } from './locale/manager.locale.types.js';
 
 export interface ManagerContext {
   /**
+   * The load status to locale data.
+   */
+  localeLoading: boolean;
+
+  /**
    * The current selection state of the editor.
    */
-  webSelect?: WebContextWebSelect;
+  localeCode: ManagerLocaleCode;
+
+  /**
+   * Sets the locale code.
+   */
+  localeCodeSet: (localeCode: ManagerLocaleCode) => void;
+
+  /**
+   * The current selection state of the editor.
+   */
+  locale?: ManagerLocale;
 }
 
 export const defaultManagerContext: ManagerContext = {
-  webSelect: undefined,
+  localeLoading: true,
+  localeCode: 'en',
+  localeCodeSet: noop,
+  locale: undefined,
 };
 
 export const ManagerContext = React.createContext<ManagerContext>(

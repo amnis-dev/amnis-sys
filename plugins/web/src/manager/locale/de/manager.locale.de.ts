@@ -1,4 +1,4 @@
-import type { ManagerLocale } from './manager.locale.types.js';
+import type { ManagerLocale } from '../manager.locale.types.js';
 
 export const managerLocale: ManagerLocale = {
   'web:manager:speeddial_administration': 'Verwaltung',

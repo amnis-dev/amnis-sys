@@ -13,7 +13,7 @@ import {
 } from '@amnis/state';
 import { apiCrud } from '@amnis/api';
 import { BackdropProgress } from '@amnis/web/react/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from '@amnis/web/lib/react-router-dom';
 import type { ManagerProps } from '@amnis/web/manager';
 import { WebContext } from '@amnis/web/react/context';
 import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
@@ -43,15 +43,12 @@ export interface WebProviderProps {
    * Callback when the website is remounted.
    */
   onRemount?: () => void;
-
-  children?: React.ReactNode;
 }
 
 export const WebProvider: React.FC<WebProviderProps> = ({
   manager: managerProp = false,
   ManagerDynamic = Manager,
   onRemount = noop,
-  children,
 }) => {
   /**
    * Dispatcher
@@ -117,25 +114,27 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     remountSet(!remount);
   }, [language, user?.$id]);
 
-  return (<>
-    {manager ? (
-      <React.Suspense
-        fallback={(
-          <BackdropProgress
-            title="Loading Manager"
-            subtitle="Please wait..."
-          />
-        )}
-      >
-        <ManagerDynamic
-          webSelect={webSelect}
-          onWebSelect={webSelectSet}
-        />
-      </React.Suspense>
-    ) : null}
+  return (
+    <ThemeProvider theme={theme}>
 
-    <WebContext.Provider value={value}>
-      <ThemeProvider theme={theme}>
+      {manager ? (
+        <React.Suspense
+          fallback={(
+            <BackdropProgress
+              title="Loading Manager"
+              subtitle="Please wait..."
+            />
+          )}
+        >
+          <ManagerDynamic
+            webSelect={webSelect}
+            onWebSelect={webSelectSet}
+          />
+        </React.Suspense>
+      ) : null}
+
+      <WebContext.Provider value={value}>
+
         <Box sx= {{
           position: 'relative',
           height: '100vh',
@@ -158,10 +157,10 @@ export const WebProvider: React.FC<WebProviderProps> = ({
             <Outlet />
           </Box>
         </Box>
-      </ThemeProvider>
-    </WebContext.Provider>
+      </WebContext.Provider>
 
-  </>);
+    </ThemeProvider>
+  );
 };
 
 export default WebProvider;
