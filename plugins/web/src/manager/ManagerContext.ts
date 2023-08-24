@@ -4,6 +4,16 @@ import type { ManagerLocale, ManagerLocaleCode } from './locale/manager.locale.t
 
 export interface ManagerContext {
   /**
+   * pathname location of the manager.
+   */
+  pathname: string | null;
+
+  /**
+   * Sets the pathname location of the manager.
+   */
+  pathnameSet: (pathname: string | null) => void;
+
+  /**
    * The load status to locale data.
    */
   localeLoading: boolean;
@@ -25,6 +35,8 @@ export interface ManagerContext {
 }
 
 export const defaultManagerContext: ManagerContext = {
+  pathname: null,
+  pathnameSet: noop,
   localeLoading: true,
   localeCode: 'en',
   localeCodeSet: noop,

@@ -37,8 +37,10 @@ export const LocaleButton = () => {
       variant="contained"
       sx={{
         position: 'absolute',
+        opacity: 0.5,
         bottom: 16,
         left: 16,
+        zIndex: 100,
         bgcolor: 'background.paper',
         '&:hover, &:active': {
           opacity: 0.8,

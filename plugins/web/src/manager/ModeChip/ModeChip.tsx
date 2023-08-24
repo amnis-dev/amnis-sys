@@ -23,6 +23,7 @@ export const ModeChip: React.FC<ModeChipProps> = ({
         position: 'absolute',
         left: 0,
         top: 0,
+        zIndex: 100,
       }}
     >
       <Chip

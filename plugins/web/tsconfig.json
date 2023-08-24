@@ -21,7 +21,6 @@
       "@amnis/web/manager": ["./src/manager/index.ts"],
       "@amnis/web/manager/locale/en": ["./src/manager/locale/en/index.ts"],
       "@amnis/web/manager/locale/de": ["./src/manager/locale/de/index.ts"],
-
       "@amnis/web/lib/react-router-dom": ["./src/lib/react-router-dom/index.ts"],
     }
   },

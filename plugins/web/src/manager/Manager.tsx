@@ -11,11 +11,13 @@ import { grey } from '@mui/material/colors';
 import React from 'react';
 import { noop } from '@amnis/state';
 import type { WebContext } from '@amnis/web/react/context';
+import { useSearchParams } from '@amnis/web/lib/react-router-dom';
 import { Toggles } from './Toggles/index.js';
 import { ModeChip } from './ModeChip/index.js';
 import { ManagerContext } from './ManagerContext.js';
 import { ManagerSpeedDial } from './ManagerSpeedDial/index.js';
 import { LocaleButton } from './LocaleButton/index.js';
+import { Panel } from './Panel/index.js';
 
 export interface ManagerProps {
   /**
@@ -24,22 +26,41 @@ export interface ManagerProps {
   webSelect?: WebContext['webSelect'];
 
   /**
+   * The width of the manager panel drawer.
+   *
+   * @default '35%'
+   */
+  drawerWidth?: string | number;
+
+  /**
    * Callback when the web select state changes.
    */
   onWebSelect?: WebContext['webSelectSet'];
-}
 
-const drawerWidth = '35%';
+  /**
+   * Callback when the manager's pathname changes.
+   */
+  onPathnameChange?: (pathname: string | null) => void;
+}
 
 export const Manager: React.FC<ManagerProps> = ({
   webSelect,
+  drawerWidth = '35%',
   onWebSelect = noop,
+  onPathnameChange = noop,
 }) => {
   /**
    * Gets the website-to-manage theme.
    */
   const themeWeb = useTheme();
 
+  /**
+   * Get the current navgation state.
+   */
+  const [searchParams, searchParamsSet] = useSearchParams();
+  const managerLocation = React.useMemo(() => searchParams.get('manager'), [searchParams]);
+
+  const [pathname, pathnameSet] = React.useState<ManagerContext['pathname']>(managerLocation);
   const [localeCode, localeCodeSet] = React.useState<ManagerContext['localeCode']>('en');
   const [locale, localeSet] = React.useState<ManagerContext['locale']>();
   const [localeLoading, localeLoadingSet] = React.useState(true);
@@ -56,7 +77,7 @@ export const Manager: React.FC<ManagerProps> = ({
     palette: {
       mode: themeWebMode === 'light' ? 'dark' : 'light',
       ...(themeWebMode === 'light' ? {
-        divider: grey[600],
+        divider: grey[700],
         background: {
           default: grey[800],
           paper: grey[900],
@@ -70,10 +91,32 @@ export const Manager: React.FC<ManagerProps> = ({
     },
   }), [themeWeb]);
 
+  const drawerOpen = React.useMemo(() => !!pathname, [pathname]);
+
   const container = React.useCallback(() => window.document.body, [window]);
 
-  // const drawerOpen = React.useMemo(() => routeLocation !== null, [routeLocation]);
-  const drawerOpen = React.useMemo(() => false, []);
+  const handlePanelClose = React.useCallback(() => {
+    pathnameSet(null);
+  }, [searchParams, searchParamsSet]);
+
+  /**
+   * Set the manager search param to the current pathname.
+   */
+  React.useEffect(() => {
+    if (pathname) {
+      searchParams.set('manager', pathname);
+      searchParamsSet(searchParams);
+    } else {
+      searchParams.delete('manager');
+      searchParamsSet(searchParams);
+    }
+    onPathnameChange(pathname);
+    return () => {
+      searchParams.delete('manager');
+      searchParamsSet(searchParams);
+      onPathnameChange(null);
+    };
+  }, [pathname, searchParams, searchParamsSet]);
 
   /**
    * Lazy load the locale data.
@@ -117,11 +160,14 @@ export const Manager: React.FC<ManagerProps> = ({
    * Setup the manager context.
    */
   const managerContext = React.useMemo<ManagerContext>(() => ({
+    pathname,
+    pathnameSet,
     localeLoading,
     localeCode,
     localeCodeSet,
     locale,
   }), [
+    pathname,
     localeLoading,
     localeCode,
     locale,
@@ -134,7 +180,7 @@ export const Manager: React.FC<ManagerProps> = ({
         <Stack
           direction="row"
           width="100%"
-          minHeight="100vh"
+          height="100vh"
           sx={{
             position: 'absolute',
             background: 'linear-gradient(64deg, rgba(153,102,174,1) 0%, rgba(113,157,255,1) 100%);',
@@ -144,7 +190,10 @@ export const Manager: React.FC<ManagerProps> = ({
         >
 
           <Box sx={{
-            width: '0%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 0,
             zIndex: 100,
             transition: (theme: Theme) => theme.transitions.create('width', {
               easing: theme.transitions.easing.easeInOut,
@@ -160,51 +209,73 @@ export const Manager: React.FC<ManagerProps> = ({
               open={drawerOpen}
               variant="persistent"
               sx={{
+                display: { xs: 'none', lg: 'flex' },
+                zIndex: 200,
                 '& .MuiDrawer-paper': {
                   transition: 'width 0.5s ease-in-out',
                   width: drawerWidth,
                   boxSizing: 'border-box',
+                  bgcolor: 'background.paper',
                 },
               }}
             >
-              <Box>&nbsp;</Box>
+              <Panel />
             </Drawer>
-            {/* <Drawer
-            open={drawerOpen}
-            container={container}
-            variant="temporary"
-            ModalProps={{
-              keepMounted: true,
-            }}
-          >
-            <Box width={450}>&nbsp;</Box>
-          </Drawer> */}
-
-            <Box style={{
-              poition: 'fixed', top: 0, left: 0,
-            }}>
-
-              <ModeChip
-                label={locale?.['web:manager:state_data_select_chip'] ?? '...'}
-                show={webSelect === 'data'}
-                onDelete={() => onWebSelect(undefined)}
-              />
-              <ModeChip
-                label={locale?.['web:manager:state_component_select_chip'] ?? '...'}
-                show={webSelect === 'component'}
-                onDelete={() => onWebSelect(undefined)}
-              />
-
-              <Toggles
-                webSelect={webSelect}
-                onWebSelect={onWebSelect}
-              />
-
-              <LocaleButton />
-
-              <ManagerSpeedDial />
-            </Box>
+            <Drawer
+              open={drawerOpen}
+              container={container}
+              variant="temporary"
+              ModalProps={{
+                keepMounted: true,
+              }}
+              sx={{
+                '& .MuiDrawer-paper': {
+                  width: '90%',
+                  bgcolor: 'background.paper',
+                  backgroundImage: 'none',
+                },
+                display: { xs: 'flex', lg: 'none' },
+              }}
+            >
+              <Panel />
+            </Drawer>
           </Box>
+
+          <Box sx={{
+            position: 'relative',
+            top: 0,
+            right: 0,
+            width: '100%',
+            height: '100%',
+            marginLeft: 0,
+            transition: (theme: Theme) => theme.transitions.create('margin-left', {
+              easing: theme.transitions.easing.easeInOut,
+              duration: theme.transitions.duration.enteringScreen,
+            }),
+            ...(drawerOpen && { marginLeft: { xs: 0, lg: drawerWidth } }),
+          }}>
+
+            <ModeChip
+              label={locale?.['web:manager:state_data_select_chip'] ?? '...'}
+              show={webSelect === 'data'}
+              onDelete={() => onWebSelect(undefined)}
+            />
+            <ModeChip
+              label={locale?.['web:manager:state_component_select_chip'] ?? '...'}
+              show={webSelect === 'component'}
+              onDelete={() => onWebSelect(undefined)}
+            />
+
+            <Toggles
+              webSelect={webSelect}
+              onWebSelect={onWebSelect}
+            />
+
+            <LocaleButton />
+
+            <ManagerSpeedDial />
+          </Box>
+
         </Stack>
 
       </ManagerContext.Provider>

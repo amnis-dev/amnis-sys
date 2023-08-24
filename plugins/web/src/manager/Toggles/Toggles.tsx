@@ -41,10 +41,11 @@ export const Toggles: React.FC<TogglesProps> = ({
       justifyContent="center"
       alignItems="center"
       sx={{
-        width: '100%',
         position: 'absolute',
+        width: '100%',
         left: 0,
         bottom: 16,
+        zIndex: 100,
       }}
     >
       <Box>

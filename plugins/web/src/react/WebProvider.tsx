@@ -13,7 +13,7 @@ import {
 } from '@amnis/state';
 import { apiCrud } from '@amnis/api';
 import { BackdropProgress } from '@amnis/web/react/material';
-import { Outlet } from '@amnis/web/lib/react-router-dom';
+import { Outlet, useSearchParams } from '@amnis/web/lib/react-router-dom';
 import type { ManagerProps } from '@amnis/web/manager';
 import { WebContext } from '@amnis/web/react/context';
 import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
@@ -70,6 +70,13 @@ export const WebProvider: React.FC<WebProviderProps> = ({
    * Enables the manager.
    */
   const [manager, managerSet] = React.useState<WebContext['manager']>(managerProp);
+  /**
+   * Sets the manager panel width.
+   */
+  const [managerDrawerWidth] = React.useState<number | string>('512px');
+
+  const [managerDrawerOpen, managerDrawerOpenSet] = React.useState(false);
+
   const [webSelect, webSelectSet] = React.useState<WebContext['webSelect']>();
 
   const value = React.useMemo(() => ({
@@ -128,7 +135,9 @@ export const WebProvider: React.FC<WebProviderProps> = ({
         >
           <ManagerDynamic
             webSelect={webSelect}
+            drawerWidth={managerDrawerWidth}
             onWebSelect={webSelectSet}
+            onPathnameChange={(pathname) => managerDrawerOpenSet(!!pathname)}
           />
         </React.Suspense>
       ) : null}
@@ -140,11 +149,13 @@ export const WebProvider: React.FC<WebProviderProps> = ({
           height: '100vh',
           boxSizing: 'border-box',
           padding: '0',
-          transition: (theme: Theme) => theme.transitions.create('padding', {
+          marginLeft: 0,
+          transition: (theme: Theme) => theme.transitions.create(['padding', 'margin-left'], {
             easing: theme.transitions.easing.easeInOut,
             duration: theme.transitions.duration.enteringScreen,
           }),
           ...(manager && { padding: '4px 4px 4px 4px' }),
+          ...(managerDrawerOpen && { marginLeft: { xs: 0, lg: managerDrawerWidth } }),
         }}>
           <Box
             key={remount ? 0 : 1}

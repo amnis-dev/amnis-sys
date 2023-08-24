@@ -11,17 +11,46 @@ export const ManagerSpeedDial: React.FC = () => {
   const handleOpen = React.useCallback(() => openSet(true), [openSet]);
   const handleClose = React.useCallback(() => openSet(false), [openSet]);
 
-  const { locale } = React.useContext(ManagerContext);
+  const { locale, pathnameSet } = React.useContext(ManagerContext);
+
+  const handleNavigate = React.useCallback((path: string) => {
+    pathnameSet(path);
+  }, [pathnameSet]);
 
   /**
    * Create speeddial actions.
    */
   const actions = React.useMemo(() => [
-    { id: 'save', icon: <Save />, name: locale?.['web:manager:speeddial_save'] ?? '...' },
-    { id: 'manager', icon: <Build />, name: locale?.['web:manager:speeddial_manager'] ?? '...' },
-    { id: 'localization', icon: <Language />, name: locale?.['web:manager:speeddial_localization'] ?? '...' },
-    { id: 'accounts', icon: <PeopleAlt />, name: locale?.['web:manager:speeddial_accounts'] ?? '...' },
-    { id: 'administration', icon: <AdminPanelSettings />, name: locale?.['web:manager:speeddial_administration'] ?? '...' },
+    {
+      id: 'save',
+      icon: <Save />,
+      name: locale?.['web:manager:speeddial_save'] ?? '...',
+      onClick: () => handleNavigate('/'),
+    },
+    {
+      id: 'manager',
+      icon: <Build />,
+      name: locale?.['web:manager:speeddial_manager'] ?? '...',
+      onClick: () => handleNavigate('/Manager'),
+    },
+    {
+      id: 'localization',
+      icon: <Language />,
+      name: locale?.['web:manager:speeddial_localization'] ?? '...',
+      onClick: () => handleNavigate('/Localization'),
+    },
+    {
+      id: 'accounts',
+      icon: <PeopleAlt />,
+      name: locale?.['web:manager:speeddial_accounts'] ?? '...',
+      onClick: () => handleNavigate('/Accounts'),
+    },
+    {
+      id: 'administration',
+      icon: <AdminPanelSettings />,
+      name: locale?.['web:manager:speeddial_administration'] ?? '...',
+      onClick: () => handleNavigate('/Administration'),
+    },
   ], [locale]);
 
   return (<>
@@ -34,11 +63,10 @@ export const ManagerSpeedDial: React.FC = () => {
         right: 16,
       }}
       icon={<Settings />}
-      onClose={handleClose}
-      onOpen={handleOpen}
       open={open}
       hidden={!actions}
       FabProps={{
+        onClick: () => openSet(!open),
         sx: {
           color: 'text.primary',
           bgcolor: 'background.paper',
@@ -55,11 +83,11 @@ export const ManagerSpeedDial: React.FC = () => {
           icon={action.icon}
           tooltipTitle={action.name}
           tooltipOpen
-          onClick={handleClose}
+          onClick={() => { handleClose(); action.onClick(); } }
         />
       ))}
     </SpeedDial>
-    <Backdrop open={open} onClick={handleClose} />
+    <Backdrop open={open} onClick={handleClose} sx={{ zIndex: 100 }} />
   </>);
 };
 
