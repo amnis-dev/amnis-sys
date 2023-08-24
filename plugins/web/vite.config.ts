@@ -19,7 +19,7 @@ export default defineConfig({
         reactHooks: resolve(__dirname, 'src/react/hooks/index.ts'),
         reactContext: resolve(__dirname, 'src/react/context/index.ts'),
         reactMaterial: resolve(__dirname, 'src/react/material/index.ts'),
-        interface: resolve(__dirname, 'src/interface/index.ts'),
+        ui: resolve(__dirname, 'src/ui/index.ts'),
         manager: resolve(__dirname, 'src/manager/index.ts'),
         managerLocale_en: resolve(__dirname, 'src/manager/locale/en/index.ts'),
         managerLocale_de: resolve(__dirname, 'src/manager/locale/de/index.ts'),

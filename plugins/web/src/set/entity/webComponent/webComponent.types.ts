@@ -18,10 +18,10 @@ export type WebComponentType = 'input' | 'display' | 'feedback' | 'surface' | 'l
  */
 export interface WebComponent extends Data {
   /**
-   * Provided name of this web component.
-   * This determines the functional component to render.
+   * Provided key of this web component.
+   * This maps to the functional component to render.
    */
-  name: string;
+  key: string;
 
   /**
    * The type category web component fall under based on its intended behavior.
@@ -41,7 +41,7 @@ export interface WebComponent extends Data {
 
 export type WebComponentRoot = DataRoot<WebComponent>;
 
-export type WebComponentMinimal = DataMinimal<WebComponent, 'name' | 'type'>;
+export type WebComponentMinimal = DataMinimal<WebComponent, 'key' | 'type'>;
 
 export type WebComponentMeta = DataMeta<WebComponent>;
 

@@ -57,9 +57,9 @@
       "types": "./types/react/material/index.d.ts",
       "import": "./dist/reactMaterial.js"
     },
-    "./interface": {
-      "types": "./types/interface/index.d.ts",
-      "import": "./dist/interface.js"
+    "./ui": {
+      "types": "./types/ui/index.d.ts",
+      "import": "./dist/ui.js"
     },
     "./manager": {
       "types": "./types/manager/index.d.ts",
@@ -92,7 +92,6 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.3",
-    "@mui/material": "^5.14.4",
-    "@mui/x-data-grid": "^6.11.2"
+    "@mui/material": "^5.14.4"
   }
 }

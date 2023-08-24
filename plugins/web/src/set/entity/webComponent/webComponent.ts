@@ -7,7 +7,7 @@ import type {
 export const webComponentKey: UIDv2Key<WebComponentID> = 'webComponent';
 
 export const webComponentRoot = (): WebComponentRoot => ({
-  name: 'Unnamed',
+  key: 'Unkeyed',
   type: 'other',
   description: '',
   schema: '',

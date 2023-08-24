@@ -5,6 +5,7 @@ import type {
   SchemaObject,
   ProcessSet,
   StateDataGuaranteed,
+  UserInterface,
 } from '@amnis/state';
 
 /**
@@ -187,6 +188,29 @@ export function pluginProcessMerge(
 }
 
 /**
+ * Merges UI records from an array of plugins.
+ */
+export function pluginUIMerge(
+  plugins: Plugin[],
+): Plugin['ui'] {
+  const uis = plugins.map((plugin) => plugin.ui).filter((ui): ui is UserInterface => !!ui);
+
+  if (uis.length === 0) {
+    return undefined;
+  }
+
+  const uisMerged = uis.reduce<UserInterface>(
+    (acc, ui) => ({
+      ...acc,
+      ...ui,
+    }),
+    {},
+  );
+
+  return uisMerged;
+}
+
+/**
  * Merges an array of plugins into a single plugin.
  */
 export function pluginMerge(
@@ -213,6 +237,9 @@ export function pluginMerge(
 
   /** Merge process */
   pluginMerged.process = pluginProcessMerge(plugins);
+
+  /** Merge UI */
+  pluginMerged.ui = pluginUIMerge(plugins);
 
   return pluginMerged;
 }

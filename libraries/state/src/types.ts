@@ -43,6 +43,38 @@ export type StateDataPromise = (data: StateDataGuaranteed) => Promise<StateDataG
 
 export type ProcessSet = Record<string, IoProcessDefinition>;
 
+export type LocalLocaleCode = 'en' | 'es' | 'de';
+
+export type LocalLocale = Record<LocalLocaleCode, Promise<Record<string, string>>>;
+
+export type UserInterface = Record<string, any>;
+
+export interface UserInterfacePanel {
+  /**
+   * Plugin ID this interface panel is from.
+   *
+   * This is automatically applied.
+   */
+  pluginId?: string;
+
+  /**
+   * The name of the panel.
+   */
+  name: string;
+
+  /**
+   * Description of what the panel offers.
+   */
+  description: string;
+
+  /**
+   * Any user interface panel component to render.
+   */
+  panel: any;
+}
+
+export type UserInterfacePanels = UserInterfacePanel[];
+
 export interface DynamicPlugin {
   /**
    * The identifier of the plugin.
@@ -74,6 +106,21 @@ export interface DynamicPlugin {
    * Process routes for API services.
    */
   process?: () => Promise<ProcessSet>,
+
+  /**
+   * Localization objects for the plugin.
+   */
+  locale?: () => Promise<LocalLocale>,
+
+  /**
+   * Interface components for rendering in various environments.
+   */
+  ui?: () => Promise<UserInterface>,
+
+  /**
+   * Interface panels for administrating the plugin.
+   */
+  uipanels?: () => Promise<UserInterfacePanels>,
 }
 
 export interface Plugin {
@@ -107,4 +154,19 @@ export interface Plugin {
    * Process routes for API services.
    */
   process?: ProcessSet;
+
+  /**
+   * Localization objects for the plugin.
+   */
+  locale?: LocalLocale;
+
+  /**
+   * Interface components for rendering in various environments.
+   */
+  ui?: UserInterface;
+
+  /**
+   * Interface panels for administrating the plugin.
+   */
+  uipanels?: UserInterfacePanels;
 }

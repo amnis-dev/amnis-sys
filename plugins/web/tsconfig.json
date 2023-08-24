@@ -17,7 +17,7 @@
       "@amnis/web/react/hooks": ["./src/react/hooks/index.ts"],
       "@amnis/web/react/context": ["./src/react/context/index.ts"],
       "@amnis/web/react/material": ["./src/react/material/index.ts"],
-      "@amnis/web/interface": ["./src/interface/index.ts"],
+      "@amnis/web/ui": ["./src/ui/index.ts"],
       "@amnis/web/manager": ["./src/manager/index.ts"],
       "@amnis/web/manager/locale/en": ["./src/manager/locale/en/index.ts"],
       "@amnis/web/manager/locale/de": ["./src/manager/locale/de/index.ts"],

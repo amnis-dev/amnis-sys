@@ -47,9 +47,6 @@ importers:
       '@mui/material':
         specifier: ^5.14.4
         version: 5.14.4(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/x-data-grid':
-        specifier: ^6.11.2
-        version: 6.11.2(@mui/material@5.14.4)(@mui/system@5.14.4)(react-dom@18.2.0)(react@18.2.0)
       '@reduxjs/toolkit':
         specifier: https://github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz
         version: '@github.com/amnis-dev/packages/raw/main/redux-toolkit-2.0.0-beta.0-patched.tgz(react-redux@8.1.1)(react@18.2.0)'
@@ -3588,6 +3585,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       reselect: 4.1.8
+    dev: false
 
   /@ndelangen/get-tarball@3.0.9:
     resolution: {integrity: sha512-9JKTEik4vq+yGosHYhZ1tiH/3WpUS0Nh0kej4Agndhox8pAdWhEx5knFVRcb/ya9knCRCs1rPxNrSXTDdfVqpA==}

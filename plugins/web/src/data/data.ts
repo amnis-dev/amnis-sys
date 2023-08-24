@@ -11,8 +11,8 @@ import {
   routeMapEntities,
   routeSlice,
 } from '@amnis/state';
-import type { Website } from '@amnis/web/set';
-import { websiteSlice } from '@amnis/web/set';
+import type { WebComponentID, Website } from '@amnis/web/set';
+import { webComponentSlice, webInstanceSlice, websiteSlice } from '@amnis/web/set';
 import * as dataLocale from './data.locale.js';
 
 export const data: StateDataPromise = async (data) => {
@@ -35,6 +35,26 @@ export const data: StateDataPromise = async (data) => {
   data[routeSlice.key].push(...routes);
 
   /**
+   * Web Components
+   */
+  const componentNavbar = webComponentSlice.createEntity({
+    key: 'Navbar',
+    type: 'navigation',
+    description: '%web:component_navbar_desc',
+    schema: 'interface/Navbar',
+  });
+
+  /**
+   * Web Instances
+   */
+  const instanceNavbar = webInstanceSlice.createEntity({
+    name: 'Main Navigation',
+    $webComponent: componentNavbar.$id as unknown as WebComponentID,
+    $route: routes[0].$id,
+    routeMatcher: '.*',
+  });
+
+  /**
    * Create default website.
    */
   const websites: Entity<Website>[] = [
@@ -52,6 +72,12 @@ export const data: StateDataPromise = async (data) => {
 
   const stateEntitiesInital: EntityObjects = {
     [websiteSlice.key]: websites,
+    [webComponentSlice.key]: [
+      componentNavbar,
+    ],
+    [webInstanceSlice.key]: [
+      instanceNavbar,
+    ],
   };
 
   /**
