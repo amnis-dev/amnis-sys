@@ -28,10 +28,10 @@ export const ManagerSpeedDial: React.FC = () => {
       onClick: () => handleNavigate('/'),
     },
     {
-      id: 'manager',
+      id: 'Settings',
       icon: <Build />,
       name: locale?.['web:manager:speeddial_manager'] ?? '...',
-      onClick: () => handleNavigate('/Manager'),
+      onClick: () => handleNavigate('/Settings'),
     },
     {
       id: 'localization',
