@@ -6,6 +6,7 @@ export const locale: LocaleEn = {
   'web:route_home': 'Startseite',
   'web:route_about': 'Über',
   'web:route_contact': 'Kontakt',
+  'web:component_navbar_desc': 'Obere Navigationsleiste zum Navigieren von Routen für Informationen und Einstellungen auf der Website.',
 };
 
 export default locale;

@@ -21,7 +21,7 @@ import { Link } from '@amnis/web/lib/react-router-dom';
 import { websiteSlice } from '@amnis/web/set';
 
 import { useMenu, useTranslate, useWebSelector } from '@amnis/web/react/hooks';
-import type { NavbarProps } from '@amnis/web/interface';
+import type { NavbarProps } from '@amnis/web/ui';
 
 export const Navbar: React.FC<NavbarProps> = ({
   titleHide,

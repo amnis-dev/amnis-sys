@@ -1,7 +1,7 @@
 import type { SchemaObject } from '@amnis/state';
 import schemaWebState from './state.schema.json';
-import schemaWebInterface from './webInterface.schema.json';
+import schemaWebUi from './ui.schema.json';
 
-export const schema: SchemaObject[] = [schemaWebState, schemaWebInterface];
+export const schema: SchemaObject[] = [schemaWebState, schemaWebUi];
 
 export default schema;

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { Language as LanguageIcon, Check as CheckIcon } from '@mui/icons-material';
 import { useMenu, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
-import type { LanguageButtonProps } from '@amnis/web/interface';
+import type { LanguageButtonProps } from '@amnis/web/ui';
 
 const languageMap: Record<string, string> = {
   en: 'English',
