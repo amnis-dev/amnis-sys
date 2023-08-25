@@ -1,9 +1,6 @@
 import React from 'react';
 import type { UserInterface } from '@amnis/state';
 
-export * from './Button.types.js';
-export * from './Navbar.types.js';
-export * from './LanguageButton.types.js';
 export * from './ui.types.js';
 
 type UiModules = typeof import('@amnis/web/react/material');
