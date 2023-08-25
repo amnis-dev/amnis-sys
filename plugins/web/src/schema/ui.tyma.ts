@@ -1,4 +1,4 @@
-import type { ButtonProps, NavbarProps, LanguageButtonProps } from '@amnis/web/ui';
+import type { ButtonProps, NavbarProps, LanguageButtonProps } from '../ui/ui.types.js';
 
 export interface WebInterfaceSchema {
   button: ButtonProps;
