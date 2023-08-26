@@ -41,7 +41,6 @@ export const data: StateDataPromise = async (data) => {
     key: 'Navbar',
     type: 'navigation',
     description: '%web:component_navbar_desc',
-    schema: 'interface/Navbar',
   });
 
   /**

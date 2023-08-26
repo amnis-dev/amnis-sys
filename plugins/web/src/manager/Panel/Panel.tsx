@@ -1,9 +1,11 @@
 import React from 'react';
-import { Close } from '@mui/icons-material';
+import { Circle, Close } from '@mui/icons-material';
 import {
-  Box, Breadcrumbs, Divider, IconButton, Stack, Typography,
+  Box, Breadcrumbs, Divider, IconButton, LinearProgress, Stack, Typography,
 } from '@mui/material';
 import { ManagerContext } from '../ManagerContext.js';
+
+const PanelAdministration = React.lazy(() => import('../PanelAdministration/PanelAdministration.js'));
 
 export const Panel: React.FC = () => {
   const { pathname, pathnameSet } = React.useContext(ManagerContext);
@@ -29,7 +31,6 @@ export const Panel: React.FC = () => {
                 {crumb}
               </Typography>
             ))}
-
           </Breadcrumbs>
         </Box>
         <Box m={1}>
@@ -39,6 +40,21 @@ export const Panel: React.FC = () => {
         </Box>
       </Stack>
       <Divider />
+      <Box>
+        {(() => {
+          console.log(pathname);
+          switch (pathname) {
+            case '/Administration':
+              return (
+                <React.Suspense fallback={<LinearProgress />}>
+                  <Box p={1}><PanelAdministration /></Box>
+                </React.Suspense>
+              );
+            default:
+              return <LinearProgress />;
+          }
+        })()}
+      </Box>
     </Stack>
   );
 };

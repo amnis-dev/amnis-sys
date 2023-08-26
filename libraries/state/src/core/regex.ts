@@ -4,9 +4,14 @@
 export const regexJsonKey = /^[a-zA-Z_$][a-zA-Z_$0-9]+$/;
 
 /**
+ * Validates a JSON date.
+ */
+export const regexJsonDate = /^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{3}Z$/;
+
+/**
  * Unique identifier.
  */
-export const regexUuid = /^[A-Za-z0-9_-]{21,36}/;
+export const regexUuid = /^[A-Za-z0-9_-]{21}/;
 
 /**
  * UID identifier.

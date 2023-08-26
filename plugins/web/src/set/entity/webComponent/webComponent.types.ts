@@ -32,11 +32,6 @@ export interface WebComponent extends Data {
    * Description of the web component.
    */
   description: string;
-
-  /**
-   * The schema reference for this component properties.
-   */
-  schema: string;
 }
 
 export type WebComponentRoot = DataRoot<WebComponent>;

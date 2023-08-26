@@ -41,6 +41,12 @@ importers:
       '@emotion/styled':
         specifier: ^11.11.0
         version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.17)(react@18.2.0)
+      '@ffmpeg/ffmpeg':
+        specifier: ^0.12.5
+        version: 0.12.5
+      '@ffmpeg/util':
+        specifier: ^0.12.0
+        version: 0.12.0
       '@mui/icons-material':
         specifier: ^5.14.3
         version: 5.14.3(@mui/material@5.14.4)(@types/react@18.2.17)(react@18.2.0)
@@ -122,6 +128,9 @@ importers:
       ajv:
         specifier: ^8.12.0
         version: 8.12.0
+      ajv-formats:
+        specifier: ^2.1.1
+        version: 2.1.1(ajv@8.12.0)
       cross-fetch:
         specifier: ^4.0.0
         version: 4.0.0
@@ -3115,6 +3124,23 @@ packages:
 
   /@fal-works/esbuild-plugin-global-externals@2.1.2:
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
+    dev: true
+
+  /@ffmpeg/ffmpeg@0.12.5:
+    resolution: {integrity: sha512-grDWTaYSm0g/LEtpwkJtw0Kp1Iix/WF3KmtUo0Fm0V5GqKMUVzj1yzyaILg83o96wHSc8Y2d9Q3C37pYAF2wxQ==}
+    engines: {node: '>=18.17.0'}
+    dependencies:
+      '@ffmpeg/types': 0.12.0
+    dev: true
+
+  /@ffmpeg/types@0.12.0:
+    resolution: {integrity: sha512-AuR4K+L6v1/9hVOsikU4rGGT5nKulQa8HrtYhpgBEq0HojoWB1c9bq3TTkNBpEvS/gC17WDMVJrqIGgXOj1DXA==}
+    engines: {node: '>=16.6.0'}
+    dev: true
+
+  /@ffmpeg/util@0.12.0:
+    resolution: {integrity: sha512-8sHCW8H/ngqVhbRvCCX4e4uDNgZVoz8uNRry1zphIyzdX6flfBa2TmVwJ4g9/Qw//eAubEnuHaSxDGWWxcOTjg==}
+    engines: {node: '>=18.17.0'}
     dev: true
 
   /@floating-ui/core@1.4.1:
@@ -6204,7 +6230,6 @@ packages:
         optional: true
     dependencies:
       ajv: 8.12.0
-    dev: false
 
   /ajv-keywords@3.5.2(ajv@6.12.6):
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}

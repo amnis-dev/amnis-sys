@@ -1,7 +1,7 @@
 import type { ButtonProps, NavbarProps, LanguageButtonProps } from '../ui/ui.types.js';
 
-export interface WebInterfaceSchema {
-  button: ButtonProps;
-  navbar: NavbarProps;
-  languageButton: LanguageButtonProps;
+export interface WebUiSchema {
+  Button: ButtonProps;
+  Navbar: NavbarProps;
+  LanguageButton: LanguageButtonProps;
 }

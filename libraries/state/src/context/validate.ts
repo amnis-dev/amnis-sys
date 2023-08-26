@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { SchemaObject, AnyValidateFunction } from 'ajv/dist/types';
-import { Ajv } from '@amnis/state/ajv';
+import { Ajv, addFormats } from '@amnis/state/ajv';
 import type { IoOutput, Validator, Validators } from '../io/io.types.js';
+import { regexJsonDate, regexWebUrl } from '../index.js';
 
 /**
  * Common method of validating json that returns an errored output if invalid.
@@ -89,6 +90,18 @@ function validateCompile(schema: SchemaObject): Validators {
 
   /** @ts-ignore */
   const ajv = new Ajv({ schemas: [schema], code: { esm: true } });
+  /** @ts-ignore */
+  addFormats(ajv, ['email', 'password', 'ipv4', 'ipv6', 'binary']);
+  /** @ts-ignore */
+  ajv.addFormat('url', regexWebUrl);
+  /** @ts-ignore */
+  ajv.addFormat('url-media', regexWebUrl);
+  /** @ts-ignore */
+  ajv.addFormat('url-image', regexWebUrl);
+  /** @ts-ignore */
+  ajv.addFormat('url-video', regexWebUrl);
+  /** @ts-ignore */
+  ajv.addFormat('date-time', regexJsonDate);
 
   const validators = validatorKeys.reduce<Validators>(
     (record, key) => {

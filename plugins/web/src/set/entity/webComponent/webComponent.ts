@@ -10,7 +10,6 @@ export const webComponentRoot = (): WebComponentRoot => ({
   key: 'Unkeyed',
   type: 'other',
   description: '',
-  schema: '',
 });
 
 export function webComponentCreate(

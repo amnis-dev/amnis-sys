@@ -14,7 +14,7 @@ import type { WebContext } from '@amnis/web/react/context';
 import { useSearchParams } from '@amnis/web/lib/react-router-dom';
 import { Toggles } from './Toggles/index.js';
 import { ModeChip } from './ModeChip/index.js';
-import { ManagerContext } from './ManagerContext.js';
+import { ManagerContext, managerContextDefault } from './ManagerContext.js';
 import { ManagerSpeedDial } from './ManagerSpeedDial/index.js';
 import { LocaleButton } from './LocaleButton/index.js';
 import { Panel } from './Panel/index.js';
@@ -160,6 +160,7 @@ export const Manager: React.FC<ManagerProps> = ({
    * Setup the manager context.
    */
   const managerContext = React.useMemo<ManagerContext>(() => ({
+    ...managerContextDefault,
     pathname,
     pathnameSet,
     localeLoading,
