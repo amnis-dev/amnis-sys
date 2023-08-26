@@ -8,6 +8,10 @@ export const websiteRoot = (): WebsiteRoot => ({
   title: 'Website Title',
   description: 'Website description.',
   $routes: [],
+  fontTitle: 'roboto',
+  fontBody: 'roboto',
+  fontCode: 'roboto-mono',
+  fontUi: 'roboto',
 });
 
 export function websiteCreate(

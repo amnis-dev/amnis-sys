@@ -71,6 +71,7 @@ export interface Website extends Data {
    *
    * @title web:website:fontTitle
    * @description web:website:fontTitle_desc
+   * @format font
    */
   fontTitle: WebsiteFontType;
 
@@ -79,6 +80,7 @@ export interface Website extends Data {
    *
    * @title web:website:fontBody
    * @description web:website:fontBody_desc
+   * @format font
    */
   fontBody: WebsiteFontType;
 
@@ -87,6 +89,7 @@ export interface Website extends Data {
    *
    * @title web:website:fontCode
    * @description web:website:fontCode_desc
+   * @format font
    */
   fontCode: WebsiteFontType;
 
@@ -95,6 +98,7 @@ export interface Website extends Data {
    *
    * @title web:website:fontUi
    * @description web:website:fontUi_desc
+   * @format font
    */
   fontUi: WebsiteFontType;
 

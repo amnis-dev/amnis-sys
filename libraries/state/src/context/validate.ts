@@ -3,7 +3,7 @@
 import type { SchemaObject, AnyValidateFunction } from 'ajv/dist/types';
 import { Ajv, addFormats } from '@amnis/state/ajv';
 import type { IoOutput, Validator, Validators } from '../io/io.types.js';
-import { regexJsonDate, regexWebUrl } from '../index.js';
+import { regexJsonDate, regexWebUrl, regexWebFont } from '../index.js';
 
 /**
  * Common method of validating json that returns an errored output if invalid.
@@ -102,6 +102,8 @@ function validateCompile(schema: SchemaObject): Validators {
   ajv.addFormat('url-video', regexWebUrl);
   /** @ts-ignore */
   ajv.addFormat('date-time', regexJsonDate);
+  /** @ts-ignore */
+  ajv.addFormat('font', regexWebFont);
 
   const validators = validatorKeys.reduce<Validators>(
     (record, key) => {
