@@ -6,6 +6,7 @@ export * from './challenge/index.js';
 export * from './entity/index.js';
 export * from './grant/index.js';
 export * from './otp/index.js';
+export * from './schema/index.js';
 
 export * from './data.types.js';
 export * from './data.actions.js';

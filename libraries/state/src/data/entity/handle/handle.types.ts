@@ -6,7 +6,7 @@ import type {
 /**
  * Human-freindly name to reference a particular subject.
  *
- * @pattern ^[A-Za-z0-9_-]+$
+ * @format handle
  * @minLength 1
  * @maxLength 24
  */

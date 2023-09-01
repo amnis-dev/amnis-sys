@@ -14,19 +14,15 @@ import type {
   Route,
 } from './data/index.js';
 import type { StateDataGuaranteed } from './types.js';
+import { en as localeEn } from './data/data.default.en.js';
+import { de as localeDe } from './data/data.default.de.js';
 
 export const dataMinimal = (): StateDataGuaranteed => {
   /**
    * Localized translations.
    */
-  const locales = localeDocumentToEntities('en', {
-    'core:role_admin_name': 'Administrator',
-    'core:role_admin_desc': 'Most permissive role for overall system configuration and maintenance.',
-    'core:role_exec_name': 'Executive',
-    'core:role_exec_desc': 'Authoritative role for application configuration and maintenance.',
-    'core:role_anon_name': 'Anonymous',
-    'core:role_anon_desc': 'Permissions for accessing the application data without authentication.',
-  });
+  const localesEn = localeDocumentToEntities('en', localeEn);
+  const localesDe = localeDocumentToEntities('de', localeDe);
 
   /**
    * Routes
@@ -38,8 +34,8 @@ export const dataMinimal = (): StateDataGuaranteed => {
    */
   const roles: [Entity<Role>, Entity<Role>, Entity<Role>] = [
     roleSlice.createEntity({
-      name: '%core:role_admin_name',
-      description: '%core:role_admin_desc',
+      name: '%core:instance:role:admin_name',
+      description: '%core:instance:role:admin_desc',
       color: '#cc0000',
       fsLimits: [-1, -1, -1],
       grants: [
@@ -50,8 +46,8 @@ export const dataMinimal = (): StateDataGuaranteed => {
       ],
     }),
     roleSlice.createEntity({
-      name: '%core:role_exec_name',
-      description: '%core:role_exec_desc',
+      name: '%core:instance:role:exec_name',
+      description: '%core:instance:role:exec_desc',
       color: '#3e3ee6',
       fsLimits: [-1, -1, -1],
       grants: [
@@ -61,8 +57,8 @@ export const dataMinimal = (): StateDataGuaranteed => {
       ],
     }),
     roleSlice.createEntity({
-      name: '%core:role_anon_name',
-      description: '%core:role_anon_desc',
+      name: '%core:instance:role:anon_name',
+      description: '%core:instance:role:anon_desc',
       color: '#000000',
       fsLimits: [0, 0, 0],
       grants: [
@@ -86,7 +82,10 @@ export const dataMinimal = (): StateDataGuaranteed => {
   return {
     [systemSlice.key]: systems,
     [roleSlice.key]: roles,
-    [localeSlice.key]: locales,
+    [localeSlice.key]: [
+      ...localesEn,
+      ...localesDe,
+    ],
     [routeSlice.key]: routes,
   };
 };

@@ -3,7 +3,13 @@
 import type { SchemaObject, AnyValidateFunction } from 'ajv/dist/types';
 import { Ajv, addFormats } from '@amnis/state/ajv';
 import type { IoOutput, Validator, Validators } from '../io/io.types.js';
-import { regexJsonDate, regexWebUrl, regexWebFont } from '../index.js';
+import {
+  regexJsonDate,
+  regexWebUrl,
+  regexWebFont,
+  regexDataHandle,
+  regexVariableName,
+} from '../core/regex.js';
 
 /**
  * Common method of validating json that returns an errored output if invalid.
@@ -91,9 +97,11 @@ function validateCompile(schema: SchemaObject): Validators {
   /** @ts-ignore */
   const ajv = new Ajv({ schemas: [schema], code: { esm: true } });
   /** @ts-ignore */
-  addFormats(ajv, ['email', 'password', 'ipv4', 'ipv6', 'binary']);
+  addFormats(ajv, ['hostname', 'email', 'password', 'ipv4', 'ipv6', 'binary']);
   /** @ts-ignore */
   ajv.addFormat('url', regexWebUrl);
+  /** @ts-ignore */
+  ajv.addFormat('url-file', regexWebUrl);
   /** @ts-ignore */
   ajv.addFormat('url-media', regexWebUrl);
   /** @ts-ignore */
@@ -103,7 +111,15 @@ function validateCompile(schema: SchemaObject): Validators {
   /** @ts-ignore */
   ajv.addFormat('date-time', regexJsonDate);
   /** @ts-ignore */
+  ajv.addFormat('date', regexJsonDate);
+  /** @ts-ignore */
+  ajv.addFormat('time', regexJsonDate);
+  /** @ts-ignore */
   ajv.addFormat('font', regexWebFont);
+  /** @ts-ignore */
+  ajv.addFormat('handle', regexDataHandle);
+  /** @ts-ignore */
+  ajv.addFormat('variable', regexVariableName);
 
   const validators = validatorKeys.reduce<Validators>(
     (record, key) => {

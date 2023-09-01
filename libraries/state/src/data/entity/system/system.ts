@@ -1,6 +1,5 @@
 import { uid } from '../../../core/index.js';
 import { entitySliceCreate } from '../entity.slice.js';
-import type { LogMinimal } from '../log/index.js';
 import { roleSlice } from '../role/index.js';
 import type { System, SystemRoot, SystemMinimal } from './system.types.js';
 
@@ -28,23 +27,6 @@ export const systemRoot = (): SystemRoot => ({
   $anonymousRole: uid(roleSlice.key),
   $initialRoles: [],
 });
-
-/**
- * System check method.
- */
-export function systemCheck(system: System): LogMinimal[] {
-  const logs: LogMinimal[] = [];
-
-  if (system.name.length < 1) {
-    logs.push({
-      title: 'System Name',
-      description: 'The system description.',
-      level: 'error',
-    });
-  }
-
-  return logs;
-}
 
 export function systemCreate(
   system: SystemMinimal,
