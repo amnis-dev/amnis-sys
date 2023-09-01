@@ -10,7 +10,9 @@ export function storeSetup() {
   const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => (
-      getDefaultMiddleware().concat([...stateSet.middleware])
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }).concat([...stateSet.middleware])
     ),
   });
 
