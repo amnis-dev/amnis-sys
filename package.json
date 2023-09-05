@@ -69,7 +69,8 @@
   "resolutions": {
     "trim": "1.0.1",
     "got": "13.0.0",
-    "semver": "7.5.4"
+    "semver": "7.5.4",
+    "@adobe/css-tools": "4.3.1"
   },
   "dependencies": {
     "@amnis/api": "workspace:^",
@@ -100,7 +101,7 @@
     "@storybook/react-vite": "^7.2.3",
     "@storybook/testing-library": "^0.2.0",
     "@storybook/theming": "^7.2.3",
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^14.0.0",
     "@types/express": "^4.17.17",
     "@types/fluent-ffmpeg": "^2.1.21",
