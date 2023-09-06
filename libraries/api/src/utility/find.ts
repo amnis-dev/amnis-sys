@@ -265,6 +265,9 @@ export const findLocaleByNames = async (
           $in: names,
         },
       },
+      $range: {
+        limit: names.length,
+      },
     },
   });
 
@@ -319,6 +322,9 @@ export const findLocaleByNames = async (
         name: {
           $in: names,
         },
+      },
+      $range: {
+        limit: names.length,
       },
     },
   });

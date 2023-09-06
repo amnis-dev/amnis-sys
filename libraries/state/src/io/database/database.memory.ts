@@ -138,7 +138,7 @@ export const databaseMemory: Database = {
         result[queryStateKey] = dataOrder(
           result[queryStateKey],
           querySlice[queryStateKey].$order,
-        ).slice(start, limit + start).filter((entity) => {
+        ).filter((entity) => {
           /**
            * Check to ensure this entity is within the scope.
            * If the scope is owner only, the entity must have the owner id match the subject.
@@ -234,18 +234,19 @@ export const databaseMemory: Database = {
 
           return matches === filterKeyLength;
         });
-
-        if (querySlice[queryStateKey].$history) {
-          const storageHistory = storage.history as Record<UID, Entity<History>>;
-          if (storageHistory) {
-            const entitiyIds = result[queryStateKey].map((e) => e.$id);
-            const histories = Object.values(storageHistory).filter(
-              (h) => entitiyIds.includes(h.$subject),
-            );
-            result.history = histories;
-          }
-        }
       });
+
+      result[queryStateKey] = result[queryStateKey].slice(start, start + limit);
+      if (querySlice[queryStateKey].$history) {
+        const storageHistory = storage.history as Record<UID, Entity<History>>;
+        if (storageHistory) {
+          const entitiyIds = result[queryStateKey].map((e) => e.$id);
+          const histories = Object.values(storageHistory).filter(
+            (h) => entitiyIds.includes(h.$subject),
+          );
+          result.history = histories;
+        }
+      }
     });
 
     return result;

@@ -77,7 +77,7 @@ const query = createSelector(
         result[key] = dataOrder(
           result[key],
           query[key].$order,
-        ).slice(start, limit + start).filter((entity) => {
+        ).filter((entity) => {
           if (!filter) {
             return true;
           }
@@ -160,6 +160,11 @@ const query = createSelector(
           return matches === filterKeyLength;
         });
       });
+
+      /**
+       * Apply the start and limit.
+       */
+      result[key] = result[key].slice(start, start + limit);
     });
 
     return result as SelectQueryResult;

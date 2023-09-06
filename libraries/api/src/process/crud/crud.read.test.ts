@@ -136,7 +136,7 @@ test('should login as administrator read users and roles', async () => {
 
   expect(Object.keys(result).length).toBe(2);
   expect(locale).toBeDefined();
-  expect(locale).toHaveLength(6);
+  expect(locale).toHaveLength(8);
 
   const users = result[userSlice.key] as Entity<User>[];
 

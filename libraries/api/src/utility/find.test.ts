@@ -18,7 +18,12 @@ import {
 } from '@amnis/state';
 import { contextSetup } from '@amnis/state/context';
 import {
-  findContactById, findCredentialById, findProfileByUserId, findRolesByIds, findUserByHandle,
+  findContactById,
+  findCredentialById,
+  findLocaleByNames,
+  findProfileByUserId,
+  findRolesByIds,
+  findUserByHandle,
 } from './find.js';
 
 let context: IoContext;
@@ -99,4 +104,46 @@ test('should find roles by ids', async () => {
   expect(roleIds.length).toBeGreaterThan(0);
   expect(roleIds.length).toBe(found.length);
   expect(found).toEqual(rolesExisting);
+});
+
+test('should find locale by names', async () => {
+  const names = [
+    'core:state:uid',
+    'core:state:uid_desc',
+    'core:state:uidlist',
+    'core:state:uidlist_desc',
+    'core:state:uidtree',
+    'core:state:uidtree_desc',
+    'core:state:datejson',
+    'core:state:datejson_desc',
+    'core:state:email',
+    'core:state:email_desc',
+    'core:state:surl',
+    'core:state:surl_desc',
+    'core:state:datenumeric',
+    'core:state:datenumeric_desc',
+    'core:state:ipv6',
+    'core:state:ipv6_desc',
+    'core:state:ipv4',
+    'core:state:ipv4_desc',
+    'core:state:ip',
+    'core:state:ip_desc',
+  ];
+  const foundEn = await findLocaleByNames(context, names, 'en');
+
+  expect(foundEn).toBeDefined();
+  expect(foundEn).toHaveLength(names.length);
+
+  const localeEnUidDesc = foundEn.find((locale) => locale.name === 'core:state:uid_desc');
+  expect(localeEnUidDesc).toBeDefined();
+  expect(localeEnUidDesc?.value).toBe('Unique identifier for referencing data.');
+
+  const foundDe = await findLocaleByNames(context, names, 'de');
+
+  expect(foundDe).toBeDefined();
+  expect(foundDe).toHaveLength(names.length);
+
+  const localeDeUidDesc = foundDe.find((locale) => locale.name === 'core:state:uid_desc');
+  expect(localeDeUidDesc).toBeDefined();
+  expect(localeDeUidDesc?.value).toBe('Eindeutiger Bezeichner zur Referenzierung von Daten.');
 });

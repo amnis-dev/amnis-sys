@@ -68,7 +68,7 @@ test('should create a new account as an admin', async () => {
    * Prepare the create request.
    */
   const apiAuthCreate: ApiAuthCreate = {
-    handle: 'new-user',
+    handle: 'new_user',
     password: 'passwd12',
     email: 'account@email.addr',
     nameDisplay: 'New User',
