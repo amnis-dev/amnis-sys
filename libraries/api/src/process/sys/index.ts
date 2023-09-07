@@ -5,6 +5,7 @@ import { processSysSchema } from './sys.schema.js';
 export const sys: IoProcessDefinition = {
   meta: {
     reducerPath: 'apiSys',
+    bearer: ['schema'],
   },
   endpoints: {
     get: {

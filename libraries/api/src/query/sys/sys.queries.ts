@@ -4,7 +4,7 @@ import type { BaseQueryFn, EndpointBuilder } from '@amnis/state/rtk/query';
 import type {
   IoOutputJson,
   EntityObjects,
-  SchemaObject,
+  Schema,
 } from '@amnis/state';
 import type { ApiSysSchema } from '../../api.sys.types.js';
 
@@ -23,7 +23,7 @@ export const apiSysQueries = <T extends EndpointBuilder<BaseQueryFn, string, str
   }),
 
   schema: builder.query<
-  IoOutputJson<SchemaObject>,
+  IoOutputJson<Schema[]>,
   ApiSysSchema
   >({
     query: (payload) => ({

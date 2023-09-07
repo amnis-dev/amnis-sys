@@ -2,8 +2,11 @@ import type {
   Io,
   IoProcess,
   EntityObjects,
+
+  Schema,
 } from '@amnis/state';
 import {
+  schemaSlice,
   systemSlice,
 } from '@amnis/state';
 import { mwAccess } from '../../mw/index.js';
@@ -14,10 +17,10 @@ import { permissionGrants } from '../../utility/permission.js';
  * Verifies the validity of an access bearer.
  */
 export const process: IoProcess<
-Io<ApiSysSchema, JSON>
+Io<ApiSysSchema, Schema[]>
 > = (context) => (
   async (input, output) => {
-    const { store, schemas } = context;
+    const { store } = context;
     const { query: { type }, access } = input;
 
     if (!access) {
@@ -80,13 +83,13 @@ Io<ApiSysSchema, JSON>
     const nameLowered = name.toLowerCase();
 
     /**
-     * API definitions should always be accessed.
+     * API definitions can always be accessed.
      * If it is not an API definition, then check the permissions.
      */
     if (!nameLowered.startsWith('api')) {
       const grants = permissionGrants(system, context, access.pem);
       const permitted = grants.some(
-        ([granttKey, scope, task]) => (granttKey === nameLowered && scope > 0 && task > 0),
+        ([grantKey, scope, task]) => (grantKey === nameLowered && scope > 0 && task > 0),
       );
       if (!permitted) {
         output.status = 401; // 401 Unauthorized
@@ -99,10 +102,7 @@ Io<ApiSysSchema, JSON>
       }
     }
 
-    /**
-     * Get the schema object by id from the schema context.
-     */
-    const schema = schemas[id];
+    const schema = schemaSlice.select.schema(store.getState(), name, id);
 
     if (!schema) {
       output.status = 400; // 400 Bad Request
@@ -115,24 +115,14 @@ Io<ApiSysSchema, JSON>
     }
 
     /**
-     * Search for the definition in the schema object.
+     * Obtain all references from this schema.
      */
-    const definition = schema.definitions[name] as JSON | undefined;
-
-    if (!definition) {
-      output.status = 400; // 400 Bad Request
-      output.json.logs.push({
-        level: 'error',
-        title: 'Schema Definition Not Found',
-        description: `The schema definition '${name}' could not be found.`,
-      });
-      return output;
-    }
+    const references = schemaSlice.select.references(store.getState(), schema);
 
     /**
-     * Set the output result to the schema definition.
+     * Set the output result to the schema definition and referenced schemas.
      */
-    output.json.result = definition;
+    output.json.result = [schema, ...references];
 
     return output;
   }

@@ -81,4 +81,7 @@ test('should fetch user schema as admin user', async () => {
   const outputCreator = await io.schema(inputCreator, ioOutput());
 
   expect(outputCreator.status).toBe(200);
+  expect(outputCreator.json.result).toBeDefined();
+  expect(outputCreator.json.result).toEqual(expect.any(Array));
+  expect(outputCreator.json.result.length).toBeGreaterThan(1);
 });

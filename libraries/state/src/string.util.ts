@@ -1,3 +1,8 @@
+/**
+ * Camel Casing
+ *
+ * @example `camelCase`
+ */
 export function camelize(str: string) {
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
     if (+match === 0) return '';
@@ -5,6 +10,11 @@ export function camelize(str: string) {
   });
 }
 
+/**
+ * Snake Casing
+ *
+ * @example `snake_case`
+ */
 export function snakeize(str: string) {
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
     if (+match === 0) return '';
@@ -12,6 +22,11 @@ export function snakeize(str: string) {
   });
 }
 
+/**
+ * Pascal Casing
+ *
+ * @example `PascalCase`
+ */
 export function pascalize(str: string) {
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match) => {
     if (+match === 0) return '';
@@ -19,6 +34,11 @@ export function pascalize(str: string) {
   });
 }
 
+/**
+ * Kabab Casing
+ *
+ * @example `kabab-case`
+ */
 export function kababize(str: string) {
   return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
     if (+match === 0) return '';

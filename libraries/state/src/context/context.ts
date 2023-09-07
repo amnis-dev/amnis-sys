@@ -7,6 +7,7 @@ import {
   dataActions,
   systemSlice,
   roleSlice,
+  schemaSlice,
 } from '../data/index.js';
 import type {
   IoContext,
@@ -122,6 +123,12 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
       }
       const { $id } = schema;
       acc[$id] = schema;
+
+      /**
+       * Populate the schema state.
+       */
+      store.dispatch(schemaSlice.action.populate(schema));
+
       return acc;
     },
     {},

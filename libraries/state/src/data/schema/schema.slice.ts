@@ -2,6 +2,7 @@ import { createEntityAdapter, createSelector, createSlice } from '@amnis/state/r
 import type { EntityState, PayloadAction } from '@amnis/state/rtk';
 import type { Schema, SchemaFile, SchemaMeta } from './schema.types.js';
 import type { State } from '../../state.types.js';
+import { pascalize } from '../../string.util.js';
 
 export const schemaKey = 'schema';
 
@@ -84,10 +85,11 @@ const { actions: action } = slice;
 /**
  * Selects a schema without references.
  */
-const selectSchema = (state: State, name: string): Schema | undefined => {
+const selectSchema = (state: State, name: string, id?: string): Schema | undefined => {
   const slice = state[schemaKey] as SchemaMeta & EntityState<Schema, string>;
+  const namePascal = pascalize(name);
 
-  const $id = `${slice.$active}#/definitions/${name}`;
+  const $id = `${id ?? slice.$active}#/definitions/${namePascal}`;
   const schema = slice.entities[$id];
 
   return schema;
