@@ -95,7 +95,10 @@ function validateCompile(schema: SchemaObject): Validators {
   const validatorKeys = Object.keys(definitions);
 
   /** @ts-ignore */
-  const ajv = new Ajv({ schemas: [schema], code: { esm: true } });
+  const ajv = new Ajv({
+    schemas: [schema],
+    code: { esm: true },
+  });
   /** @ts-ignore */
   addFormats(ajv, ['hostname', 'email', 'password', 'ipv4', 'ipv6', 'binary']);
   /** @ts-ignore */

@@ -1,5 +1,6 @@
 import React from 'react';
 import { nanoid } from '@amnis/state/rtk';
+import type { Schema } from '@amnis/state';
 import { kababize, noop } from '@amnis/state';
 import { Skeleton } from '@mui/material';
 import type {
@@ -39,7 +40,7 @@ export interface EntryProps {
 }
 
 export type EntryPropsVariations = {
-  schema?: EntryContextSchemaString;
+  schema?: Schema;
   onChange?: (
     value: string | undefined,
     event: React.ChangeEvent<HTMLInputElement>

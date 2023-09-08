@@ -9,6 +9,9 @@ import type {
 
 /**
  * Website font types.
+ *
+ * @type string
+ * @format font
  */
 export type WebsiteFontType = 'open-sans' | 'public-sans' | 'merriweather' | 'merriweather-sans'
 | 'source-sans-pro' | 'roboto' | 'roboto-mono' | 'roboto-slab' | 'roboto-condensed' | 'lato';
@@ -71,7 +74,6 @@ export interface Website extends Data {
    *
    * @title web:website:fontTitle
    * @description web:website:fontTitle_desc
-   * @format font
    */
   fontTitle: WebsiteFontType;
 
@@ -80,7 +82,6 @@ export interface Website extends Data {
    *
    * @title web:website:fontBody
    * @description web:website:fontBody_desc
-   * @format font
    */
   fontBody: WebsiteFontType;
 
@@ -89,7 +90,6 @@ export interface Website extends Data {
    *
    * @title web:website:fontCode
    * @description web:website:fontCode_desc
-   * @format font
    */
   fontCode: WebsiteFontType;
 
@@ -98,7 +98,6 @@ export interface Website extends Data {
    *
    * @title web:website:fontUi
    * @description web:website:fontUi_desc
-   * @format font
    */
   fontUi: WebsiteFontType;
 
