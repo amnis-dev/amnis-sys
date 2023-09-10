@@ -6,12 +6,42 @@ import type {
   Schema,
 } from '@amnis/state';
 import {
+  entityStrip,
   schemaSlice,
   systemSlice,
 } from '@amnis/state';
 import { mwAccess } from '../../mw/index.js';
 import type { ApiSysSchema } from '../../api.sys.types.js';
 import { permissionGrants } from '../../utility/permission.js';
+import { findLocaleByNames } from '../../utility/find.js';
+
+/**
+ * Gets schema locale strings.
+ */
+function schemaLocale(schema: Schema): string[] {
+  const localeStrings: string[] = [];
+
+  const { title, description, type } = schema;
+
+  if (title && title.startsWith('%')) {
+    localeStrings.push(title.slice(1));
+  }
+
+  if (description && description.startsWith('%')) {
+    localeStrings.push(description.slice(1));
+  }
+
+  if (type === 'object') {
+    const { properties } = schema;
+    if (properties) {
+      Object.values(properties).forEach((propSchema) => {
+        localeStrings.push(...schemaLocale(propSchema));
+      });
+    }
+  }
+
+  return localeStrings;
+}
 
 /**
  * Verifies the validity of an access bearer.
@@ -21,7 +51,7 @@ Io<ApiSysSchema, Schema[]>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
-    const { query: { type }, access } = input;
+    const { query: { type }, access, language } = input;
 
     if (!access) {
       output.status = 401; // 401 Unauthorized
@@ -120,9 +150,26 @@ Io<ApiSysSchema, Schema[]>
     const references = schemaSlice.select.references(store.getState(), schema);
 
     /**
+     * Store the full list of shemas.
+     */
+    const schemas = [schema, ...references];
+
+    /**
+     * Iterate over the schema properties and find string values that begin with the
+     * '%' character. These are locale keys that need to be translated.
+     */
+    const localeNames: string[] = [];
+    schemas.forEach((s) => localeNames.push(...schemaLocale(s)));
+
+    const locale = (
+      await findLocaleByNames(context, localeNames, language)
+    ).map((l) => entityStrip(l));
+
+    /**
      * Set the output result to the schema definition and referenced schemas.
      */
-    output.json.result = [schema, ...references];
+    output.json.locale = locale;
+    output.json.result = schemas;
 
     return output;
   }

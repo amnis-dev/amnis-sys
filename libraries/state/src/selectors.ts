@@ -185,6 +185,21 @@ const dataTranslation = createSelector(
       if (typeof tData[key] === 'string') {
         tData[key] = localeSlice.select.translation(state, tData[key] as string, data) ?? data[key];
       }
+      if (typeof tData[key] === 'object') {
+        if (Array.isArray(tData[key])) {
+          tData[key] = tData[key].map((item: any) => {
+            if (typeof tData[key] === 'string') {
+              return localeSlice.select.translation(state, tData[key] as string, data) ?? data[key];
+            }
+            if (typeof tData[key] === 'object' && !Array.isArray(tData[key])) {
+              return dataTranslation(state, item);
+            }
+            return item;
+          });
+        } else {
+          tData[key] = dataTranslation(state, tData[key]);
+        }
+      }
     });
     return tData;
   },

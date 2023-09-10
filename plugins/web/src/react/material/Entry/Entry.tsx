@@ -6,7 +6,6 @@ import { Skeleton } from '@mui/material';
 import type {
   EntryContextProps,
   EntryContextSchemaErrors,
-  EntryContextSchemaNumber,
   EntryContextSchemaString,
 } from '@amnis/web/react/context';
 import { EntryContext, entryContextDefault } from '@amnis/web/react/context';
@@ -16,7 +15,7 @@ export interface EntryProps {
   /**
    * The label of the entry.
    */
-  label: string;
+  label?: string;
 
   /**
    * Controlled value of the input.
@@ -46,7 +45,7 @@ export type EntryPropsVariations = {
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
 } | {
-  schema?: EntryContextSchemaNumber;
+  schema?: Schema;
   onChange?: (
     value: number | undefined,
     event: React.ChangeEvent<HTMLInputElement>
@@ -55,7 +54,7 @@ export type EntryPropsVariations = {
 
 export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
   value: valueProp,
-  label,
+  label: labelProp,
   schema,
   required = false,
   errorText = entryContextDefault.errorText,
@@ -63,6 +62,7 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
   onChange: onChangeProp = noop,
 }) => {
   const uid = React.useMemo(() => nanoid(4), []);
+  const label = React.useMemo(() => labelProp ?? schema?.title ?? 'Unlabeled', [labelProp, uid]);
 
   const [value, setValue] = React.useState<typeof valueProp>(valueProp);
 

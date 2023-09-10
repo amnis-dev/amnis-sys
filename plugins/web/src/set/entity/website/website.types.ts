@@ -24,8 +24,8 @@ export interface Website extends Data {
    * Hostname this website is linked to.
    * This is used to determine the website to load.
    *
-   * @title web:website:hostname
-   * @description web:website:hostname_desc
+   * @title %web:website:hostname
+   * @description %web:website:hostname_desc
    * @minLength 3
    * @maxLength 128
    */
@@ -34,8 +34,8 @@ export interface Website extends Data {
   /**
    * Title of the website
    *
-   * @title web:website:title
-   * @description web:website:title_desc
+   * @title %web:website:title
+   * @description %web:website:title_desc
    * @minLength 1
    * @maxLength 256
    */
@@ -44,8 +44,8 @@ export interface Website extends Data {
   /**
    * Description of the website
    *
-   * @title web:website:description
-   * @description web:website:description_desc
+   * @title %web:website:description
+   * @description %web:website:description_desc
    * @minLength 1
    * @maxLength 4096
    */
@@ -54,8 +54,8 @@ export interface Website extends Data {
   /**
    * The logo image to use for the website.
    *
-   * @title web:website:logo
-   * @description web:website:logo_desc
+   * @title %web:website:logo
+   * @description %web:website:logo_desc
    * @format url-image
    */
   logo?: string;
@@ -63,8 +63,8 @@ export interface Website extends Data {
   /**
    * The default social card image for the website.
    *
-   * @title web:website:socialCard
-   * @description web:website:socialCard_desc
+   * @title %web:website:socialCard
+   * @description %web:website:socialCard_desc
    * @format url-image
    */
   socialCard?: string;
@@ -72,40 +72,40 @@ export interface Website extends Data {
   /**
    * Font type for titles.
    *
-   * @title web:website:fontTitle
-   * @description web:website:fontTitle_desc
+   * @title %web:website:fontTitle
+   * @description %web:website:fontTitle_desc
    */
   fontTitle: WebsiteFontType;
 
   /**
    * Font type for body text.
    *
-   * @title web:website:fontBody
-   * @description web:website:fontBody_desc
+   * @title %web:website:fontBody
+   * @description %web:website:fontBody_desc
    */
   fontBody: WebsiteFontType;
 
   /**
    * Font type for code text.
    *
-   * @title web:website:fontCode
-   * @description web:website:fontCode_desc
+   * @title %web:website:fontCode
+   * @description %web:website:fontCode_desc
    */
   fontCode: WebsiteFontType;
 
   /**
    * Font type for user interface text.
    *
-   * @title web:website:fontUi
-   * @description web:website:fontUi_desc
+   * @title %web:website:fontUi
+   * @description %web:website:fontUi_desc
    */
   fontUi: WebsiteFontType;
 
   /**
    * Navigational routes for the website.
    *
-   * @title web:website:routes
-   * @description web:website:routes_desc
+   * @title %web:website:routes
+   * @description %web:website:routes_desc
    */
   $routes: UIDTree<Route>;
 }

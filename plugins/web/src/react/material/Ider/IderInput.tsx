@@ -2,11 +2,10 @@ import React from 'react';
 import {
   dataActions, pascalize, schemaSlice, stateSelect,
 } from '@amnis/state';
-import type { Entity } from '@amnis/state';
+import type { Entity, Schema } from '@amnis/state';
 import { apiSys } from '@amnis/api/react';
-import type { Schema } from 'ajv';
 import { Entry } from '@amnis/web/react/material';
-import { useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
+import { useTranslate, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
 import type { QueryResult } from '@amnis/web';
 
 export interface IderInputProps<E extends Entity> {
@@ -42,6 +41,8 @@ export const IderInput = <E extends Entity>({
     return { schemaProperty, required };
   }, [schema, prop]);
 
+  const schemaPropertyTranslated = useTranslate(schemaProperty);
+
   const handleChange = React.useCallback((value: any) => {
     dispatch(dataActions.update({
       [slice]: [{
@@ -52,14 +53,14 @@ export const IderInput = <E extends Entity>({
   }, []);
 
   console.log('IderInput', {
-    entity, prop, schemaProperty, required,
+    schemaProperty,
+    schemaPropertyTranslated,
   });
 
-  return schemaProperty ? (
+  return schemaPropertyTranslated ? (
     <Entry
-      label={pascalize(prop)}
       required={required}
-      schema={schemaProperty}
+      schema={schemaPropertyTranslated}
       value={entity[prop]}
       onChange={handleChange}
     />

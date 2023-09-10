@@ -36,7 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const routeTree = React.useMemo(() => {
     const r = website?.$routes ?? [];
     const tree = r.reduce<Entity<Route>[]>((acc, [$id, $parent]) => {
-      if (!$parent && routes[$id]) {
+      if (!$parent && routes?.[$id]) {
         acc.push(routes[$id]);
       }
       return acc;

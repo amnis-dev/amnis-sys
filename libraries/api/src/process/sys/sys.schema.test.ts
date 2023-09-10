@@ -71,17 +71,20 @@ test('should fetch user schema as admin user', async () => {
   );
   const bearerAccess = outputLogin.json.bearers?.[0] as Bearer;
 
-  const inputCreator = ioInput({
+  const inputSchema = ioInput({
     accessEncoded: bearerAccess.access,
     query: {
       type: 'state/User',
     },
   });
 
-  const outputCreator = await io.schema(inputCreator, ioOutput());
+  const outputSchema = await io.schema(inputSchema, ioOutput());
 
-  expect(outputCreator.status).toBe(200);
-  expect(outputCreator.json.result).toBeDefined();
-  expect(outputCreator.json.result).toEqual(expect.any(Array));
-  expect(outputCreator.json.result.length).toBeGreaterThan(1);
+  expect(outputSchema.status).toBe(200);
+  expect(outputSchema.json.result).toBeDefined();
+  expect(outputSchema.json.result).toEqual(expect.any(Array));
+  expect(outputSchema.json.result.length).toBeGreaterThan(1);
+
+  expect(outputSchema.json.locale).toBeDefined();
+  expect(outputSchema.json.locale?.length).toBeGreaterThan(0);
 });

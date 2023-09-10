@@ -10,8 +10,8 @@ export interface Contact extends Data {
   /**
    * Name (or title) of the contact
    *
-   * @title core:state:contact:name
-   * @description core:state:contact:name_desc
+   * @title %core:state:contact:name
+   * @description %core:state:contact:name_desc
    * @minLength 1
    * @maxLength 128
    */
@@ -20,8 +20,8 @@ export interface Contact extends Data {
   /**
    * Details about the contact.
    *
-   * @title core:state:contact:description
-   * @description core:state:contact:description_desc
+   * @title %core:state:contact:description
+   * @description %core:state:contact:description_desc
    * @minLength 1
    * @maxLength 4096
    */
@@ -30,24 +30,24 @@ export interface Contact extends Data {
   /**
    * Phone numbers. First item in the array is the primary phone number.
    *
-   * @title core:state:contact:phones
-   * @description core:state:contact:phones_desc
+   * @title %core:state:contact:phones
+   * @description %core:state:contact:phones_desc
    */
   phones: string[];
 
   /**
    * Contact emails. First item in the array is the primary email.
    *
-   * @title core:state:contact:emails
-   * @description core:state:contact:emails_desc
+   * @title %core:state:contact:emails
+   * @description %core:state:contact:emails_desc
    */
   emails: Email[];
 
   /**
    * Contact's social urls.
    *
-   * @title core:state:contact:socials
-   * @description core:state:contact:socials_desc
+   * @title %core:state:contact:socials
+   * @description %core:state:contact:socials_desc
    */
   socials: SURL[];
 }
