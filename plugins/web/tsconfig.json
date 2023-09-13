@@ -11,6 +11,7 @@
       "@amnis/web": ["./src/index.ts"],
       "@amnis/web/set": ["./src/set/index.ts"],
       "@amnis/web/schema": ["./src/schema/index.ts"],
+      "@amnis/web/locale": ["./src/locale/index.ts"],
       "@amnis/web/data": ["./src/data/index.ts"],
       "@amnis/web/data/test": ["./src/data/test/index.ts"],
       "@amnis/web/react": ["./src/react/index.ts"],

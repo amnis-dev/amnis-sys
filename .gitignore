@@ -136,7 +136,10 @@ dist
 .vscode-test
 
 # Schemas
-*.schema.json
+**/schema/*.json
+
+# Locale
+**/locale/*.gen.json
 
 # MSW Worker
 mockServiceWorker.js

@@ -2,12 +2,12 @@ import React from 'react';
 import {
   Box,
 } from '@mui/material';
-import { combineReducers, configureStore } from '@amnis/state/rtk';
 import {
   useWebDispatch,
   useWebSelector,
   BackdropProgress,
 } from '@amnis/web';
+import { combineReducers, configureStore } from '@amnis/state/rtk';
 import {
   databaseMemoryClear,
   dataActions,
@@ -136,7 +136,7 @@ export const Mocker: React.FC<MockerProps> = ({
      * Merge all plugins.
      */
     const {
-      set, schema, process, dataTest,
+      set, schema, process, dataTest, locale,
     } = pluginMerge(plugins);
 
     /**
@@ -154,6 +154,7 @@ export const Mocker: React.FC<MockerProps> = ({
       store,
       schemas: schema,
       data: dataTest,
+      locale,
     });
 
     /**

@@ -26,8 +26,14 @@ export type UID<T = unknown> = UIDNominal & string;
 /**
  * A id identifier to another document.
  *
- * @title %core:state:uid
- * @description %core:state:uid_desc
+ * @title {
+ *  en: "UID",
+ *  de: "UID"
+ * }
+ * @description {
+ *  en: "A unique identifier to another document",
+ *  de: "Ein eindeutiger Bezeichner zu einem anderen Dokument"
+ * }
  * @pattern ^[a-z]{1,21}:[A-Za-z0-9_-]{21}$
  * @minLength 22
  * @maxLength 42
@@ -37,8 +43,14 @@ export type UIDv2<S extends string = string> = `${S}:${string}`;
 /**
  * Extracts the key value from a UIDv2 type.
  *
- * @title %core:state:uidkey
- * @description %core:state:uidkey_desc
+ * @title {
+ *  en: "UID Key",
+ *  de: "UID Schlüssel"
+ * }
+ * @description {
+ *  en: "Extracts the key value from a UIDv2 type",
+ *  de: "Extrahiert den Schlüsselwert aus einem UIDv2-Typ"
+ * }
  */
 export type UIDv2Key<ID extends UIDv2> = ID extends `${infer S}:${infer _}` ? S : never;
 
@@ -50,8 +62,14 @@ export type UIDList<T = unknown> = UID<T>[];
 /**
  * List of identifiers.
  *
- * @title %core:state:uidlist
- * @description %core:state:uidlist_desc
+ * @title {
+ *  en: "UID List",
+ *  de: "UID Liste"
+ * }
+ * @description {
+ *  en: "List of unique data identifiers",
+ *  de: "Liste eindeutiger Datenbezeichner"
+ * }
  */
 export type UIDv2List<S extends string = string> = UIDv2<S>[];
 
@@ -63,16 +81,28 @@ export type UIDTree<T = unknown> = [item: UID<T>, parent: UID<T> | null][];
 /**
  * Identifiers linked in a directory tree fashion.
  *
- * @title %core:state:uidtree
- * @description %core:state:uidtree_desc
+ * @title {
+ *  en: "UID Tree",
+ *  de: "UID Baum"
+ * }
+ * @description {
+ *  en: "List of unique data identifiers linked in a tree fashion",
+ *  de: "Liste eindeutiger Datenbezeichner, die baumartig verknüpft sind"
+ * }
  */
 export type UIDv2Tree<S extends string = string> = [item: UIDv2<S>, parent: UIDv2<S> | null][];
 
 /**
  * A string that represents a JSON Date.
  *
- * @title %core:state:datejson
- * @description %core:state:datejson_desc
+ * @title {
+ *  en: "JSON Date",
+ *  de: "JSON Datum"
+ * }
+ * @description {
+ *  en: "A string that represents a JSON Date",
+ *  de: "Ein String, der ein JSON-Datum darstellt"
+ * }
  * @format date-time
  * @pattern ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$
  * @errorMessage "Date format is invalid"
@@ -82,8 +112,14 @@ export type DateJSON = DateNominal & string;
 /**
  * A string that represents a Numeric Date.
  *
- * @title %core:state:datenumeric
- * @description %core:state:datenumeric_desc
+ * @title {
+ *  en: "Numeric Date",
+ *  de: "Numerisches Datum"
+ * }
+ * @description {
+ *  en: "A string that represents a Numeric Date",
+ *  de: "Ein String, der ein numerisches Datum darstellt"
+ * }
  * @min 0
  */
 export type DateNumeric = DateNominal & number;
@@ -92,8 +128,14 @@ export type DateNumeric = DateNominal & number;
  * A string that represents a URL.
  * Named SURL (String URL) so it's not confused with the URL object type.
  *
- * @title %core:state:surl
- * @description %core:state:surl_desc
+ * @title {
+ *  en: "Web URL",
+ *  de: "Webadresse"
+ * }
+ * @description {
+ *  en: "An address to a web resource",
+ *  de: "Adresse zu einer Webressource"
+ * }
  * @format url
  */
 export type SURL = string;
@@ -101,12 +143,17 @@ export type SURL = string;
 /**
  * An email address
  *
- * @title %core:state:email
- * @description %core:state:email_desc
+ * @title {
+ *  en: "Email",
+ *  de: "E-Mail"
+ * }
+ * @description {
+ *  en: "Email address",
+ *  de: "E-Mail-Adresse"
+ * }
  * @format email
  * @minLength 3
  * @maxLength 64
- * @errorMessage "The email address is poorly formatted"
  */
 export type Email = string;
 
@@ -138,8 +185,14 @@ export type Encoding = string;
 /**
  * An IP version 4 address.
  *
- * @title %core:state:ipv4
- * @description %core:state:ipv4_desc
+ * @title {
+ *  en: "IPv4",
+ *  de: "IPv4"
+ * }
+ * @description {
+ *  en: "A version 4 internet protocol (IP) address",
+ *  de: "Eine Internetprotokoll-Version 4 (IPv4)-Adresse"
+ * }
  * @format ipv4
  * @minLength 8
  * @maxLength 34
@@ -149,8 +202,14 @@ export type IPv4 = string;
 /**
  * An IP version 6 address.
  *
- * @title %core:state:ipv6
- * @description %core:state:ipv6_desc
+ * @title {
+ *  en: "IPv6",
+ *  de: "IPv6"
+ * }
+ * @description {
+ *  en: "A version 6 internet protocol (IP) address",
+ *  de: "Eine Internetprotokoll-Version 6 (IPv6)-Adresse"
+ * }
  * @format ipv6
  * @minLength 8
  * @maxLength 34
@@ -160,7 +219,13 @@ export type IPv6 = string;
 /**
  * An IP address.
  *
- * @title %core:state:ip
- * @description %core:state:ip_desc
+ * @title {
+ *  en: "IP Address",
+ *  de: "IP-Adresse"
+ * }
+ * @description {
+ *  en: "A version 4 or 6 internet protocol (IP) address",
+ *  de: "Eine Internetprotokoll-Version 4 oder 6 (IPv4 oder IPv6)-Adresse"
+ * }
  */
 export type IP = IPv4 | IPv6;

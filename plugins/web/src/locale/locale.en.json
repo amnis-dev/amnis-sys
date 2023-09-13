@@ -1,0 +1,9 @@
+{
+  "website.title": "My Website",
+  "website.description": "This is the description of the website.",
+  "route.home.label": "Home",
+  "route.about.label": "About",
+  "route.contact.label": "Contact",
+  "webComponent.navbar.description": "Top navigational bar for navigating routes for information and settings on the website.",
+  "webInstance.navbar.name": "Main Navigational Bar"
+}

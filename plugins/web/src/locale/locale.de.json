@@ -1,0 +1,9 @@
+{
+  "website.title": "Meine Webseite",
+  "website.description": "Dies ist die Beschreibung der Webseite.",
+  "route.home.label": "Start",
+  "route.about.label": "Über uns",
+  "route.contact.label": "Kontakt",
+  "webComponent.navbar.description": "Oberste Navigationsleiste zur Navigation von Informationen und Einstellungen auf der Webseite.",
+  "webInstance.navbar.name": "Haupt-Navigationsleiste"
+}

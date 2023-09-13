@@ -1,0 +1,10 @@
+{
+  "role.admin.name": "Administrator",
+  "role.admin.description": "Most permissive role for overall system configuration and maintenance.",
+  "role.exec.name": "Executive",
+  "role.exec.description": "Authoritative role for application configuration and maintenance.",
+  "role.anon.name": "Anonymous",
+  "role.anon.description": "Least permissive role for accessing the application data without authentication.",
+  "role.base.name": "Base",
+  "role.base.description": "Basis for standard authenticated use of the application."
+}

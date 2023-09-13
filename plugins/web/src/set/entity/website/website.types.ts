@@ -24,8 +24,16 @@ export interface Website extends Data {
    * Hostname this website is linked to.
    * This is used to determine the website to load.
    *
-   * @title %web:website:hostname
-   * @description %web:website:hostname_desc
+   * @title {
+   *  en: "Hostname",
+   *  de: "Hostname",
+   *  es: "Hostname",
+   * }
+   * @description {
+   *  en: "The hostname this website is linked to",
+   *  de: "Der Hostname, mit dem diese Website verknüpft ist",
+   *  es: "El nombre de host al que está vinculado este sitio web",
+   * }
    * @minLength 3
    * @maxLength 128
    */
@@ -34,8 +42,16 @@ export interface Website extends Data {
   /**
    * Title of the website
    *
-   * @title %web:website:title
-   * @description %web:website:title_desc
+   * @title {
+   *  en: "Title",
+   *  de: "Titel",
+   *  es: "Título",
+   * }
+   * @description {
+   *  en: "The title of the website",
+   *  de: "Der Titel der Website",
+   *  es: "El título del sitio web",
+   * }
    * @minLength 1
    * @maxLength 256
    */
@@ -44,8 +60,16 @@ export interface Website extends Data {
   /**
    * Description of the website
    *
-   * @title %web:website:description
-   * @description %web:website:description_desc
+   * @title {
+   *  en: "Description",
+   *  de: "Beschreibung",
+   *  es: "Descripción",
+   * }
+   * @description {
+   *  en: "The description of the website",
+   *  de: "Die Beschreibung der Website",
+   *  es: "La descripción del sitio web",
+   * }
    * @minLength 1
    * @maxLength 4096
    */
@@ -54,8 +78,16 @@ export interface Website extends Data {
   /**
    * The logo image to use for the website.
    *
-   * @title %web:website:logo
-   * @description %web:website:logo_desc
+   * @title {
+   *  en: "Logo",
+   *  de: "Logo",
+   *  es: "Logo",
+   * }
+   * @description {
+   *  en: "The logo image to use for the website",
+   *  de: "Das Logobild, das für die Website verwendet werden soll",
+   *  es: "La imagen del logotipo para usar en el sitio web",
+   * }
    * @format url-image
    */
   logo?: string;
@@ -63,8 +95,16 @@ export interface Website extends Data {
   /**
    * The default social card image for the website.
    *
-   * @title %web:website:socialCard
-   * @description %web:website:socialCard_desc
+   * @title {
+   *  en: "Social Card",
+   *  de: "Social Card",
+   *  es: "Social Card",
+   * }
+   * @description {
+   *  en: "The default social card image for the website",
+   *  de: "Das Standard-Social-Card-Bild für die Website",
+   *  es: "La imagen de la tarjeta social predeterminada para el sitio web",
+   * }
    * @format url-image
    */
   socialCard?: string;
@@ -72,40 +112,80 @@ export interface Website extends Data {
   /**
    * Font type for titles.
    *
-   * @title %web:website:fontTitle
-   * @description %web:website:fontTitle_desc
+   * @title {
+   *  en: "Title Font",
+   *  de: "Titelschriftart",
+   *  es: "Fuente del título",
+   * }
+   * @description {
+   *  en: "Font type for titles",
+   *  de: "Schriftart für Titel",
+   *  es: "Fuente del título",
+   * }
    */
   fontTitle: WebsiteFontType;
 
   /**
    * Font type for body text.
    *
-   * @title %web:website:fontBody
-   * @description %web:website:fontBody_desc
+   * @title {
+   *  en: "Body Font",
+   *  de: "Textschriftart",
+   *  es: "Fuente del cuerpo",
+   * }
+   * @description {
+   *  en: "Font type for body text",
+   *  de: "Schriftart für Fließtext",
+   *  es: "Fuente del cuerpo",
+   * }
    */
   fontBody: WebsiteFontType;
 
   /**
    * Font type for code text.
    *
-   * @title %web:website:fontCode
-   * @description %web:website:fontCode_desc
+   * @title {
+   *  en: "Code Font",
+   *  de: "Codeschriftart",
+   *  es: "Fuente de código",
+   * }
+   * @description {
+   *  en: "Font type for code text",
+   *  de: "Schriftart für Code",
+   *  es: "Fuente de código",
+   * }
    */
   fontCode: WebsiteFontType;
 
   /**
    * Font type for user interface text.
    *
-   * @title %web:website:fontUi
-   * @description %web:website:fontUi_desc
+   * @title {
+   *  en: "UI Font",
+   *  de: "UI-Schriftart",
+   *  es: "Fuente de la interfaz de usuario",
+   * }
+   * @description {
+   *  en: "Font type for user interface text",
+   *  de: "Schriftart für Benutzeroberflächentext",
+   *  es: "Fuente de la interfaz de usuario",
+   * }
    */
   fontUi: WebsiteFontType;
 
   /**
    * Navigational routes for the website.
    *
-   * @title %web:website:routes
-   * @description %web:website:routes_desc
+   * @title {
+   *  en: "Routes",
+   *  de: "Routen",
+   *  es: "Rutas",
+   * }
+   * @description {
+   *  en: "Navigational routes for the website",
+   *  de: "Navigationsrouten für die Website",
+   *  es: "Rutas de navegación para el sitio web",
+   * }
    */
   $routes: UIDTree<Route>;
 }

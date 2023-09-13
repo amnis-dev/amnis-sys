@@ -13,6 +13,7 @@ export default defineConfig({
         plugin: resolve(__dirname, 'src/plugin.ts'),
         set: resolve(__dirname, 'src/set/index.ts'),
         schema: resolve(__dirname, 'src/schema/index.ts'),
+        locale: resolve(__dirname, 'src/locale/index.ts'),
         data: resolve(__dirname, 'src/data/index.ts'),
         dataTest: resolve(__dirname, 'src/data/test/index.ts'),
         react: resolve(__dirname, 'src/react/index.ts'),

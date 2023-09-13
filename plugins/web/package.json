@@ -33,6 +33,10 @@
       "types": "./types/schema/index.d.ts",
       "import": "./dist/schema.js"
     },
+    "./locale": {
+      "types": "./types/locale/index.d.ts",
+      "import": "./dist/locale.js"
+    },
     "./data": {
       "types": "./types/data/index.d.ts",
       "import": "./dist/data.js"

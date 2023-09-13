@@ -8,6 +8,8 @@ import {
   systemSlice,
   roleSlice,
   schemaSlice,
+  localeSlice,
+  localeDocumentToEntities,
 } from '../data/index.js';
 import type {
   IoContext,
@@ -21,7 +23,7 @@ import {
 import { storeSetup } from '../store.js';
 import { validateSetup } from './validate.js';
 import { dataMinimal } from '../data.minimal.js';
-import type { StateDataPromise } from '../types.js';
+import type { StateDataPromise, StateLocale } from '../types.js';
 import { stateEntitiesCreate } from '../state.js';
 import { historyMake, historySlice } from '../data/entity/history/index.js';
 import { GrantTask } from '../data/grant/index.js';
@@ -37,6 +39,11 @@ export interface ContextOptions extends Omit<Partial<IoContext>, 'schemas' | 'va
    * Set initial entity data.
    */
   data?: StateDataPromise;
+
+  /**
+   * Locale to use for the initial system.
+   */
+  locale?: StateLocale;
 
   /**
    * System handle to use for the initial system.
@@ -56,6 +63,7 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
     crypto = cryptoWeb,
     data = dataTest,
     emailer = emailerMemory(),
+    locale = (await import('@amnis/state/locale')).locale,
     systemHandle,
   } = options;
 
@@ -79,7 +87,15 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
     const dataInitial = await data(dataMinimal());
 
     /**
-     * Add locale cache.
+     * Insert the locale into the initial data.
+     */
+    dataInitial[localeSlice.key] = dataInitial[localeSlice.key] ?? [];
+    dataInitial[localeSlice.key].push(...Object.keys(locale).map((key) => (
+      localeDocumentToEntities(key, locale[key])
+    )).flat());
+
+    /**
+     * Cache locale from the initial data.
      */
     Object.values(dataInitial).flat().forEach((entity) => {
       const localeNames: string[] = [];

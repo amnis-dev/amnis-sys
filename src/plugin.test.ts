@@ -18,4 +18,5 @@ test('should merge plugins', async () => {
 
   expect(plugin).toBeDefined();
   expect(plugin.id).toBe('merged');
+  expect(plugin.locale).toBeDefined();
 });

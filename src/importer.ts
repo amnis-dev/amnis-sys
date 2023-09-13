@@ -13,6 +13,13 @@ type PluginModulePossibilities =
   undefined;
 
 /**
+ * Default importer properties.
+ */
+const defaultImporterProps: ImporterPropOptions = [
+  'set', 'data', 'schema', 'locale', 'process', 'data', 'dataTest',
+];
+
+/**
  * Import a single dynamic plugin.
  */
 export async function importerPlugin(
@@ -24,7 +31,7 @@ export async function importerPlugin(
   /**
    * Individual modules to import.
    */
-  props: ImporterPropOptions = ['set', 'data', 'schema', 'process', 'data', 'dataTest'],
+  props: ImporterPropOptions = defaultImporterProps,
 ): Promise<Plugin> {
   const modules = Array.from(new Set(props));
   let pluginResolved: Plugin = {
@@ -70,7 +77,7 @@ export async function importerPlugins(
   /**
    * Individual modules to import.
    */
-  props: ImporterPropOptions = ['set', 'data', 'schema', 'process', 'data', 'dataTest'],
+  props: ImporterPropOptions = defaultImporterProps,
 ): Promise<Plugin[]> {
   const modules = Array.from(new Set(props));
 

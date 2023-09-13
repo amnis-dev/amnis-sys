@@ -1,0 +1,10 @@
+{
+  "role.admin.name": "Administrator",
+  "role.admin.description": "Rolle mit den meisten Berechtigungen für die Gesamtsystemkonfiguration und -wartung.",
+  "role.exec.name": "Führungskraft",
+  "role.exec.description": "Autoritative Rolle für die Anwendungskonfiguration und -wartung.",
+  "role.anon.name": "Anonym",
+  "role.anon.description": "Rolle mit den geringsten Berechtigungen zum Zugriff auf die Anwendungsdaten ohne Authentifizierung.",
+  "role.base.name": "Basis",
+  "role.base.description": "Grundlage für die standardmäßige authentifizierte Nutzung der Anwendung."
+}

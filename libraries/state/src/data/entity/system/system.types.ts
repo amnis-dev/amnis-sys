@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import type { Role } from '../role/role.types.js';
 import type {
   Email, SURL, UID, UIDList,
@@ -14,8 +15,16 @@ export interface System extends Data {
   /**
    * Name of the system.
    *
-   * @title %core:state:system:name
-   * @description %core:state:system:name_desc
+   * @title {
+   *  en: "System",
+   *  de: "System",
+   *  es: "Sistema",
+   * }
+   * @description {
+   *  en: "The name of the system",
+   *  de: "Der Name des Systems",
+   *  es: "El nombre del sistema",
+   * }
    * @minLength 1
    * @maxLength 32
    */
@@ -24,33 +33,65 @@ export interface System extends Data {
   /**
    * System handle for identifying system created resources.
    *
-   * @title %core:state:system:handle
-   * @description %core:state:system:handle_desc
+   * @title {
+   *  en: "Handle",
+   *  de: "Handle",
+   *  es: "Manija",
+   * }
+   * @description {
+   *  en: "Helps identifies system created resources",
+   *  de: "Hilft bei der Identifizierung von systemerstellten Ressourcen",
+   *  es: "Ayuda a identificar los recursos creados por el sistema",
+   * }
    */
   handle: HandleName;
 
   /**
    * Domain name of the system.
    *
+   * @title {
+   *  en: "Domain",
+   *  de: "Domain",
+   *  es: "Dominio",
+   * }
+   * @description {
+   *  en: "Domain name of the system",
+   *  de: "Domänenname des Systems",
+   *  es: "Nombre de dominio del sistema",
+   * }
    * @format hostname
-   * @title %core:state:system:domain
-   * @description %core:state:system:domain_desc
    */
   domain: string;
 
   /**
    * Allowed CORS origins.
    *
-   * @title %core:state:system:cors
-   * @description %core:state:system:cors_desc
+   * @title {
+   *  en: "CORS Origins",
+   *  de: "CORS-Originale",
+   *  es: "Orígenes CORS",
+   * }
+   * @description {
+   *  en: "Allowed CORS origins",
+   *  de: "Erlaubte CORS-Originale",
+   *  es: "Orígenes CORS permitidos",
+   * }
    */
   cors: SURL[];
 
   /**
    * Name of the session key.
    *
-   * @title %core:state:system:sessionKey
-   * @description %core:state:system:sessionKey_desc
+   * @title {
+   *  en: "Session Reference Key",
+   *  de: "Sitzungs-Referenzschlüssel",
+   *  es: "Clave de referencia de sesión",
+   * }
+   * @description {
+   *  en: "The name that references the session key used to maintain authentication",
+   *  de: "Der Name, der den zur Authentifizierung verwendeten Sitzungsschlüssel referenziert",
+   *  es: "El nombre que referencia la clave de sesión utilizada para mantener la autenticación",
+   * }
    * @format variable
    * @minLength 1
    * @maxLength 32
@@ -60,8 +101,16 @@ export interface System extends Data {
   /**
    * Number in minutes that an authentication session should live.
    *
-   * @title %core:state:system:sessionExpires
-   * @description %core:state:system:sessionExpires_desc
+   * @title {
+   *  en: "Session Expiration",
+   *  de: "Sitzungsablauf",
+   *  es: "Expiración de sesión"
+   * }
+   * @description {
+   *  en: "Number in minutes that an authentication session should live",
+   *  de: "Anzahl in Minuten, wie lange eine Authentifizierungssitzung aktiv bleiben sollte",
+   *  es: "Número en minutos que debe vivir una sesión de autenticación",
+   * }
    * @minimum 1
    * @maximum 20160
    */
@@ -70,8 +119,16 @@ export interface System extends Data {
   /**
    * Number in minutes that a bearer token should live.
    *
-   * @title %core:state:system:bearerExpires
-   * @description %core:state:system:bearerExpires_desc
+   * @title {
+   *  en: "Bearer Expiration",
+   *  de: "Bearer-Ablauf",
+   *  es: "Expiración de portador",
+   * }
+   * @description {
+   *  en: "Number in minutes that a bearer token should live",
+   *  de: "Anzahl in Minuten, wie lange ein Bearer-Token aktiv bleiben sollte",
+   *  es: "Número en minutos que debe vivir un token de portador",
+   * }
    * @minimum 1
    * @maximum 20160
    */
@@ -80,8 +137,16 @@ export interface System extends Data {
   /**
    * Expiration of a challenge code in minutes.
    *
-   * @title %core:state:system:challengeExpiration
-   * @description %core:state:system:challengeExpiration_desc
+   * @title {
+   *  en: "Challenge Expiration",
+   *  de: "Ablauf der Herausforderung",
+   *  es: "Expiración del desafío",
+   * }
+   * @description {
+   *  en: "Number in minutes that a challenge should live",
+   *  de: "Anzahl in Minuten, wie lange eine Herausforderung aktiv bleiben sollte",
+   *  es: "Número en minutos que debe vivir un desafío",
+   * }
    * @minimum 1
    * @maximum 60
    */
@@ -90,8 +155,16 @@ export interface System extends Data {
   /**
    * Expiration of a One-time password in minutes.
    *
-   * @title %core:state:system:otpExpiration
-   * @description %core:state:system:otpExpiration_desc
+   * @title {
+   *  en: "OTP Expiration",
+   *  de: "Ablauf des Einmalpassworts (OTP)",
+   *  es: "Expiración de la contraseña de un solo uso (OTP)"
+   * }
+   * @description {
+   *  en: "Number in minutes that an one-time password (OTP) should live",
+   *  de: "Anzahl in Minuten, wie lange ein Einmalpasswort (OTP) aktiv bleiben sollte",
+   *  es: "Número en minutos que debe vivir una contraseña de un solo uso (OTP)",
+   * }
    * @minimum 1
    * @maximum 60
    */
@@ -100,8 +173,15 @@ export interface System extends Data {
   /**
    * Character length of one-time passwords.
    *
-   * @title %core:state:system:otpLength
-   * @description %core:state:system:otpLength_desc
+   * @title {
+   *  en: "OTP Length",
+   *  de: "OTP-Länge"
+   * }
+   * @description {
+   *  en: "Number of characters in an one-time password (OTP)",
+   *  de: "Anzahl der Zeichen in einem Einmalpasswort (OTP)",
+   *  es: "Número de caracteres en una contraseña de un solo uso (OTP)",
+   * }
    * @minimum 1
    * @maximum 32
    */
@@ -111,40 +191,80 @@ export interface System extends Data {
    * Open registration to anonymous users. Otherwise, only executives and
    * admins can initialize a registration for a new client.
    *
-   * @title %core:state:system:registrationOpen
-   * @description %core:state:system:registrationOpen_desc
+   * @title {
+   *  en: "Registration Open",
+   *  de: "Registrierung geöffnet",
+   *  es: "Registro abierto"
+   * }
+   * @description {
+   *  en: "If enabled, registration is open to the public",
+   *  de: "Wenn aktiviert, ist die Registrierung für die Öffentlichkeit zugänglich",
+   *  es: "Si está habilitado, el registro está abierto al público",
+   * }
    */
   registrationOpen: boolean;
 
   /**
    * The sender email address for news.
    *
-   * @title %core:state:system:emailNews
-   * @description %core:state:system:emailNews_desc
+   * @title {
+   *  en: "News Email Address",
+   *  de: "E-Mail-Adresse für Nachrichten",
+   *  es: "Dirección de correo electrónico de noticias"
+   * }
+   * @description {
+   *  en: "The FROM email address when sending news related content",
+   *  de: "Die Absender-E-Mail-Adresse beim Senden von nachrichtenbezogenem Inhalt",
+   *  es: "La dirección de correo electrónico DE cuando se envía contenido relacionado con noticias",
+   * }
    */
   emailNews: Email;
 
   /**
    * The sender email address for system notifications.
    *
-   * @title %core:state:system:emailNotify
-   * @description %core:state:system:emailNotify_desc
+   * @title {
+   *  en: "Notify Email Address",
+   *  de: "E-Mail-Adresse für Benachrichtigungen",
+   *  es: "Dirección de correo electrónico de notificación"
+   * }
+   * @description {
+   *  en: "The FROM email address when sending notifications",
+   *  de: "Die Absender-E-Mail-Adresse beim Senden von Benachrichtigungen",
+   *  es: "La dirección de correo electrónico DE cuando se envían notificaciones",
+   * }
    */
   emailNotify: Email;
 
   /**
    * The sender email address for authentication tasks.
    *
-   * @title %core:state:system:emailAuth
-   * @description %core:state:system:emailAuth_desc
+   * @title {
+   *  en: "Auth Email Address",
+   *  de: "E-Mail-Adresse für Authentifizierung",
+   *  es: "Dirección de correo electrónico de autenticación"
+   * }
+   * @description {
+   *  en: "The FROM email address when sending authentication related information",
+   *  de: "Die Absender-E-Mail-Adresse beim Senden von Authentifizierungsbezogenen Informationen",
+   *  es: "La dirección de correo electrónico DE cuando se envía información relacionada con la autenticación",
+   * }
    */
   emailAuth: Email;
 
   /**
    * Maximum file size that can be uploaded in kilobytes.
    *
-   * @title %core:state:system:fileSizeMax
-   * @description %core:state:system:fileSizeMax_desc
+   * @title {
+   *  en: "Maximum File Size",
+   *  de: "Maximale Dateigröße",
+   *  es: "Tamaño máximo de archivo"
+   * }
+   * @description {
+   *  en: "Maximum file size in kilobytes",
+   *  de: "Maximale Dateigröße in Kilobyte",
+   *  es: "Tamaño máximo de archivo en kilobytes",
+   * }
    * @minimum 1
    * @maximum 8388608
    */
@@ -153,16 +273,32 @@ export interface System extends Data {
   /**
    * Flag to trust the proxy server for a forwarded IP address.
    *
-   * @title %core:state:system:proxyTrust
-   * @description %core:state:system:proxyTrust_desc
+   * @title {
+   *  en: "Proxy Trust",
+   *  de: "Proxy-Vertrauen",
+   *  es: "Confianza del proxy"
+   * }
+   * @description {
+   *  en: "Flag to trust the proxy server for a forwarded IP address",
+   *  de: "Flag, um dem Proxy-Server für eine weitergeleitete IP-Adresse zu vertrauen",
+   *  es: "Bandera para confiar en el servidor proxy para una dirección IP reenviada",
+   * }
    */
   proxyTrust?: boolean;
 
   /**
    * Supported language coded for the system.
    *
-   * @title %core:state:system:languages
-   * @description %core:state:system:languages_desc
+   * @title {
+   *  en: "Languages",
+   *  de: "Sprachen",
+   *  es: "Idiomas"
+   * }
+   * @description {
+   *  en: "List of languages supported by the system. The first item is the default",
+   *  de: "Liste der vom System unterstützten Sprachen. Der erste Eintrag ist die Standardsprache",
+   *  es: "Lista de idiomas soportados por el sistema. El primer elemento es el predeterminado",
+   * }
    * @minItems 1
    * @maxItems 32
    */
@@ -172,8 +308,16 @@ export interface System extends Data {
    * Role identifier that considers the user an administrator.
    * Administrators have complete control.
    *
-   * @title %core:state:system:$adminRole
-   * @description %core:state:system:$adminRole_desc
+   * @title {
+   *  en: "Administrator Role",
+   *  de: "Administratorrolle",
+   *  es: "Rol de administrador"
+   * }
+   * @description {
+   *  en: "Role identifier that considers the user an administrator",
+   *  de: "Rollenkennung, die den Benutzer als Administrator betrachtet",
+   *  es: "Identificador de rol que considera al usuario un administrador",
+   * }
    */
   $adminRole: UID<Role>;
 
@@ -181,8 +325,16 @@ export interface System extends Data {
    * Role identifier that considers the user an executive.
    * Executives have second-highest control over a system, just under administrators.
    *
-   * @title %core:state:system:$execRole
-   * @description %core:state:system:$execRole_desc
+   * @title {
+   *  en: "Executive Role",
+   *  de: "Führungskräfterolle",
+   *  es: "Rol ejecutivo"
+   * }
+   * @description {
+   *  en: "Role identifier that considers the user an executive",
+   *  de: "Rollenkennung, die den Benutzer als Führungskraft betrachtet",
+   *  es: "Identificador de rol que considera al usuario un ejecutivo",
+   * }
    */
   $execRole: UID<Role>;
 
@@ -190,16 +342,32 @@ export interface System extends Data {
    * Anonymous access permissions.
    * These are roles used when no authorization is provided by the client.
    *
-   * @title %core:state:system:$anonymousRole
-   * @description %core:state:system:$anonymousRole_desc
+   * @title {
+   *  en: "Anonymous Role",
+   *  de: "Anonyme Rolle",
+   *  es: "Rol anónimo"
+   * }
+   * @description {
+   *  en: "Role identifier that considers the user an anonymous client",
+   *  de: "Rollenkennung, die den Benutzer als anonymen Client betrachtet",
+   *  es: "Identificador de rol que considera al usuario un cliente anónimo",
+   * }
    */
   $anonymousRole: UID<Role>;
 
   /**
    * The initial roles to assign to a user when a new account is created.
    *
-   * @title %core:state:system:$initialRoles
-   * @description %core:state:system:$initialRoles_desc
+   * @title {
+   *  en: "Initial Roles",
+   *  de: "Anfängliche Rollen",
+   *  es: "Roles iniciales",
+   * }
+   * @description {
+   *  en: "The roles that are applied whenever a new account is registered",
+   *  de: "Die Rollen, die bei der Registrierung eines neuen Kontos zugewiesen werden",
+   *  es: "Los roles que se aplican cada vez que se registra una nueva cuenta",
+   * }
    */
   $initialRoles: UIDList<Role>;
 }

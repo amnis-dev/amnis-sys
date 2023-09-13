@@ -6,31 +6,20 @@ import {
   GrantScope,
   grantTask,
   systemSlice,
-  localeSlice,
-  localeDocumentToEntities,
   routeMapEntities,
   routeSlice,
 } from '@amnis/state';
 import type { WebComponentID, Website } from '@amnis/web/set';
 import { webComponentSlice, webInstanceSlice, websiteSlice } from '@amnis/web/set';
-import * as dataLocale from './data.locale.js';
 
 export const data: StateDataPromise = async (data) => {
-  /**
-   * Setup default localized translations.
-   */
-  Object.keys(dataLocale).forEach((key) => {
-    const entities = localeDocumentToEntities(key, dataLocale[key as keyof typeof dataLocale]);
-    data[localeSlice.key].push(...entities);
-  });
-
   /**
    * Routes
    */
   const routes = routeMapEntities({
-    '%web:route_home': { path: '/' },
-    '%web:route_about': { path: '/about' },
-    '%web:route_contact': { path: '/contact' },
+    '%route.home.label': { path: '/' },
+    '%route.about.label': { path: '/about' },
+    '%route.contact.label': { path: '/contact' },
   });
   data[routeSlice.key].push(...routes);
 
@@ -40,14 +29,14 @@ export const data: StateDataPromise = async (data) => {
   const componentNavbar = webComponentSlice.createEntity({
     key: 'Navbar',
     type: 'navigation',
-    description: '%web:component_navbar_desc',
+    description: '%webComponent.navbar.description',
   });
 
   /**
    * Web Instances
    */
   const instanceNavbar = webInstanceSlice.createEntity({
-    name: 'Main Navigation',
+    name: '%webInstance.navbar.name',
     $webComponent: componentNavbar.$id as unknown as WebComponentID,
     $route: routes[0].$id,
     routeMatcher: '.*',
@@ -59,8 +48,8 @@ export const data: StateDataPromise = async (data) => {
   const websites: Entity<Website>[] = [
     websiteSlice.createEntity({
       hostname: 'localhost',
-      title: '%web:title',
-      description: '%web:description',
+      title: '%website.title',
+      description: '%website.description',
       $routes: [
         [routes[0].$id, null],
         [routes[1].$id, null],

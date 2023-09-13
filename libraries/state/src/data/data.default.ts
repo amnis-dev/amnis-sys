@@ -45,8 +45,8 @@ export const dataTest: StateDataPromise = async (data) => {
    * Roles to be assigned to users
    */
   const roleBase = roleSlice.createEntity({
-    name: '%core:instance:role:base_name',
-    description: '%core:instance:role:base_desc',
+    name: '%role.base.name',
+    description: '%role.base.description',
     color: '#000000',
     fsLimits: [32, 64, 1024],
     grants: [

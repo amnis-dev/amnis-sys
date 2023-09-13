@@ -6,6 +6,7 @@ import type {
   ProcessSet,
   StateDataGuaranteed,
   UserInterface,
+  StateLocale,
 } from '@amnis/state';
 
 /**
@@ -188,6 +189,42 @@ export function pluginProcessMerge(
 }
 
 /**
+ * Merges locale records from an array of plugins.
+ */
+export function pluginLocaleMerge(
+  plugins: Plugin[],
+): Plugin['locale'] {
+  const locales = plugins
+    .map((plugin) => plugin.locale)
+    .filter((locale): locale is StateLocale => !!locale);
+
+  if (locales.length === 0) {
+    return undefined;
+  }
+
+  const localesMerged = locales.reduce<StateLocale>(
+    (acc, locale) => {
+      // Merge each locale record (each language code).
+      Object.keys(locale).forEach((key) => {
+        if (!acc[key]) {
+          acc[key] = {};
+        }
+
+        acc[key] = {
+          ...acc[key],
+          ...locale[key],
+        };
+      });
+
+      return acc;
+    },
+    {},
+  );
+
+  return localesMerged;
+}
+
+/**
  * Merges UI records from an array of plugins.
  */
 export function pluginUIMerge(
@@ -234,6 +271,9 @@ export function pluginMerge(
 
   /** Merge schema */
   pluginMerged.schema = pluginSchemaMerge(plugins);
+
+  /** Merge locale */
+  pluginMerged.locale = pluginLocaleMerge(plugins);
 
   /** Merge process */
   pluginMerged.process = pluginProcessMerge(plugins);

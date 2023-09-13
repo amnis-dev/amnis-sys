@@ -1,0 +1,10 @@
+{
+  "role.admin.name": "Administrator",
+  "role.admin.description": "Rol con los permisos más amplios para la configuración y mantenimiento general del sistema.",
+  "role.exec.name": "Ejecutivo",
+  "role.exec.description": "Rol autoritario para la configuración y mantenimiento de la aplicación.",
+  "role.anon.name": "Anónimo",
+  "role.anon.description": "Rol con los permisos más limitados para acceder a los datos de la aplicación sin autenticación.",
+  "role.base.name": "Básico",
+  "role.base.description": "Base para el uso estándar autenticado de la aplicación."
+}

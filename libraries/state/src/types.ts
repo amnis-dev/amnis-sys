@@ -43,9 +43,7 @@ export type StateDataPromise = (data: StateDataGuaranteed) => Promise<StateDataG
 
 export type ProcessSet = Record<string, IoProcessDefinition>;
 
-export type LocalLocaleCode = 'en' | 'es' | 'de';
-
-export type LocalLocale = Record<LocalLocaleCode, Promise<Record<string, string>>>;
+export type StateLocale = Record<string, Record<string, string>>;
 
 export type UserInterface = Record<string, any>;
 
@@ -110,7 +108,7 @@ export interface DynamicPlugin {
   /**
    * Localization objects for the plugin.
    */
-  locale?: () => Promise<LocalLocale>,
+  locale?: () => Promise<StateLocale>,
 
   /**
    * Interface components for rendering in various environments.
@@ -158,7 +156,7 @@ export interface Plugin {
   /**
    * Localization objects for the plugin.
    */
-  locale?: LocalLocale;
+  locale?: StateLocale;
 
   /**
    * Interface components for rendering in various environments.

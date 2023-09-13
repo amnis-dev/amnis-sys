@@ -14,6 +14,7 @@ test('importerPlugins with a single plugin', async () => {
     id: pluginState.id,
     set: expect.any(Object),
     schema: expect.any(Array),
+    locale: expect.any(Object),
     data: expect.any(Function),
     dataTest: expect.any(Function),
   });
@@ -48,6 +49,7 @@ test('importerPlugins with multiple plugins', async () => {
     id: pluginState.id,
     set: expect.any(Object),
     schema: expect.any(Array),
+    locale: expect.any(Object),
     data: expect.any(Function),
     dataTest: expect.any(Function),
   });

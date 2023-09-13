@@ -1,0 +1,9 @@
+{
+  "website.title": "Mi Sitio Web",
+  "website.description": "Esta es la descripción del sitio web.",
+  "route.home.label": "Inicio",
+  "route.about.label": "Acerca de",
+  "route.contact.label": "Contacto",
+  "webComponent.navbar.description": "Barra de navegación superior para navegar por las rutas de información y configuraciones en el sitio web.",
+  "webInstance.navbar.name": "Barra de Navegación Principal"
+}

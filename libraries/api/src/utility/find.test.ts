@@ -9,7 +9,6 @@ import type {
 } from '@amnis/state';
 import {
   roleSlice,
-
   databaseMemoryStorage,
   userSlice,
   credentialSlice,
@@ -134,7 +133,7 @@ test('should find locale by names', async () => {
   expect(foundEn).toBeDefined();
   expect(foundEn).toHaveLength(names.length);
 
-  const localeEnUidDesc = foundEn.find((locale) => locale.name === 'core:state:uid_desc');
+  const localeEnUidDesc = foundEn.find((locale) => locale.name === '_state.UID.desc');
   expect(localeEnUidDesc).toBeDefined();
   expect(localeEnUidDesc?.value).toBe('Unique identifier for referencing data.');
 
@@ -143,7 +142,7 @@ test('should find locale by names', async () => {
   expect(foundDe).toBeDefined();
   expect(foundDe).toHaveLength(names.length);
 
-  const localeDeUidDesc = foundDe.find((locale) => locale.name === 'core:state:uid_desc');
+  const localeDeUidDesc = foundDe.find((locale) => locale.name === '_state.UID.desc');
   expect(localeDeUidDesc).toBeDefined();
   expect(localeDeUidDesc?.value).toBe('Eindeutiger Bezeichner zur Referenzierung von Daten.');
 });

@@ -42,6 +42,11 @@
       "import": "./dist/schema.js",
       "require": "./dist/schema.cjs"
     },
+    "./locale": {
+      "types": "./types/locale/index.d.ts",
+      "import": "./dist/locale.js",
+      "require": "./dist/locale.cjs"
+    },
     "./context": {
       "types": "./types/context/index.d.ts",
       "import": "./dist/context.js",

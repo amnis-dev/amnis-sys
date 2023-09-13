@@ -15,6 +15,7 @@ export default defineConfig({
         set: resolve(__dirname, 'src/set/index.ts'),
         data: resolve(__dirname, 'src/records/index.ts'),
         dataTest: resolve(__dirname, 'src/data/data.default.ts'),
+        locale: resolve(__dirname, 'src/locale/index.ts'),
 
         /**
          * Redux Toolkit
@@ -45,6 +46,14 @@ export default defineConfig({
         'react-dom',
       ],
     },
+  },
+  resolve: {
+    alias: [
+      {
+        find: '@amnis/state/locale',
+        replacement: resolve('src/locale/index.ts'),
+      },
+    ],
   },
   test: {
     globals: true,
