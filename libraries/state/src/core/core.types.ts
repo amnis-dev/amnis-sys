@@ -15,8 +15,17 @@ export enum DateNominal { _ = '' }
 export enum SURLNominal { _ = '' }
 
 /**
- * A id identifier to another document.
+ * A unique identifier.
  *
+ * @title {
+ *  en: "UID",
+ *  de: "UID",
+ * }
+ * @description {
+ *  en: "A unique identifier",
+ *  de: "Ein eindeutiger Bezeichner",
+ *  es: "Un identificador único",
+ * }
  * @pattern ^[a-z]{1,24}:[A-Za-z0-9_-]{16,32}$
  * @minLength 18
  * @maxLength 32
@@ -24,15 +33,17 @@ export enum SURLNominal { _ = '' }
 export type UID<T = unknown> = UIDNominal & string;
 
 /**
- * A id identifier to another document.
+ * A unique identifier.
  *
  * @title {
  *  en: "UID",
- *  de: "UID"
+ *  de: "UID",
+ *  es: "UID",
  * }
  * @description {
- *  en: "A unique identifier to another document",
- *  de: "Ein eindeutiger Bezeichner zu einem anderen Dokument"
+ *  en: "A unique identifier",
+ *  de: "Ein eindeutiger Bezeichner",
+ *  es: "Un identificador único",
  * }
  * @pattern ^[a-z]{1,21}:[A-Za-z0-9_-]{21}$
  * @minLength 22
@@ -56,6 +67,15 @@ export type UIDv2Key<ID extends UIDv2> = ID extends `${infer S}:${infer _}` ? S 
 
 /**
  * List of identifiers.
+ *
+ * @title {
+ *  en: "UID List",
+ *  de: "UID Liste"
+ * }
+ * @description {
+ *  en: "List of unique data identifiers",
+ *  de: "Liste eindeutiger Datenbezeichner"
+ * }
  */
 export type UIDList<T = unknown> = UID<T>[];
 
@@ -75,6 +95,15 @@ export type UIDv2List<S extends string = string> = UIDv2<S>[];
 
 /**
  * Identifiers linked in a directory tree fashion.
+ *
+ * @title {
+ *  en: "UID Tree",
+ *  de: "UID Baum"
+ * }
+ * @description {
+ *  en: "List of unique data identifiers linked in a tree fashion",
+ *  de: "Liste eindeutiger Datenbezeichner, die baumartig verknüpft sind"
+ * }
  */
 export type UIDTree<T = unknown> = [item: UID<T>, parent: UID<T> | null][];
 

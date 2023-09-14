@@ -107,35 +107,23 @@ test('should find roles by ids', async () => {
 
 test('should find locale by names', async () => {
   const names = [
-    'core:state:uid',
-    'core:state:uid_desc',
-    'core:state:uidlist',
-    'core:state:uidlist_desc',
-    'core:state:uidtree',
-    'core:state:uidtree_desc',
-    'core:state:datejson',
-    'core:state:datejson_desc',
-    'core:state:email',
-    'core:state:email_desc',
-    'core:state:surl',
-    'core:state:surl_desc',
-    'core:state:datenumeric',
-    'core:state:datenumeric_desc',
-    'core:state:ipv6',
-    'core:state:ipv6_desc',
-    'core:state:ipv4',
-    'core:state:ipv4_desc',
-    'core:state:ip',
-    'core:state:ip_desc',
+    '_state.UID.title',
+    '_state.UID.desc',
+    '_state.DateJSON.title',
+    '_state.DateJSON.desc',
+    '_state.Email.title',
+    '_state.Email.desc',
   ];
   const foundEn = await findLocaleByNames(context, names, 'en');
+
+  console.log(JSON.stringify(foundEn, null, 2));
 
   expect(foundEn).toBeDefined();
   expect(foundEn).toHaveLength(names.length);
 
   const localeEnUidDesc = foundEn.find((locale) => locale.name === '_state.UID.desc');
   expect(localeEnUidDesc).toBeDefined();
-  expect(localeEnUidDesc?.value).toBe('Unique identifier for referencing data.');
+  expect(localeEnUidDesc?.value).toBe('A unique identifier');
 
   const foundDe = await findLocaleByNames(context, names, 'de');
 
@@ -144,5 +132,5 @@ test('should find locale by names', async () => {
 
   const localeDeUidDesc = foundDe.find((locale) => locale.name === '_state.UID.desc');
   expect(localeDeUidDesc).toBeDefined();
-  expect(localeDeUidDesc?.value).toBe('Eindeutiger Bezeichner zur Referenzierung von Daten.');
+  expect(localeDeUidDesc?.value).toBe('Ein eindeutiger Bezeichner');
 });
