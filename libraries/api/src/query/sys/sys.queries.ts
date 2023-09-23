@@ -27,8 +27,9 @@ export const apiSysQueries = <T extends EndpointBuilder<BaseQueryFn, string, str
   ApiSysSchema
   >({
     query: (payload) => ({
-      url: `schema/?type=${payload.type}`,
-      method: 'get',
+      url: 'schema',
+      method: 'post',
+      body: payload,
     }),
   }),
 

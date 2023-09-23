@@ -10,6 +10,8 @@ export const sys: IoProcessDefinition = {
   endpoints: {
     get: {
       system: processSysSystem,
+    },
+    post: {
       schema: processSysSchema,
     },
   },

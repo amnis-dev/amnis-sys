@@ -11,9 +11,9 @@ import {
   noop,
   userSlice,
 } from '@amnis/state';
-import { apiCrud } from '@amnis/api';
+import { apiCrud, apiSys } from '@amnis/api';
 import { BackdropProgress } from '@amnis/web/react/material';
-import { Outlet, useSearchParams } from '@amnis/web/lib/react-router-dom';
+import { Outlet } from '@amnis/web/lib/react-router-dom';
 import type { ManagerProps } from '@amnis/web/manager';
 import { WebContext } from '@amnis/web/react/context';
 import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
@@ -109,6 +109,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
      * Clear all cache established by the APIs.
      */
     dispatch(apiCrud.util.resetApiState());
+    dispatch(apiSys.util.resetApiState());
 
     /**
      * Trigger the remount callback

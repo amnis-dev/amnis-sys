@@ -42,7 +42,6 @@ export const Panel: React.FC = () => {
       <Divider />
       <Box>
         {(() => {
-          console.log(pathname);
           switch (pathname) {
             case '/Administration':
               return (

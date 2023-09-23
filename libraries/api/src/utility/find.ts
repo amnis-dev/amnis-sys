@@ -243,6 +243,7 @@ export const findLocaleByNames = async (
    * STATE ATTEMPT
    */
   const stateResult = localeSlice.select.byCodeNames(store.getState(), code, names) ?? [];
+
   if (stateResult.length === names.length) {
     return stateResult;
   }
@@ -274,11 +275,11 @@ export const findLocaleByNames = async (
   const localeEntity1 = results1[localeSlice.key] as Entity<Locale>[] | undefined ?? [];
 
   consolidated = {
-    ...consolidated,
     ...localeEntity1.reduce((acc, locale) => {
       acc[locale.name] = locale;
       return acc;
     }, {} as Record<string, Entity<Locale>>),
+    ...consolidated,
   };
 
   if (Object.keys(consolidated).length === names.length) {
@@ -298,11 +299,11 @@ export const findLocaleByNames = async (
   const stateResult2 = localeSlice.select.byCodeNames(store.getState(), code, names) ?? [];
 
   consolidated = {
-    ...consolidated,
     ...stateResult2.reduce((acc, locale) => {
       acc[locale.name] = locale;
       return acc;
     }, {} as Record<string, Entity<Locale>>),
+    ...consolidated,
   };
 
   if (Object.keys(consolidated).length === names.length) {
@@ -332,11 +333,11 @@ export const findLocaleByNames = async (
   const localeEntity2 = results2[localeSlice.key] as Entity<Locale>[] | undefined ?? [];
 
   const uniqueRecords = Object.values({
-    ...consolidated,
     ...localeEntity2.reduce((acc, locale) => {
       acc[locale.name] = locale;
       return acc;
     }, {} as Record<string, Entity<Locale>>),
+    ...consolidated,
   });
 
   localeSlice.action.insertMany(uniqueRecords);

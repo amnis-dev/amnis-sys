@@ -131,7 +131,6 @@ export const Entry: React.FC<EntryProps> = ({
         },
         {},
       );
-      console.log({ valueInitial });
       return valueInitial;
     }
     if (schema?.type === 'array') {

@@ -52,11 +52,6 @@ export const IderInput = <E extends Entity>({
     }));
   }, []);
 
-  console.log('IderInput', {
-    schemaProperty,
-    schemaPropertyTranslated,
-  });
-
   return schemaPropertyTranslated ? (
     <Entry
       required={required}

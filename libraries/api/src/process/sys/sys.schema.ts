@@ -51,7 +51,7 @@ Io<ApiSysSchema, Schema[]>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
-    const { query: { type }, access, language } = input;
+    const { body: { type }, access, language } = input;
 
     if (!access) {
       output.status = 401; // 401 Unauthorized
