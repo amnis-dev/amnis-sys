@@ -1,6 +1,6 @@
 import React from 'react';
 import { Decorator } from '@storybook/react';
-import { MockerAccount, MockerContext } from '../src/web/index.js'
+import { MockerAccount, MockerContext } from '../../src/web/index.js'
 
 export const accountOptions: Record<string, MockerAccount> = {
   'Anonymous': undefined,

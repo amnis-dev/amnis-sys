@@ -8,6 +8,7 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    mock: true,
   },
 } satisfies Meta<typeof Navbar>;
 

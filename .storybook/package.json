@@ -1,3 +1,5 @@
 {
-  "type": "module"
+  "name": "@/storybook",
+  "type": "module",
+  "main": "index.ts"
 }

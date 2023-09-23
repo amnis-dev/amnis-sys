@@ -2,8 +2,7 @@ import type { Preview } from "@storybook/react";
 // import { decoratorRedux } from "./decorator.redux.js";
 // import { loaderMock } from "./loader.mock.js";
 
-import decoratorWebsite from "./decorator.website.js";
-import decoratorAccounts, { accountOptions } from "./decorator.accounts.js";
+import { decoratorAccounts, accountOptions, decoratorWebsite } from "./decorator/index.js";
 import loaderDefer from "./loader.defer.js";
 
 const preview: Preview = {

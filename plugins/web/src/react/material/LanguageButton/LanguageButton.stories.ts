@@ -5,6 +5,9 @@ import { LanguageButton } from './LanguageButton.js';
 const meta: Meta = {
   title: 'Material/Language Button',
   component: LanguageButton,
+  parameters: {
+    mock: true,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof LanguageButton>;
 

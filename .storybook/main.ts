@@ -61,6 +61,10 @@ const config: StorybookConfig = {
           //   replacement: resolve("libraries/api/src$1"),
           // },
           {
+            find: /^@\/storybook(\/?.*)/,
+            replacement: resolve(".storybook$1"),
+          },
+          {
             find: /^@amnis\/express(\/?.*)/,
             replacement: resolve("libraries/express/src$1"),
           },
