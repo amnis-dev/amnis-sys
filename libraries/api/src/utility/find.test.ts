@@ -116,8 +116,6 @@ test('should find locale by names', async () => {
   ];
   const foundEn = await findLocaleByNames(context, names, 'en');
 
-  console.log(JSON.stringify(foundEn, null, 2));
-
   expect(foundEn).toBeDefined();
   expect(foundEn).toHaveLength(names.length);
 

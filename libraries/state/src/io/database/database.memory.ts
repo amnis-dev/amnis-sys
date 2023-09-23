@@ -7,14 +7,15 @@ import type {
 import { dataOrder } from '../../data/data.js';
 import type { Database } from './database.types.js';
 import type { State } from '../../state.types.js';
-import { localStorage } from '../../localstorage.js';
+// import { localStorage } from '../../localstorage.js';
 
 /**
  * Storage type.
  */
 export type MemoryStorage = State<Record<UID, Entity | undefined>>;
 
-const localMemoryDb = JSON.parse(localStorage().getItem('memory-db') ?? '{}');
+// const localMemoryDb = JSON.parse(localStorage().getItem('memory-db') ?? '{}');
+const localMemoryDb: MemoryStorage = {};
 
 /**
  * Storage object for entities.
@@ -43,7 +44,7 @@ export const databaseMemory: Database = {
   initialize: async (initialStorage: MemoryStorage = {}) => {
     if (Object.keys(storage).length === 0) {
       storage = initialStorage;
-      localStorage().setItem('memory-db', JSON.stringify(storage));
+      // localStorage().setItem('memory-db', JSON.stringify(storage));
     }
   },
   /**
@@ -81,7 +82,7 @@ export const databaseMemory: Database = {
       });
     });
 
-    localStorage().setItem('memory-db', JSON.stringify(storage));
+    // localStorage().setItem('memory-db', JSON.stringify(storage));
 
     return result;
   },
@@ -310,7 +311,7 @@ export const databaseMemory: Database = {
         return true;
       });
 
-      localStorage().setItem('memory-db', JSON.stringify(storage));
+      // localStorage().setItem('memory-db', JSON.stringify(storage));
 
       return true;
     });
@@ -370,7 +371,7 @@ export const databaseMemory: Database = {
       return true;
     });
 
-    localStorage().setItem('memory-db', JSON.stringify(storage));
+    // localStorage().setItem('memory-db', JSON.stringify(storage));
 
     return result;
   },

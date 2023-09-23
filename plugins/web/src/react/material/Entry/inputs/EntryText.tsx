@@ -2,22 +2,24 @@ import React from 'react';
 import {
   OutlinedInput,
   FormControl,
+  Box,
 } from '@mui/material';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import { Description, Label } from './parts/index.js';
 
-export const Number: React.FC = () => {
+export const EntryText: React.FC = () => {
   const {
     entryId,
     entryInputId,
     entryDescriptionId,
+    entryLabelId,
     errored,
-    labelInput,
     description,
     value,
     disabled,
-  } = React.useContext(EntryContext) as EntryContextProps<number>;
+    onChange,
+  } = React.useContext(EntryContext) as EntryContextProps<string>;
 
   return (
     <FormControl
@@ -28,18 +30,23 @@ export const Number: React.FC = () => {
       size="small"
       fullWidth
     >
-      <Label />
+      <Box mb={0.5}>
+        <Label />
+        <Description sx={{ m: 0 }} />
+      </Box>
       <OutlinedInput
         id={entryInputId}
-        label={labelInput}
+        // label={labelInput}
         value={value}
-        type="number"
-        notched
-        aria-describedby={description ? entryDescriptionId : undefined}
+        // notched
+        inputProps={{
+          'aria-labelledby': entryLabelId,
+          'aria-describedby': description ? entryDescriptionId : undefined,
+        }}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e)}
       />
-      <Description />
     </FormControl>
   );
 };
 
-export default Number;
+export default EntryText;

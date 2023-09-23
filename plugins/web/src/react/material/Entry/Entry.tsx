@@ -9,23 +9,33 @@ import type {
   EntryContextSchemaString,
 } from '@amnis/web/react/context';
 import { EntryContext, entryContextDefault } from '@amnis/web/react/context';
-import { Text, Number } from './inputs/index.js';
+import {
+  EntryText,
+  EntryNumber,
+  EntryBoolean,
+  EntryObject,
+} from './inputs/index.js';
 
-export interface EntryProps {
+interface EntryBaseProps {
   /**
    * The label of the entry.
    */
   label?: string;
 
   /**
-   * Controlled value of the input.
+   * The description of the entry.
    */
-  value?: unknown;
+  description?: string;
 
   /**
    * If the entry is required.
    */
   required?: boolean;
+
+  /**
+   * Disables the entry.
+   */
+  disabled?: boolean;
 
   /**
    * Text for errors.
@@ -36,38 +46,123 @@ export interface EntryProps {
    * Optional text.
    */
   optionalText?: string;
+
+  /**
+   * Entry schema.
+   */
+  schema?: Schema;
+
+  /**
+   * Entry value.
+   */
+  value?: any;
+
+  /**
+   * Entry change handler.
+   */
+  onChange?: (
+    value: any | undefined,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
 }
 
-export type EntryPropsVariations = {
-  schema?: Schema;
+type EntryPropsVariations = {
+  value?: string;
   onChange?: (
     value: string | undefined,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
 } | {
-  schema?: Schema;
+  value?: number;
   onChange?: (
     value: number | undefined,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
+} | {
+  value?: boolean;
+  onChange?: (
+    value: number | undefined,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+} | {
+  value?: object;
+  onChange?: (
+    value: object | undefined,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
 }
 
-export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
+export type EntryProps = EntryBaseProps & EntryPropsVariations;
+
+export const Entry: React.FC<EntryProps> = ({
   value: valueProp,
   label: labelProp,
+  description: descriptionProp,
   schema,
   required = false,
+  disabled = false,
   errorText = entryContextDefault.errorText,
   optionalText = entryContextDefault.optionalText,
   onChange: onChangeProp = noop,
 }) => {
   const uid = React.useMemo(() => nanoid(4), []);
-  const label = React.useMemo(() => labelProp ?? schema?.title ?? 'Unlabeled', [labelProp, uid]);
+  const label = React.useMemo(() => labelProp ?? schema?.title ?? 'Unlabeled', [labelProp]);
+  const description = React.useMemo(
+    () => descriptionProp ?? schema?.description ?? null,
+    [descriptionProp],
+  );
 
-  const [value, setValue] = React.useState<typeof valueProp>(valueProp);
+  const [value, setValue] = React.useState<typeof valueProp>(() => {
+    if (schema?.type === 'object' && schema.properties) {
+      const valueInitial = Object.keys(schema.properties).reduce<Record<string, any>>(
+        (acc, propertyKey) => {
+          const property = schema.properties![propertyKey];
+          if (property.default) {
+            return { ...acc, [propertyKey]: property.default };
+          }
+          switch (property.type) {
+            case 'string': return { ...acc, [propertyKey]: '' };
+            case 'number': return { ...acc, [propertyKey]: 0 };
+            case 'boolean': return { ...acc, [propertyKey]: false };
+            case 'array': return { ...acc, [propertyKey]: [] };
+            case 'object': return { ...acc, [propertyKey]: {} };
+            default: return { ...acc, [propertyKey]: null };
+          }
+        },
+        {},
+      );
+      console.log({ valueInitial });
+      return valueInitial;
+    }
+    if (schema?.type === 'array') {
+      return [];
+    }
+    return valueProp;
+  });
+
+  const properties = React.useMemo(
+    () => {
+      if (schema?.type === 'object' && !!schema.properties) {
+        return Object.keys(schema.properties).map((propertyKey) => {
+          const property = schema.properties![propertyKey];
+          return {
+            ...property,
+            key: propertyKey,
+          };
+        });
+      }
+
+      return [];
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    /** @ts-ignore */
+    [schema?.properties],
+  );
 
   React.useEffect(() => {
-    setValue(valueProp);
+    if (valueProp !== undefined) {
+      setValue(valueProp);
+    }
   }, [valueProp]);
 
   const onChange = React.useCallback((
@@ -146,10 +241,13 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
   const contextValue = React.useMemo<EntryContextProps<typeof value>>(() => ({
     ...entryContextDefault,
     ...ids,
+    description,
     value,
+    properties,
     label,
     labelInput,
     required,
+    disabled,
     errors,
     errored,
     errorText,
@@ -158,8 +256,10 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
   }), [
     ids,
     value,
+    properties,
     label,
     required,
+    disabled,
     errors,
     errored,
     errorText,
@@ -180,6 +280,10 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
       return 'number';
     }
 
+    if (typeof value === 'boolean') {
+      return 'boolean';
+    }
+
     return 'none';
   }, [schema]);
 
@@ -188,9 +292,13 @@ export const Entry: React.FC<EntryProps & EntryPropsVariations> = ({
       {((): React.ReactNode => {
         switch (type) {
           case 'string':
-            return <Text />;
+            return <EntryText />;
           case 'number':
-            return <Number />;
+            return <EntryNumber />;
+          case 'boolean':
+            return <EntryBoolean />;
+          case 'object':
+            return <EntryObject Entry={Entry} />;
           default:
             return <Skeleton
               height={32}

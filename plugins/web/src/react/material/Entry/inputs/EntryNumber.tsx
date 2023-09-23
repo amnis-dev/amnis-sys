@@ -2,23 +2,24 @@ import React from 'react';
 import {
   OutlinedInput,
   FormControl,
+  Box,
 } from '@mui/material';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import { Description, Label } from './parts/index.js';
 
-export const Text: React.FC = () => {
+export const EntryNumber: React.FC = () => {
   const {
     entryId,
     entryInputId,
     entryDescriptionId,
+    entryLabelId,
     errored,
-    labelInput,
     description,
     value,
     disabled,
     onChange,
-  } = React.useContext(EntryContext) as EntryContextProps<string>;
+  } = React.useContext(EntryContext) as EntryContextProps<number>;
 
   return (
     <FormControl
@@ -29,18 +30,24 @@ export const Text: React.FC = () => {
       size="small"
       fullWidth
     >
-      <Label />
+      <Box mb={0.5}>
+        <Label />
+        <Description sx={{ m: 0 }} />
+      </Box>
       <OutlinedInput
         id={entryInputId}
-        label={labelInput}
         value={value}
-        notched
-        aria-describedby={description ? entryDescriptionId : undefined}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e)}
+        type="number"
+        inputProps={{
+          'aria-labelledby': entryLabelId,
+          'aria-describedby': description ? entryDescriptionId : undefined,
+        }}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange(parseInt(e.target.value, 10), e);
+        }}
       />
-      <Description />
     </FormControl>
   );
 };
 
-export default Text;
+export default EntryNumber;

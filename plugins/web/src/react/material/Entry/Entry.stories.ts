@@ -32,3 +32,58 @@ export const Number: Story = {
     },
   },
 };
+
+export const Boolean: Story = {
+  args: {
+    label: 'My Boolean Entry',
+    required: true,
+    schema: {
+      type: 'boolean',
+      description: 'This is a boolean entry.',
+    },
+  },
+};
+
+export const Object: Story = {
+  args: {
+    label: 'My Object Entry',
+    required: true,
+    schema: {
+      type: 'object',
+      description: 'This is an object entry containing several properties.',
+      properties: {
+        text: {
+          title: 'My Text Entry',
+          type: 'string',
+          description: 'This is a text entry.',
+          maxLength: 10,
+          minLength: 0,
+        },
+        number: {
+          title: 'My Number Entry',
+          type: 'number',
+          description: 'This is a number entry.',
+        },
+        boolean: {
+          title: 'My Boolean Entry',
+          type: 'boolean',
+          description: 'This is a boolean entry.',
+        },
+        object: {
+          title: 'Nested Object',
+          type: 'object',
+          description: 'This is a nested object.',
+          properties: {
+            text: {
+              title: 'My Nested Text Entry',
+              type: 'string',
+              description: 'This is a text entry within the nested object.',
+              maxLength: 10,
+              minLength: 0,
+            },
+          },
+        },
+      },
+    },
+  },
+};

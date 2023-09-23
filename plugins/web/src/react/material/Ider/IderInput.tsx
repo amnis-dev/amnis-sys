@@ -61,7 +61,7 @@ export const IderInput = <E extends Entity>({
     <Entry
       required={required}
       schema={schemaPropertyTranslated}
-      value={entity[prop]}
+      value={entity[prop] as any}
       onChange={handleChange}
     />
   ) : null;

@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Schema } from '@amnis/state';
 import { noop } from '@amnis/state';
 import type { EntryContextSchemaErrors } from './EntryContextSchemas.types.js';
 
@@ -11,6 +12,7 @@ export interface EntryContextProps<T = any> {
   entryDescriptionId: string;
   entrySuggestionsId: string;
   value: T | undefined;
+  properties: (Schema & { key: string })[];
   label: string;
   labelInput: string;
   description: string | null;
@@ -21,19 +23,19 @@ export interface EntryContextProps<T = any> {
   disabled: boolean;
   optionalText: string;
   focused: boolean;
-  focusedSetter: (arg0: boolean) => void;
+  focusedSetter: (value: boolean) => void;
   suggestions: string[];
   suggestionFilter: string;
-  suggestionFilterSetter: (arg0: string) => void;
+  suggestionFilterSetter: (value: string) => void;
   suggestionSelect: string | null;
-  suggestionSelectSetter: (arg0: string | null) => void;
-  onChange: (arg0: T, event: React.ChangeEvent<HTMLElement>) => void;
+  suggestionSelectSetter: (value: string | null) => void;
+  onChange: (value: T | undefined, event: React.ChangeEvent<HTMLElement>) => void;
   hasLabelElement: boolean;
-  hasLabelElementSetter: (arg0: boolean) => void;
+  hasLabelElementSetter: (value: boolean) => void;
   hasDescriptionElement: boolean;
-  hasDescriptionElementSetter: (arg0: boolean) => void;
+  hasDescriptionElementSetter: (value: boolean) => void;
   hasErrorElement: boolean;
-  hasErrorElementSetter: (arg0: boolean) => void;
+  hasErrorElementSetter: (value: boolean) => void;
 }
 
 export const entryContextDefault: EntryContextProps = {
@@ -45,6 +47,7 @@ export const entryContextDefault: EntryContextProps = {
   entryDescriptionId: 'entry-desc',
   entrySuggestionsId: 'entry-sugg',
   value: undefined,
+  properties: [],
   label: 'unlabelled',
   labelInput: 'unlabelled',
   description: null,

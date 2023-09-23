@@ -44,6 +44,11 @@ export type SchemaBase = {
   description?: string;
 
   /**
+   * Default value.
+   */
+  default?: any;
+
+  /**
    * References to another schema.
    */
   $ref?: string;
@@ -73,6 +78,11 @@ export type Schema = SchemaBase & {
    */
   pattern?: string;
 
+  /**
+   * Default value.
+   */
+  default?: string;
+
 } | SchemaBase & {
   /**
    * Number/Integer data type.
@@ -93,6 +103,11 @@ export type Schema = SchemaBase & {
    * The number must be a multiple of this value.
    */
   multipleOf?: number;
+
+  /**
+   * Default value.
+   */
+  default?: number;
 
 } | SchemaBase & {
   /**
@@ -134,6 +149,11 @@ export type Schema = SchemaBase & {
    * Additional properties.
    */
   additionalProperties?: boolean | Schema;
+
+  /**
+   * Default value.
+   */
+  default?: Record<string, any>;
 } | SchemaBase & {
   /**
    * Array data type.
@@ -159,6 +179,11 @@ export type Schema = SchemaBase & {
    * The unique items.
    */
   uniqueItems?: boolean;
+
+  /**
+   * Default value.
+   */
+  default?: any[];
 };
 
 /**
