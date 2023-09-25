@@ -40,7 +40,7 @@ beforeAll(async () => {
 
 test('should fetch profile schema as anonymous requestor', async () => {
   const inputCreator = ioInput<ApiSysSchema>({
-    query: {
+    body: {
       type: 'state/Profile',
     },
   });
@@ -52,7 +52,7 @@ test('should fetch profile schema as anonymous requestor', async () => {
 
 test('should NOT fetch user schema as anonymous requestor', async () => {
   const inputCreator = ioInput<ApiSysSchema>({
-    query: {
+    body: {
       type: 'state/User',
     },
   });
@@ -73,7 +73,7 @@ test('should fetch user schema as admin user', async () => {
 
   const inputSchema = ioInput({
     accessEncoded: bearerAccess.access,
-    query: {
+    body: {
       type: 'state/User',
     },
   });
