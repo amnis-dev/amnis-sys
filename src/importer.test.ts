@@ -11,6 +11,11 @@ test('importerPlugins with a single plugin', async () => {
   expect(statePluginImported.key).toBe(pluginState.key);
 
   expect(statePluginImported).toEqual({
+    $id: expect.any(String),
+    name: 'State',
+    author: 'Eric Crowell',
+    description: expect.any(String),
+    path: expect.any(String),
     key: pluginState.key,
     set: expect.any(Object),
     schema: expect.any(Array),
@@ -29,6 +34,11 @@ test('importerPlugins with a single plugin', async () => {
   expect(statePluginImported.key).toBe(pluginState.key);
 
   expect(statePluginImported).toEqual({
+    $id: expect.any(String),
+    name: 'State',
+    author: 'Eric Crowell',
+    description: expect.any(String),
+    path: expect.any(String),
     key: pluginState.key,
     set: expect.any(Object),
   });
@@ -46,6 +56,11 @@ test('importerPlugins with multiple plugins', async () => {
   expect(statePluginImported.key).toBe(pluginState.key);
 
   expect(statePluginImported).toEqual({
+    $id: expect.any(String),
+    name: 'State',
+    author: 'Eric Crowell',
+    description: expect.any(String),
+    path: expect.any(String),
     key: pluginState.key,
     set: expect.any(Object),
     schema: expect.any(Array),
@@ -58,6 +73,11 @@ test('importerPlugins with multiple plugins', async () => {
   expect(apiPluginImported.key).toBe(pluginApi.key);
 
   expect(apiPluginImported).toEqual({
+    $id: expect.any(String),
+    name: 'Api',
+    author: 'Eric Crowell',
+    description: expect.any(String),
+    path: expect.any(String),
     key: pluginApi.key,
     set: expect.any(Object),
     schema: expect.any(Array),

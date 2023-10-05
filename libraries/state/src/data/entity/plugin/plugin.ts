@@ -10,7 +10,6 @@ export const pluginRoot: PluginRoot = {
   name: 'Unknown Plugin',
   description: 'This plugin has not been given a description.',
   author: 'Unknown Author',
-  text: [],
   path: '',
 };
 
@@ -24,7 +23,6 @@ export function pluginPurify<P extends Plugin | Omit<Plugin, keyof Data>>(plugin
     name,
     description,
     author,
-    text,
     path,
   } = plugin as Plugin & { $id?: string };
 
@@ -34,7 +32,6 @@ export function pluginPurify<P extends Plugin | Omit<Plugin, keyof Data>>(plugin
     name,
     description,
     author,
-    text,
     path,
   };
 }

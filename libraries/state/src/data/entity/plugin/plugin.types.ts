@@ -28,11 +28,6 @@ export interface Plugin extends Data {
   author: string;
 
   /**
-   * Ability to load in locale keys with the plugin.
-   */
-  text: string[];
-
-  /**
    * Import path to the plugin.
    *
    * An empty string indicates the plugin has been hardcoded in.

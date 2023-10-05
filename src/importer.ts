@@ -37,7 +37,9 @@ export async function importerPlugin(
   const modules = Array.from(new Set(props));
   let pluginResolved: StaticPlugin = pluginCreate({
     key: plugin.key,
-    name: 'Resolved',
+    name: plugin.name,
+    author: plugin.author,
+    description: plugin.description,
   });
   const modulesFiltered = modules.filter((module) => !!plugin[module]);
 

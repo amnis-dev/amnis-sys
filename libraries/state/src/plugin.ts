@@ -5,7 +5,6 @@ export const plugin: DynamicPlugin = {
   name: 'State',
   description: 'Fundamental state management.',
   author: 'Eric Crowell',
-  text: [],
   path: '',
   set: async () => (await import('@amnis/state/set')).set,
   schema: async () => (await import('@amnis/state/schema')).schema,
