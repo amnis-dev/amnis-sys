@@ -67,10 +67,11 @@
   "author": "Eric Crowell",
   "license": "MIT",
   "resolutions": {
-    "trim": "1.0.1",
+    "@adobe/css-tools": "4.3.1",
     "got": "13.0.0",
+    "postcss": "8.4.31",
     "semver": "7.5.4",
-    "@adobe/css-tools": "4.3.1"
+    "trim": "1.0.1"
   },
   "dependencies": {
     "@amnis/api": "workspace:^",

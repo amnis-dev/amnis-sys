@@ -17,6 +17,6 @@ test('should merge plugins', async () => {
   const plugin = pluginMerge(plugins);
 
   expect(plugin).toBeDefined();
-  expect(plugin.key).toBe('merged');
+  expect(plugin.key).toBe('@plugin/merged');
   expect(plugin.locale).toBeDefined();
 });
