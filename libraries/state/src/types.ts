@@ -9,6 +9,8 @@ import type {
   Entity,
   Role,
   Route,
+  Plugin,
+  Data,
 } from './data/index.js';
 
 interface _SchemaObject {
@@ -73,12 +75,7 @@ export interface UserInterfacePanel {
 
 export type UserInterfacePanels = UserInterfacePanel[];
 
-export interface DynamicPlugin {
-  /**
-   * The identifier of the plugin.
-   * Usually the name of the package.
-   */
-  readonly id: string,
+export interface DynamicPlugin extends Omit<Plugin, keyof Data | keyof Entity> {
 
   /**
    * A record of reducers and middleware to be added to a redux store.
@@ -121,13 +118,7 @@ export interface DynamicPlugin {
   uipanels?: () => Promise<UserInterfacePanels>,
 }
 
-export interface Plugin {
-  /**
-   * The identifier of the plugin.
-   * Usually the name of the package.
-   */
-  readonly id: string;
-
+export interface StaticPlugin extends Omit<Plugin, keyof Data | keyof Entity> {
   /**
    * A record of reducers and middleware to be added to a redux store.
    */

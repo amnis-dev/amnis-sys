@@ -24,31 +24,31 @@ export const ManagerSpeedDial: React.FC = () => {
     {
       id: 'save',
       icon: <Save />,
-      name: locale?.['web:manager:speeddial_save'] ?? '...',
+      name: locale?.['manager.speeddial.save'] ?? '...',
       onClick: () => handleNavigate('/'),
     },
     {
-      id: 'Settings',
+      id: 'Manager',
       icon: <Build />,
-      name: locale?.['web:manager:speeddial_manager'] ?? '...',
-      onClick: () => handleNavigate('/Settings'),
+      name: locale?.['manager.speeddial.manager'] ?? '...',
+      onClick: () => handleNavigate('/'),
     },
     {
       id: 'localization',
       icon: <Language />,
-      name: locale?.['web:manager:speeddial_localization'] ?? '...',
+      name: locale?.['manager.speeddial.localization'] ?? '...',
       onClick: () => handleNavigate('/Localization'),
     },
     {
       id: 'accounts',
       icon: <PeopleAlt />,
-      name: locale?.['web:manager:speeddial_accounts'] ?? '...',
+      name: locale?.['manager.speeddial.accounts'] ?? '...',
       onClick: () => handleNavigate('/Accounts'),
     },
     {
       id: 'administration',
       icon: <AdminPanelSettings />,
-      name: locale?.['web:manager:speeddial_administration'] ?? '...',
+      name: locale?.['manager.speeddial.administration'] ?? '...',
       onClick: () => handleNavigate('/Administration'),
     },
   ], [locale]);

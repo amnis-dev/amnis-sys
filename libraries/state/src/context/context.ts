@@ -1,6 +1,6 @@
 import type { SchemaObject } from '@amnis/state/ajv';
 import type {
-  Entity, EntityObjects, System,
+  Entity, EntityObjects, System, Plugin,
 } from '../data/index.js';
 import {
   dataTest,
@@ -10,6 +10,8 @@ import {
   schemaSlice,
   localeSlice,
   localeDocumentToEntities,
+  pluginPurify,
+  pluginSlice,
 } from '../data/index.js';
 import type {
   IoContext,
@@ -23,7 +25,9 @@ import {
 import { storeSetup } from '../store.js';
 import { validateSetup } from './validate.js';
 import { dataMinimal } from '../data.minimal.js';
-import type { StateDataPromise, StateLocale } from '../types.js';
+import type {
+  DynamicPlugin, StateDataPromise, StateLocale, StaticPlugin,
+} from '../types.js';
 import { stateEntitiesCreate } from '../state.js';
 import { historyMake, historySlice } from '../data/entity/history/index.js';
 import { GrantTask } from '../data/grant/index.js';
@@ -46,6 +50,11 @@ export interface ContextOptions extends Omit<Partial<IoContext>, 'schemas' | 'va
   locale?: StateLocale;
 
   /**
+   * Plugin types.
+   */
+  plugins?: (DynamicPlugin | StaticPlugin | Plugin)[];
+
+  /**
    * System handle to use for the initial system.
    */
   systemHandle?: string;
@@ -64,6 +73,7 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
     data = dataTest,
     emailer = emailerMemory(),
     locale = (await import('@amnis/state/locale')).locale,
+    plugins = [],
     systemHandle,
   } = options;
 
@@ -93,6 +103,16 @@ export async function contextSetup(options: ContextOptions = {}): Promise<IoCont
     dataInitial[localeSlice.key].push(...Object.keys(locale).map((key) => (
       localeDocumentToEntities(key, locale[key])
     )).flat());
+
+    /**
+     * Insert plugin data.
+     */
+    if (plugins.length > 0) {
+      const pluginEntities = plugins.map(
+        (plugin) => pluginSlice.createEntity(pluginPurify(plugin)),
+      );
+      dataInitial[pluginSlice.key] = pluginEntities;
+    }
 
     /**
      * Cache locale from the initial data.

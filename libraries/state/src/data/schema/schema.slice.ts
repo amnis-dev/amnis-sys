@@ -139,6 +139,13 @@ const selectReferences = (state: State, schema: Schema): Schema[] => {
           references.push(...[reference, ...referenceReferences]);
         }
       }
+      if (property?.type === 'array' && !!property.items?.$ref) {
+        const reference = selectReference(state, property.items.$ref);
+        if (reference) {
+          const referenceReferences = selectReferences(state, reference);
+          references.push(...[reference, ...referenceReferences]);
+        }
+      }
     });
   }
 
@@ -172,7 +179,7 @@ const selectCompiled = createSelector(
       }
     }
 
-    if (schema.type === 'array' && schema.items?.$ref) {
+    if (schema.type === 'array' && !!schema.items?.$ref) {
       const reference = selectReference(state, schema.items.$ref);
       if (reference) {
         const referenceName = reference.$id.split('/').slice(-1)[0];
@@ -194,7 +201,10 @@ const selectCompiled = createSelector(
           return;
         }
         if (property?.$ref) {
-          const reference = selectReference(state, property.$ref);
+          const reference = selectReference(
+            state,
+            property.$ref,
+          );
           if (reference) {
             const referenceName = reference.$id.split('/').slice(-1)[0];
             const referenceCompiled = selectCompiled(state, referenceName);
@@ -202,6 +212,22 @@ const selectCompiled = createSelector(
               properties[key] = {
                 ...referenceCompiled,
                 ...property,
+              };
+            }
+          }
+        } else if (property.type === 'array' && !!property.items?.$ref) {
+          const reference = selectReference(
+            state,
+            property.items.$ref,
+          );
+          properties[key] = property;
+          if (reference) {
+            const referenceName = reference.$id.split('/').slice(-1)[0];
+            const referenceCompiled = selectCompiled(state, referenceName);
+            if (referenceCompiled) {
+              properties[key] = {
+                ...property,
+                items: referenceCompiled,
               };
             }
           }

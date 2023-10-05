@@ -11,9 +11,16 @@ export const Description: React.FC<FormHelperTextProps> = (
   const {
     description,
     entryDescriptionId,
+    condensed,
   } = React.useContext(EntryContext);
   return description ? (
-    <FormHelperText id={entryDescriptionId} {...props}>{description}</FormHelperText>
+    <FormHelperText
+      id={entryDescriptionId}
+      {...props}
+      sx={{ ...props.sx, display: condensed ? 'none' : undefined }}
+    >
+      {description}
+    </FormHelperText>
   ) : null;
 };
 

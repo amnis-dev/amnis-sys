@@ -87,3 +87,21 @@ export const Object: Story = {
     },
   },
 };
+
+export const Array: Story = {
+  args: {
+    label: 'My Array Entry',
+    description: 'This is an array entry.',
+    required: true,
+    value: ['one', 'two', 'three'],
+    schema: {
+      type: 'array',
+      description: 'This is an array entry.',
+      items: {
+        type: 'string',
+        title: 'My Text Entry',
+        description: 'This is a text entry.',
+      },
+    },
+  },
+};

@@ -1,15 +1,16 @@
-import type {
-  Plugin, DynamicPlugin,
+import {
+  type StaticPlugin, type DynamicPlugin, pluginCreate,
 } from '@amnis/state';
 
 type ImporterPropOptions = (keyof Omit<DynamicPlugin, 'id'>)[];
 
 type PluginModulePossibilities =
-  {set: Plugin['set']} |
-  {data: Plugin['data']} |
-  {dataTest: Plugin['dataTest']} |
-  {schema: Plugin['schema']} |
-  {process: Plugin['process']} |
+  { key: StaticPlugin['key'] } |
+  { set: StaticPlugin['set'] } |
+  { data: StaticPlugin['data'] } |
+  { dataTest: StaticPlugin['dataTest'] } |
+  { schema: StaticPlugin['schema'] } |
+  { process: StaticPlugin['process'] } |
   undefined;
 
 /**
@@ -32,11 +33,12 @@ export async function importerPlugin(
    * Individual modules to import.
    */
   props: ImporterPropOptions = defaultImporterProps,
-): Promise<Plugin> {
+): Promise<StaticPlugin> {
   const modules = Array.from(new Set(props));
-  let pluginResolved: Plugin = {
-    id: plugin.id,
-  };
+  let pluginResolved: StaticPlugin = pluginCreate({
+    key: plugin.key,
+    name: 'Resolved',
+  });
   const modulesFiltered = modules.filter((module) => !!plugin[module]);
 
   const importedResults = await Promise.all(
@@ -44,6 +46,10 @@ export async function importerPlugin(
       const dynamicImport = plugin[module];
       if (!dynamicImport) {
         return undefined;
+      }
+
+      if (!(dynamicImport instanceof Function)) {
+        return { [module]: dynamicImport } as PluginModulePossibilities;
       }
 
       const imported = await dynamicImport();
@@ -78,11 +84,11 @@ export async function importerPlugins(
    * Individual modules to import.
    */
   props: ImporterPropOptions = defaultImporterProps,
-): Promise<Plugin[]> {
+): Promise<StaticPlugin[]> {
   const modules = Array.from(new Set(props));
 
   const imports = await Promise.all(
-    plugins.map<Promise<Plugin>>(async (plugin) => importerPlugin(plugin, modules)),
+    plugins.map<Promise<StaticPlugin>>(async (plugin) => importerPlugin(plugin, modules)),
   );
 
   return imports;

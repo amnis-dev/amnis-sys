@@ -147,7 +147,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
 
         <Box sx= {{
           position: 'relative',
-          height: '100vh',
+          height: manager ? '100vh' : undefined,
           boxSizing: 'border-box',
           padding: '0',
           marginLeft: 0,
@@ -162,8 +162,8 @@ export const WebProvider: React.FC<WebProviderProps> = ({
             key={remount ? 0 : 1}
             sx={{
               bgcolor: '#fff',
-              height: '100%',
-              overflow: 'scroll',
+              height: manager ? '100%' : undefined,
+              overflow: manager ? 'scroll' : undefined,
             }}
           >
             <Outlet />

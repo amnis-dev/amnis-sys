@@ -155,6 +155,7 @@ export const Mocker: React.FC<MockerProps> = ({
       schemas: schema,
       data: dataTest,
       locale,
+      plugins: pluginsDynamic,
     });
 
     /**

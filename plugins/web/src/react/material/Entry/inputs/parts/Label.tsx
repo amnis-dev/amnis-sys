@@ -56,7 +56,7 @@ export const Label: React.FC<LabelProps> = ({
       <LabelComponent
         id={entryLabelId}
         htmlFor={entryInputId}
-        shrink={shrink}
+        shrink={type === 'input' ? shrink : undefined}
       >
         <Stack direction="row" alignItems="center">
           <Typography component="span" variant="inherit">

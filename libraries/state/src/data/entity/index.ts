@@ -16,6 +16,7 @@ export * from './key/index.js';
 export * from './locale/index.js';
 export * from './log/index.js';
 export * from './note/index.js';
+export * from './plugin/index.js';
 export * from './permit/index.js';
 export * from './profile/index.js';
 export * from './role/index.js';

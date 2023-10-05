@@ -47,7 +47,7 @@ export interface ManagerContext {
   /**
    * The current selection state of the editor.
    */
-  locale?: ManagerLocale;
+  locale?: Record<string, string>;
 }
 
 export const managerContextDefault: ManagerContext = {

@@ -1,25 +1,19 @@
 import { systemSlice } from '@amnis/state';
 import React from 'react';
-import { Box, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { useWebSelector } from '@amnis/web/react/hooks';
-import { Text } from '@amnis/web/react/material';
+import { EntityForm } from '@amnis/web/react/material';
+import { ManagerContext } from '../ManagerContext.js';
 
 export const PanelAdministration: React.FC = () => {
+  const { localeCode } = React.useContext(ManagerContext);
+
   const system = useWebSelector(systemSlice.select.active);
 
   return (
     <Stack direction="column">
       <Stack direction="row" alignItems="center">
-        <Box m={1} sx={{ textAlign: 'right' }}>
-          <Text variant="body1">
-            System Name:
-          </Text>
-        </Box>
-        <Box flex={1} m={1} sx={{ textAlign: 'left' }}>
-          <Text variant="body1">
-            {system?.name}
-          </Text>
-        </Box>
+        <EntityForm $id={system?.$id} language={localeCode} />
       </Stack>
     </Stack>
   );

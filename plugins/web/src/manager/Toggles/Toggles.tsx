@@ -60,13 +60,13 @@ export const Toggles: React.FC<TogglesProps> = ({
           >
 
             <ToggleButton value="data" color={webSelect === 'data' ? 'info' : undefined}>
-              <Tooltip title={locale?.['web:manager:state_data_select_button'] ?? '...'} placement='top'>
+              <Tooltip title={locale?.['manager.state_data_select_button'] ?? '...'} placement='top'>
                 <DataObject />
               </Tooltip>
             </ToggleButton>
 
             <ToggleButton value="component" color={webSelect === 'component' ? 'info' : undefined}>
-              <Tooltip title={locale?.['web:manager:state_component_select_button'] ?? '...'} placement='top'>
+              <Tooltip title={locale?.['manager.state_component_select_button'] ?? '...'} placement='top'>
                 <Widgets />
               </Tooltip>
             </ToggleButton>

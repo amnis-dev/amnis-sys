@@ -9,7 +9,7 @@ import pluginState from '@amnis/state/plugin';
 import pluginApi from '@amnis/api/plugin';
 import pluginWeb from '@amnis/web/plugin';
 import type {
-  Plugin, ReduxSet,
+  StaticPlugin, ReduxSet,
 } from '@amnis/state';
 
 import { Mocker } from './mocker/Mocker.js';
@@ -40,8 +40,8 @@ export function websiteCreate({
     pluginApi,
     pluginWeb,
     ...plugins.filter((plugin) => {
-      if (ids.has(plugin.id)) return false;
-      ids.add(plugin.id);
+      if (ids.has(plugin.key)) return false;
+      ids.add(plugin.key);
       return true;
     }),
   ];
@@ -49,7 +49,7 @@ export function websiteCreate({
   /**
    * Stores plugins that have been dynamically imported.
    */
-  const pluginsBuffer: (Plugin | undefined)[] = new Array(pluginsDynamic.length);
+  const pluginsBuffer: (StaticPlugin | undefined)[] = new Array(pluginsDynamic.length);
 
   const intialReducers = {
     ...stateSet.reducers,
@@ -97,11 +97,11 @@ export function websiteCreate({
     /**
      * Load a dynamic plugin by it's id
      */
-    const pluginLoad = React.useCallback(async (pluginId: string) => {
+    const pluginLoad = React.useCallback(async (pluginKey: string) => {
       importingSet(true);
       try {
         const pluginIndex = pluginsDynamic.findIndex(
-          (pluginDynamic) => pluginDynamic.id === pluginId,
+          (pluginDynamic) => pluginDynamic.key === pluginKey,
         );
 
         /**
@@ -109,7 +109,7 @@ export function websiteCreate({
          */
         if (pluginIndex === -1) {
           importingSet(false);
-          console.warn(`Plugin "${pluginId}" has not been delcared.`);
+          console.warn(`Plugin "${pluginKey}" has not been delcared.`);
           return;
         }
 
@@ -129,13 +129,13 @@ export function websiteCreate({
          * This will be used to extend the store.
          */
         const set = pluginSetsMerge(
-          pluginsBuffer.filter((p): p is Plugin => !!p),
+          pluginsBuffer.filter((p): p is StaticPlugin => !!p),
         );
 
         if (!set) return;
         storeUpdate(set);
       } catch (err) {
-        console.error(`There was an issue dynamically importing "${pluginId}".`, err);
+        console.error(`There was an issue dynamically importing "${pluginKey}".`, err);
       }
       importingSet(false);
     }, []);

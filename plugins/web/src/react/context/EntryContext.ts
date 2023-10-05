@@ -13,6 +13,8 @@ export interface EntryContextProps<T = any> {
   entrySuggestionsId: string;
   value: T | undefined;
   properties: (Schema & { key: string })[];
+  propertiesRequired: string[];
+  items: Schema;
   label: string;
   labelInput: string;
   description: string | null;
@@ -22,14 +24,18 @@ export interface EntryContextProps<T = any> {
   required: boolean;
   disabled: boolean;
   optionalText: string;
+  condensed: boolean;
   focused: boolean;
   focusedSetter: (value: boolean) => void;
+  autoFocus: boolean;
   suggestions: string[];
   suggestionFilter: string;
   suggestionFilterSetter: (value: string) => void;
   suggestionSelect: string | null;
   suggestionSelectSetter: (value: string | null) => void;
-  onChange: (value: T | undefined, event: React.ChangeEvent<HTMLElement>) => void;
+  onChange: (value: T | undefined, event?: React.ChangeEvent<HTMLElement>) => void;
+  onBlur: (event?: React.FocusEvent<HTMLElement>) => void;
+  onFocus: (event?: React.FocusEvent<HTMLElement>) => void;
   hasLabelElement: boolean;
   hasLabelElementSetter: (value: boolean) => void;
   hasDescriptionElement: boolean;
@@ -48,6 +54,11 @@ export const entryContextDefault: EntryContextProps = {
   entrySuggestionsId: 'entry-sugg',
   value: undefined,
   properties: [],
+  propertiesRequired: [],
+  items: {
+    $id: 'item',
+    type: 'string',
+  },
   label: 'unlabelled',
   labelInput: 'unlabelled',
   description: null,
@@ -66,6 +77,7 @@ export const entryContextDefault: EntryContextProps = {
   },
   errored: false,
   optionalText: '(Optional)',
+  condensed: false,
   suggestions: [],
   suggestionFilter: '',
   suggestionFilterSetter: noop,
@@ -75,6 +87,7 @@ export const entryContextDefault: EntryContextProps = {
   disabled: false,
   focused: false,
   focusedSetter: noop,
+  autoFocus: false,
   hasLabelElement: false,
   hasLabelElementSetter: noop,
   hasDescriptionElement: false,
@@ -82,6 +95,8 @@ export const entryContextDefault: EntryContextProps = {
   hasErrorElement: false,
   hasErrorElementSetter: noop,
   onChange: noop,
+  onBlur: noop,
+  onFocus: noop,
 };
 
 export const EntryContext = React.createContext<EntryContextProps>(entryContextDefault);

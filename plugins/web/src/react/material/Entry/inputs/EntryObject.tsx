@@ -4,6 +4,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { dataDefault } from '@amnis/state';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import type { EntryProps } from '../Entry.js';
@@ -22,11 +23,12 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     entryId,
     entryDescriptionId,
     entryLabelId,
-    errored,
+    // errored,
     label,
     description,
     value,
     properties,
+    propertiesRequired,
     disabled,
     onChange,
   } = React.useContext(EntryContext) as EntryContextProps<Record<string, any>>;
@@ -61,7 +63,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
         paddingBottom: 0,
         borderColor: 'divider',
         margin: 0,
-        '&:has(input:focus)': {
+        '&:has(*:focus)': {
           borderLeft: 3,
           paddingLeft: '11px',
           borderColor: 'primary.main',
@@ -86,13 +88,14 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
           </Typography>
         ) : null}
       </Box>
-      <Stack gap={2}>
+      <Stack gap={3}>
         {properties.map((property) => (
           <Entry
             key={property.key}
             schema={property}
             disabled={disabled}
-            value={value?.[property.key] ?? null}
+            required={propertiesRequired.includes(property.key)}
+            value={value?.[property.key] ?? dataDefault(property.type)}
             onChange={(value, event) => handleChange(property.key, value, event)}
           />
         ))}

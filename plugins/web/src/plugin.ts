@@ -1,7 +1,12 @@
-import type { DynamicPlugin } from '@amnis/state';
+import { type DynamicPlugin } from '@amnis/state';
 
 export const plugin: DynamicPlugin = {
-  id: '@amnis/web',
+  key: '@amnis/web',
+  name: 'Web',
+  description: 'Essentials for web data and rendering.',
+  author: 'Eric Crowell',
+  text: [],
+  path: '',
   set: async () => (await import('@amnis/web/set')).set,
   schema: async () => (await import('@amnis/web/schema')).schema,
   locale: async () => (await import('@amnis/web/locale')).locale,

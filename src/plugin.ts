@@ -1,12 +1,13 @@
-import type {
-  Plugin,
-  ReduxSet,
-  StateDataPromise,
-  SchemaObject,
-  ProcessSet,
-  StateDataGuaranteed,
-  UserInterface,
-  StateLocale,
+import {
+  type StaticPlugin,
+  type ReduxSet,
+  type StateDataPromise,
+  type SchemaObject,
+  type ProcessSet,
+  type StateDataGuaranteed,
+  type UserInterface,
+  type StateLocale,
+  pluginCreate,
 } from '@amnis/state';
 
 /**
@@ -16,8 +17,8 @@ export function pluginSetsMerge(
   /**
    * Plugins to merge.
    */
-  plugins: Plugin[],
-): Plugin['set'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['set'] {
   const sets = plugins.map((plugin) => plugin.set).filter((set): set is ReduxSet => !!set);
 
   if (sets.length === 0) {
@@ -53,8 +54,8 @@ export function pluginDataMerge(
   /**
    * Plugins to merge.
    */
-  plugins: Plugin[],
-): Plugin['data'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['data'] {
   const data = plugins
     .map((plugin) => plugin.data)
     .filter((data): data is StateDataPromise => !!data);
@@ -78,8 +79,8 @@ export function pluginDataTestMerge(
   /**
    * Plugins to merge.
    */
-  plugins: Plugin[],
-): Plugin['dataTest'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['dataTest'] {
   const data = plugins
     .map((plugin) => plugin.dataTest)
     .filter((data): data is StateDataPromise => !!data);
@@ -103,8 +104,8 @@ export function pluginSchemaMerge(
   /**
    * Plugins to merge.
    */
-  plugins: Plugin[],
-): Plugin['schema'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['schema'] {
   const schema = plugins
     .map((plugin) => plugin.schema)
     .filter((schema): schema is SchemaObject[] => !!schema);
@@ -167,8 +168,8 @@ export function pluginProcessMerge(
   /**
    * Plugins to merge.
    */
-  plugins: Plugin[],
-): Plugin['process'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['process'] {
   const process = plugins
     .map((plugin) => plugin.process)
     .filter((process): process is ProcessSet => !!process);
@@ -192,8 +193,8 @@ export function pluginProcessMerge(
  * Merges locale records from an array of plugins.
  */
 export function pluginLocaleMerge(
-  plugins: Plugin[],
-): Plugin['locale'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['locale'] {
   const locales = plugins
     .map((plugin) => plugin.locale)
     .filter((locale): locale is StateLocale => !!locale);
@@ -228,8 +229,8 @@ export function pluginLocaleMerge(
  * Merges UI records from an array of plugins.
  */
 export function pluginUIMerge(
-  plugins: Plugin[],
-): Plugin['ui'] {
+  plugins: StaticPlugin[],
+): StaticPlugin['ui'] {
   const uis = plugins.map((plugin) => plugin.ui).filter((ui): ui is UserInterface => !!ui);
 
   if (uis.length === 0) {
@@ -254,11 +255,12 @@ export function pluginMerge(
   /**
    * Plugins to merge.
    */
-  plugins: Plugin[],
-): Plugin {
-  const pluginMerged: Plugin = {
-    id: 'merged',
-  };
+  plugins: StaticPlugin[],
+): StaticPlugin {
+  const pluginMerged: StaticPlugin = pluginCreate({
+    key: '@plugin/merged',
+    name: 'Merged',
+  });
 
   /** Merge sets */
   pluginMerged.set = pluginSetsMerge(plugins);

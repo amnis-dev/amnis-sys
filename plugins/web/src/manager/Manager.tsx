@@ -257,12 +257,12 @@ export const Manager: React.FC<ManagerProps> = ({
           }}>
 
             <ModeChip
-              label={locale?.['web:manager:state_data_select_chip'] ?? '...'}
+              label={locale?.['manager.state_data_select_chip'] ?? '...'}
               show={webSelect === 'data'}
               onDelete={() => onWebSelect(undefined)}
             />
             <ModeChip
-              label={locale?.['web:manager:state_component_select_chip'] ?? '...'}
+              label={locale?.['manager.state_component_select_chip'] ?? '...'}
               show={webSelect === 'component'}
               onDelete={() => onWebSelect(undefined)}
             />

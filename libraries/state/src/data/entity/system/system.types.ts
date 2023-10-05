@@ -11,14 +11,28 @@ import type {
   DataRoot,
 } from '../../data.types.js';
 
+/**
+ * System entity.
+ *
+ * @title {
+ *  en: "System",
+ *  de: "System",
+ *  es: "Sistema",
+ * }
+ * @description {
+ *  en: "Essential system-wide behaviors and settings",
+ *  de: "Wesentliche systemweite Verhaltensweisen und Einstellungen",
+ *  es: "Comportamientos y configuraciones esenciales en todo el sistema",
+ * }
+ */
 export interface System extends Data {
   /**
    * Name of the system.
    *
    * @title {
-   *  en: "System",
-   *  de: "System",
-   *  es: "Sistema",
+   *  en: "Name",
+   *  de: "Name",
+   *  es: "Nombre",
    * }
    * @description {
    *  en: "The name of the system",
@@ -39,9 +53,9 @@ export interface System extends Data {
    *  es: "Manija",
    * }
    * @description {
-   *  en: "Helps identifies system created resources",
-   *  de: "Hilft bei der Identifizierung von systemerstellten Ressourcen",
-   *  es: "Ayuda a identificar los recursos creados por el sistema",
+   *  en: "Identifies system created resources",
+   *  de: "Identifiziert vom System erstellte Ressourcen",
+   *  es: "Identifica los recursos creados por el sistema",
    * }
    */
   handle: HandleName;
@@ -72,9 +86,9 @@ export interface System extends Data {
    *  es: "Orígenes CORS",
    * }
    * @description {
-   *  en: "Allowed CORS origins",
-   *  de: "Erlaubte CORS-Originale",
-   *  es: "Orígenes CORS permitidos",
+   *  en: "Allowed URLs for cross-origin resource sharing",
+   *  de: "Zulässige URLs für das Cross-Origin-Ressourcen-Sharing",
+   *  es: "URL permitidas para el intercambio de recursos entre orígenes",
    * }
    */
   cors: SURL[];
@@ -279,9 +293,9 @@ export interface System extends Data {
    *  es: "Confianza del proxy"
    * }
    * @description {
-   *  en: "Flag to trust the proxy server for a forwarded IP address",
-   *  de: "Flag, um dem Proxy-Server für eine weitergeleitete IP-Adresse zu vertrauen",
-   *  es: "Bandera para confiar en el servidor proxy para una dirección IP reenviada",
+   *  en: "Flag to trust a proxy server for a forwarded IP address",
+   *  de: "Flagge, um einem Proxy-Server für eine weitergeleitete IP-Adresse zu vertrauen",
+   *  es: "Bandera para confiar en un servidor proxy para una dirección IP reenviada",
    * }
    */
   proxyTrust?: boolean;
@@ -295,9 +309,9 @@ export interface System extends Data {
    *  es: "Idiomas"
    * }
    * @description {
-   *  en: "List of languages supported by the system. The first item is the default",
-   *  de: "Liste der vom System unterstützten Sprachen. Der erste Eintrag ist die Standardsprache",
-   *  es: "Lista de idiomas soportados por el sistema. El primer elemento es el predeterminado",
+   *  en: "List of language codes supported by the system. The first item is the default",
+   *  de: "Liste der vom System unterstützten Sprachcodes. Der erste Eintrag ist der Standard",
+   *  es: "Lista de códigos de idioma admitidos por el sistema. El primer elemento es el predeterminado",
    * }
    * @minItems 1
    * @maxItems 32

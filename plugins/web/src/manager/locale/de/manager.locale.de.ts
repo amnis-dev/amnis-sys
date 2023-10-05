@@ -1,16 +1,22 @@
 import type { ManagerLocale } from '../manager.locale.types.js';
 
 export const managerLocale: ManagerLocale = {
-  'web:manager:speeddial_administration': 'Verwaltung',
-  'web:manager:speeddial_accounts': 'Konten',
-  'web:manager:speeddial_localization': 'Lokalisierung',
-  'web:manager:speeddial_manager': 'Manager',
-  'web:manager:speeddial_save': 'Speichern',
+  'manager.panel.welcome': 'Willkommen beim Manager',
+  'manager.panel.welcome.description': 'Hier finden Sie Einstellungen zur Verwaltung der Webanwendung. Nachfolgend finden Sie einige Links, die Ihnen den Einstieg erleichtern.',
 
-  'web:manager:state_data_select_button': 'Daten auswählen',
-  'web:manager:state_data_select_chip': 'Daten-Auswahlmodus',
-  'web:manager:state_component_select_button': 'Komponente auswählen',
-  'web:manager:state_component_select_chip': 'Komponenten-Auswahlmodus',
+  'manager.speeddial.administration': 'Verwaltung',
+  'manager.speeddial.accounts': 'Konten',
+  'manager.speeddial.localization': 'Lokalisierung',
+  'manager.speeddial.manager': 'Manager',
+  'manager.speeddial.save': 'Speichern',
+
+  'manager.state_data_select_button': 'Daten auswählen',
+  'manager.state_data_select_chip': 'Daten-Auswahlmodus',
+  'manager.state_component_select_button': 'Komponente auswählen',
+  'manager.state_component_select_chip': 'Komponenten-Auswahlmodus',
+
+  'manager.route.administration': 'Verwaltung',
+  'manager.route.administration.description': 'Konfigurieren Sie die Einstellungen für das Importsystem, die das Gesamtverhalten der Client-Anwendung und der Serverprozesse festlegen.',
 };
 
 export default managerLocale;

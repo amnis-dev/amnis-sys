@@ -1,14 +1,23 @@
 import React from 'react';
 import { Close } from '@mui/icons-material';
 import {
-  Box, Breadcrumbs, Divider, IconButton, LinearProgress, Stack, Typography,
+  Box,
+  Breadcrumbs,
+  Card,
+  CardActionArea,
+  CardContent,
+  Divider,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Typography,
 } from '@mui/material';
 import { ManagerContext } from '../ManagerContext.js';
 
 const PanelAdministration = React.lazy(() => import('../PanelAdministration/PanelAdministration.js'));
 
 export const Panel: React.FC = () => {
-  const { pathname, pathnameSet } = React.useContext(ManagerContext);
+  const { pathname, pathnameSet, locale } = React.useContext(ManagerContext);
 
   const crumbs = React.useMemo(() => ['Manager', ...(pathname?.split('/').slice(1) ?? [])], [pathname]);
 
@@ -26,9 +35,9 @@ export const Panel: React.FC = () => {
                 key={crumb}
                 variant="body2"
                 sx={{ textDecoration: 'underline', cursor: 'pointer' }}
-                onClick={() => pathnameSet(crumbs.slice(0, index + 1).join('/'))}
+                onClick={() => pathnameSet(`/${crumbs.slice(1, index + 1).join('/')}`)}
               >
-                {crumb}
+                {locale?.[`manager.route.${crumb.toLowerCase()}`] ?? crumb}
               </Typography>
             ))}
           </Breadcrumbs>
@@ -50,7 +59,34 @@ export const Panel: React.FC = () => {
                 </React.Suspense>
               );
             default:
-              return <LinearProgress />;
+              return (
+                <Box p={1}>
+                  <Stack gap={2}>
+                    <Box pb={3}>
+                      <Typography variant="h6" component="div">
+                        {locale?.['manager.panel.welcome']}
+                      </Typography>
+                      <Typography variant="body2">
+                        {locale?.['manager.panel.welcome.description']}
+                      </Typography>
+                    </Box>
+                    <Card>
+                      <CardActionArea
+                        onClick={() => pathnameSet('/Administration')}
+                      >
+                        <CardContent>
+                          <Typography variant="h5" component="div" gutterBottom>
+                            {locale?.['manager.route.administration'] ?? 'Administration'}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {locale?.['manager.route.administration.description'] ?? 'Administration'}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Stack>
+                </Box>
+              );
           }
         })()}
       </Box>

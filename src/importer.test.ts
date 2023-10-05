@@ -8,10 +8,10 @@ import { importerPlugin, importerPlugins } from './importer.js';
 test('importerPlugins with a single plugin', async () => {
   const statePluginImported = await importerPlugin(pluginState);
 
-  expect(statePluginImported.id).toBe(pluginState.id);
+  expect(statePluginImported.key).toBe(pluginState.key);
 
   expect(statePluginImported).toEqual({
-    id: pluginState.id,
+    key: pluginState.key,
     set: expect.any(Object),
     schema: expect.any(Array),
     locale: expect.any(Object),
@@ -26,10 +26,10 @@ test('importerPlugins with a single plugin', async () => {
 test('importerPlugins with a single plugin', async () => {
   const statePluginImported = await importerPlugin(pluginState, ['set']);
 
-  expect(statePluginImported.id).toBe(pluginState.id);
+  expect(statePluginImported.key).toBe(pluginState.key);
 
   expect(statePluginImported).toEqual({
-    id: pluginState.id,
+    key: pluginState.key,
     set: expect.any(Object),
   });
 });
@@ -43,10 +43,10 @@ test('importerPlugins with multiple plugins', async () => {
   expect(plugins).toHaveLength(2);
 
   const statePluginImported = plugins[0];
-  expect(statePluginImported.id).toBe(pluginState.id);
+  expect(statePluginImported.key).toBe(pluginState.key);
 
   expect(statePluginImported).toEqual({
-    id: pluginState.id,
+    key: pluginState.key,
     set: expect.any(Object),
     schema: expect.any(Array),
     locale: expect.any(Object),
@@ -55,10 +55,10 @@ test('importerPlugins with multiple plugins', async () => {
   });
 
   const apiPluginImported = plugins[1];
-  expect(apiPluginImported.id).toBe(pluginApi.id);
+  expect(apiPluginImported.key).toBe(pluginApi.key);
 
   expect(apiPluginImported).toEqual({
-    id: pluginApi.id,
+    key: pluginApi.key,
     set: expect.any(Object),
     schema: expect.any(Array),
     process: expect.any(Object),
