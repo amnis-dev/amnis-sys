@@ -5,7 +5,6 @@ export const plugin: DynamicPlugin = {
   name: 'Web',
   description: 'Essentials for web data and rendering.',
   author: 'Eric Crowell',
-  text: [],
   path: '',
   set: async () => (await import('@amnis/web/set')).set,
   schema: async () => (await import('@amnis/web/schema')).schema,

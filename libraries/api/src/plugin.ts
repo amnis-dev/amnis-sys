@@ -5,7 +5,6 @@ export const plugin: DynamicPlugin = {
   name: 'Api',
   description: 'Fundamental API queries and processing.',
   author: 'Eric Crowell',
-  text: [],
   path: '',
   set: async () => (await import('@amnis/api/set')).set,
   schema: async () => (await import('@amnis/api/schema')).schema,
