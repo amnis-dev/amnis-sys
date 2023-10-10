@@ -22,15 +22,36 @@ export interface DataComparison<D extends Data> {
 /**
  * Selects the slice for the given key.
  */
-const sliceByKey = <D extends Data = Data>(sliceKey: string) => (state: State) => {
-  const slice = state[sliceKey] as DataState<D>;
+const sliceByKey = createSelector(
+  [
+    (state: RootState) => state,
+    (state, sliceKey: string) => sliceKey as keyof RootState,
+  ],
+  (state, sliceKey): DataState | undefined => {
+    if (!state[sliceKey]) {
+      return undefined;
+    }
 
-  if (!slice?.entities) {
-    return undefined;
-  }
+    return state[sliceKey] as DataState;
+  },
+);
 
-  return slice;
-};
+/**
+ * Selects the entities object for the given slice key.
+ */
+const sliceEntities = createSelector(
+  [
+    (state: RootState) => state,
+    sliceByKey,
+  ],
+  (state, slice): Record<string, Data> => {
+    if (!slice) {
+      return {};
+    }
+
+    return slice.entities;
+  },
+);
 
 export type GetSelectQueryResult<T extends Record<string, any>> = {
   [key in keyof T]?: T[key] extends EntityState<infer D, any> ? D[] : [];
@@ -246,7 +267,7 @@ const dataById = <D extends Data = Data>(
   sliceKey: string,
   $id: string,
 ) => createSelector(
-  sliceByKey<D>(sliceKey),
+  (state: any) => sliceByKey(state, sliceKey),
   (slice): D | undefined => {
     if (!slice) {
       return undefined;
@@ -263,7 +284,7 @@ const dataDifferenceKeys = <D extends Data = Data>(
   sliceKey: string,
   $id: string,
 ) => createSelector(
-  sliceByKey<D>(sliceKey),
+  (state: any) => sliceByKey(state, sliceKey),
   (slice): (keyof D)[] | undefined => {
     if (!slice) {
       return undefined;
@@ -280,7 +301,7 @@ const dataOriginal = <D extends Data = Data>(
   sliceKey: string,
   $id: string,
 ) => createSelector(
-  sliceByKey<D>(sliceKey),
+  (state: any) => sliceByKey(state, sliceKey),
   (slice): D | undefined => {
     if (!slice) {
       return undefined;
@@ -448,6 +469,7 @@ const stagedEntities = (state: RootState): Entity[] => {
 export const stateSelect = {
   query,
   sliceByKey,
+  sliceEntities,
   dataById,
   dataDifferenceKeys,
   dataOriginal,

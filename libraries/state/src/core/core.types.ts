@@ -26,9 +26,7 @@ export enum SURLNominal { _ = '' }
  *  de: "Ein eindeutiger Bezeichner",
  *  es: "Un identificador único",
  * }
- * @pattern ^[a-z]{1,24}:[A-Za-z0-9_-]{16,32}$
- * @minLength 18
- * @maxLength 32
+ * @format reference
  */
 export type UID<T = unknown> = UIDNominal & string;
 
@@ -45,9 +43,7 @@ export type UID<T = unknown> = UIDNominal & string;
  *  de: "Ein eindeutiger Bezeichner",
  *  es: "Un identificador único",
  * }
- * @pattern ^[a-z]{1,21}:[A-Za-z0-9_-]{21}$
- * @minLength 22
- * @maxLength 42
+ * @format reference
  */
 export type UIDv2<S extends string = string> = `${S}:${string}`;
 

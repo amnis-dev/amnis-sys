@@ -9,6 +9,7 @@ import {
   regexWebFont,
   regexDataHandle,
   regexVariableName,
+  regexReference,
 } from '../core/regex.js';
 
 /**
@@ -98,9 +99,12 @@ function validateCompile(schema: SchemaObject): Validators {
   const ajv = new Ajv({
     schemas: [schema],
     code: { esm: true },
+    strictTypes: false,
   });
   /** @ts-ignore */
   addFormats(ajv, ['hostname', 'email', 'password', 'ipv4', 'ipv6', 'binary']);
+  /** @ts-ignore */
+  ajv.addFormat('reference', regexReference);
   /** @ts-ignore */
   ajv.addFormat('url', regexWebUrl);
   /** @ts-ignore */

@@ -1,7 +1,7 @@
 import React from 'react';
 import { nanoid } from '@amnis/state/rtk';
 import type { Schema } from '@amnis/state';
-import { dataDefault, kababize, noop } from '@amnis/state';
+import { kababize, noop } from '@amnis/state';
 import { Skeleton } from '@mui/material';
 import type {
   EntryContextProps,
@@ -15,6 +15,7 @@ import {
   EntryBoolean,
   EntryObject,
   EntryArray,
+  EntryFormatReference,
 } from './inputs/index.js';
 
 interface EntryBaseProps {
@@ -69,9 +70,22 @@ interface EntryBaseProps {
   condensed?: boolean;
 
   /**
+   * Options to filter out (if options are available)
+   */
+  optionsFilter?: any[];
+
+  /**
    * Entry change event.
    */
   onChange?: (
+    value: any | undefined,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+
+  /**
+   * Entry select event.
+   */
+  onSelect?: (
     value: any | undefined,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
@@ -90,27 +104,47 @@ interface EntryBaseProps {
 
 type EntryPropsVariations = {
   value?: string;
+  optionsFilter?: string[];
   onChange?: (
     value: string | undefined,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
+  onSelect?: (
+    value: string | undefined,
+    event: React.ChangeEvent<HTMLElement>
+  ) => void;
 } | {
   value?: number;
+  optionsFilter?: number[];
   onChange?: (
     value: number | undefined,
     event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onSelect?: (
+    value: number | undefined,
+    event: React.ChangeEvent<HTMLElement>
   ) => void;
 } | {
   value?: boolean;
+  optionsFilter?: boolean[];
   onChange?: (
-    value: number | undefined,
+    value: boolean | undefined,
     event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onSelect?: (
+    value: boolean | undefined,
+    event: React.ChangeEvent<HTMLElement>
   ) => void;
 } | {
   value?: object;
+  optionsFilter?: object[];
   onChange?: (
     value: object | undefined,
     event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  onSelect?: (
+    value: object | undefined,
+    event: React.ChangeEvent<HTMLElement>
   ) => void;
 }
 
@@ -128,6 +162,7 @@ export const Entry: React.FC<EntryProps> = ({
   autoFocus = false,
   condensed = false,
   onChange: onChangeProp = noop,
+  onSelect: onSelectProp = noop,
   onBlur = noop,
   onFocus = noop,
 }) => {
@@ -146,30 +181,28 @@ export const Entry: React.FC<EntryProps> = ({
           if (property.default) {
             return { ...acc, [propertyKey]: property.default };
           }
-          switch (property.type) {
-            case 'string': return { ...acc, [propertyKey]: '' };
-            case 'number': return { ...acc, [propertyKey]: 0 };
-            case 'boolean': return { ...acc, [propertyKey]: false };
-            case 'array': return { ...acc, [propertyKey]: [] };
-            case 'object': return { ...acc, [propertyKey]: {} };
-            default: return { ...acc, [propertyKey]: null };
-          }
+          return { ...acc, [propertyKey]: undefined };
         },
         {},
       );
     }
     return {};
-  }, [schema]);
+  }, [schema?.type]);
 
-  const [value, setValue] = React.useState<typeof valueProp>(() => {
+  const value = React.useMemo<typeof valueProp>(() => {
     if (schema?.type === 'object' && schema.properties) {
       return { ...defaultObject, ...valueProp };
     }
-    if (schema?.type) {
-      return dataDefault(schema.type);
+    return valueProp ?? null;
+  }, [valueProp, schema?.type]);
+
+  const format = React.useMemo(() => {
+    if (schema?.type === 'string') {
+      return schema.format;
     }
-    return valueProp;
-  });
+
+    return undefined;
+  }, [schema?.type, schema?.format]);
 
   const type = React.useMemo(() => {
     if (schema) {
@@ -189,7 +222,7 @@ export const Entry: React.FC<EntryProps> = ({
     }
 
     return 'none';
-  }, [schema]);
+  }, [schema?.type, value]);
 
   const properties = React.useMemo(
     () => {
@@ -242,31 +275,39 @@ export const Entry: React.FC<EntryProps> = ({
     [schema?.items],
   );
 
-  React.useEffect(() => {
-    if (valueProp !== undefined) {
-      if (type === 'object') {
-        setValue({ ...defaultObject, ...valueProp });
-        return;
-      }
-      setValue(valueProp);
+  const pattern = React.useMemo(() => {
+    if (schema?.type === 'string') {
+      return schema.pattern;
     }
-  }, [valueProp, defaultObject, type]);
+
+    return undefined;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    /** @ts-ignore */
+  }, [schema?.pattern]);
+
+  const uniqueItems = React.useMemo<boolean>(() => {
+    if (schema?.type === 'array') {
+      return schema.uniqueItems ?? false;
+    }
+
+    return false;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    /** @ts-ignore */
+  }, [schema?.uniqueItems]);
 
   const onChange = React.useCallback((
     valueNew: typeof valueProp,
     event?: React.ChangeEvent,
   ) => {
-    if (!valueProp) {
-      if (type === 'object') {
-        setValue({ ...defaultObject, ...valueNew });
-      } else if (type === 'array') {
-        setValue(valueNew);
-      } else {
-        setValue(valueNew);
-      }
-    }
     onChangeProp(valueNew as any, event as any);
-  }, [onChangeProp, defaultObject, type]);
+  }, [onChangeProp]);
+
+  const onSelect = React.useCallback((
+    valueNew: typeof valueProp,
+    event?: React.ChangeEvent,
+  ) => {
+    onSelectProp(valueNew, event as any);
+  }, [onSelectProp]);
 
   const ids = React.useMemo(() => {
     const labelKabab = `${kababize(label)}-${uid}`;
@@ -336,9 +377,11 @@ export const Entry: React.FC<EntryProps> = ({
     ...ids,
     description,
     value,
+    pattern,
     properties,
     propertiesRequired,
     items,
+    uniqueItems,
     label,
     labelInput,
     required,
@@ -350,14 +393,17 @@ export const Entry: React.FC<EntryProps> = ({
     autoFocus,
     condensed,
     onChange,
+    onSelect,
     onBlur,
     onFocus,
   }), [
     ids,
     value,
+    pattern,
     properties,
     propertiesRequired,
     items,
+    uniqueItems,
     label,
     required,
     disabled,
@@ -368,6 +414,7 @@ export const Entry: React.FC<EntryProps> = ({
     autoFocus,
     condensed,
     onChange,
+    onSelect,
     onBlur,
     onFocus,
   ]);
@@ -375,6 +422,12 @@ export const Entry: React.FC<EntryProps> = ({
   return (
     <EntryContext.Provider value={contextValue}>
       {((): React.ReactNode => {
+        switch (format) {
+          case 'reference':
+            return <EntryFormatReference />;
+          default:
+        }
+
         switch (type) {
           case 'string':
             return <EntryText />;

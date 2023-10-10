@@ -27,6 +27,7 @@ export const Label: React.FC<LabelProps> = ({
 }) => {
   const {
     label,
+    condensed,
     required,
     optionalText,
     entryLabelId,
@@ -62,7 +63,7 @@ export const Label: React.FC<LabelProps> = ({
           <Typography component="span" variant="inherit">
             {label}
           </Typography>
-          {!required ? (
+          {(!required && !condensed) ? (
             <Typography component="span" variant="body2">
               <i>&nbsp;{optionalText}</i>
             </Typography>

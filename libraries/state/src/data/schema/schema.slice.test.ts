@@ -65,5 +65,5 @@ test('should compile a schema', () => {
   }
   expect(userCompiled.properties.$id.$id).toEqual('state#/definitions/UID');
   expect(userCompiled.properties.$id.description).toEqual(expect.any(String));
-  expect(userCompiled.properties.$id.pattern).toEqual(expect.any(String));
+  expect(userCompiled.properties.$id.format).toEqual(expect.any(String));
 });

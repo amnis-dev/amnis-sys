@@ -13,11 +13,27 @@ export const Description: React.FC<FormHelperTextProps> = (
     entryDescriptionId,
     condensed,
   } = React.useContext(EntryContext);
+
+  /**
+   * FormHelperTest sx prop memoized.
+   */
+  const sx = React.useMemo(() => ({
+    ...props.sx,
+    display: condensed ? 'none' : undefined,
+  }), [props.sx, condensed]);
+
+  /**
+   * FormHelperTextTest props memoized.
+   */
+  const propsMemoized = React.useMemo(() => ({
+    ...props,
+    id: entryDescriptionId,
+    sx: { ...props.sx, ...sx },
+  }), [props, entryDescriptionId, sx]);
+
   return description ? (
     <FormHelperText
-      id={entryDescriptionId}
-      {...props}
-      sx={{ ...props.sx, display: condensed ? 'none' : undefined }}
+      {...propsMemoized}
     >
       {description}
     </FormHelperText>

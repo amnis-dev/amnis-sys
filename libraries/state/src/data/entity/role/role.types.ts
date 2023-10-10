@@ -65,3 +65,21 @@ export interface RoleMeta {
    */
   combo: Record<string, RoleCombo>;
 }
+
+/**
+ * Role ID
+ *
+ * @title {
+ *  en: "Role",
+ *  de: "Rolle",
+ *  es: "Rol",
+ * }
+ * @description {
+ *  en: "Reference to a role",
+ *  de: "Referenz zu einer Rolle",
+ *  es: "Referencia a un rol",
+ * }
+ * @type {string}
+ * @pattern ^role:[A-Za-z0-9_-]{21}$
+ */
+export type RoleID = UID<Role>;

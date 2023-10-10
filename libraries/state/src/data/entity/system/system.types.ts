@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
-import type { Role } from '../role/role.types.js';
+import type { RoleID } from '../role/role.types.js';
 import type {
-  Email, SURL, UID, UIDList,
+  Email, SURL,
 } from '../../../core/core.types.js';
 import type { HandleName } from '../handle/handle.types.js';
 import type {
@@ -90,6 +90,7 @@ export interface System extends Data {
    *  de: "Zulässige URLs für das Cross-Origin-Ressourcen-Sharing",
    *  es: "URL permitidas para el intercambio de recursos entre orígenes",
    * }
+   * @uniqueItems true
    */
   cors: SURL[];
 
@@ -267,12 +268,13 @@ export interface System extends Data {
   emailAuth: Email;
 
   /**
-   * Maximum file size that can be uploaded in kilobytes.
+   * Overall maximum file size that can be uploaded in kilobytes.
+   * Individual roles can have their own limits.
    *
    * @title {
    *  en: "Maximum File Size",
    *  de: "Maximale Dateigröße",
-   *  es: "Tamaño máximo de archivo"
+   *  es: "Tamaño máximo de archivo",
    * }
    * @description {
    *  en: "Maximum file size in kilobytes",
@@ -315,6 +317,7 @@ export interface System extends Data {
    * }
    * @minItems 1
    * @maxItems 32
+   * @uniqueItems true
    */
   languages: string[];
 
@@ -333,7 +336,7 @@ export interface System extends Data {
    *  es: "Identificador de rol que considera al usuario un administrador",
    * }
    */
-  $adminRole: UID<Role>;
+  $adminRole: RoleID;
 
   /**
    * Role identifier that considers the user an executive.
@@ -350,7 +353,7 @@ export interface System extends Data {
    *  es: "Identificador de rol que considera al usuario un ejecutivo",
    * }
    */
-  $execRole: UID<Role>;
+  $execRole: RoleID;
 
   /**
    * Anonymous access permissions.
@@ -367,7 +370,7 @@ export interface System extends Data {
    *  es: "Identificador de rol que considera al usuario un cliente anónimo",
    * }
    */
-  $anonymousRole: UID<Role>;
+  $anonymousRole: RoleID;
 
   /**
    * The initial roles to assign to a user when a new account is created.
@@ -382,8 +385,9 @@ export interface System extends Data {
    *  de: "Die Rollen, die bei der Registrierung eines neuen Kontos zugewiesen werden",
    *  es: "Los roles que se aplican cada vez que se registra una nueva cuenta",
    * }
+   * @uniqueItems true
    */
-  $initialRoles: UIDList<Role>;
+  $initialRoles: RoleID[];
 }
 
 /**

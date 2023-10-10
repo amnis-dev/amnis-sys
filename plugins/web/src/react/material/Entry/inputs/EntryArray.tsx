@@ -8,10 +8,14 @@ import {
   FormLabel,
   Typography,
 } from '@mui/material';
-import { dataDefault, dataName } from '@amnis/state';
+import { dataName, stateSelect } from '@amnis/state';
 import { AddCircle } from '@mui/icons-material';
+import { apiCrud } from '@amnis/api';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
+import {
+  useTranslate, useWebDispatch, useWebSelector,
+} from '@amnis/web/react/hooks';
 import { Description } from './parts/index.js';
 import type { EntryProps } from '../Entry.js';
 
@@ -27,6 +31,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
 }) => {
   const {
     items,
+    uniqueItems,
     label,
     entryId,
     entryLabelId,
@@ -36,14 +41,54 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
     onChange,
   } = React.useContext(EntryContext) as EntryContextProps<any[]>;
 
-  const [valueInner, valueInnerSet] = React.useState(dataDefault(items.type));
+  const dispatch = useWebDispatch();
+
+  const [valueInner, valueInnerSet] = React.useState(null);
 
   const handleInsert = React.useCallback((valueInnerNext: any) => {
     if (valueInnerNext === undefined ?? !valueInnerNext?.length) return;
 
-    valueInnerSet(valueInnerNext);
+    valueInnerSet(null);
+    // Ensure unique items.
+    if (uniqueItems && value?.includes(valueInnerNext)) return;
     onChange([...(value ?? []), valueInnerNext]);
   }, [value, onChange, valueInnerSet]);
+
+  const isReferences = React.useMemo(() => items.format === 'reference', [items.format]);
+  const sliceKey = React.useMemo(
+    () => {
+      if (!isReferences || items.type !== 'string') return undefined;
+      return items?.pattern?.match(/([A-Za-z0-9]+):/)?.[1] as string | undefined;
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    /** @ts-ignore */
+    [isReferences, items?.pattern],
+  );
+
+  const entites = useTranslate(
+    useWebSelector((state) => stateSelect.sliceEntities(state, sliceKey ?? '')),
+  )!;
+  const entityLabels = React.useMemo(() => Object.values(entites).reduce<Record<string, string>>(
+    (acc, cur) => {
+      acc[cur.$id] = dataName(cur);
+      return acc;
+    },
+    {},
+  ), [entites]);
+
+  React.useEffect(() => {
+    console.log({ isReferences, sliceKey });
+    if (!isReferences || !sliceKey) return;
+    dispatch(apiCrud.endpoints.read.initiate({
+      [sliceKey]: {
+        $query: {
+          $id: {
+            $in: value,
+          },
+        },
+      },
+    }));
+  }, []);
 
   return (
     <FormControl
@@ -88,7 +133,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
               role="presentation"
             >
               {value?.map((valueItem, index) => {
-                const label = dataName(valueItem);
+                const label = isReferences ? entityLabels?.[valueItem] : dataName(valueItem);
                 return (
                   <Chip
                     key={`${label}#${index}`}
@@ -96,7 +141,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
                     aria-multiline="false"
                     aria-label={label}
                     aria-readonly="true"
-                    label={dataName(label)}
+                    label={label}
                     onDelete={() => {
                       const valueNext = value.filter((_, i) => i !== index);
                       onChange(valueNext);
@@ -112,6 +157,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
                   schema={items}
                   value={valueInner as any}
                   onChange={(valueInnerNext) => valueInnerSet(valueInnerNext)}
+                  onSelect={handleInsert}
                   condensed
                 />
                 <Box>

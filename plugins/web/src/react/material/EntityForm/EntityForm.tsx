@@ -47,6 +47,14 @@ export const EntityForm: React.FC<EntityFormProps> = ({
 
   if (!entity) return null;
 
+  const handleEntityUpdate = React.useCallback((entityNext: any) => {
+    dispatch(dataActions.update({
+      [sliceKey]: [{
+        ...entityNext,
+      }],
+    }));
+  }, [sliceKey, dispatch]);
+
   const schema = useTranslate(useWebSelector(
     (state) => schemaSlice.select.compiled(state, sliceKey),
   ));
@@ -76,20 +84,12 @@ export const EntityForm: React.FC<EntityFormProps> = ({
     } as Schema;
   }, [schema]);
 
-  const handleChange = React.useCallback((valueNext: any) => {
-    dispatch(dataActions.update({
-      [sliceKey]: [{
-        ...valueNext,
-      }],
-    }));
-  }, [dispatch, sliceKey]);
-
   return (
     <div>
       <Entry
         schema={schemaReduced}
         value={entity}
-        onChange={handleChange}
+        onChange={handleEntityUpdate}
       />
     </div>
   );

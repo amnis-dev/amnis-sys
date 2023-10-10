@@ -11,10 +11,13 @@ export interface EntryContextProps<T = any> {
   entryErrorId: string;
   entryDescriptionId: string;
   entrySuggestionsId: string;
+  pattern?: string;
   value: T | undefined;
   properties: (Schema & { key: string })[];
   propertiesRequired: string[];
   items: Schema;
+  uniqueItems: boolean;
+  optionsFilter: T[];
   label: string;
   labelInput: string;
   description: string | null;
@@ -34,6 +37,7 @@ export interface EntryContextProps<T = any> {
   suggestionSelect: string | null;
   suggestionSelectSetter: (value: string | null) => void;
   onChange: (value: T | undefined, event?: React.ChangeEvent<HTMLElement>) => void;
+  onSelect: (value: T | undefined, event?: React.ChangeEvent<HTMLElement>) => void;
   onBlur: (event?: React.FocusEvent<HTMLElement>) => void;
   onFocus: (event?: React.FocusEvent<HTMLElement>) => void;
   hasLabelElement: boolean;
@@ -59,6 +63,8 @@ export const entryContextDefault: EntryContextProps = {
     $id: 'item',
     type: 'string',
   },
+  uniqueItems: false,
+  optionsFilter: [],
   label: 'unlabelled',
   labelInput: 'unlabelled',
   description: null,
@@ -95,6 +101,7 @@ export const entryContextDefault: EntryContextProps = {
   hasErrorElement: false,
   hasErrorElementSetter: noop,
   onChange: noop,
+  onSelect: noop,
   onBlur: noop,
   onFocus: noop,
 };

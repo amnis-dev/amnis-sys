@@ -10,6 +10,7 @@ import { Description, Label } from './parts/index.js';
 
 export const EntryText: React.FC = () => {
   const {
+    label,
     labelInput,
     entryId,
     entryInputId,
@@ -24,6 +25,13 @@ export const EntryText: React.FC = () => {
     onChange,
   } = React.useContext(EntryContext) as EntryContextProps<string>;
 
+  const descriptionSx = React.useMemo(() => ({ sx: 0 }), []);
+
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e),
+    [],
+  );
+
   return (
     <FormControl
       id={entryId}
@@ -35,19 +43,19 @@ export const EntryText: React.FC = () => {
     >
       <Box mb={condensed ? 0 : 0.5}>
         <Label type={condensed ? 'input' : 'form'} shrink={condensed} />
-        <Description sx={{ m: 0 }} />
+        <Description sx={descriptionSx} />
       </Box>
       <OutlinedInput
         id={entryInputId}
-        label={labelInput}
-        value={value}
+        label={condensed ? label : labelInput}
+        value={value || ''}
         notched={condensed}
         inputProps={{
           'aria-labelledby': entryLabelId,
           'aria-describedby': description ? entryDescriptionId : undefined,
         }}
         autoFocus={autoFocus}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e)}
+        onChange={handleChange}
       />
     </FormControl>
   );

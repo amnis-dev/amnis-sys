@@ -1,5 +1,16 @@
 import type { Data, DataOrder } from './data.types.js';
 
+const NAME_KEYS = ['name', 'nameDisplay', 'handle', 'title', 'label'];
+
+/**
+ * Gets the property key of the name to use for the given data.
+ */
+export function dataNameKey(data: Record<string, any>): string | undefined {
+  const dataKeys = Object.keys(data);
+  const nameKeys = NAME_KEYS;
+  return nameKeys.find((nameKey) => dataKeys.includes(nameKey));
+}
+
 /**
  * Attempts to obtain a human readable string for the given data.
  */
@@ -14,7 +25,8 @@ export function dataName(data: any): string {
     return data.toString();
   }
   if (typeof data === 'object' && !!data && !Array.isArray(data)) {
-    const name = data.name || data.nameDisplay || data.handle || data.title || data.label || data.$id?.split(':')[0] || '[Object]';
+    const nameKey = dataNameKey(data);
+    const name = nameKey ? data[nameKey] : data.$id?.split(':')[0] || '[Object]';
     return name;
   }
   if (Array.isArray(data)) {
