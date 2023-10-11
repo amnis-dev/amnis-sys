@@ -21,6 +21,6 @@ export const Default: Story = {
   render: (args: EntityFormProps) => {
     const system = useWebSelector(systemSlice.select.active);
 
-    return <EntityForm $id={system?.$id} />;
+    return <EntityForm {...args} $id={system?.$id} />;
   },
 };

@@ -9,15 +9,17 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React from 'react';
-import { noop } from '@amnis/state';
+import { localeSlice, noop } from '@amnis/state';
 import type { WebContext } from '@amnis/web/react/context';
 import { useSearchParams } from '@amnis/web/lib/react-router-dom';
+import { useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
 import { Toggles } from './Toggles/index.js';
 import { ModeChip } from './ModeChip/index.js';
 import { ManagerContext, managerContextDefault } from './ManagerContext.js';
 import { ManagerSpeedDial } from './ManagerSpeedDial/index.js';
 import { LocaleButton } from './LocaleButton/index.js';
 import { Panel } from './Panel/index.js';
+import type { ManagerLocaleCode } from './locale/manager.locale.types.js';
 
 export interface ManagerProps {
   /**
@@ -54,6 +56,14 @@ export const Manager: React.FC<ManagerProps> = ({
    */
   const themeWeb = useTheme();
 
+  const dispatch = useWebDispatch();
+
+  const localeCode = useWebSelector(localeSlice.select.activeCode) as ManagerLocaleCode;
+
+  const localeCodeSet = React.useCallback((code: ManagerLocaleCode) => {
+    dispatch(localeSlice.action.codeSet(code));
+  }, []);
+
   /**
    * Get the current navgation state.
    */
@@ -61,7 +71,6 @@ export const Manager: React.FC<ManagerProps> = ({
   const managerLocation = React.useMemo(() => searchParams.get('manager'), [searchParams]);
 
   const [pathname, pathnameSet] = React.useState<ManagerContext['pathname']>(managerLocation);
-  const [localeCode, localeCodeSet] = React.useState<ManagerContext['localeCode']>('en');
   const [locale, localeSet] = React.useState<ManagerContext['locale']>();
   const [localeLoading, localeLoadingSet] = React.useState(true);
 

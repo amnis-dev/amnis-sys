@@ -14,6 +14,7 @@ import {
   selectLocaleByName,
   selectLocaleSystemDefaultCode,
   selectLocaleTranslation,
+  selectLocaleValue,
 } from './locale.selectors.js';
 import { dataActions } from '../../data.actions.js';
 import type { Entity } from '../entity.types.js';
@@ -178,6 +179,11 @@ export const localeSlice = entitySliceCreate({
      * Selects a locale by code and name.
      */
     byCodeNames: selectLocaleByCodeNames,
+
+    /**
+     * Selects a tralsation by string.
+     */
+    translateString: selectLocaleValue,
 
     /**
      * Select a transation given the expression.

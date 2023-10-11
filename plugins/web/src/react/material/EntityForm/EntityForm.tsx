@@ -13,16 +13,10 @@ export interface EntityFormProps {
    * Entity ID
    */
   $id?: string;
-
-  /**
-   * Language code to use.
-   */
-  language?: string;
 }
 
 export const EntityForm: React.FC<EntityFormProps> = ({
   $id,
-  language,
 }) => {
   const sliceKey = React.useMemo(() => $id?.split(':')[0] ?? '', [$id]);
   if (sliceKey.length === 0) return null;
@@ -31,7 +25,6 @@ export const EntityForm: React.FC<EntityFormProps> = ({
 
   apiSys.useSchemaQuery({
     type: `state/${definition}`,
-    ln: language,
   }) as QueryResult<Schema>;
 
   const dispatch = useDispatch();

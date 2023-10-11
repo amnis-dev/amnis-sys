@@ -4,7 +4,9 @@ import {
 } from '@mui/material';
 import { ManagerProvider } from '@amnis/web/manager';
 import type { WebContextIderEntities } from '@amnis/web/react/context';
-import { useId, usePopover } from '@amnis/web/react/hooks';
+import {
+  useId, usePopover,
+} from '@amnis/web/react/hooks';
 import { IderEntityChips } from './IderEntityChips.js';
 import { IderInput } from './IderInput.js';
 
@@ -57,6 +59,8 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
   const id = useId();
 
   const element = React.useMemo(() => refAnchor.current, [refAnchor.current]);
+  const entity = React.useMemo(() => entities[entities.length - 1][0], [entities]);
+  const prop = React.useMemo(() => entities[entities.length - 1][1], [entities]);
 
   const timerRef1 = React.useRef<NodeJS.Timeout | null>(null);
   const timerRef2 = React.useRef<NodeJS.Timeout | null>(null);
@@ -81,19 +85,24 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
     [element, trigger],
   );
 
-  /**
-   * Gets the child element's position.
-   */
-  const refPosition = React.useMemo(() => {
-    if (!element || !refDisplayed) {
-      return basePosition;
-    }
-    const {
-      top, left, width, height,
-    } = element.getBoundingClientRect();
-    return {
-      top, left, width, height,
-    };
+  const [refPosition, setRefPosition] = React.useState(basePosition);
+
+  React.useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!element || !refDisplayed) {
+        setRefPosition(basePosition);
+      } else {
+        const {
+          top, left, width, height,
+        } = element.getBoundingClientRect();
+        setRefPosition({
+          top, left, width, height,
+        });
+      }
+    }, 100);
+
+    // Clear the timeout if the component is unmounted or if any dependencies change
+    return () => clearTimeout(timeoutId);
   }, [element, trigger, refDisplayed, entities]);
 
   /**
@@ -166,14 +175,14 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
           <Box p={2}>
             <Box pl={1} pr={1} mb={1}>
               <Typography variant="caption" sx={{ opacity: 0.5 }}>
-                {entities[entities.length - 1][0]?.$id}
+                {entity?.$id}
               </Typography>
             </Box>
             <Stack direction="column" gap={2}>
               <IderEntityChips entities={entities} />
               <IderInput
-                entity={entities[entities.length - 1][0]}
-                prop={entities[entities.length - 1][1]}
+                entity={entity}
+                prop={prop}
               />
             </Stack>
           </Box>

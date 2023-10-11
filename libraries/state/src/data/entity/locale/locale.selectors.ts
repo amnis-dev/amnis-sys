@@ -17,8 +17,8 @@ export const selectLocaleState = (
 export const selectLocaleCodeNameExists = createSelector(
   [
     selectLocaleState,
-    (state: State<any>, code: string) => code,
-    (state: State<any>, code, name: string) => name,
+    (state, code: string) => code,
+    (state, code, name: string) => name,
   ],
   (localeState, code, name) => Object.values(localeState.entities).some(
     (locale) => locale.code === code && locale.name === name,

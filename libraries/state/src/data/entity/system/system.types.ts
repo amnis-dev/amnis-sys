@@ -287,7 +287,7 @@ export interface System extends Data {
   fileSizeMax: number;
 
   /**
-   * Flag to trust the proxy server for a forwarded IP address.
+   * If the system's server is behind a trusted proxy, this flag should be enabled to forwarded the IP address.
    *
    * @title {
    *  en: "Proxy Trust",
@@ -295,9 +295,9 @@ export interface System extends Data {
    *  es: "Confianza del proxy"
    * }
    * @description {
-   *  en: "Flag to trust a proxy server for a forwarded IP address",
-   *  de: "Flagge, um einem Proxy-Server für eine weitergeleitete IP-Adresse zu vertrauen",
-   *  es: "Bandera para confiar en un servidor proxy para una dirección IP reenviada",
+   *  en: "If the system's server is behind a trusted proxy, this flag should be enabled to forwarded the IP address",
+   *  de: "Wenn der Server des Systems hinter einem vertrauenswürdigen Proxy liegt, sollte diese Flagge aktiviert werden, um die IP-Adresse weiterzuleiten",
+   *  es: "Si el servidor del sistema está detrás de un proxy de confianza, esta bandera debe habilitarse para reenviar la dirección IP",
    * }
    */
   proxyTrust?: boolean;
@@ -322,7 +322,7 @@ export interface System extends Data {
   languages: string[];
 
   /**
-   * Role identifier that considers the user an administrator.
+   * Role to be considered an administrator.
    * Administrators have complete control.
    *
    * @title {
@@ -331,26 +331,26 @@ export interface System extends Data {
    *  es: "Rol de administrador"
    * }
    * @description {
-   *  en: "Role identifier that considers the user an administrator",
-   *  de: "Rollenkennung, die den Benutzer als Administrator betrachtet",
-   *  es: "Identificador de rol que considera al usuario un administrador",
+   *  en: "Users with this role will be considered an administrator with complete control",
+   *  de: "Benutzer mit dieser Rolle werden als Administrator mit vollständiger Kontrolle betrachtet",
+   *  es: "Los usuarios con este rol serán considerados administradores con control total",
    * }
    */
   $adminRole: RoleID;
 
   /**
-   * Role identifier that considers the user an executive.
+   * Role to be considered an executive.
    * Executives have second-highest control over a system, just under administrators.
    *
    * @title {
    *  en: "Executive Role",
    *  de: "Führungskräfterolle",
-   *  es: "Rol ejecutivo"
+   *  es: "Rol ejecutivo",
    * }
    * @description {
-   *  en: "Role identifier that considers the user an executive",
-   *  de: "Rollenkennung, die den Benutzer als Führungskraft betrachtet",
-   *  es: "Identificador de rol que considera al usuario un ejecutivo",
+   *  en: "Users with this role will be considered an executive with privileged control over a system, just under administrators",
+   *  de: "Benutzer mit dieser Rolle werden als Führungskräfte mit privilegierter Kontrolle über ein System betrachtet, direkt unter Administratoren",
+   *  es: "Los usuarios con este rol serán considerados ejecutivos con control privilegiado sobre un sistema, justo debajo de los administradores",
    * }
    */
   $execRole: RoleID;
@@ -362,12 +362,12 @@ export interface System extends Data {
    * @title {
    *  en: "Anonymous Role",
    *  de: "Anonyme Rolle",
-   *  es: "Rol anónimo"
+   *  es: "Rol anónimo",
    * }
    * @description {
-   *  en: "Role identifier that considers the user an anonymous client",
-   *  de: "Rollenkennung, die den Benutzer als anonymen Client betrachtet",
-   *  es: "Identificador de rol que considera al usuario un cliente anónimo",
+   *  en: "This role is used when no authentication is provided by the client",
+   *  de: "Diese Rolle wird verwendet, wenn kein Authentifizierung durch den Client bereitgestellt wird",
+   *  es: "Este rol se utiliza cuando el cliente no proporciona autenticación",
    * }
    */
   $anonymousRole: RoleID;

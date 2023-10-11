@@ -51,7 +51,7 @@ Io<ApiSysSchema, Schema[]>
 > = (context) => (
   async (input, output) => {
     const { store } = context;
-    const { body: { type, ln }, access, language } = input;
+    const { body: { type }, access, language } = input;
 
     if (!access) {
       output.status = 401; // 401 Unauthorized
@@ -162,7 +162,7 @@ Io<ApiSysSchema, Schema[]>
     schemas.forEach((s) => localeNames.push(...schemaLocale(s)));
 
     const locale = (
-      await findLocaleByNames(context, localeNames, ln ?? language)
+      await findLocaleByNames(context, localeNames, language)
     ).map((l) => entityStrip(l));
 
     /**
