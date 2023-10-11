@@ -158,7 +158,14 @@ const selectReferences = (state: State, schema: Schema): Schema[] => {
 const selectCompiled = createSelector(
   [
     (state: State): State => state,
-    (state: State, name: string) => selectSchema(state, name),
+    (state: State, name: string) => {
+      const nameSplit = name.split('/');
+      if (nameSplit.length > 1) {
+        const [schemaId, schemaName] = nameSplit;
+        return selectSchema(state, schemaName, schemaId);
+      }
+      return selectSchema(state, name);
+    },
   ],
   (state, schema): Schema | undefined => {
     if (!schema) {

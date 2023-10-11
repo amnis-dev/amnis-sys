@@ -36,7 +36,6 @@ type LocaleRecords = Record<string, Record<string, string>>;
 function fixJSON(json: string) {
   return json
     .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ')
-    .replace(/'/g, '"')
     .replace(/,\s*}/g, '}')
     .replace(/,\s*]/g, ']')
     .replace(/(?:\r\n|\r|\n)/g, ' ');
@@ -58,7 +57,11 @@ function defineTitlesAndDescriptions(prefix: string, name: string, schema: Schem
         locale[key] = { ...locale[key], [titleKey]: value };
       });
     } catch (error: any) {
-      console.error(error.message.slice(0, 255));
+      console.error('[ERROR]: SCHEMA LOCALE GENERATION');
+      console.error(name);
+      console.error(schema.title);
+      console.error(error.message);
+      process.exit(1);
     }
   } else {
     locale.en = { ...locale.en, [titleKey]: schema.title || '' };
@@ -72,7 +75,11 @@ function defineTitlesAndDescriptions(prefix: string, name: string, schema: Schem
         locale[key] = { ...locale[key], [descriptionKey]: value };
       });
     } catch (error: any) {
-      console.error(error.message.slice(0, 255));
+      console.error('[ERROR]: SCHEMA LOCALE GENERATION');
+      console.error(name);
+      console.error(schema.description);
+      console.error(error.message);
+      process.exit(1);
     }
   } else {
     locale.en = { ...locale.en, [descriptionKey]: schema.description || '' };
