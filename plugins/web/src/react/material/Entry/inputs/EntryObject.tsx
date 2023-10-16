@@ -4,9 +4,11 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { dataDefault } from '@amnis/state';
-import type { EntryContextProps } from '@amnis/web/react/context';
+import type { CoreSelectors, Data, UID } from '@amnis/state';
+import { dataDefault, dataSelectors, noop } from '@amnis/state';
+import type { EntryContextChanges, EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
+import { useWebSelector, type RootStateWeb } from '@amnis/web';
 import type { EntryProps } from '../Entry.js';
 
 export interface EntryObjectProps {
@@ -33,6 +35,47 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     onChange,
   } = React.useContext(EntryContext) as EntryContextProps<Record<string, any>>;
 
+  const $id = React.useMemo<string | undefined>(() => value?.$id, [value?.$id]);
+
+  const dataSelect = React.useMemo<CoreSelectors<Data>>(() => {
+    if (!$id) {
+      return {
+        active: noop,
+        focused: noop,
+        selection: noop,
+        difference: noop,
+      } as any as CoreSelectors<Data>;
+    }
+
+    const sliceKey = $id.match(/([A-Za-z0-9]+):/)?.[1] as keyof RootStateWeb | undefined;
+
+    if (!sliceKey) {
+      return {
+        active: noop,
+        focused: noop,
+        selection: noop,
+        difference: noop,
+      } as any as CoreSelectors<Data>;
+    }
+
+    return dataSelectors(sliceKey);
+  }, [$id]);
+
+  const difference = useWebSelector(
+    (state) => ($id ? dataSelect.difference(state, $id as UID) : undefined),
+  );
+
+  const changesProps = React.useMemo<Record<string, EntryContextChanges> | undefined>(() => {
+    if (!difference) return undefined;
+    return difference.keys.reduce((acc, key) => ({
+      ...acc,
+      [key]: {
+        before: difference.original![key] as any,
+        after: difference.updater[key] as any,
+      },
+    }), {});
+  }, [difference?.keys]);
+
   const handleChange = React.useCallback((
     propertyKey: string,
     valueInput: any,
@@ -44,7 +87,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     };
 
     onChange(valueNext, event);
-  }, [value]);
+  }, [value, onChange]);
 
   return (
     <Stack
@@ -93,6 +136,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
           <Entry
             key={property.key}
             schema={property}
+            changes={changesProps?.[property.key]}
             disabled={disabled}
             required={propertiesRequired.includes(property.key)}
             value={value?.[property.key] ?? dataDefault(property.type)}

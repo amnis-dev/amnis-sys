@@ -4,12 +4,11 @@ import {
   Stack,
   Box,
   Checkbox,
-  Typography,
   FormLabel,
 } from '@mui/material';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
-import { Description } from './parts/index.js';
+import { Label, Description } from './parts/index.js';
 
 export const EntryBoolean: React.FC = () => {
   const {
@@ -18,7 +17,6 @@ export const EntryBoolean: React.FC = () => {
     entryDescriptionId,
     errored,
     entryLabelId,
-    label,
     description,
     value,
     disabled,
@@ -49,28 +47,35 @@ export const EntryBoolean: React.FC = () => {
             },
           }}
         >
-          <Box>
-            <Checkbox
-              ref={checkboxRef}
-              inputProps={{
-                id: entryInputId,
-                'aria-labelledby': entryLabelId,
-                'aria-describedby': description ? entryDescriptionId : undefined,
-              }}
-              checked={value}
-              onChange={(event, checked) => onChange(checked, event)}
-            />
-          </Box>
-          <Box>
-            <Box pt={1.2} pb={0.5}>
-              <Typography id={entryLabelId} variant="body1">
-                {label}
-              </Typography>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: 'auto 1fr',
+              gridTemplateRows: 'auto ',
+            }}
+          >
+            <Box sx={{ alignSelf: 'center' }}>
+              <Checkbox
+                ref={checkboxRef}
+                inputProps={{
+                  id: entryInputId,
+                  'aria-labelledby': entryLabelId,
+                  'aria-describedby': description ? entryDescriptionId : undefined,
+                }}
+                checked={value}
+                onChange={(event, checked) => onChange(checked, event)}
+              />
             </Box>
-            <Description sx={{
-              m: 0,
-              pb: 1,
-            }} />
+            <Box sx={{ alignSelf: 'center' }}>
+              <Label hideOptionalText />
+            </Box>
+            <Box aris-hidden={true} />
+            <Box sx={{ alignSelf: 'flex-start' }}>
+              <Description sx={{
+                m: 0,
+                pb: 1,
+              }} />
+            </Box>
           </Box>
         </Stack>
       </FormLabel>

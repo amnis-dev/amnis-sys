@@ -6,7 +6,6 @@ import {
   Chip,
   IconButton,
   FormLabel,
-  Typography,
 } from '@mui/material';
 import { dataName, stateSelect } from '@amnis/state';
 import { AddCircle } from '@mui/icons-material';
@@ -16,7 +15,7 @@ import { EntryContext } from '@amnis/web/react/context';
 import {
   useTranslate, useWebDispatch, useWebSelector,
 } from '@amnis/web/react/hooks';
-import { Description } from './parts/index.js';
+import { Description, Label } from './parts/index.js';
 import type { EntryProps } from '../Entry.js';
 
 export interface EntryArrayProps {
@@ -32,7 +31,6 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
   const {
     items,
     uniqueItems,
-    label,
     entryId,
     entryLabelId,
     errored,
@@ -119,9 +117,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
           <Box p={2} width="100%">
 
             <Box mb={1}>
-              <Typography id={entryLabelId} variant="body1">
-                {label}
-              </Typography>
+              <Label />
               <Description sx={{ m: 0 }} />
             </Box>
 

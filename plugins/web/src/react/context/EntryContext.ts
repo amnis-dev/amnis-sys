@@ -3,6 +3,11 @@ import type { Schema } from '@amnis/state';
 import { noop } from '@amnis/state';
 import type { EntryContextSchemaErrors } from './EntryContextSchemas.types.js';
 
+export type EntryContextChanges<T = any> = {
+  before: T;
+  after: T;
+};
+
 export interface EntryContextProps<T = any> {
   entryId: string;
   entryBoxId: string;
@@ -13,6 +18,7 @@ export interface EntryContextProps<T = any> {
   entrySuggestionsId: string;
   pattern?: string;
   value: T | undefined;
+  changes?: EntryContextChanges<T>,
   properties: (Schema & { key: string })[];
   propertiesRequired: string[];
   items: Schema;
@@ -48,6 +54,51 @@ export interface EntryContextProps<T = any> {
   hasErrorElementSetter: (value: boolean) => void;
 }
 
+const entryContextErrorTextEnglish: Record<EntryContextSchemaErrors, string> = {
+  required: 'A value is required.',
+  type: 'The value is not the correct type.',
+  maxLength: 'The text is too long.',
+  minLength: 'The text is too short.',
+  pattern: 'The value does not match the a valid pattern.',
+  minimum: 'The value is too small.',
+  maximum: 'The value is too large.',
+  exclusiveMinimum: 'The value is too small.',
+  exclusiveMaximum: 'The value is too large.',
+  multipleOf: 'The value is not a multiple of the given number.',
+  format: 'The value is not in the correct format.',
+  minItems: 'The value does not contain enough items.',
+  maxItems: 'The value contains too many items.',
+  uniqueItems: 'The value contains duplicate items.',
+  url: 'The value is not a valid URL.',
+  email: 'The value is not a valid email address.',
+  hostname: 'The value is not a valid hostname.',
+};
+
+const entryContextErrorTextGerman: Record<EntryContextSchemaErrors, string> = {
+  required: 'Ein Wert ist erforderlich.',
+  type: 'Der Wert ist nicht der richtige Typ.',
+  maxLength: 'Der Text ist zu lang.',
+  minLength: 'Der Text ist zu kurz.',
+  pattern: 'Der Wert entspricht nicht einem gültigen Muster.',
+  minimum: 'Der Wert ist zu klein.',
+  maximum: 'Der Wert ist zu groß.',
+  exclusiveMinimum: 'Der Wert ist zu klein.',
+  exclusiveMaximum: 'Der Wert ist zu groß.',
+  multipleOf: 'Der Wert ist kein Vielfaches der angegebenen Zahl.',
+  format: 'Der Wert ist nicht im richtigen Format.',
+  minItems: 'Der Wert enthält nicht genügend Elemente.',
+  maxItems: 'Der Wert enthält zu viele Elemente.',
+  uniqueItems: 'Der Wert enthält doppelte Elemente.',
+  url: 'Der Wert ist keine gültige URL.',
+  email: 'Der Wert ist keine gültige E-Mail-Adresse.',
+  hostname: 'Der Wert ist kein gültiger Hostname.',
+};
+
+export const errorTextLocale = {
+  en: entryContextErrorTextEnglish,
+  de: entryContextErrorTextGerman,
+};
+
 export const entryContextDefault: EntryContextProps = {
   entryId: 'entry',
   entryBoxId: 'entry-box',
@@ -57,6 +108,7 @@ export const entryContextDefault: EntryContextProps = {
   entryDescriptionId: 'entry-desc',
   entrySuggestionsId: 'entry-sugg',
   value: undefined,
+  changes: undefined,
   properties: [],
   propertiesRequired: [],
   items: {
@@ -69,18 +121,7 @@ export const entryContextDefault: EntryContextProps = {
   labelInput: 'unlabelled',
   description: null,
   errors: [],
-  errorText: {
-    required: 'A value is required.',
-    type: 'The value is not the correct type.',
-    maxLength: 'The text is too long.',
-    minLength: 'The text is too short.',
-    pattern: 'The value does not match the a valid pattern.',
-    minimum: 'The value is too small.',
-    maximum: 'The value is too large.',
-    exclusiveMinimum: 'The value is too small.',
-    exclusiveMaximum: 'The value is too large.',
-    multipleOf: 'The value is not a multiple of the given number.',
-  },
+  errorText: errorTextLocale.en,
   errored: false,
   optionalText: '(Optional)',
   condensed: false,

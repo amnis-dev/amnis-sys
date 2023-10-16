@@ -1,14 +1,15 @@
 import React from 'react';
 import { nanoid } from '@amnis/state/rtk';
 import type { Schema } from '@amnis/state';
-import { kababize, noop } from '@amnis/state';
+import { kababize, localeSlice, noop } from '@amnis/state';
 import { Skeleton } from '@mui/material';
 import type {
   EntryContextProps,
   EntryContextSchemaErrors,
   EntryContextSchemaString,
 } from '@amnis/web/react/context';
-import { EntryContext, entryContextDefault } from '@amnis/web/react/context';
+import { EntryContext, entryContextDefault, errorTextLocale } from '@amnis/web/react/context';
+import { useWebSelector } from '@amnis/web/react/hooks';
 import {
   EntryText,
   EntryNumber,
@@ -73,6 +74,11 @@ interface EntryBaseProps {
    * Options to filter out (if options are available)
    */
   optionsFilter?: any[];
+
+  /**
+   * Change data to pass to the entity's context.
+   */
+  changes?: EntryContextProps['changes'];
 
   /**
    * Entry change event.
@@ -151,50 +157,30 @@ type EntryPropsVariations = {
 export type EntryProps = EntryBaseProps & EntryPropsVariations;
 
 export const Entry: React.FC<EntryProps> = ({
-  value: valueProp,
+  value,
   label: labelProp,
   description: descriptionProp,
   schema,
   required = false,
   disabled = false,
-  errorText = entryContextDefault.errorText,
+  errorText: errorTextProp,
   optionalText = entryContextDefault.optionalText,
   autoFocus = false,
   condensed = false,
+  changes,
   onChange: onChangeProp = noop,
   onSelect: onSelectProp = noop,
   onBlur = noop,
   onFocus = noop,
 }) => {
+  const localeCode = useWebSelector(localeSlice.select.activeCode);
+
   const uid = React.useMemo(() => nanoid(4), []);
   const label = React.useMemo(() => labelProp ?? schema?.title ?? '', [labelProp, schema?.title]);
   const description = React.useMemo(
     () => descriptionProp ?? schema?.description ?? null,
     [descriptionProp, schema?.description],
   );
-
-  const defaultObject = React.useMemo<Record<string, any>>(() => {
-    if (schema?.type === 'object' && schema.properties) {
-      return Object.keys(schema.properties).reduce<Record<string, any>>(
-        (acc, propertyKey) => {
-          const property = schema.properties![propertyKey];
-          if (property.default) {
-            return { ...acc, [propertyKey]: property.default };
-          }
-          return { ...acc, [propertyKey]: undefined };
-        },
-        {},
-      );
-    }
-    return {};
-  }, [schema?.type]);
-
-  const value = React.useMemo<typeof valueProp>(() => {
-    if (schema?.type === 'object' && schema.properties) {
-      return { ...defaultObject, ...valueProp };
-    }
-    return valueProp ?? null;
-  }, [valueProp, schema?.type]);
 
   const format = React.useMemo(() => {
     if (schema?.type === 'string') {
@@ -296,14 +282,14 @@ export const Entry: React.FC<EntryProps> = ({
   }, [schema?.uniqueItems]);
 
   const onChange = React.useCallback((
-    valueNew: typeof valueProp,
+    valueNew: typeof value,
     event?: React.ChangeEvent,
   ) => {
     onChangeProp(valueNew as any, event as any);
   }, [onChangeProp]);
 
   const onSelect = React.useCallback((
-    valueNew: typeof valueProp,
+    valueNew: typeof value,
     event?: React.ChangeEvent,
   ) => {
     onSelectProp(valueNew, event as any);
@@ -331,12 +317,12 @@ export const Entry: React.FC<EntryProps> = ({
 
     if (typeof value === 'string') {
       const { maxLength, minLength, pattern } = schema as EntryContextSchemaString;
-      if (required && (!value || value.length === 0)) {
+      if (required && (value === undefined || value.length === 0)) {
         result.push('required');
         return result;
       }
 
-      if (!value) {
+      if (value === undefined) {
         return result;
       }
 
@@ -356,7 +342,19 @@ export const Entry: React.FC<EntryProps> = ({
     return result;
   }, [schema, required, value]);
 
-  const errored = React.useMemo(() => errors.length > 0, [errors]);
+  const errorText = React.useMemo<Record<EntryContextSchemaErrors, string>>(() => {
+    if (errorTextProp) {
+      return errorTextProp;
+    }
+
+    if (!errorTextLocale[localeCode as keyof typeof errorTextLocale]) {
+      return errorTextLocale.en;
+    }
+
+    return errorTextLocale[localeCode as keyof typeof errorTextLocale];
+  }, [localeCode, errorTextProp]);
+
+  const errored = React.useMemo(() => errors.length > 0, [errors.length]);
 
   const labelInput = React.useMemo<string>(() => {
     const parts = [label];
@@ -392,6 +390,7 @@ export const Entry: React.FC<EntryProps> = ({
     optionalText,
     autoFocus,
     condensed,
+    changes,
     onChange,
     onSelect,
     onBlur,
@@ -413,6 +412,7 @@ export const Entry: React.FC<EntryProps> = ({
     optionalText,
     autoFocus,
     condensed,
+    changes,
     onChange,
     onSelect,
     onBlur,

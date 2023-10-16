@@ -12,7 +12,14 @@ export type EntryContextSchemaErrors =
   | 'exclusiveMinimum'
   | 'exclusiveMaximum'
   | 'multipleOf'
-  | 'type';
+  | 'minItems'
+  | 'maxItems'
+  | 'uniqueItems'
+  | 'type'
+  | 'format'
+  | 'url'
+  | 'email'
+  | 'hostname';
 
 export interface EntryContextSchemaString {
   type: 'string';

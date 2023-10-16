@@ -25,11 +25,11 @@ export const EntryText: React.FC = () => {
     onChange,
   } = React.useContext(EntryContext) as EntryContextProps<string>;
 
-  const descriptionSx = React.useMemo(() => ({ sx: 0 }), []);
+  const descriptionSx = React.useMemo(() => ({ m: 0 }), []);
 
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value, e),
-    [],
+    [onChange],
   );
 
   return (
