@@ -22,6 +22,7 @@ export const EntryFormatReference: React.FC = () => {
     label,
     entryId,
     errored,
+    optionsFilter,
     value,
     pattern,
     disabled,
@@ -51,7 +52,10 @@ export const EntryFormatReference: React.FC = () => {
 
   const [inputValue, inputValueSet] = React.useState('');
 
-  const entityIds = React.useMemo<UID[]>(() => Object.keys(entities) as UID[], [entities]);
+  const entityIds = React.useMemo<UID[]>(
+    () => Object.keys(entities).filter((id) => !optionsFilter.includes(id)) as UID[],
+    [entities, optionsFilter],
+  );
 
   const labelKey = React.useMemo<keyof Entity | undefined>(() => {
     if (entityIds.length === 0) return undefined;
@@ -126,16 +130,25 @@ export const EntryFormatReference: React.FC = () => {
    * Handle the change of the Autocomplete.
    */
   const handleChange = React.useCallback((event: any, valueNew: string) => {
+    if (!entityIds.includes(valueNew as any)) {
+      return;
+    }
     onChange(valueNew, event);
     onSelect(valueNew, event);
-  }, [onChange]);
+  }, [onChange, onSelect]);
 
   /**
    * Handle the selection of the Autocomplete.
    */
   const handleInputChange = React.useCallback((event: any, valueNew: string) => {
     inputValueSet(valueNew);
-  }, [onSelect]);
+  }, []);
+
+  React.useEffect(() => {
+    if (!entityIds.includes(value as any)) {
+      inputValueSet('');
+    }
+  }, [value, entityIds]);
 
   return (
     <FormControl
@@ -151,7 +164,7 @@ export const EntryFormatReference: React.FC = () => {
         <Description sx={descriptionSx} />
       </Box>
       <Autocomplete
-        value={value}
+        value={entityIds.includes(value as any) ? value : null}
         onChange={handleChange}
         inputValue={inputValue}
         onInputChange={handleInputChange}

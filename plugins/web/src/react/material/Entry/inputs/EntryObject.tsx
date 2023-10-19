@@ -1,12 +1,15 @@
 import React from 'react';
 import {
   Box,
+  IconButton,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import type { CoreSelectors, Data, UID } from '@amnis/state';
 import { dataDefault, dataSelectors, noop } from '@amnis/state';
-import type { EntryContextChanges, EntryContextProps } from '@amnis/web/react/context';
+import { FlagCircle, Error } from '@mui/icons-material';
+import type { EntryContextChanges, EntryContextProps, EntryContextSchemaErrors } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import { useWebSelector, type RootStateWeb } from '@amnis/web';
 import type { EntryProps } from '../Entry.js';
@@ -26,6 +29,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     entryDescriptionId,
     entryLabelId,
     // errored,
+    tipText,
     label,
     description,
     value,
@@ -36,6 +40,20 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
   } = React.useContext(EntryContext) as EntryContextProps<Record<string, any>>;
 
   const $id = React.useMemo<string | undefined>(() => value?.$id, [value?.$id]);
+
+  const [
+    propertiesErrors,
+    propertiesErrorsSet,
+  ] = React.useState<Record<string, EntryContextSchemaErrors[]>>({});
+
+  const propertiesErrored = React.useMemo<boolean>(
+    () => Object.keys(propertiesErrors).length > 0,
+    [propertiesErrors],
+  );
+
+  React.useEffect(() => {
+    console.log({ propertiesErrored, propertiesErrors });
+  }, [propertiesErrored]);
 
   const dataSelect = React.useMemo<CoreSelectors<Data>>(() => {
     if (!$id) {
@@ -65,6 +83,11 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     (state) => ($id ? dataSelect.difference(state, $id as UID) : undefined),
   );
 
+  const changed = React.useMemo<boolean>(
+    () => (difference?.keys.length ?? 0) > 0,
+    [difference?.keys],
+  );
+
   const changesProps = React.useMemo<Record<string, EntryContextChanges> | undefined>(() => {
     if (!difference) return undefined;
     return difference.keys.reduce((acc, key) => ({
@@ -89,39 +112,108 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     onChange(valueNext, event);
   }, [value, onChange]);
 
+  const handlePropertiesError = React.useCallback((
+    propertyKey: string,
+    errors: EntryContextSchemaErrors[],
+  ) => {
+    if (errors.length === 0 && propertiesErrors[propertyKey] !== undefined) {
+      const propertiesErrorsNext = { ...propertiesErrors };
+      delete propertiesErrorsNext[propertyKey];
+      propertiesErrorsSet(propertiesErrorsNext);
+      return;
+    }
+    if (errors.length === 0) {
+      return;
+    }
+    propertiesErrorsSet({
+      ...propertiesErrors,
+      [propertyKey]: errors,
+    });
+  }, [propertiesErrors, propertiesErrorsSet]);
+
+  const borderColor = React.useMemo(() => {
+    if (propertiesErrored) return 'error.main';
+    if (difference?.keys.length) return 'warning.main';
+    return 'divider';
+  }, [propertiesErrored, difference?.keys]);
+
+  const borderColorFocused = React.useMemo(() => {
+    if (propertiesErrored) return 'error.main';
+    if (difference?.keys.length) return 'warning.main';
+    return 'primary.main';
+  }, [propertiesErrored, difference?.keys]);
+
+  const sxStack = React.useMemo(() => ({
+    borderRight: 0,
+    borderLeft: 2,
+    borderTop: 0,
+    borderBottom: 0,
+    paddingLeft: '12px',
+    paddingRight: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderColor,
+    margin: 0,
+    '&:has(*:focus)': {
+      borderLeft: 3,
+      paddingLeft: '11px',
+      borderColor: borderColorFocused,
+    },
+  }), [borderColor, borderColorFocused]);
+
   return (
     <Stack
       id={entryId}
       component="fieldset"
       aria-labelledby={entryLabelId}
       aria-describedby={description ? entryDescriptionId : undefined}
-      sx={{
-        borderRight: 0,
-        borderLeft: 2,
-        borderTop: 0,
-        borderBottom: 0,
-        paddingLeft: '12px',
-        paddingRight: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        borderColor: 'divider',
-        margin: 0,
-        '&:has(*:focus)': {
-          borderLeft: 3,
-          paddingLeft: '11px',
-          borderColor: 'primary.main',
-        },
-      }}
+      sx={sxStack}
     >
       <Box mb={2}>
-        <Typography
-          id={entryLabelId}
-          component="legend"
-          variant="h4"
-          sx={{ padding: 0, margin: 0 }}
-        >
-          {label}
-        </Typography>
+        <Stack direction="row" gap={1}>
+          <Typography
+            id={entryLabelId}
+            component="legend"
+            variant="h4"
+            sx={{ padding: 0, margin: 0 }}
+          >
+            {label}
+          </Typography>
+          <Box>
+            <Tooltip
+              title={changed ? tipText.changes : undefined}
+              placement='top'
+            >
+              <IconButton
+                sx={{
+                  display: changed ? 'flex' : 'none',
+                  visibility: changed ? 'visible' : 'hidden',
+                  margin: '-5px',
+                }}
+                aria-hidden={changed ? 'false' : 'true'}
+              >
+                <FlagCircle color="warning" fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip
+              title={changed ? tipText.errors : undefined}
+              placement='top'
+            >
+              <IconButton
+                sx={{
+                  display: propertiesErrored ? 'flex' : 'none',
+                  visibility: propertiesErrored ? 'visible' : 'hidden',
+                  margin: '-5px',
+                }}
+                aria-hidden={propertiesErrored ? 'false' : 'true'}
+              >
+                <Error color="error" fontSize="large" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Stack>
         {description ? (
           <Typography
             id={entryDescriptionId}
@@ -141,6 +233,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
             required={propertiesRequired.includes(property.key)}
             value={value?.[property.key] ?? dataDefault(property.type)}
             onChange={(value, event) => handleChange(property.key, value, event)}
+            onError={(errors) => handlePropertiesError(property.key, errors)}
           />
         ))}
       </Stack>

@@ -40,8 +40,30 @@ export const headersAuthorizationToken = async (
    * If the bearer token expired, attempt to fetch it again.
    */
   if (bearer.exp <= Date.now()) {
+    const resultChallenge = await fetch(`${apiAuth.baseUrl}/challenge`, {
+      method: 'POST',
+      body: JSON.stringify({}),
+    });
+
+    if (resultChallenge?.status !== 200) {
+      console.error('Failed to generate a challenge object for bearer renewal.');
+      return;
+    }
+
+    const jsonChallenge = await resultChallenge.json() as IoOutput<Challenge>['json'];
+    const challenge = jsonChallenge.result;
+
+    if (!challenge) {
+      console.error('Failed to receive challenge object for bearer renewal.');
+      return;
+    }
+
     const result = await fetch(`${apiAuth.baseUrl}/authenticate`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Challenge: base64JsonEncode(challenge),
+      },
       body: JSON.stringify({}),
     });
     const json = await result.json() as IoOutput<EntityObjects>['json'];

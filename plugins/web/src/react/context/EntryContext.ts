@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Schema } from '@amnis/state';
 import { noop } from '@amnis/state';
-import type { EntryContextSchemaErrors } from './EntryContextSchemas.types.js';
+import type { EntryContextSchemaErrors, EntryContextTips } from './EntryContextSchemas.types.js';
 
 export type EntryContextChanges<T = any> = {
   before: T;
@@ -30,6 +30,7 @@ export interface EntryContextProps<T = any> {
   errors: EntryContextSchemaErrors[];
   errored: boolean;
   errorText: Record<EntryContextSchemaErrors, string>;
+  tipText: Record<EntryContextTips, string>;
   required: boolean;
   disabled: boolean;
   optionalText: string;
@@ -46,6 +47,7 @@ export interface EntryContextProps<T = any> {
   onSelect: (value: T | undefined, event?: React.ChangeEvent<HTMLElement>) => void;
   onBlur: (event?: React.FocusEvent<HTMLElement>) => void;
   onFocus: (event?: React.FocusEvent<HTMLElement>) => void;
+  onError: (errors: EntryContextSchemaErrors[]) => void;
   hasLabelElement: boolean;
   hasLabelElementSetter: (value: boolean) => void;
   hasDescriptionElement: boolean;
@@ -53,6 +55,21 @@ export interface EntryContextProps<T = any> {
   hasErrorElement: boolean;
   hasErrorElementSetter: (value: boolean) => void;
 }
+
+const entryContextTipTextEnglish: Record<EntryContextTips, string> = {
+  changes: 'This input has unsaved changes.',
+  errors: 'This input is invalid.',
+};
+
+const entryContextTipTextGerman: Record<EntryContextTips, string> = {
+  changes: 'Dieser Eingang hat ungespeicherte Änderungen.',
+  errors: 'Dieser Eingang ist ungültig.',
+};
+
+export const entryContextTipTextLocale = {
+  en: entryContextTipTextEnglish,
+  de: entryContextTipTextGerman,
+};
 
 const entryContextErrorTextEnglish: Record<EntryContextSchemaErrors, string> = {
   required: 'A value is required.',
@@ -123,6 +140,7 @@ export const entryContextDefault: EntryContextProps = {
   errors: [],
   errorText: errorTextLocale.en,
   errored: false,
+  tipText: entryContextTipTextLocale.en,
   optionalText: '(Optional)',
   condensed: false,
   suggestions: [],
@@ -145,6 +163,7 @@ export const entryContextDefault: EntryContextProps = {
   onSelect: noop,
   onBlur: noop,
   onFocus: noop,
+  onError: noop,
 };
 
 export const EntryContext = React.createContext<EntryContextProps>(entryContextDefault);

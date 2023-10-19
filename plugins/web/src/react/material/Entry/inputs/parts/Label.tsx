@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Box,
   FormLabel,
   IconButton,
   InputLabel,
@@ -42,8 +41,7 @@ export const Label: React.FC<LabelProps> = ({
     entryLabelId,
     entryInputId,
     errored,
-    errors,
-    errorText,
+    tipText,
   } = React.useContext(EntryContext);
 
   const LabelComponent = React.useMemo(() => {
@@ -74,12 +72,13 @@ export const Label: React.FC<LabelProps> = ({
           </Typography>
         ) : null}
         <Tooltip
-          title={changes ? 'This input has unsaved changes' : undefined}
+          title={changes ? tipText.changes : undefined}
           placement='top'
         >
           <IconButton
             size="small"
             sx={{
+              display: changes ? 'flex' : 'none',
               visibility: changes ? 'visible' : 'hidden',
               margin: '-5px',
             }}
@@ -89,12 +88,13 @@ export const Label: React.FC<LabelProps> = ({
           </IconButton>
         </Tooltip>
         <Tooltip
-          title={errored ? 'The input is not valid' : undefined}
+          title={errored ? tipText.errors : undefined}
           placement='top'
         >
           <IconButton
             size="small"
             sx={{
+              display: errored ? 'flex' : 'none',
               visibility: errored ? 'visible' : 'hidden',
               margin: '-5px',
             }}

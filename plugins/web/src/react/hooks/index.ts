@@ -10,3 +10,4 @@ export * from './useUpdateEffect.js';
 export * from './useClickAway.js';
 export * from './useEventListener.js';
 export * from './useFormState.js';
+export * from './useDebounce.js';

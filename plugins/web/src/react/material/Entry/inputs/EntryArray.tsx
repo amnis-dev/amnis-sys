@@ -41,12 +41,14 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
 
   const dispatch = useWebDispatch();
 
-  const [valueInner, valueInnerSet] = React.useState(null);
+  const [valueInner, valueInnerSet] = React.useState(undefined);
+  const [innerRerender, innerRerenderSet] = React.useState(false);
 
   const handleInsert = React.useCallback((valueInnerNext: any) => {
+    innerRerenderSet(!innerRerender);
     if (valueInnerNext === undefined ?? !valueInnerNext?.length) return;
 
-    valueInnerSet(null);
+    valueInnerSet(undefined);
     // Ensure unique items.
     if (uniqueItems && value?.includes(valueInnerNext)) return;
     onChange([...(value ?? []), valueInnerNext]);
@@ -75,7 +77,6 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
   ), [entites]);
 
   React.useEffect(() => {
-    console.log({ isReferences, sliceKey });
     if (!isReferences || !sliceKey) return;
     dispatch(apiCrud.endpoints.read.initiate({
       [sliceKey]: {
@@ -122,27 +123,34 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
             </Box>
 
             <Stack
+              component="ul"
               direction="row"
               flexWrap="wrap"
               alignItems="center"
               gap={1}
               role="presentation"
+              sx={{
+                listStyle: 'none',
+                m: 0,
+                p: 0,
+              }}
             >
               {value?.map((valueItem, index) => {
                 const label = isReferences ? entityLabels?.[valueItem] : dataName(valueItem);
                 return (
-                  <Chip
-                    key={`${label}#${index}`}
-                    role="textbox"
-                    aria-multiline="false"
-                    aria-label={label}
-                    aria-readonly="true"
-                    label={label}
-                    onDelete={() => {
-                      const valueNext = value.filter((_, i) => i !== index);
-                      onChange(valueNext);
-                    }}
-                  />
+                  <Box component="li" key={`${label}#${index}`}>
+                    <Chip
+                      role="textbox"
+                      aria-multiline="false"
+                      aria-label={label}
+                      aria-readonly="true"
+                      label={label}
+                      onDelete={() => {
+                        const valueNext = value.filter((_, i) => i !== index);
+                        onChange(valueNext);
+                      }}
+                    />
+                  </Box>
                 );
               })}
             </Stack>
@@ -150,8 +158,10 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
             <Box mt={2}>
               <Stack direction="row" gap={2}>
                 <Entry
+                  key={innerRerender ? '0' : '1'}
                   schema={items}
                   value={valueInner as any}
+                  optionsFilter={uniqueItems ? value : undefined}
                   onChange={(valueInnerNext) => valueInnerSet(valueInnerNext)}
                   onSelect={handleInsert}
                   condensed

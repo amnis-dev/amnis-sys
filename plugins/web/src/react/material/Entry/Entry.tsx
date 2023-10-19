@@ -7,8 +7,11 @@ import type {
   EntryContextProps,
   EntryContextSchemaErrors,
   EntryContextSchemaString,
+  EntryContextTips,
 } from '@amnis/web/react/context';
-import { EntryContext, entryContextDefault, errorTextLocale } from '@amnis/web/react/context';
+import {
+  EntryContext, entryContextDefault, entryContextTipTextLocale, errorTextLocale,
+} from '@amnis/web/react/context';
 import { useWebSelector } from '@amnis/web/react/hooks';
 import {
   EntryText,
@@ -106,6 +109,11 @@ interface EntryBaseProps {
    */
   onFocus?: EntryContextProps['onFocus'];
 
+  /**
+   * Entry error event.
+   */
+  onError?: EntryContextProps['onError'];
+
 }
 
 type EntryPropsVariations = {
@@ -168,10 +176,12 @@ export const Entry: React.FC<EntryProps> = ({
   autoFocus = false,
   condensed = false,
   changes,
+  optionsFilter = [],
   onChange: onChangeProp = noop,
   onSelect: onSelectProp = noop,
   onBlur = noop,
   onFocus = noop,
+  onError = noop,
 }) => {
   const localeCode = useWebSelector(localeSlice.select.activeCode);
 
@@ -354,7 +364,22 @@ export const Entry: React.FC<EntryProps> = ({
     return errorTextLocale[localeCode as keyof typeof errorTextLocale];
   }, [localeCode, errorTextProp]);
 
+  const tipText = React.useMemo<Record<EntryContextTips, string>>(() => {
+    if (!entryContextTipTextLocale[localeCode as keyof typeof entryContextTipTextLocale]) {
+      return entryContextTipTextLocale.en;
+    }
+
+    return entryContextTipTextLocale[localeCode as keyof typeof entryContextTipTextLocale];
+  }, [localeCode, errorTextProp]);
+
   const errored = React.useMemo(() => errors.length > 0, [errors.length]);
+
+  /**
+   * Trigger the onError callback if the entry errors change.
+   */
+  React.useEffect(() => {
+    onError(errors);
+  }, [JSON.stringify(errors)]);
 
   const labelInput = React.useMemo<string>(() => {
     const parts = [label];
@@ -380,6 +405,7 @@ export const Entry: React.FC<EntryProps> = ({
     propertiesRequired,
     items,
     uniqueItems,
+    optionsFilter,
     label,
     labelInput,
     required,
@@ -387,6 +413,7 @@ export const Entry: React.FC<EntryProps> = ({
     errors,
     errored,
     errorText,
+    tipText,
     optionalText,
     autoFocus,
     condensed,
@@ -403,12 +430,14 @@ export const Entry: React.FC<EntryProps> = ({
     propertiesRequired,
     items,
     uniqueItems,
+    optionsFilter,
     label,
     required,
     disabled,
     errors,
     errored,
     errorText,
+    tipText,
     optionalText,
     autoFocus,
     condensed,

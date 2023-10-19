@@ -145,7 +145,7 @@ export interface EntityDifference<D extends Data> {
 /**
  * Selects an object to differentiate local updates.
  */
-const genSelectDifference = <D extends Data = Data>(
+export const genSelectDifference = <D extends Data = Data>(
   sliceKey: string,
 ) => createSelector(
   [

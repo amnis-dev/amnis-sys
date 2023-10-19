@@ -5,7 +5,9 @@ import { dataActions, pascalize, schemaSlice } from '@amnis/state';
 import type { EntityState } from '@amnis/state/rtk';
 import { useDispatch } from 'react-redux';
 import type { QueryResult } from '@amnis/web';
-import { useTranslate, useWebSelector } from '@amnis/web/react/hooks';
+import {
+  useTranslate, useWebSelector, useDebounce, useUpdateEffect,
+} from '@amnis/web/react/hooks';
 import { Entry } from '@amnis/web/react/material';
 
 export interface EntityFormProps {
@@ -40,12 +42,28 @@ export const EntityForm: React.FC<EntityFormProps> = ({
 
   if (!entity) return null;
 
-  const handleEntityUpdate = React.useCallback((entityNext: any) => {
+  const entityUpdatedInternally = React.useRef(false);
+  const [entityCopy, entityCopySet] = React.useState({ ...entity });
+  const entityDebounced = useDebounce(entityCopy, 120);
+
+  React.useEffect(() => {
+    if (!entityUpdatedInternally.current) {
+      entityCopySet({ ...entity });
+    }
+    entityUpdatedInternally.current = false;
+  }, [entity]);
+
+  useUpdateEffect(() => {
+    entityUpdatedInternally.current = true;
     dispatch(dataActions.update({
       [sliceKey]: [{
-        ...entityNext,
+        ...entityDebounced,
       }],
     }));
+  }, [entityDebounced]);
+
+  const handleEntityUpdate = React.useCallback((entityNext: any) => {
+    entityCopySet(entityNext);
   }, [sliceKey, dispatch]);
 
   const schema = useTranslate(useWebSelector(
@@ -81,7 +99,7 @@ export const EntityForm: React.FC<EntityFormProps> = ({
     <div>
       <Entry
         schema={schemaReduced}
-        value={entity}
+        value={entityCopy}
         onChange={handleEntityUpdate}
       />
     </div>

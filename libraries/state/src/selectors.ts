@@ -3,11 +3,14 @@ import type { EntityState } from '@amnis/state/rtk';
 import { createSelector } from '@amnis/state/rtk';
 import type { UID } from './core/core.types.js';
 import type {
-  Data, DataQuery, DataRoot, DataState, DataUpdate, Entity, User,
+  Data, DataMeta, DataQuery, DataRoot, DataState, DataUpdate, Entity, User,
 } from './data/index.js';
 import type { State } from './state.types.js';
 import {
-  dataOrder, localeSlice, systemSlice, userSlice,
+  dataOrder,
+  localeSlice,
+  systemSlice,
+  userSlice,
 } from './data/index.js';
 import type { RootState } from './store.js';
 
@@ -346,6 +349,42 @@ const dataComparison = <D extends Data = Data>(
 );
 
 /**
+ * Selects all differences on the state.
+ */
+const entityDifferences = createSelector(
+  [
+    (state) => state as Record<string, EntityState<Entity, string> & DataMeta<Entity>>,
+  ],
+  (state) => {
+    const differenceIds = Object.keys(state).filter(
+      (sliceKey) => state[sliceKey].type === 'entity',
+    ).map(
+      (sliceKey) => state[sliceKey] as EntityState<Entity, string> & DataMeta<Entity>,
+    ).reduce<string[]>(
+      (acc, slice) => {
+        const $ids = Object.keys(slice.differences);
+        if (!$ids.length) {
+          return acc;
+        }
+        acc.push(...$ids);
+        return acc;
+      },
+      [] as string[],
+    );
+
+    return differenceIds.map<
+    DataComparison<Entity> & { sliceKey: string }
+    >(
+      ($id) => {
+        const sliceKey = $id.split(':')[0];
+        const difference = dataComparison<Entity>(sliceKey, $id)(state);
+        return { ...difference, sliceKey };
+      },
+    );
+  },
+);
+
+/**
  * Selects the flag indicating if the user is an admin or not.
  */
 const isUserAdmin = (state: RootState, $userId: UID<User>): boolean => {
@@ -477,6 +516,7 @@ export const stateSelect = {
   dataArrayTranslation,
   dataObjectTranslation,
   dataComparison,
+  entityDifferences,
   isUserAdmin,
   isUserExec,
   isUserPrivileged,

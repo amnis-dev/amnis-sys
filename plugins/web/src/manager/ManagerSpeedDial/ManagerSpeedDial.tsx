@@ -1,8 +1,12 @@
 import React from 'react';
-import { Backdrop, SpeedDial, SpeedDialAction } from '@mui/material';
+import {
+  Backdrop, Badge, SpeedDial, SpeedDialAction,
+} from '@mui/material';
 import {
   AdminPanelSettings, Build, Language, PeopleAlt, Save, Settings,
 } from '@mui/icons-material';
+import { stateSelect } from '@amnis/state';
+import { useWebSelector } from '@amnis/web/react/hooks';
 import { ManagerContext } from '../ManagerContext.js';
 
 export const ManagerSpeedDial: React.FC = () => {
@@ -11,6 +15,7 @@ export const ManagerSpeedDial: React.FC = () => {
   const handleOpen = React.useCallback(() => openSet(true), [openSet]);
   const handleClose = React.useCallback(() => openSet(false), [openSet]);
 
+  const stateEntityDifferences = useWebSelector(stateSelect.entityDifferences);
   const { locale, pathnameSet } = React.useContext(ManagerContext);
 
   const handleNavigate = React.useCallback((path: string) => {
@@ -23,9 +28,13 @@ export const ManagerSpeedDial: React.FC = () => {
   const actions = React.useMemo(() => [
     {
       id: 'save',
-      icon: <Save />,
+      icon: (
+        <Badge badgeContent={stateEntityDifferences.length} color='warning'>
+          <Save />
+        </Badge>
+      ),
       name: locale?.['manager.speeddial.save'] ?? '...',
-      onClick: () => handleNavigate('/'),
+      onClick: () => handleNavigate('/Save'),
     },
     {
       id: 'Manager',
@@ -51,7 +60,11 @@ export const ManagerSpeedDial: React.FC = () => {
       name: locale?.['manager.speeddial.administration'] ?? '...',
       onClick: () => handleNavigate('/Administration'),
     },
-  ], [locale]);
+  ], [locale, stateEntityDifferences.length]);
+
+  React.useEffect(() => {
+    console.log({ stateEntityDifferences });
+  }, [stateEntityDifferences.length]);
 
   return (<>
     <SpeedDial

@@ -2,6 +2,8 @@ export interface EntryContextSchema {
   description?: string;
 }
 
+export type EntryContextTips = 'changes' | 'errors';
+
 export type EntryContextSchemaErrors =
   'required'
   | 'minLength'
