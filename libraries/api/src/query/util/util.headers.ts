@@ -9,6 +9,7 @@ import type {
   EntityObjects,
   System,
   Agent,
+  Bearer,
 } from '@amnis/state';
 import {
   otpSlice,
@@ -18,6 +19,88 @@ import {
   systemSlice,
   agentLocalSign,
 } from '@amnis/state';
+
+let fetchingBearer = false;
+
+/**
+ * Gets a new bearer token.
+ */
+async function renewBearerToken(
+  bearerId: string,
+  state: State,
+  store: BaseQueryApi,
+  apiAuth: Api,
+): Promise<Bearer | undefined> {
+  /**
+   * Prevent multiple requests for a bearer token.
+   */
+  if (fetchingBearer) {
+    console.log('Waiting for bearer token to be fetched.');
+    // Use an interval to wait for fetchingBearer to be false again.
+    await new Promise((resolve) => {
+      const interval = setInterval(() => {
+        if (!fetchingBearer) {
+          clearInterval(interval);
+          resolve(undefined);
+        }
+      }, 500);
+    });
+    const bearerNew = bearerSlice.select.byId(state as any, bearerId);
+    console.log('Done waiting. Bearer token has been fetched.', bearerNew);
+
+    return bearerNew;
+  }
+
+  console.log('Fetching new bearer token.');
+
+  fetchingBearer = true;
+
+  const resultChallenge = await fetch(`${apiAuth.baseUrl}/challenge`, {
+    method: 'POST',
+    body: JSON.stringify({}),
+  });
+
+  if (resultChallenge?.status !== 200) {
+    console.error('Failed to generate a challenge object for bearer renewal.');
+    return undefined;
+  }
+
+  const jsonChallenge = await resultChallenge.json() as IoOutput<Challenge>['json'];
+  const challenge = jsonChallenge.result;
+
+  if (!challenge) {
+    console.error('Failed to receive challenge object for bearer renewal.');
+    return undefined;
+  }
+
+  const result = await fetch(`${apiAuth.baseUrl}/authenticate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Challenge: base64JsonEncode(challenge),
+    },
+    body: JSON.stringify({}),
+  });
+  const json = await result.json() as IoOutput<EntityObjects>['json'];
+  const bearersNew = json?.bearers ?? [];
+  const bearerNew = bearersNew.find((b) => b.$id === bearerId);
+
+  if (!bearerNew) {
+    console.error('API could not renew the bearer token.');
+    return undefined;
+  }
+
+  store.dispatch({
+    type: 'bearer/updateMany',
+    payload: bearersNew,
+  });
+
+  console.log('Bearer token has been fetched.');
+
+  fetchingBearer = false;
+
+  return bearerNew;
+}
 
 /**
  * Adds an authroization token to the header.
@@ -40,45 +123,10 @@ export const headersAuthorizationToken = async (
    * If the bearer token expired, attempt to fetch it again.
    */
   if (bearer.exp <= Date.now()) {
-    const resultChallenge = await fetch(`${apiAuth.baseUrl}/challenge`, {
-      method: 'POST',
-      body: JSON.stringify({}),
-    });
-
-    if (resultChallenge?.status !== 200) {
-      console.error('Failed to generate a challenge object for bearer renewal.');
-      return;
-    }
-
-    const jsonChallenge = await resultChallenge.json() as IoOutput<Challenge>['json'];
-    const challenge = jsonChallenge.result;
-
-    if (!challenge) {
-      console.error('Failed to receive challenge object for bearer renewal.');
-      return;
-    }
-
-    const result = await fetch(`${apiAuth.baseUrl}/authenticate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Challenge: base64JsonEncode(challenge),
-      },
-      body: JSON.stringify({}),
-    });
-    const json = await result.json() as IoOutput<EntityObjects>['json'];
-    const bearersNew = json?.bearers ?? [];
-    const bearerNew = bearersNew.find((b) => b.$id === bearerId);
-
+    const bearerNew = await renewBearerToken(bearerId, state, store, apiAuth);
     if (!bearerNew) {
-      console.error('API could not renew the bearer token.');
       return;
     }
-
-    store.dispatch({
-      type: 'bearer/updateMany',
-      payload: bearersNew,
-    });
 
     headers.set('Authorization', `Bearer ${bearerNew.access}`);
     return;

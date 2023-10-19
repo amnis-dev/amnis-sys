@@ -37,6 +37,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     propertiesRequired,
     disabled,
     onChange,
+    onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<Record<string, any>>;
 
   const $id = React.useMemo<string | undefined>(() => value?.$id, [value?.$id]);
@@ -50,10 +51,6 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     () => Object.keys(propertiesErrors).length > 0,
     [propertiesErrors],
   );
-
-  React.useEffect(() => {
-    console.log({ propertiesErrored, propertiesErrors });
-  }, [propertiesErrored]);
 
   const dataSelect = React.useMemo<CoreSelectors<Data>>(() => {
     if (!$id) {
@@ -161,6 +158,19 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     },
   }), [borderColor, borderColorFocused]);
 
+  const Entries = React.useMemo(() => properties.map((property) => (
+    <Entry
+      key={property.key}
+      schema={property}
+      changes={changesProps?.[property.key]}
+      disabled={disabled}
+      required={propertiesRequired.includes(property.key)}
+      value={value?.[property.key] ?? dataDefault(property.type)}
+      onChange={(value, event) => handleChange(property.key, value, event)}
+      onError={(errors) => handlePropertiesError(property.key, errors)}
+    />
+  )), [properties.length, value, changesProps]);
+
   return (
     <Stack
       id={entryId}
@@ -168,6 +178,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
       aria-labelledby={entryLabelId}
       aria-describedby={description ? entryDescriptionId : undefined}
       sx={sxStack}
+      onBlur={onBlur}
     >
       <Box mb={2}>
         <Stack direction="row" gap={1}>
@@ -224,18 +235,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
         ) : null}
       </Box>
       <Stack gap={3}>
-        {properties.map((property) => (
-          <Entry
-            key={property.key}
-            schema={property}
-            changes={changesProps?.[property.key]}
-            disabled={disabled}
-            required={propertiesRequired.includes(property.key)}
-            value={value?.[property.key] ?? dataDefault(property.type)}
-            onChange={(value, event) => handleChange(property.key, value, event)}
-            onError={(errors) => handlePropertiesError(property.key, errors)}
-          />
-        ))}
+        {Entries}
       </Stack>
     </Stack>
   );

@@ -29,6 +29,7 @@ export const EntryFormatReference: React.FC = () => {
     condensed,
     onChange,
     onSelect,
+    onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<string>;
 
   const dispatch = useWebDispatch();
@@ -135,6 +136,7 @@ export const EntryFormatReference: React.FC = () => {
     }
     onChange(valueNew, event);
     onSelect(valueNew, event);
+    onBlur(event);
   }, [onChange, onSelect]);
 
   /**
@@ -144,11 +146,13 @@ export const EntryFormatReference: React.FC = () => {
     inputValueSet(valueNew);
   }, []);
 
-  React.useEffect(() => {
-    if (!entityIds.includes(value as any)) {
-      inputValueSet('');
-    }
-  }, [value, entityIds]);
+  // React.useEffect(() => {
+  //   if (!entityIds.includes(value as any)) {
+  //     inputValueSet('');
+  //   }
+  // }, [value, entityIds]);
+
+  // console.log('RERENDER');
 
   return (
     <FormControl

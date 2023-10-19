@@ -76,6 +76,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
     }
 
     (async () => {
+      console.log('TRIGGERED');
       await dispatch(apiAuth.endpoints.authenticate.initiate({ silent: true }));
     })();
   }, [system?.$id]);

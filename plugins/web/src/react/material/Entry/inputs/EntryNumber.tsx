@@ -19,6 +19,7 @@ export const EntryNumber: React.FC = () => {
     value,
     disabled,
     onChange,
+    onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<number>;
 
   return (
@@ -45,6 +46,7 @@ export const EntryNumber: React.FC = () => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           onChange(parseInt(e.target.value, 10), e);
         }}
+        onBlur={onBlur}
       />
     </FormControl>
   );

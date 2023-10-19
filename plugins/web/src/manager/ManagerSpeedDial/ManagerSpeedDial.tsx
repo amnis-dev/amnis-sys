@@ -12,10 +12,10 @@ import { ManagerContext } from '../ManagerContext.js';
 export const ManagerSpeedDial: React.FC = () => {
   const [open, openSet] = React.useState(false);
 
-  const handleOpen = React.useCallback(() => openSet(true), [openSet]);
+  // const handleOpen = React.useCallback(() => openSet(true), [openSet]);
   const handleClose = React.useCallback(() => openSet(false), [openSet]);
 
-  const stateEntityDifferences = useWebSelector(stateSelect.entityDifferences);
+  const differenceCount = useWebSelector(stateSelect.entityDifferenceCount);
   const { locale, pathnameSet } = React.useContext(ManagerContext);
 
   const handleNavigate = React.useCallback((path: string) => {
@@ -28,11 +28,14 @@ export const ManagerSpeedDial: React.FC = () => {
   const actions = React.useMemo(() => [
     {
       id: 'save',
-      icon: (
-        <Badge badgeContent={stateEntityDifferences.length} color='warning'>
+      icon: differenceCount > 0 ? (
+        <Badge
+          badgeContent={differenceCount}
+          color='warning'
+        >
           <Save />
         </Badge>
-      ),
+      ) : <Save />,
       name: locale?.['manager.speeddial.save'] ?? '...',
       onClick: () => handleNavigate('/Save'),
     },
@@ -60,11 +63,7 @@ export const ManagerSpeedDial: React.FC = () => {
       name: locale?.['manager.speeddial.administration'] ?? '...',
       onClick: () => handleNavigate('/Administration'),
     },
-  ], [locale, stateEntityDifferences.length]);
-
-  React.useEffect(() => {
-    console.log({ stateEntityDifferences });
-  }, [stateEntityDifferences.length]);
+  ], [locale, differenceCount]);
 
   return (<>
     <SpeedDial

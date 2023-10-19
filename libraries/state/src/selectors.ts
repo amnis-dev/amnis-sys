@@ -505,6 +505,14 @@ const stagedEntities = (state: RootState): Entity[] => {
   return entities;
 };
 
+/**
+ * Returns the number of entity differences.
+ */
+const entityDifferenceCount = createSelector(
+  stagedEntities,
+  (staged) => staged.length,
+);
+
 export const stateSelect = {
   query,
   sliceByKey,
@@ -517,6 +525,7 @@ export const stateSelect = {
   dataObjectTranslation,
   dataComparison,
   entityDifferences,
+  entityDifferenceCount,
   isUserAdmin,
   isUserExec,
   isUserPrivileged,

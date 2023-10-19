@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  dataActions, pascalize, schemaSlice, stateSelect,
+  dataActions, dateJSON, pascalize, schemaSlice, stateSelect,
 } from '@amnis/state';
 import type { Entity, Schema } from '@amnis/state';
 import { apiSys } from '@amnis/api/react';
@@ -48,6 +48,7 @@ export const IderInput = <E extends Entity>({
       [slice]: [{
         $id,
         [prop]: value,
+        updated: dateJSON(),
       }],
     }));
   }, []);

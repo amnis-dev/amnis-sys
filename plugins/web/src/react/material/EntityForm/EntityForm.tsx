@@ -1,12 +1,14 @@
 import React from 'react';
 import { apiSys } from '@amnis/api/react';
 import type { Entity, Schema } from '@amnis/state';
-import { dataActions, pascalize, schemaSlice } from '@amnis/state';
+import {
+  dataActions, dateJSON, pascalize, schemaSlice,
+} from '@amnis/state';
 import type { EntityState } from '@amnis/state/rtk';
 import { useDispatch } from 'react-redux';
 import type { QueryResult } from '@amnis/web';
 import {
-  useTranslate, useWebSelector, useDebounce, useUpdateEffect,
+  useTranslate, useWebSelector,
 } from '@amnis/web/react/hooks';
 import { Entry } from '@amnis/web/react/material';
 
@@ -42,29 +44,25 @@ export const EntityForm: React.FC<EntityFormProps> = ({
 
   if (!entity) return null;
 
-  const entityUpdatedInternally = React.useRef(false);
-  const [entityCopy, entityCopySet] = React.useState({ ...entity });
-  const entityDebounced = useDebounce(entityCopy, 120);
-
-  React.useEffect(() => {
-    if (!entityUpdatedInternally.current) {
-      entityCopySet({ ...entity });
-    }
-    entityUpdatedInternally.current = false;
-  }, [entity]);
-
-  useUpdateEffect(() => {
-    entityUpdatedInternally.current = true;
-    dispatch(dataActions.update({
-      [sliceKey]: [{
-        ...entityDebounced,
-      }],
-    }));
-  }, [entityDebounced]);
+  const [entityData, entityDataSet] = React.useState({ ...entity });
+  const updateTimer = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
   const handleEntityUpdate = React.useCallback((entityNext: any) => {
-    entityCopySet(entityNext);
-  }, [sliceKey, dispatch]);
+    entityDataSet(entityNext);
+
+    /**
+     * Trigger a timer to update the entity data.
+     */
+    if (updateTimer.current) clearTimeout(updateTimer.current);
+    updateTimer.current = setTimeout(() => {
+      dispatch(dataActions.update({
+        [sliceKey]: [{
+          ...entityNext,
+          updated: dateJSON(),
+        }],
+      }));
+    }, 160);
+  }, [entityDataSet]);
 
   const schema = useTranslate(useWebSelector(
     (state) => schemaSlice.select.compiled(state, sliceKey),
@@ -99,7 +97,7 @@ export const EntityForm: React.FC<EntityFormProps> = ({
     <div>
       <Entry
         schema={schemaReduced}
-        value={entityCopy}
+        value={entityData}
         onChange={handleEntityUpdate}
       />
     </div>

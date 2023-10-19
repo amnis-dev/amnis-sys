@@ -15,6 +15,7 @@ import {
 import { ManagerContext } from '../ManagerContext.js';
 
 const PanelAdministration = React.lazy(() => import('../PanelAdministration/PanelAdministration.js'));
+const PanelSave = React.lazy(() => import('../PanelSave/PanelSave.js'));
 
 export const Panel: React.FC = () => {
   const { pathname, pathnameSet, locale } = React.useContext(ManagerContext);
@@ -24,6 +25,46 @@ export const Panel: React.FC = () => {
   const handleClose = React.useCallback(() => {
     pathnameSet(null);
   }, [pathnameSet]);
+
+  const RouteComponent = React.useMemo(() => {
+    switch (pathname) {
+      case '/Administration':
+        return (
+          <PanelAdministration />
+        );
+      case '/Save':
+        return (
+          <PanelSave />
+        );
+      default:
+        return (
+          <Stack gap={2}>
+            <Box pb={3}>
+              <Typography variant="h6" component="div">
+                {locale?.['manager.panel.welcome']}
+              </Typography>
+              <Typography variant="body2">
+                {locale?.['manager.panel.welcome.description']}
+              </Typography>
+            </Box>
+            <Card>
+              <CardActionArea
+                onClick={() => pathnameSet('/Administration')}
+              >
+                <CardContent>
+                  <Typography variant="h5" component="div" gutterBottom>
+                    {locale?.['manager.route.administration'] ?? 'Administration'}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {locale?.['manager.route.administration.description'] ?? 'Administration'}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Stack>
+        );
+    }
+  }, [pathname, locale]);
 
   return (
     <Stack direction="column">
@@ -49,46 +90,10 @@ export const Panel: React.FC = () => {
         </Box>
       </Stack>
       <Divider />
-      <Box>
-        {(() => {
-          switch (pathname) {
-            case '/Administration':
-              return (
-                <React.Suspense fallback={<LinearProgress />}>
-                  <Box p={1}><PanelAdministration /></Box>
-                </React.Suspense>
-              );
-            default:
-              return (
-                <Box p={1}>
-                  <Stack gap={2}>
-                    <Box pb={3}>
-                      <Typography variant="h6" component="div">
-                        {locale?.['manager.panel.welcome']}
-                      </Typography>
-                      <Typography variant="body2">
-                        {locale?.['manager.panel.welcome.description']}
-                      </Typography>
-                    </Box>
-                    <Card>
-                      <CardActionArea
-                        onClick={() => pathnameSet('/Administration')}
-                      >
-                        <CardContent>
-                          <Typography variant="h5" component="div" gutterBottom>
-                            {locale?.['manager.route.administration'] ?? 'Administration'}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {locale?.['manager.route.administration.description'] ?? 'Administration'}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Stack>
-                </Box>
-              );
-          }
-        })()}
+      <Box p={1}>
+        <React.Suspense fallback={<LinearProgress />}>
+          {RouteComponent}
+        </React.Suspense>
       </Box>
     </Stack>
   );

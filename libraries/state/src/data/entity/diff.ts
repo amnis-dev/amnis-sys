@@ -9,6 +9,27 @@ interface DiffCompareOptions {
   includeEntityKeys?: boolean;
 }
 
+function deepArrayEquality(arr1: any[], arr2: any[]): boolean {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    const val1 = arr1[i];
+    const val2 = arr2[i];
+
+    if (Array.isArray(val1) && Array.isArray(val2)) {
+      if (!deepArrayEquality(val1, val2)) {
+        return false;
+      }
+    } else if (val1 !== val2) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 /**
  * Compares two of the same type of object and returns the keys that are different.
  */
@@ -17,7 +38,7 @@ export function diffCompare<R1 extends { [key: string]: any }>(
   record2: SameRecord<R1>,
   options?: DiffCompareOptions,
 ): (keyof R1)[] {
-  const { includeEntityKeys = true } = { ...options };
+  const { includeEntityKeys = true } = options ?? {};
   const result: (keyof R1)[] = [];
   Object.keys(record1).forEach((key: keyof R1) => {
     /**
@@ -34,7 +55,7 @@ export function diffCompare<R1 extends { [key: string]: any }>(
       const arr2 = record2[key] as Array<any>;
       if (arr1.length !== arr2.length) {
         result.push(key);
-      } else if (!arr1.every((e, i) => e === arr2[i])) {
+      } else if (!deepArrayEquality(arr1, arr2)) {
         result.push(key);
       }
       return;

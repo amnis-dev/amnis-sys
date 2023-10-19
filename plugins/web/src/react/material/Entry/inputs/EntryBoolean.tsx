@@ -21,6 +21,7 @@ export const EntryBoolean: React.FC = () => {
     value,
     disabled,
     onChange,
+    onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<boolean>;
 
   const checkboxRef = React.useRef<HTMLInputElement>(null);
@@ -64,6 +65,7 @@ export const EntryBoolean: React.FC = () => {
                 }}
                 checked={value}
                 onChange={(event, checked) => onChange(checked, event)}
+                onBlur={onBlur}
               />
             </Box>
             <Box sx={{ alignSelf: 'center' }}>

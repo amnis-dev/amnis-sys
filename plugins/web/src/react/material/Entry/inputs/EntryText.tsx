@@ -23,6 +23,7 @@ export const EntryText: React.FC = () => {
     autoFocus,
     condensed,
     onChange,
+    onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<string>;
 
   const descriptionSx = React.useMemo(() => ({ m: 0 }), []);
@@ -56,6 +57,7 @@ export const EntryText: React.FC = () => {
         }}
         autoFocus={autoFocus}
         onChange={handleChange}
+        onBlur={onBlur}
       />
     </FormControl>
   );

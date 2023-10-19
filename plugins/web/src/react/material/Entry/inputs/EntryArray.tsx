@@ -37,6 +37,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
     value,
     disabled,
     onChange,
+    onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<any[]>;
 
   const dispatch = useWebDispatch();
@@ -53,6 +54,10 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
     if (uniqueItems && value?.includes(valueInnerNext)) return;
     onChange([...(value ?? []), valueInnerNext]);
   }, [value, onChange, valueInnerSet]);
+
+  React.useEffect(() => {
+    onBlur();
+  }, [value]);
 
   const isReferences = React.useMemo(() => items.format === 'reference', [items.format]);
   const sliceKey = React.useMemo(
