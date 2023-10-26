@@ -2,7 +2,7 @@ import type { Entity, UID } from '@amnis/state';
 import { dataName, stateSelect } from '@amnis/state';
 import React from 'react';
 import {
-  Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText,
+  Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack,
 } from '@mui/material';
 import { Restore, Update } from '@mui/icons-material';
 import { useTranslate, useWebSelector } from '@amnis/web/react/hooks';
@@ -19,12 +19,13 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
 }) => {
   const stateEntityDifferences = useWebSelector(stateSelect.entityDifferences);
 
-  const entitiesChanged = React.useMemo<Entity[]>(
+  const entitiesChanged = React.useMemo<(
+  Entity & {changeCount: number })[]>(
     () => stateEntityDifferences
-      .map((diff) => diff.current)
-      .filter((entity) => !!entity) as Entity[],
+      .map((diff) => ({ ...diff.current, changeCount: diff.keys.length }))
+      .filter((entity) => !!entity) as (Entity & {changeCount: number })[],
     [stateEntityDifferences],
-  );
+    );
 
   const entitiesTranslated = useTranslate(entitiesChanged)!;
 
@@ -59,7 +60,13 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
             </ListItemAvatar>
             <ListItemText
               primary={dataName(entity)}
-              secondary={new Date(entity.updated).toLocaleString()}
+              secondary={(<Stack direction="row">
+                <span>
+                  {`${entity.$id.split(':')[0]} (${entity.changeCount})`}
+                </span>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>{new Date(entity.updated).toLocaleString()}</span>
+              </Stack>)}
             />
           </ListButton>
         </ListItem>

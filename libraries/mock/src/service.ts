@@ -63,6 +63,12 @@ export const mockService: MockService = {
       $id: system.$id,
       domain: systemDomain,
     }));
+    context.database.update({
+      [systemSlice.key]: [{
+        $id: system.$id,
+        domain: systemDomain,
+      }],
+    });
 
     /**
      * Inject mock data.

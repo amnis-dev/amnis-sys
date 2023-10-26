@@ -68,9 +68,42 @@ export const Manager: React.FC<ManagerProps> = ({
    * Get the current navgation state.
    */
   const [searchParams, searchParamsSet] = useSearchParams();
-  const managerLocation = React.useMemo(() => searchParams.get('manager'), [searchParams]);
+  const searchParamManager = React.useMemo(() => searchParams.get('manager'), [searchParams]);
 
-  const [pathname, pathnameSet] = React.useState<ManagerContext['pathname']>(managerLocation);
+  const location = React.useMemo<ManagerContext['location']>(() => {
+    const result: ManagerContext['location'] = {
+      path: null,
+      hash: null,
+      crumbs: [],
+      page: null,
+    };
+
+    if (!searchParamManager) return result;
+    const parts = searchParamManager.split('#');
+
+    result.path = parts[0] || null;
+    result.hash = parts[1] || null;
+    result.crumbs = result.path?.slice(1).split('/').filter((c) => c.length > 0) || [];
+    result.page = result.crumbs.slice(-1)[0] || null;
+
+    return result;
+  }, [searchParamManager]);
+
+  const locationPush = React.useCallback((pathname: string | null) => {
+    if (!pathname) {
+      searchParams.delete('manager');
+      searchParamsSet(searchParams);
+      return;
+    }
+
+    if (pathname.charAt(0) !== '/') {
+      searchParams.set('manager', `${searchParamManager}/${pathname}`);
+    } else {
+      searchParams.set('manager', pathname);
+    }
+    searchParamsSet(searchParams);
+  }, [searchParamManager, searchParams, searchParamsSet]);
+
   const [locale, localeSet] = React.useState<ManagerContext['locale']>();
   const [localeLoading, localeLoadingSet] = React.useState(true);
 
@@ -100,32 +133,13 @@ export const Manager: React.FC<ManagerProps> = ({
     },
   }), [themeWeb]);
 
-  const drawerOpen = React.useMemo(() => !!pathname, [pathname]);
+  const drawerOpen = React.useMemo(() => location.path !== null, [location.path]);
 
   const container = React.useCallback(() => window.document.body, [window]);
 
-  const handlePanelClose = React.useCallback(() => {
-    pathnameSet(null);
-  }, [searchParams, searchParamsSet]);
-
-  /**
-   * Set the manager search param to the current pathname.
-   */
   React.useEffect(() => {
-    if (pathname) {
-      searchParams.set('manager', pathname);
-      searchParamsSet(searchParams);
-    } else {
-      searchParams.delete('manager');
-      searchParamsSet(searchParams);
-    }
-    onPathnameChange(pathname);
-    return () => {
-      searchParams.delete('manager');
-      searchParamsSet(searchParams);
-      onPathnameChange(null);
-    };
-  }, [pathname, searchParams, searchParamsSet]);
+    onPathnameChange(location.path);
+  }, [location.path]);
 
   /**
    * Lazy load the locale data.
@@ -170,14 +184,15 @@ export const Manager: React.FC<ManagerProps> = ({
    */
   const managerContext = React.useMemo<ManagerContext>(() => ({
     ...managerContextDefault,
-    pathname,
-    pathnameSet,
+    location,
+    locationPush,
     localeLoading,
     localeCode,
     localeCodeSet,
     locale,
   }), [
-    pathname,
+    location,
+    locationPush,
     localeLoading,
     localeCode,
     locale,
@@ -220,7 +235,7 @@ export const Manager: React.FC<ManagerProps> = ({
               variant="persistent"
               sx={{
                 display: { xs: 'none', lg: 'flex' },
-                zIndex: 200,
+                zIndex: 9999,
                 '& .MuiDrawer-paper': {
                   transition: 'width 0.5s ease-in-out',
                   width: drawerWidth,
@@ -239,6 +254,7 @@ export const Manager: React.FC<ManagerProps> = ({
                 keepMounted: true,
               }}
               sx={{
+                zIndex: 9999,
                 '& .MuiDrawer-paper': {
                   width: '90%',
                   bgcolor: 'background.paper',

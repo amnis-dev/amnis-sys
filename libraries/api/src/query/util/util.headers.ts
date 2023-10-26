@@ -62,6 +62,7 @@ async function renewBearerToken(
 
   if (resultChallenge?.status !== 200) {
     console.error('Failed to generate a challenge object for bearer renewal.');
+    fetchingBearer = false;
     return undefined;
   }
 
@@ -70,6 +71,7 @@ async function renewBearerToken(
 
   if (!challenge) {
     console.error('Failed to receive challenge object for bearer renewal.');
+    fetchingBearer = false;
     return undefined;
   }
 
@@ -87,6 +89,7 @@ async function renewBearerToken(
 
   if (!bearerNew) {
     console.error('API could not renew the bearer token.');
+    fetchingBearer = false;
     return undefined;
   }
 

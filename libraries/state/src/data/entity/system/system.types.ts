@@ -295,9 +295,9 @@ export interface System extends Data {
    *  es: "Confianza del proxy"
    * }
    * @description {
-   *  en: "If the system's server is behind a trusted proxy, this flag should be enabled to forwarded the IP address",
-   *  de: "Wenn der Server des Systems hinter einem vertrauenswürdigen Proxy liegt, sollte diese Flagge aktiviert werden, um die IP-Adresse weiterzuleiten",
-   *  es: "Si el servidor del sistema está detrás de un proxy de confianza, esta bandera debe habilitarse para reenviar la dirección IP",
+   *  en: "If the system's server is behind a trusted proxy, this flag should be enabled to use the forwarded the IP address",
+   *  de: "Wenn der Server des Systems hinter einem vertrauenswürdigen Proxy liegt, sollte diese Flagge aktiviert werden, um die weitergeleitete IP-Adresse zu verwenden",
+   *  es: "Si el servidor del sistema está detrás de un proxy de confianza, esta bandera debe habilitarse para usar la dirección IP reenviada",
    * }
    */
   proxyTrust?: boolean;

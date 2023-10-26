@@ -1,8 +1,9 @@
 import React from 'react';
-import { Close } from '@mui/icons-material';
+import { ArrowBack, Close, Home } from '@mui/icons-material';
 import {
   Box,
   Breadcrumbs,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -12,44 +13,56 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { stateSelect } from '@amnis/state';
+import { useWebSelector } from '@amnis/web/react/hooks';
 import { ManagerContext } from '../ManagerContext.js';
 
 const PanelAdministration = React.lazy(() => import('../PanelAdministration/PanelAdministration.js'));
 const PanelSave = React.lazy(() => import('../PanelSave/PanelSave.js'));
+const PanelDifference = React.lazy(() => import('../PanelDifference/PanelDifference.js'));
 
 export const Panel: React.FC = () => {
-  const { pathname, pathnameSet, locale } = React.useContext(ManagerContext);
+  const {
+    location, locationPush, locale,
+  } = React.useContext(ManagerContext);
 
-  const crumbs = React.useMemo(() => ['Manager', ...(pathname?.split('/').slice(1) ?? [])], [pathname]);
+  const differenceCount = useWebSelector(stateSelect.entityDifferenceCount);
 
   const handleClose = React.useCallback(() => {
-    pathnameSet(null);
-  }, [pathnameSet]);
+    locationPush(null);
+  }, [locationPush]);
 
   const RouteComponent = React.useMemo(() => {
-    switch (pathname) {
-      case '/Administration':
+    switch (location.page) {
+      case 'Administration':
         return (
           <PanelAdministration />
         );
-      case '/Save':
+      case 'Save':
         return (
           <PanelSave />
         );
-      default:
+      case 'Difference':
+        return (
+          <PanelDifference />
+        );
+      case null:
         return (
           <Stack gap={2}>
-            <Box pb={3}>
-              <Typography variant="h6" component="div">
-                {locale?.['manager.panel.welcome']}
-              </Typography>
-              <Typography variant="body2">
-                {locale?.['manager.panel.welcome.description']}
-              </Typography>
+            <Box>
+              <Button
+                variant="contained"
+                fullWidth
+                disabled={differenceCount <= 0}
+                color="warning"
+                onClick={() => locationPush('/Save')}
+              >
+                {differenceCount <= 0 ? 'No unsaved changes found' : `Save Changes (${differenceCount})`}
+              </Button>
             </Box>
             <Card>
               <CardActionArea
-                onClick={() => pathnameSet('/Administration')}
+                onClick={() => locationPush('/Administration')}
               >
                 <CardContent>
                   <Typography variant="h5" component="div" gutterBottom>
@@ -63,20 +76,46 @@ export const Panel: React.FC = () => {
             </Card>
           </Stack>
         );
+      default:
+        return (
+          <Typography>
+            {locale?.['manager.panel.not_found'] ?? 'Not Found'}
+          </Typography>
+        );
     }
-  }, [pathname, locale]);
+  }, [location.page, locale, differenceCount]);
+
+  const handleHomeClick = React.useCallback(() => {
+    locationPush('/');
+  }, [locationPush]);
+
+  const handleBackClick = React.useCallback(() => {
+    const patnameNext = `/${location.crumbs.slice(0, -1).join('/')}`;
+    locationPush(patnameNext);
+  }, [location.crumbs, locationPush]);
 
   return (
     <Stack direction="column">
-      <Stack direction="row" alignItems="center">
-        <Box flex={1} m={1}>
-          <Breadcrumbs>
-            {crumbs.map((crumb, index) => (
+      <Stack direction="row" alignItems="center" gap={1}>
+        <IconButton onClick={handleBackClick} disabled={location.crumbs.length <= 0}>
+          <ArrowBack />
+        </IconButton>
+        <Divider orientation="vertical" flexItem />
+        <IconButton onClick={handleHomeClick}>
+          <Home />
+        </IconButton>
+        <Box flex={1} sx={{ overflowX: 'scroll', overflowY: 'hidden' }} >
+          <Breadcrumbs sx={{
+            '& > .MuiBreadcrumbs-ol': {
+              flexWrap: 'nowrap',
+            },
+          }}>
+            {location.crumbs.map((crumb, index) => (
               <Typography
                 key={crumb}
                 variant="body2"
-                sx={{ textDecoration: 'underline', cursor: 'pointer' }}
-                onClick={() => pathnameSet(`/${crumbs.slice(1, index + 1).join('/')}`)}
+                sx={{ textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                onClick={() => locationPush(`/${location.crumbs.slice(0, index + 1).join('/')}`)}
               >
                 {locale?.[`manager.route.${crumb.toLowerCase()}`] ?? crumb}
               </Typography>

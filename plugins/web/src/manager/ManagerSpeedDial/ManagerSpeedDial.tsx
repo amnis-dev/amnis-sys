@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Backdrop, Badge, SpeedDial, SpeedDialAction,
+  Backdrop, Badge, SpeedDial, SpeedDialAction, Typography,
 } from '@mui/material';
 import {
   AdminPanelSettings, Build, Language, PeopleAlt, Save, Settings,
@@ -16,11 +16,11 @@ export const ManagerSpeedDial: React.FC = () => {
   const handleClose = React.useCallback(() => openSet(false), [openSet]);
 
   const differenceCount = useWebSelector(stateSelect.entityDifferenceCount);
-  const { locale, pathnameSet } = React.useContext(ManagerContext);
+  const { locale, locationPush } = React.useContext(ManagerContext);
 
   const handleNavigate = React.useCallback((path: string) => {
-    pathnameSet(path);
-  }, [pathnameSet]);
+    locationPush(path);
+  }, [locationPush]);
 
   /**
    * Create speeddial actions.
@@ -74,7 +74,12 @@ export const ManagerSpeedDial: React.FC = () => {
         bottom: 16,
         right: 16,
       }}
-      icon={<Settings />}
+      icon={differenceCount > 0 ? (<>
+        <Typography variant="body1">{differenceCount}</Typography>
+        <Settings fontSize="large" sx={{ opacity: 0.25, position: 'absolute' }} />
+      </>) : (
+        <Settings fontSize="large" />
+      )}
       open={open}
       hidden={!actions}
       FabProps={{

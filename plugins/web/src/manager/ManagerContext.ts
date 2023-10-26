@@ -1,8 +1,15 @@
 import React from 'react';
 import { noop } from '@amnis/state';
-import type { ManagerLocale, ManagerLocaleCode } from './locale/manager.locale.types.js';
+import type { ManagerLocaleCode } from './locale/manager.locale.types.js';
 
 export type ManagerContextRoutes = [title: string, path: string][];
+
+export interface ManagerContextLocation {
+  path: string | null;
+  hash: string | null;
+  crumbs: string[];
+  page: string | null;
+}
 
 const managerRoutes: ManagerContextRoutes = [
   ['web:manager:route_index', '/'],
@@ -20,14 +27,14 @@ export interface ManagerContext {
   routes: [title: string, path: string][];
 
   /**
-   * pathname location of the manager.
+   * Route location data.
    */
-  pathname: string | null;
+  location: ManagerContextLocation;
 
   /**
-   * Sets the pathname location of the manager.
+   * Pushes a path to the location history.
    */
-  pathnameSet: (pathname: string | null) => void;
+  locationPush: (path: string | null) => void;
 
   /**
    * The load status to locale data.
@@ -52,8 +59,15 @@ export interface ManagerContext {
 
 export const managerContextDefault: ManagerContext = {
   routes: managerRoutes,
-  pathname: null,
-  pathnameSet: noop,
+
+  location: {
+    path: null,
+    hash: null,
+    crumbs: [],
+    page: null,
+  },
+  locationPush: noop,
+
   localeLoading: true,
   localeCode: 'en',
   localeCodeSet: noop,

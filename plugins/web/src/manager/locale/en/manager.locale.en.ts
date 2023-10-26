@@ -1,6 +1,7 @@
 export const managerLocale = {
   'manager.panel.welcome': 'Welcome to the Manager',
   'manager.panel.welcome.description': 'This is a place where you can find settings to manage the web application. Below are several links to get you started.',
+  'manager.panel.not_found': 'There is no panel available that matches the current route.',
 
   'manager.speeddial.administration': 'Administration',
   'manager.speeddial.accounts': 'Accounts',
@@ -15,6 +16,10 @@ export const managerLocale = {
 
   'manager.route.administration': 'Administration',
   'manager.route.administration.description': 'Configure import system settings that define the overall behavior of the client application and server processes.',
+  'manager.route.save': 'Save',
+  'manager.route.save.description': 'Save the local changes to the server.',
+  'manager.route.difference': 'Difference',
+  'manager.route.difference.description': 'View the differences between the local and server data.',
 };
 
 export default managerLocale;
