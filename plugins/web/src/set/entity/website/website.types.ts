@@ -18,6 +18,17 @@ export type WebsiteFontType = 'open-sans' | 'public-sans' | 'merriweather' | 'me
 
 /**
  * Website data.
+ *
+ * @title {
+ * en: "Website",
+ * de: "Website",
+ * es: "Sitio web",
+ * }
+ * @description {
+ * en: "Fundemental data for a website.",
+ * de: "Grundlegende Daten für eine Website.",
+ * es: "Datos fundamentales para un sitio web.",
+ * }
  */
 export interface Website extends Data {
   /**

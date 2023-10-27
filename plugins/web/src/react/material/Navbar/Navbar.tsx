@@ -13,7 +13,6 @@ import {
   MenuItem,
   Stack,
   Toolbar,
-  Typography,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Ider, iderEn, LanguageButton } from '@amnis/web/react/material';
@@ -22,6 +21,8 @@ import { websiteSlice } from '@amnis/web/set';
 
 import { useMenu, useTranslate, useWebSelector } from '@amnis/web/react/hooks';
 import type { NavbarProps } from '@amnis/web/ui';
+
+import { Text } from '../Text/index.js';
 
 export const Navbar: React.FC<NavbarProps> = ({
   titleHide,
@@ -54,9 +55,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             ]}
           >
             <Box>
-              <Typography variant="h6" component="div">
+              <Text variant="h6" component="div">
                 {title}
-              </Typography>
+              </Text>
             </Box>
           </Ider>
           <Box sx={{ flexGrow: 1 }} />

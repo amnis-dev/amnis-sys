@@ -5,5 +5,7 @@
   "route.about.label": "Über uns",
   "route.contact.label": "Kontakt",
   "webComponent.navbar.description": "Oberste Navigationsleiste zur Navigation von Informationen und Einstellungen auf der Webseite.",
-  "webInstance.navbar.name": "Haupt-Navigationsleiste"
+  "webInstance.navbar.name": "Haupt-Navigationsleiste",
+
+  "!diff.restore": "Wiederherstellen"
 }

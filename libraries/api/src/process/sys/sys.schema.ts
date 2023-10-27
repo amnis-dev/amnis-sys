@@ -10,7 +10,7 @@ import {
   schemaSlice,
   systemSlice,
 } from '@amnis/state';
-import { mwAccess } from '../../mw/index.js';
+import { mwAccess, mwValidate } from '../../mw/index.js';
 import type { ApiSysSchema } from '../../api.sys.types.js';
 import { permissionGrants } from '../../utility/permission.js';
 import { findLocaleByNames } from '../../utility/find.js';
@@ -35,7 +35,7 @@ function schemaLocale(schema: Schema): string[] {
     const { properties } = schema;
     if (properties) {
       Object.values(properties).forEach((propSchema) => {
-        localeStrings.push(...schemaLocale(propSchema));
+        localeStrings.push(...schemaLocale(propSchema as Schema));
       });
     }
   }
@@ -175,8 +175,10 @@ Io<ApiSysSchema, Schema[]>
   }
 );
 
-export const processSysSchema = mwAccess()(
-  process,
+export const processSysSchema = mwValidate('sys/ApiSysSchema')(
+  mwAccess()(
+    process,
+  ),
 ) as IoProcess<
 Io<undefined, EntityObjects>
 >;

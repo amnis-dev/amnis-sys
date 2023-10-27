@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  Backdrop, Badge, SpeedDial, SpeedDialAction, Typography,
+  Backdrop, Badge, SpeedDial, SpeedDialAction,
 } from '@mui/material';
 import {
   AdminPanelSettings, Build, Language, PeopleAlt, Save, Settings,
 } from '@mui/icons-material';
 import { stateSelect } from '@amnis/state';
 import { useWebSelector } from '@amnis/web/react/hooks';
+import { Text } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
 
 export const ManagerSpeedDial: React.FC = () => {
@@ -75,7 +76,7 @@ export const ManagerSpeedDial: React.FC = () => {
         right: 16,
       }}
       icon={differenceCount > 0 ? (<>
-        <Typography variant="body1">{differenceCount}</Typography>
+        <Text variant="body1">{differenceCount}</Text>
         <Settings fontSize="large" sx={{ opacity: 0.25, position: 'absolute' }} />
       </>) : (
         <Settings fontSize="large" />

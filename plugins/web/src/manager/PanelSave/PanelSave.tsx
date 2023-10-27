@@ -2,11 +2,11 @@ import React from 'react';
 import type { DataUpdater, UID } from '@amnis/state';
 import { stateSelect } from '@amnis/state';
 import {
-  Button, CircularProgress, Stack, Typography,
+  Button, CircularProgress, Stack,
 } from '@mui/material';
 import { apiCrud } from '@amnis/api';
 import { useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
-import { DiffSummary } from '@amnis/web/react/material';
+import { DiffSummary, Text } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
 
 export const PanelSave: React.FC = () => {
@@ -50,9 +50,9 @@ export const PanelSave: React.FC = () => {
     <Stack direction="column">
       <Stack direction="column">
         {disabled ? (
-          <Typography>
+          <Text>
             No changes to save.
-          </Typography>
+          </Text>
         ) : null}
         <DiffSummary onClick={handleDiffClick} />
         <Button

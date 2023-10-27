@@ -6,7 +6,7 @@ import type {
   EntityObjects,
   Schema,
 } from '@amnis/state';
-import type { ApiSysSchema } from '../../api.sys.types.js';
+import type { ApiSysLocale, ApiSysSchema } from '../../api.sys.types.js';
 
 export const apiSysQueries = <T extends EndpointBuilder<BaseQueryFn, string, string>>(
   builder: T,
@@ -28,6 +28,17 @@ export const apiSysQueries = <T extends EndpointBuilder<BaseQueryFn, string, str
   >({
     query: (payload) => ({
       url: 'schema',
+      method: 'post',
+      body: payload,
+    }),
+  }),
+
+  locale: builder.query<
+  IoOutputJson<Record<string, never>>,
+  ApiSysLocale
+  >({
+    query: (payload) => ({
+      url: 'locale',
       method: 'post',
       body: payload,
     }),

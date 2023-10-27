@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Box, Popover, Popper, Stack, Typography, css,
+  Box, Popover, Popper, Stack, css,
 } from '@mui/material';
 import { ManagerProvider } from '@amnis/web/manager';
 import type { WebContextIderEntities } from '@amnis/web/react/context';
@@ -9,6 +9,7 @@ import {
 } from '@amnis/web/react/hooks';
 import { IderEntityChips } from './IderEntityChips.js';
 import { IderInput } from './IderInput.js';
+import { Text } from '../Text/index.js';
 
 export interface IderHighlightProps {
   /**
@@ -174,9 +175,9 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
         >
           <Box p={2}>
             <Box pl={1} pr={1} mb={1}>
-              <Typography variant="caption" sx={{ opacity: 0.5 }}>
+              <Text variant="caption" sx={{ opacity: 0.5 }}>
                 {entity?.$id}
-              </Typography>
+              </Text>
             </Box>
             <Stack direction="column" gap={2}>
               <IderEntityChips entities={entities} />

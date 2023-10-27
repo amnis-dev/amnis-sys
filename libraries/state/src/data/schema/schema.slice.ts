@@ -131,7 +131,7 @@ const selectReferences = (state: State, schema: Schema): Schema[] => {
 
   if (schema.type === 'object' && schema.properties) {
     Object.keys(schema.properties).forEach((key) => {
-      const property = schema.properties?.[key];
+      const property = schema.properties?.[key] as Schema;
       if (property?.$ref) {
         const reference = selectReference(state, property.$ref);
         if (reference) {
@@ -181,7 +181,7 @@ const selectCompiled = createSelector(
           return {
             ...referenceCompiled,
             ...schema,
-          };
+          } as Schema;
         }
       }
     }
@@ -203,7 +203,7 @@ const selectCompiled = createSelector(
     if (schema.type === 'object' && schema.properties) {
       const properties: Record<string, Schema> = {};
       Object.keys(schema.properties).forEach((key) => {
-        const property = schema.properties?.[key];
+        const property = schema.properties?.[key] as Schema;
         if (!property) {
           return;
         }
@@ -219,7 +219,7 @@ const selectCompiled = createSelector(
               properties[key] = {
                 ...referenceCompiled,
                 ...property,
-              };
+              } as Schema;
             }
           }
         } else if (property.type === 'array' && !!property.items?.$ref) {

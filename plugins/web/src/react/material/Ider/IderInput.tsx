@@ -37,7 +37,7 @@ export const IderInput = <E extends Entity>({
     if (!schema || schema.type !== 'object') return {};
 
     const required = schema.required?.includes(prop);
-    const schemaProperty = schema.properties?.[prop];
+    const schemaProperty = schema.properties?.[prop] as Schema;
     return { schemaProperty, required };
   }, [schema, prop]);
 

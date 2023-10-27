@@ -12,6 +12,7 @@ import {
   selectLocaleByCodeName,
   selectLocaleByCodeNames,
   selectLocaleByName,
+  selectLocaleState,
   selectLocaleSystemDefaultCode,
   selectLocaleTranslation,
   selectLocaleValue,
@@ -99,6 +100,7 @@ export const localeSlice = entitySliceCreate({
     }) => {
       builder.addCase(localeActions.codeSet, (state: LocaleMeta, action) => {
         state.code = action.payload;
+        state.names = {};
         localStorage().setItem('locale-code', action.payload);
       });
 
@@ -144,6 +146,10 @@ export const localeSlice = entitySliceCreate({
     },
   }],
   selectors: {
+    /**
+     * Selects the locale slice state.
+     */
+    state: selectLocaleState,
 
     /**
      * Selects the defaut locale code.

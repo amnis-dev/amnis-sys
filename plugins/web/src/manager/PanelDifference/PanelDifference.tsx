@@ -1,14 +1,17 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Box } from '@mui/material';
+import { Diff } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
 
 export const PanelDifference: React.FC = () => {
   const { location } = React.useContext(ManagerContext);
 
+  const entityId = React.useMemo(() => location.hash || undefined, [location.hash]);
+
   return (
-    <Typography>
-      Difference for Entity {location.hash}
-    </Typography>
+    <Box>
+      <Diff $id={entityId} />
+    </Box>
   );
 };
 

@@ -11,24 +11,57 @@ export interface TextProps extends TypographyProps {
   length?: number;
 
   /**
+   * Disable locale key skeleton.
+   */
+  noLocaleSkeleton?: boolean;
+
+  /**
    * String value child.
    */
-  children?: string;
+  children?: string | number;
 }
 
 /**
  * A text component that supports lazy loading skeletons.
  */
 export const Text: React.FC<TextProps> = ({
-  length = 16,
+  length = 12,
+  noLocaleSkeleton = false,
   children,
   ...props
-}) => (
-  <Typography {...props}>
-    {children?.length ? (children) : (
-      <Skeleton variant="text" width={length * 8} />
-    )}
-  </Typography>
-);
+}) => {
+  const text = React.useMemo(
+    () => {
+      if (!children) {
+        return '';
+      }
+
+      if (typeof children === 'number') {
+        return children.toString();
+      }
+
+      return children;
+    },
+    [children],
+  );
+  const loaded = React.useMemo(
+    () => {
+      let result = !!text.length;
+      if (!noLocaleSkeleton) {
+        result = text.charAt(0) !== '%';
+      }
+      return result;
+    },
+    [text, noLocaleSkeleton],
+  );
+
+  return (
+    <Typography {...props}>
+      {loaded ? (children) : (
+        <Skeleton variant="text" width={length * 8} />
+      )}
+    </Typography>
+  );
+};
 
 export default Text;

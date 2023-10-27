@@ -45,3 +45,15 @@ export function kababize(str: string) {
     return index === 0 ? match.toLowerCase() : `-${match.toLowerCase()}`;
   });
 }
+
+/**
+ * Title Casing
+ *
+ * @example `Title Case`
+ */
+export function titleize(str: string) {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1 $2') // Split camelCase
+    .replace(/[_-]+/g, ' ') // Replace underscores and hyphens with spaces
+    .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase()); // Capitalize the first letter of each word
+}

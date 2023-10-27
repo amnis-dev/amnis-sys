@@ -1,4 +1,4 @@
-import type { SchemaObject } from '../../types.js';
+import type { SchemaObject as SchemaObjectFile } from '../../types.js';
 
 /**
  * Schema types.
@@ -55,9 +55,9 @@ export type SchemaBase = {
 };
 
 /**
- * Client application settings and data.
+ * Schema string.
  */
-export type Schema = SchemaBase & {
+export interface SchemaTypeString extends SchemaBase {
   /**
    * String data type.
    */
@@ -82,12 +82,16 @@ export type Schema = SchemaBase & {
    * Default value.
    */
   default?: string;
+}
 
-} | SchemaBase & {
+/**
+ * Schema number.
+ */
+export interface SchemaTypeNumber extends SchemaBase {
   /**
-   * Number/Integer data type.
+   * Number data type.
    */
-  type: 'number' | 'integer';
+  type: 'number';
 
   /**
    * The minimum value of the number.
@@ -109,12 +113,27 @@ export type Schema = SchemaBase & {
    */
   default?: number;
 
-} | SchemaBase & {
+}
+
+/**
+ * Schema boolean.
+ */
+export interface SchemaTypeBoolean extends SchemaBase {
   /**
    * Boolean data type.
    */
   type: 'boolean';
-} | SchemaBase & {
+
+  /**
+   * Default value.
+   */
+  default?: boolean;
+}
+
+/**
+ * Schema object.
+ */
+export interface SchemaTypeObject<S extends SchemaBase = SchemaBase> extends SchemaBase {
   /**
    * Object data type.
    */
@@ -138,23 +157,28 @@ export type Schema = SchemaBase & {
   /**
    * The properties.
    */
-  properties?: Record<string, Schema>;
+  properties?: Record<string, S>;
 
   /**
    * The pattern properties.
    */
-  patternProperties?: Record<string, Schema>;
+  patternProperties?: Record<string, S>;
 
   /**
    * Additional properties.
    */
-  additionalProperties?: boolean | Schema;
+  additionalProperties?: boolean | S;
 
   /**
    * Default value.
    */
   default?: Record<string, any>;
-} | SchemaBase & {
+}
+
+/**
+ * Schema array.
+ */
+export interface SchemaTypeArray<S extends SchemaBase = SchemaBase> extends SchemaBase {
   /**
    * Array data type.
    */
@@ -173,7 +197,7 @@ export type Schema = SchemaBase & {
   /**
    * The items.
    */
-  items?: Schema;
+  items?: S;
 
   /**
    * The unique items.
@@ -184,7 +208,17 @@ export type Schema = SchemaBase & {
    * Default value.
    */
   default?: any[];
-};
+}
+
+/**
+ * Client application settings and data.
+ */
+export type Schema =
+  SchemaTypeString |
+  SchemaTypeNumber |
+  SchemaTypeBoolean |
+  SchemaTypeObject |
+  SchemaTypeArray;
 
 /**
  * Schema meta data.
@@ -199,4 +233,4 @@ export type SchemaMeta = {
 /**
  * Schema file
  */
-export type SchemaFile = SchemaObject;
+export type SchemaFile = SchemaObjectFile;

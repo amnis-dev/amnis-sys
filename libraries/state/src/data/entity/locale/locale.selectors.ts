@@ -125,7 +125,7 @@ export const selectLocaleByCodeNames = createSelector(
  * Selects a locale translation key value by a local reference
  *
  * Expressions are in the format of:
- * %<set>:<name>
+ * %<name>
  */
 export const selectLocaleValue = createSelector(
   [

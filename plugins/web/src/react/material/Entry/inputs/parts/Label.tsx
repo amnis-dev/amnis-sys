@@ -5,10 +5,10 @@ import {
   InputLabel,
   Stack,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import { Error, FlagCircle } from '@mui/icons-material';
 import { EntryContext } from '@amnis/web/react/context';
+import { Text } from '@amnis/web/react/material';
 
 export interface LabelProps {
   /**
@@ -63,13 +63,18 @@ export const Label: React.FC<LabelProps> = ({
       sx={{ display: 'inline-flex' }}
     >
       <Stack direction="row" alignItems="center" gap={1}>
-        <Typography component="span" variant="inherit">
+        <Text component="span" variant="inherit">
           {label}
-        </Typography>
+        </Text>
         {(!required && !condensed && !hideOptionalText) ? (
-          <Typography component="span" variant="body2">
-            <i>&nbsp;{optionalText}</i>
-          </Typography>
+          <Text component="span" variant="body2" sx={{
+            '&:before': {
+              content: '" "',
+              whiteSpace: 'pre',
+            },
+          }}>
+            {optionalText}
+          </Text>
         ) : null}
         <Tooltip
           title={changes ? tipText.changes : undefined}

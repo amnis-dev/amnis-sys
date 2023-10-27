@@ -228,7 +228,7 @@ export const Entry: React.FC<EntryProps> = ({
           return {
             ...property,
             key: propertyKey,
-          };
+          } as Schema & { key: string };
         });
       }
 
@@ -255,16 +255,16 @@ export const Entry: React.FC<EntryProps> = ({
   const items = React.useMemo<Schema>(
     () => {
       if (schema?.type === 'array') {
-        return schema.items ?? {
+        return schema.items as Schema ?? {
           $id: 'items',
           type: 'string',
-        };
+        } as Schema;
       }
 
       return {
         $id: 'items',
         type: 'string',
-      };
+      } as Schema;
     },
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     /** @ts-ignore */

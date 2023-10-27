@@ -11,10 +11,10 @@ import {
   IconButton,
   LinearProgress,
   Stack,
-  Typography,
 } from '@mui/material';
 import { stateSelect } from '@amnis/state';
 import { useWebSelector } from '@amnis/web/react/hooks';
+import { Text } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
 
 const PanelAdministration = React.lazy(() => import('../PanelAdministration/PanelAdministration.js'));
@@ -65,12 +65,12 @@ export const Panel: React.FC = () => {
                 onClick={() => locationPush('/Administration')}
               >
                 <CardContent>
-                  <Typography variant="h5" component="div" gutterBottom>
+                  <Text variant="h5" component="div" gutterBottom>
                     {locale?.['manager.route.administration'] ?? 'Administration'}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  </Text>
+                  <Text variant="body2" color="text.secondary">
                     {locale?.['manager.route.administration.description'] ?? 'Administration'}
-                  </Typography>
+                  </Text>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -78,9 +78,9 @@ export const Panel: React.FC = () => {
         );
       default:
         return (
-          <Typography>
+          <Text>
             {locale?.['manager.panel.not_found'] ?? 'Not Found'}
-          </Typography>
+          </Text>
         );
     }
   }, [location.page, locale, differenceCount]);
@@ -111,14 +111,14 @@ export const Panel: React.FC = () => {
             },
           }}>
             {location.crumbs.map((crumb, index) => (
-              <Typography
+              <Text
                 key={crumb}
                 variant="body2"
                 sx={{ textDecoration: 'underline', cursor: 'pointer', whiteSpace: 'nowrap' }}
                 onClick={() => locationPush(`/${location.crumbs.slice(0, index + 1).join('/')}`)}
               >
                 {locale?.[`manager.route.${crumb.toLowerCase()}`] ?? crumb}
-              </Typography>
+              </Text>
             ))}
           </Breadcrumbs>
         </Box>

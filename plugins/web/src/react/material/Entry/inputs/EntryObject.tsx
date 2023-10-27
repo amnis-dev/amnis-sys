@@ -4,7 +4,6 @@ import {
   IconButton,
   Stack,
   Tooltip,
-  Typography,
 } from '@mui/material';
 import type { CoreSelectors, Data, UID } from '@amnis/state';
 import { dataDefault, dataSelectors, noop } from '@amnis/state';
@@ -12,6 +11,7 @@ import { FlagCircle, Error } from '@mui/icons-material';
 import type { EntryContextChanges, EntryContextProps, EntryContextSchemaErrors } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import { useWebSelector, type RootStateWeb } from '@amnis/web';
+import { Text } from '../../Text/index.js';
 import type { EntryProps } from '../Entry.js';
 
 export interface EntryObjectProps {
@@ -182,14 +182,14 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     >
       <Box mb={2}>
         <Stack direction="row" gap={1}>
-          <Typography
+          <Text
             id={entryLabelId}
             component="legend"
             variant="h4"
             sx={{ padding: 0, margin: 0 }}
           >
             {label}
-          </Typography>
+          </Text>
           <Box>
             <Tooltip
               title={changed ? tipText.changes : undefined}
@@ -226,12 +226,12 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
           </Box>
         </Stack>
         {description ? (
-          <Typography
+          <Text
             id={entryDescriptionId}
             component="p"
           >
             {description}
-          </Typography>
+          </Text>
         ) : null}
       </Box>
       <Stack gap={3}>

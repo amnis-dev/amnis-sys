@@ -11,3 +11,5 @@ export * from './useClickAway.js';
 export * from './useEventListener.js';
 export * from './useFormState.js';
 export * from './useDebounce.js';
+export * from './useEntitySchema.js';
+export * from './useLocale.js';
