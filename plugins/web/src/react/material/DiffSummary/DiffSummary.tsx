@@ -1,11 +1,14 @@
 import type { Entity, UID } from '@amnis/state';
-import { dataName, stateSelect } from '@amnis/state';
+import { dataActions, dataName, stateSelect } from '@amnis/state';
 import React from 'react';
 import {
-  Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack,
+  Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Stack, Tooltip,
 } from '@mui/material';
 import { Restore, Update } from '@mui/icons-material';
-import { useTranslate, useWebSelector } from '@amnis/web/react/hooks';
+import {
+  useLocale, useTranslate, useWebDispatch, useWebSelector,
+} from '@amnis/web/react/hooks';
+import { ConfirmDialog } from '../ConfirmDialog/index.js';
 
 export interface DiffSummaryProps {
   /**
@@ -17,7 +20,16 @@ export interface DiffSummaryProps {
 export const DiffSummary: React.FC<DiffSummaryProps> = ({
   onClick,
 }) => {
+  const dispatch = useWebDispatch();
   const stateEntityDifferences = useWebSelector(stateSelect.entityDifferences);
+
+  const localeKeys = React.useRef(['!diff.restore'] as const);
+  const locale = useLocale(localeKeys);
+
+  const [confirmState, confirmStateSet] = React.useState({
+    open: false,
+    entityId: '',
+  });
 
   const entitiesChanged = React.useMemo<(
   Entity & {changeCount: number })[]>(
@@ -28,6 +40,37 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
     );
 
   const entitiesTranslated = useTranslate(entitiesChanged)!;
+
+  const handleConfirmClose = React.useCallback(() => {
+    confirmStateSet({
+      open: false,
+      entityId: '',
+    });
+  }, []);
+
+  const handleConfirmConfirm = React.useCallback(() => {
+    const entityDiff = stateEntityDifferences.find(
+      (diff) => diff.current?.$id === confirmState.entityId,
+    );
+    if (!entityDiff || !entityDiff.original) return;
+
+    dispatch(dataActions.update({
+      [entityDiff.sliceKey]: [
+        {
+          ...entityDiff.original,
+          $id: confirmState.entityId as UID,
+        },
+      ],
+    }));
+    handleConfirmClose();
+  }, [dispatch, handleConfirmClose, confirmState.entityId]);
+
+  const handleRestore = React.useCallback((entityId: string | UID) => {
+    confirmStateSet({
+      open: true,
+      entityId,
+    });
+  }, [dispatch, stateEntityDifferences]);
 
   const ListButton = React.useMemo<
   React.FC<{ children: React.ReactNode, onClick: DiffSummaryProps['onClick'] }>
@@ -40,17 +83,21 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
     );
   }, [onClick]);
 
-  return (
+  const RestoreButton = React.useMemo((): React.FC<{ $id: string | UID }> => ({ $id }) => (
+    <Tooltip title={locale['!diff.restore']}>
+      <IconButton onClick={() => handleRestore($id)}>
+        <Restore />
+      </IconButton>
+    </Tooltip>
+  ), [locale]);
+
+  return (<>
     <List>
       {entitiesTranslated.map((entity) => (
         <ListItem
           key={entity.$id}
           disablePadding={!!onClick}
-          secondaryAction={(
-            <IconButton>
-              <Restore />
-            </IconButton>
-          )}
+          secondaryAction={<RestoreButton $id={entity.$id} />}
         >
           <ListButton onClick={() => onClick && onClick(entity.$id)}>
             <ListItemAvatar>
@@ -72,6 +119,14 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
         </ListItem>
       ))}
     </List>
+    <ConfirmDialog
+      open={confirmState.open}
+      onClose={handleConfirmClose}
+      onConfirm={handleConfirmConfirm}
+      title={'Please Confirm'}
+      message={'Are you sure you want to restore this data? This action cannot be undone.'}
+    />
+  </>
   );
 };
 

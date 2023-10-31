@@ -8,6 +8,17 @@ import type { Image } from '../image/image.types.js';
 export interface Route extends Data {
   /**
    * Text to present when linking this route.
+   *
+   * @title {
+   *  en: "Label",
+   *  de: "Bezeichnung",
+   *  es: "Etiqueta",
+   * }
+   * @description {
+   *  en: "Text to present when linking this route.",
+   *  de: "Text, der beim Verlinken dieser Route angezeigt werden soll.",
+   *  es: "Texto para presentar al vincular esta ruta.",
+   * }
    */
   label: string;
 

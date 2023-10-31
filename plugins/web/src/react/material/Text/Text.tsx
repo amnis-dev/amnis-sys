@@ -11,6 +11,11 @@ export interface TextProps extends TypographyProps {
   length?: number;
 
   /**
+   * Disable skeleton.
+   */
+  noSkeleton?: boolean;
+
+  /**
    * Disable locale key skeleton.
    */
   noLocaleSkeleton?: boolean;
@@ -26,6 +31,7 @@ export interface TextProps extends TypographyProps {
  */
 export const Text: React.FC<TextProps> = ({
   length = 12,
+  noSkeleton = false,
   noLocaleSkeleton = false,
   children,
   ...props
@@ -46,9 +52,9 @@ export const Text: React.FC<TextProps> = ({
   );
   const loaded = React.useMemo(
     () => {
-      let result = !!text.length;
+      let result = text.length > 0;
       if (!noLocaleSkeleton) {
-        result = text.charAt(0) !== '%';
+        result = result && text.charAt(0) !== '%';
       }
       return result;
     },
@@ -57,8 +63,8 @@ export const Text: React.FC<TextProps> = ({
 
   return (
     <Typography {...props}>
-      {loaded ? (children) : (
-        <Skeleton variant="text" width={length * 8} />
+      {loaded ? text : (
+        <Skeleton variant="text" width={length * 8 * (noSkeleton ? 1 : 0)} sx={{ opacity: noSkeleton ? 0 : 1 }} />
       )}
     </Typography>
   );

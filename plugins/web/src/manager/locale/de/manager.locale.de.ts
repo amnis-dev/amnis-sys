@@ -18,6 +18,10 @@ export const managerLocale: ManagerLocale = {
 
   'manager.route.administration': 'Verwaltung',
   'manager.route.administration.description': 'Konfigurieren Sie die Einstellungen für das Importsystem, die das Gesamtverhalten der Client-Anwendung und der Serverprozesse festlegen.',
+  'manager.route.accounts': 'Konten',
+  'manager.route.accounts.description': 'Verwalten Sie die Benutzerkonten, die auf die Anwendung zugreifen können.',
+  'manager.route.localization': 'Lokalisierung',
+  'manager.route.localization.description': 'Verwalten Sie die Lokalisierungseinstellungen für die Anwendung.',
   'manager.route.save': 'Speichern',
   'manager.route.save.description': 'Speichern Sie die lokalen Änderungen auf dem Server.',
   'manager.route.difference': 'Unterschiede',

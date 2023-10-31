@@ -1,12 +1,10 @@
 import React from 'react';
-import { ArrowBack, Close, Home } from '@mui/icons-material';
+import {
+  ArrowBack, Close, Home,
+} from '@mui/icons-material';
 import {
   Box,
   Breadcrumbs,
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
   Divider,
   IconButton,
   LinearProgress,
@@ -16,10 +14,15 @@ import { stateSelect } from '@amnis/state';
 import { useWebSelector } from '@amnis/web/react/hooks';
 import { Text } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
+import { PanelIndex } from './PanelIndex.js';
 
-const PanelAdministration = React.lazy(() => import('../PanelAdministration/PanelAdministration.js'));
-const PanelSave = React.lazy(() => import('../PanelSave/PanelSave.js'));
-const PanelDifference = React.lazy(() => import('../PanelDifference/PanelDifference.js'));
+const PanelContent: Record<string, React.LazyExoticComponent<React.FC>> = {
+  Administration: React.lazy(() => import('../PanelAdministration/PanelAdministration.js')),
+  Accounts: React.lazy(() => import('../PanelAccounts/PanelAccounts.js')),
+  Difference: React.lazy(() => import('../PanelDifference/PanelDifference.js')),
+  Localization: React.lazy(() => import('../PanelLocalization/PanelLocalization.js')),
+  Save: React.lazy(() => import('../PanelSave/PanelSave.js')),
+};
 
 export const Panel: React.FC = () => {
   const {
@@ -33,56 +36,18 @@ export const Panel: React.FC = () => {
   }, [locationPush]);
 
   const RouteComponent = React.useMemo(() => {
-    switch (location.page) {
-      case 'Administration':
-        return (
-          <PanelAdministration />
-        );
-      case 'Save':
-        return (
-          <PanelSave />
-        );
-      case 'Difference':
-        return (
-          <PanelDifference />
-        );
-      case null:
-        return (
-          <Stack gap={2}>
-            <Box>
-              <Button
-                variant="contained"
-                fullWidth
-                disabled={differenceCount <= 0}
-                color="warning"
-                onClick={() => locationPush('/Save')}
-              >
-                {differenceCount <= 0 ? 'No unsaved changes found' : `Save Changes (${differenceCount})`}
-              </Button>
-            </Box>
-            <Card>
-              <CardActionArea
-                onClick={() => locationPush('/Administration')}
-              >
-                <CardContent>
-                  <Text variant="h5" component="div" gutterBottom>
-                    {locale?.['manager.route.administration'] ?? 'Administration'}
-                  </Text>
-                  <Text variant="body2" color="text.secondary">
-                    {locale?.['manager.route.administration.description'] ?? 'Administration'}
-                  </Text>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Stack>
-        );
-      default:
-        return (
-          <Text>
-            {locale?.['manager.panel.not_found'] ?? 'Not Found'}
-          </Text>
-        );
+    if (location.page === null) {
+      return <PanelIndex />;
     }
+    if (!PanelContent[location.page]) {
+      return (
+        <Text>
+          {locale?.['manager.panel.not_found'] ?? 'Not Found'}
+        </Text>
+      );
+    }
+
+    return React.createElement(PanelContent[location.page]);
   }, [location.page, locale, differenceCount]);
 
   const handleHomeClick = React.useCallback(() => {
@@ -95,7 +60,7 @@ export const Panel: React.FC = () => {
   }, [location.crumbs, locationPush]);
 
   return (
-    <Stack direction="column">
+    <Stack direction="column" sx={{ height: '100%' }}>
       <Stack direction="row" alignItems="center" gap={1}>
         <IconButton onClick={handleBackClick} disabled={location.crumbs.length <= 0}>
           <ArrowBack />
@@ -129,7 +94,7 @@ export const Panel: React.FC = () => {
         </Box>
       </Stack>
       <Divider />
-      <Box p={1}>
+      <Box flex={1} p={1} sx={{ overflow: 'scroll' }}>
         <React.Suspense fallback={<LinearProgress />}>
           {RouteComponent}
         </React.Suspense>

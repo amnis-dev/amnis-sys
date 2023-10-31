@@ -30,6 +30,8 @@ export function useLocale<K extends React.MutableRefObject<UseLocaleKey>>(
 ): ObjectFromList<K['current']> {
   const dispatch = useWebDispatch();
 
+  const localeCode = useWebSelector((state) => localeSlice.select.state(state).code);
+
   const [localeValues, localeValuesSet] = React.useState<ObjectFromList<K['current']>>(
     keys.current.reduce((acc, key) => ({ ...acc, [key]: '...' }), {} as ObjectFromList<K['current']>),
   );
@@ -55,6 +57,10 @@ export function useLocale<K extends React.MutableRefObject<UseLocaleKey>>(
       ...localeLocal,
     });
   }, [localeLocalLength]);
+
+  React.useEffect(() => {
+    localeValuesSet({ ...localeValues });
+  }, [localeCode]);
 
   return localeValues;
 }
