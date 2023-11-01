@@ -79,14 +79,21 @@ export const WebProvider: React.FC<WebProviderProps> = ({
 
   const [webSelect, webSelectSet] = React.useState<WebContext['webSelect']>();
 
+  const [managerPathname, managerPathnameSet] = React.useState<string | undefined>(undefined);
+  const managerLocationPush = React.useCallback((pathname: string) => {
+    managerPathnameSet(pathname);
+  }, [managerPathnameSet]);
+
   const value = React.useMemo(() => ({
     manager,
     managerSet,
+    managerLocationPush,
     webSelect,
     webSelectSet,
   }), [
     manager,
     managerSet,
+    managerLocationPush,
     webSelect,
     webSelectSet,
   ]);
@@ -137,8 +144,12 @@ export const WebProvider: React.FC<WebProviderProps> = ({
           <ManagerDynamic
             webSelect={webSelect}
             drawerWidth={managerDrawerWidth}
+            pathname={managerPathname}
             onWebSelect={webSelectSet}
-            onPathnameChange={(pathname) => managerDrawerOpenSet(!!pathname)}
+            onPathnameChange={(pathname) => {
+              managerDrawerOpenSet(!!pathname);
+              managerPathnameSet(undefined);
+            }}
           />
         </React.Suspense>
       ) : null}

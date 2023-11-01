@@ -8,3 +8,4 @@ export * from './Ider/index.js';
 export * from './LanguageButton/index.js';
 export * from './Navbar/index.js';
 export * from './Text/index.js';
+export * from './SearchInput/index.js';

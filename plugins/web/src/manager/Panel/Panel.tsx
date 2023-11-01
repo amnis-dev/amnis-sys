@@ -20,6 +20,7 @@ const PanelContent: Record<string, React.LazyExoticComponent<React.FC>> = {
   Administration: React.lazy(() => import('../PanelAdministration/PanelAdministration.js')),
   Accounts: React.lazy(() => import('../PanelAccounts/PanelAccounts.js')),
   Difference: React.lazy(() => import('../PanelDifference/PanelDifference.js')),
+  Edit: React.lazy(() => import('../PanelEdit/PanelEdit.js')),
   Localization: React.lazy(() => import('../PanelLocalization/PanelLocalization.js')),
   Save: React.lazy(() => import('../PanelSave/PanelSave.js')),
 };

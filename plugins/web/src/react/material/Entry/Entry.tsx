@@ -236,7 +236,7 @@ export const Entry: React.FC<EntryProps> = ({
     },
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     /** @ts-ignore */
-    [schema?.properties],
+    [schema?.properties, schema?.type],
   );
 
   const propertiesRequired = React.useMemo(

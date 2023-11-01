@@ -93,10 +93,7 @@ async function renewBearerToken(
     return undefined;
   }
 
-  store.dispatch({
-    type: 'bearer/updateMany',
-    payload: bearersNew,
-  });
+  store.dispatch(bearerSlice.action.insertMany(bearersNew));
 
   console.log('Bearer token has been fetched.');
 
@@ -119,6 +116,7 @@ export const headersAuthorizationToken = async (
   const bearer = bearerSlice.select.byId(state as any, bearerId);
 
   if (!bearer) {
+    console.error('Bearer token not found.');
     return;
   }
 
@@ -128,6 +126,7 @@ export const headersAuthorizationToken = async (
   if (bearer.exp <= Date.now()) {
     const bearerNew = await renewBearerToken(bearerId, state, store, apiAuth);
     if (!bearerNew) {
+      console.error('Bearer token could not be renewed.');
       return;
     }
 

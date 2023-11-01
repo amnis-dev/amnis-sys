@@ -63,7 +63,7 @@ export const Label: React.FC<LabelProps> = ({
       sx={{ display: 'inline-flex' }}
     >
       <Stack direction="row" alignItems="center" gap={1}>
-        <Text component="span" variant="inherit">
+        <Text component="span" noSkeleton={shrink} inherit>
           {label}
         </Text>
         {(!required && !condensed && !hideOptionalText) ? (

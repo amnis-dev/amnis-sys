@@ -3,6 +3,7 @@ import type { FormHelperTextProps } from '@mui/material';
 import {
   FormHelperText,
 } from '@mui/material';
+import { Text } from '@amnis/web/react/material';
 import { EntryContext } from '@amnis/web/react/context';
 
 export const Description: React.FC<FormHelperTextProps> = (
@@ -35,7 +36,7 @@ export const Description: React.FC<FormHelperTextProps> = (
     <FormHelperText
       {...propsMemoized}
     >
-      {description}
+      <Text inherit>{description}</Text>
     </FormHelperText>
   ) : null;
 };

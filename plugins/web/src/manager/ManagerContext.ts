@@ -5,6 +5,7 @@ import type { ManagerLocaleCode } from './locale/manager.locale.types.js';
 export type ManagerContextRoutes = [title: string, path: string][];
 
 export interface ManagerContextLocation {
+  url: string | undefined;
   path: string | null;
   hash: string | null;
   crumbs: string[];
@@ -61,6 +62,7 @@ export const managerContextDefault: ManagerContext = {
   routes: managerRoutes,
 
   location: {
+    url: undefined,
     path: null,
     hash: null,
     crumbs: [],

@@ -26,6 +26,11 @@ export interface WebContext {
   managerSet: (value: boolean) => void;
 
   /**
+   * Push a path location to route the manager.
+   */
+  managerLocationPush: (path: string) => void;
+
+  /**
    * Sets the web selection state (only useful when the manager is enabled)
    */
   webSelect?: WebContextWebSelect;
@@ -39,6 +44,7 @@ export interface WebContext {
 export const WebContext = React.createContext<WebContext>({
   manager: false,
   managerSet: noop,
+  managerLocationPush: noop,
   webSelect: undefined,
   webSelectSet: noop,
 });

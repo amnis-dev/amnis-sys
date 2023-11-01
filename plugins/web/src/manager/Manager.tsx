@@ -23,6 +23,11 @@ import type { ManagerLocaleCode } from './locale/manager.locale.types.js';
 
 export interface ManagerProps {
   /**
+   * Push a custom location path to the manager.
+   */
+  pathname?: string;
+
+  /**
    * Sets the web select state.
    */
   webSelect?: WebContext['webSelect'];
@@ -46,6 +51,7 @@ export interface ManagerProps {
 }
 
 export const Manager: React.FC<ManagerProps> = ({
+  pathname,
   webSelect,
   drawerWidth = '35%',
   onWebSelect = noop,
@@ -70,39 +76,77 @@ export const Manager: React.FC<ManagerProps> = ({
   const [searchParams, searchParamsSet] = useSearchParams();
   const searchParamManager = React.useMemo(() => searchParams.get('manager'), [searchParams]);
 
-  const location = React.useMemo<ManagerContext['location']>(() => {
+  const [location, locationSet] = React.useState<ManagerContext['location']>({
+    url: undefined,
+    path: null,
+    hash: null,
+    crumbs: [],
+    page: null,
+  });
+
+  const locationConfigure = React.useCallback((fullPathname?: string) => {
+    console.log(fullPathname);
     const result: ManagerContext['location'] = {
+      url: undefined,
       path: null,
       hash: null,
       crumbs: [],
       page: null,
     };
 
-    if (!searchParamManager) return result;
-    const parts = searchParamManager.split('#');
+    if (!fullPathname || fullPathname.length === 0) {
+      searchParams.delete('manager');
+      searchParamsSet(searchParams);
+      locationSet(result);
+      return;
+    }
+    const parts = fullPathname.split('#');
 
+    result.url = fullPathname;
     result.path = parts[0] || null;
     result.hash = parts[1] || null;
     result.crumbs = result.path?.slice(1).split('/').filter((c) => c.length > 0) || [];
     result.page = result.crumbs.slice(-1)[0] || null;
 
-    return result;
+    locationSet(result);
+    searchParams.set('manager', fullPathname);
+    searchParamsSet(searchParams);
+  }, [locationSet, searchParams, searchParamsSet]);
+
+  React.useEffect(() => {
+    if (searchParamManager) {
+      locationConfigure(searchParamManager);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (location.url && location.url !== searchParamManager) {
+      searchParams.set('manager', location.url);
+      searchParamsSet(searchParams);
+    }
   }, [searchParamManager]);
+
+  React.useEffect(() => {
+    if (pathname) {
+      locationConfigure(pathname);
+    }
+  }, [pathname]);
 
   const locationPush = React.useCallback((pathname: string | null) => {
     if (!pathname) {
-      searchParams.delete('manager');
-      searchParamsSet(searchParams);
+      locationConfigure();
       return;
     }
 
-    if (pathname.charAt(0) !== '/') {
-      searchParams.set('manager', `${searchParamManager}/${pathname}`);
+    const charZero = pathname.charAt(0);
+
+    console.log({ pathname });
+    if (charZero === '/') {
+      locationConfigure(pathname);
     } else {
-      searchParams.set('manager', pathname);
+      locationConfigure(`${location.path}/${pathname}`);
     }
-    searchParamsSet(searchParams);
-  }, [searchParamManager, searchParams, searchParamsSet]);
+  }, [location.path, locationConfigure, searchParamsSet]);
 
   const [locale, localeSet] = React.useState<ManagerContext['locale']>();
   const [localeLoading, localeLoadingSet] = React.useState(true);

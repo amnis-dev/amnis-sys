@@ -107,7 +107,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                       iderEn(route, 'label'),
                     ]}
                   >
-                    <Button sx={{ color: 'text.primary' }}>{route.label}</Button>
+                    <Button sx={{ color: 'text.primary' }}>
+                      <Text inherit>
+                        {route.label}
+                      </Text>
+                    </Button>
                   </Ider>
                 </Link>
               ))}

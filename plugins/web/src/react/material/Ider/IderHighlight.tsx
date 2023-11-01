@@ -3,7 +3,7 @@ import {
   Box, Popover, Popper, Stack, css,
 } from '@mui/material';
 import { ManagerProvider } from '@amnis/web/manager';
-import type { WebContextIderEntities } from '@amnis/web/react/context';
+import { WebContext, type WebContextIderEntities } from '@amnis/web/react/context';
 import {
   useId, usePopover,
 } from '@amnis/web/react/hooks';
@@ -59,6 +59,8 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
 }) => {
   const id = useId();
 
+  const { manager } = React.useContext(WebContext);
+
   const element = React.useMemo(() => refAnchor.current, [refAnchor.current]);
   const entity = React.useMemo(() => entities[entities.length - 1][0], [entities]);
   const prop = React.useMemo(() => entities[entities.length - 1][1], [entities]);
@@ -73,6 +75,8 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
     buttonProps,
     popoverProps,
     handleOpen: handlePopoverOpen,
+    handleClose: handlePopoverClose,
+
   } = usePopover(`ider-${id}`, {
     closePreventDefault: true,
     closeStopPropagation: true,
@@ -104,7 +108,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
 
     // Clear the timeout if the component is unmounted or if any dependencies change
     return () => clearTimeout(timeoutId);
-  }, [element, trigger, refDisplayed, entities]);
+  }, [element, trigger, refDisplayed, entities, manager]);
 
   /**
    * Listens for window resize events and triggers a two-stage re-render timer.
@@ -180,7 +184,10 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
               </Text>
             </Box>
             <Stack direction="column" gap={2}>
-              <IderEntityChips entities={entities} />
+              <IderEntityChips
+                entities={entities}
+                onClick={() => handlePopoverClose({} as any)}
+              />
               <IderInput
                 entity={entity}
                 prop={prop}

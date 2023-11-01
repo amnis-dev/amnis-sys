@@ -169,7 +169,7 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
       onChange={(value, event) => handleChange(property.key, value, event)}
       onError={(errors) => handlePropertiesError(property.key, errors)}
     />
-  )), [properties.length, value, changesProps]);
+  )), [properties, value, changesProps]);
 
   return (
     <Stack
