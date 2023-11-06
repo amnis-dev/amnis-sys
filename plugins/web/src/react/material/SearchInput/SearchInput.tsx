@@ -1,14 +1,14 @@
 import { noop } from '@amnis/state';
 import { Search } from '@mui/icons-material';
-import type { Theme } from '@mui/material';
 import {
   Box,
-  IconButton, InputBase, Paper, Stack, createTheme,
+  IconButton, InputBase, Paper,
 } from '@mui/material';
 import React from 'react';
 
 interface Props {
   leftComponent?: React.ReactNode;
+  rightComponent?: React.ReactNode;
   onChangeDebouncedTimeout?: number;
   onChange?: (value: string) => void;
   onChangeDebounced?: (value: string) => void;
@@ -17,6 +17,7 @@ interface Props {
 
 export const SearchInput: React.FC<Props> = ({
   leftComponent,
+  rightComponent,
   onChangeDebouncedTimeout = 500,
   onChange = noop,
   onChangeDebounced = noop,
@@ -66,6 +67,9 @@ export const SearchInput: React.FC<Props> = ({
           <Search />
         </IconButton>
       </Box>
+      {rightComponent ? (<Box>
+        {rightComponent}
+      </Box>) : null}
     </Paper>
   );
 };

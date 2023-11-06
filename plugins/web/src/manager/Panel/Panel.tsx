@@ -23,6 +23,7 @@ const PanelContent: Record<string, React.LazyExoticComponent<React.FC>> = {
   Edit: React.lazy(() => import('../PanelEdit/PanelEdit.js')),
   Localization: React.lazy(() => import('../PanelLocalization/PanelLocalization.js')),
   Save: React.lazy(() => import('../PanelSave/PanelSave.js')),
+  Translate: React.lazy(() => import('../PanelTranslate/PanelTranslate.js')),
 };
 
 export const Panel: React.FC = () => {

@@ -85,7 +85,6 @@ export const Manager: React.FC<ManagerProps> = ({
   });
 
   const locationConfigure = React.useCallback((fullPathname?: string) => {
-    console.log(fullPathname);
     const result: ManagerContext['location'] = {
       url: undefined,
       path: null,
@@ -140,7 +139,6 @@ export const Manager: React.FC<ManagerProps> = ({
 
     const charZero = pathname.charAt(0);
 
-    console.log({ pathname });
     if (charZero === '/') {
       locationConfigure(pathname);
     } else {

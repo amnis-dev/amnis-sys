@@ -79,6 +79,11 @@ interface EntryBaseProps {
   optionsFilter?: any[];
 
   /**
+   * Input lines for text entries.
+   */
+  multiline?: number;
+
+  /**
    * Change data to pass to the entity's context.
    */
   changes?: EntryContextProps['changes'];
@@ -175,6 +180,7 @@ export const Entry: React.FC<EntryProps> = ({
   optionalText = entryContextDefault.optionalText,
   autoFocus = false,
   condensed = false,
+  multiline: multilineProp,
   changes,
   optionsFilter = [],
   onChange: onChangeProp = noop,
@@ -352,6 +358,28 @@ export const Entry: React.FC<EntryProps> = ({
     return result;
   }, [schema, required, value]);
 
+  const multiline = React.useMemo<number | undefined>(() => {
+    if (multilineProp) {
+      return multilineProp;
+    }
+
+    if (type === 'string' && schema) {
+      const { maxLength } = schema as EntryContextSchemaString;
+
+      if (!maxLength) {
+        return undefined;
+      }
+
+      if (maxLength > 2048) {
+        return 8;
+      }
+
+      return Math.floor(maxLength / 256);
+    }
+
+    return undefined;
+  }, [multilineProp, schema, type]);
+
   const errorText = React.useMemo<Record<EntryContextSchemaErrors, string>>(() => {
     if (errorTextProp) {
       return errorTextProp;
@@ -418,6 +446,7 @@ export const Entry: React.FC<EntryProps> = ({
     autoFocus,
     condensed,
     changes,
+    multiline,
     onChange,
     onSelect,
     onBlur,
@@ -442,6 +471,7 @@ export const Entry: React.FC<EntryProps> = ({
     autoFocus,
     condensed,
     changes,
+    multiline,
     onChange,
     onSelect,
     onBlur,

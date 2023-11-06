@@ -1,6 +1,6 @@
 import React from 'react';
-import type { DataUpdater, UID } from '@amnis/state';
-import { stateSelect } from '@amnis/state';
+import type { DataUpdater, UID, DataCreator } from '@amnis/state';
+import { entityStrip, stateSelect } from '@amnis/state';
 import {
   Button, CircularProgress, Stack,
 } from '@mui/material';
@@ -14,10 +14,12 @@ export const PanelSave: React.FC = () => {
 
   const dispatch = useWebDispatch();
 
-  const differenceCount = useWebSelector(stateSelect.entityDifferenceCount);
+  const stagedCount = useWebSelector(stateSelect.stagedCount);
+  const stagedCreate = useWebSelector(stateSelect.stagedCreate);
+  const stagedUpdate = useWebSelector(stateSelect.stagedUpdate);
   const differences = useWebSelector(stateSelect.entityDifferences);
 
-  const disabled = React.useMemo(() => differenceCount <= 0, [differenceCount]);
+  const disabled = React.useMemo(() => stagedCount <= 0, [stagedCount]);
 
   const [isUpdateLoading, isUpdateLoadingSet] = React.useState(false);
 
@@ -30,8 +32,23 @@ export const PanelSave: React.FC = () => {
   const handleUpdate = React.useCallback(() => {
     isUpdateLoadingSet(true);
 
-    const updates = differences
-      .reduce<DataUpdater>((acc, { sliceKey, updater }) => {
+    const creates = stagedCreate
+      .reduce<DataCreator>((acc, entity) => {
+      const creator = entityStrip(entity);
+      const sliceKey = creator.$id.split(':')[0];
+      if (sliceKey && !acc[sliceKey]) {
+        acc[sliceKey] = [creator];
+        return acc;
+      }
+      acc[sliceKey].push(creator);
+      return acc;
+    }, {});
+
+    const updates = stagedUpdate
+      .reduce<DataUpdater>((acc, { $id }) => {
+      const diff = differences.find((diff) => diff.current!.$id === $id);
+      if (!diff) return acc;
+      const { sliceKey, updater } = diff;
       if (!acc[sliceKey]) {
         acc[sliceKey] = [updater];
         return acc;
@@ -41,10 +58,14 @@ export const PanelSave: React.FC = () => {
     }, {});
 
     (async () => {
-      await dispatch(apiCrud.endpoints.update.initiate(updates));
+      const promises: Promise<any>[] = [
+        dispatch(apiCrud.endpoints.create.initiate(creates)),
+        dispatch(apiCrud.endpoints.update.initiate(updates)),
+      ];
+      await Promise.all(promises);
       isUpdateLoadingSet(false);
     })();
-  }, [differences]);
+  }, [differences, stagedUpdate]);
 
   return (
     <Stack direction="column">

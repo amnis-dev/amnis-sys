@@ -63,6 +63,8 @@ test('should authenticate as normal user account', async () => {
     $credentials: [
       userAccount.credential.$id,
     ],
+    committed: true,
+    new: false,
   });
 
   expect(profiles).toBeDefined();

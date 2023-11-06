@@ -10,6 +10,7 @@ import {
   userSlice,
   profileSlice,
   contactSlice,
+  stateEntitiesCreate,
 } from '@amnis/state';
 
 export type MockData = {
@@ -147,11 +148,13 @@ export async function mockData(system: System) {
 
   return {
     agent,
-    user,
-    handle,
-    contact,
-    profile,
-    credential,
+    ...stateEntitiesCreate({
+      user,
+      handle,
+      contact,
+      profile,
+      credential,
+    }, { committed: true, new: false }),
   };
 }
 

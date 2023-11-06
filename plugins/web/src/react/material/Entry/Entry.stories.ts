@@ -5,6 +5,9 @@ import { Entry } from './Entry.js';
 const meta: Meta = {
   title: 'Material/Entry',
   component: Entry,
+  parameters: {
+    mock: true,
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof Entry>;
 

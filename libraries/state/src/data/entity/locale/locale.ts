@@ -19,7 +19,7 @@ import {
 } from './locale.selectors.js';
 import { dataActions } from '../../data.actions.js';
 import type { Entity } from '../entity.types.js';
-import type { DataCreator } from '../../data.types.js';
+import type { DataCreator, DataUpdate, DataUpdater } from '../../data.types.js';
 import { entityCreate } from '../entity.js';
 import { localStorage } from '../../../localstorage.js';
 
@@ -132,6 +132,9 @@ export const localeSlice = entitySliceCreate({
           state.names = {
             ...state.names,
             ...locales.reduce <Record<string, Locale>>((acc, cur) => {
+              if (cur.code !== state.code) {
+                return acc;
+              }
               acc[cur.name] = {
                 $id: cur.$id,
                 code: cur.code,
@@ -141,6 +144,32 @@ export const localeSlice = entitySliceCreate({
               return acc;
             }, {}),
           };
+        },
+      );
+
+      builder.addMatcher(
+        (action): action is PayloadAction<DataUpdater<Entity>> => (
+          action.type === dataActions.update.type
+        ),
+        (state, action) => {
+          if (!action.payload?.locale) {
+            return;
+          }
+
+          const locales = action.payload.locale as DataUpdate<Entity<Locale>>[];
+
+          locales.forEach((locale) => {
+            if (!locale.code || !locale.value || locale.code !== state.code) {
+              return;
+            }
+            if (!state.names[locale.name]) {
+              return;
+            }
+            state.names[locale.name] = {
+              ...state.names[locale.name],
+              value: locale.value,
+            };
+          });
         },
       );
     },

@@ -25,30 +25,30 @@ const selectLocaleRecord = createSelector(
   }, {} as Record<string, string>),
 );
 
-export function useLocale<K extends React.MutableRefObject<UseLocaleKey>>(
+export function useLocale<K extends UseLocaleKey>(
   keys: K,
-): ObjectFromList<K['current']> {
+): ObjectFromList<K> {
   const dispatch = useWebDispatch();
 
   const localeCode = useWebSelector((state) => localeSlice.select.state(state).code);
 
-  const [localeValues, localeValuesSet] = React.useState<ObjectFromList<K['current']>>(
-    keys.current.reduce((acc, key) => ({ ...acc, [key]: '...' }), {} as ObjectFromList<K['current']>),
+  const [localeValues, localeValuesSet] = React.useState<ObjectFromList<K>>(
+    keys.reduce((acc, key) => ({ ...acc, [key]: '...' }), {} as ObjectFromList<K>),
   );
 
   /**
    * First check if the locale is already available on the store.
    */
   const localeLocal = useWebSelector(
-    (state) => selectLocaleRecord(state, keys.current as string[]),
-  ) as ObjectFromList<K['current']>;
+    (state) => selectLocaleRecord(state, [...keys]),
+  ) as ObjectFromList<K>;
 
   const localeLocalLength = React.useMemo(() => Object.keys(localeLocal).length, [localeLocal]);
 
   React.useEffect(() => {
-    if (keys.current.length !== localeLocalLength) {
+    if (keys.length !== localeLocalLength) {
       dispatch(apiSys.endpoints.locale.initiate({
-        keys: keys.current as string[],
+        keys: [...keys],
       }));
     }
 
@@ -56,11 +56,10 @@ export function useLocale<K extends React.MutableRefObject<UseLocaleKey>>(
       ...localeValues,
       ...localeLocal,
     });
-  }, [localeLocalLength]);
+  }, [localeLocalLength, keys]);
 
-  React.useEffect(() => {
-    localeValuesSet({ ...localeValues });
-  }, [localeCode]);
+  // React.useEffect(() => {
 
+  // }, [localeCode]);
   return localeValues;
 }

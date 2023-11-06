@@ -115,14 +115,20 @@ test('should login as a admin', async () => {
   expect(users[0].handle).toBe(adminAccount.handle);
   expect(users[0].$credentials?.[0]).toBe(adminAccount.credential.$id);
   expect(users[0].$owner).toBe(users[0].$id);
+  expect(users[0].committed).toBe(true);
+  expect(users[0].new).toBe(false);
 
   expect(profiles).toHaveLength(1);
   expect(profiles[0].$user).toBe(users[0].$id);
   expect(profiles[0].$owner).toBe(users[0].$id);
+  expect(profiles[0].committed).toBe(true);
+  expect(profiles[0].new).toBe(false);
 
   expect(contacts).toHaveLength(1);
   expect(contacts[0].$id).toBe(profiles[0].$contact);
   expect(contacts[0].$owner).toBe(users[0].$id);
+  expect(contacts[0].committed).toBe(true);
+  expect(contacts[0].new).toBe(false);
 
   expect(sessions).toHaveLength(1);
   expect(sessions[0].$owner).toBe(users[0].$id);

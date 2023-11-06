@@ -16,7 +16,7 @@ export const ManagerSpeedDial: React.FC = () => {
   // const handleOpen = React.useCallback(() => openSet(true), [openSet]);
   const handleClose = React.useCallback(() => openSet(false), [openSet]);
 
-  const differenceCount = useWebSelector(stateSelect.entityDifferenceCount);
+  const stagedCount = useWebSelector(stateSelect.stagedCount);
   const { locale, locationPush } = React.useContext(ManagerContext);
 
   const handleNavigate = React.useCallback((path: string) => {
@@ -29,9 +29,9 @@ export const ManagerSpeedDial: React.FC = () => {
   const actions = React.useMemo(() => [
     {
       id: 'save',
-      icon: differenceCount > 0 ? (
+      icon: stagedCount > 0 ? (
         <Badge
-          badgeContent={differenceCount}
+          badgeContent={stagedCount}
           color='warning'
         >
           <Save />
@@ -64,7 +64,7 @@ export const ManagerSpeedDial: React.FC = () => {
       name: locale?.['manager.speeddial.administration'] ?? '...',
       onClick: () => handleNavigate('/Administration'),
     },
-  ], [locale, differenceCount]);
+  ], [locale, stagedCount]);
 
   return (<>
     <SpeedDial
@@ -75,8 +75,8 @@ export const ManagerSpeedDial: React.FC = () => {
         bottom: 16,
         right: 16,
       }}
-      icon={differenceCount > 0 ? (<>
-        <Text variant="body1">{differenceCount}</Text>
+      icon={stagedCount > 0 ? (<>
+        <Text variant="body1">{stagedCount}</Text>
         <Settings fontSize="large" sx={{ opacity: 0.25, position: 'absolute' }} />
       </>) : (
         <Settings fontSize="large" />

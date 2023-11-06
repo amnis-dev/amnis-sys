@@ -22,6 +22,7 @@ export const EntryText: React.FC = () => {
     disabled,
     autoFocus,
     condensed,
+    multiline,
     onChange,
     onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<string>;
@@ -58,6 +59,8 @@ export const EntryText: React.FC = () => {
         autoFocus={autoFocus}
         onChange={handleChange}
         onBlur={onBlur}
+        multiline={!!multiline}
+        rows={multiline}
       />
     </FormControl>
   );

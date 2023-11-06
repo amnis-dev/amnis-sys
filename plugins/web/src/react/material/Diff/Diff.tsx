@@ -53,7 +53,7 @@ export const Diff: React.FC<DiffProps> = ({
   const currentTranslated = useTranslate(difference?.current);
 
   const localeKeys = React.useRef(['!diff.restore'] as const);
-  const locale = useLocale(localeKeys);
+  const locale = useLocale(localeKeys.current);
 
   const schema = useEntitySchema($id);
 
@@ -84,11 +84,9 @@ export const Diff: React.FC<DiffProps> = ({
       $id: $id as UID,
       [key]: difference.original[key as keyof Data] as any,
     };
-    console.log('updater', updater);
     const payload: DataUpdater = {
       [sliceKey]: [updater],
     };
-    console.log('payload', payload);
     dispatch(dataActions.update(payload));
   }, [dispatch, difference.original, sliceKey]);
 

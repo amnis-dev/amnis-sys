@@ -487,7 +487,7 @@ const isUserActivePrivileged = (state: RootState): boolean => {
   return isUserPrivileged(state, userActive.$id);
 };
 
-const stagedEntities = (state: RootState): Entity[] => {
+const unsavedEntities = (state: RootState): Entity[] => {
   const entities = Object.values(state).reduce<Entity[]>((acc, slice) => {
     /** @ts-ignore */
     if (slice?.type !== 'entity' || slice?.differences === undefined) {
@@ -509,8 +509,64 @@ const stagedEntities = (state: RootState): Entity[] => {
  * Returns the number of entity differences.
  */
 const entityDifferenceCount = createSelector(
-  stagedEntities,
+  unsavedEntities,
   (staged) => staged.length,
+);
+
+/**
+ * Returns all entities in the state.
+ */
+const allEntities = (state: any): Entity[] => {
+  const entitySlices = Object.keys(state).filter(
+    (sliceKey) => !['log', 'session'].includes(sliceKey) && state[sliceKey].type === 'entity',
+  );
+  const entities = entitySlices.map((sliceKey) => {
+    const slice = state[sliceKey] as DataState<Entity>;
+    return Object.values(slice.entities);
+  }).flat();
+  return entities;
+};
+
+/**
+ * Returns all entity IDs that are staged for saving.
+ *
+ * This includes created, updated, and deleted entities.
+ */
+const staged = createSelector(
+  allEntities,
+  (entities) => entities.filter((entity) => entity.committed === false),
+);
+
+/**
+ * Returns the count of all entities that are staged for saving.
+ */
+const stagedCount = createSelector(
+  staged,
+  (entities) => entities.length,
+);
+
+/**
+ * Selects only new staged entities.
+ */
+const stagedCreate = createSelector(
+  staged,
+  (entities) => entities.filter((entity) => entity.new === true),
+);
+
+/**
+ * Selects only updated staged entities.
+ */
+const stagedUpdate = createSelector(
+  staged,
+  (entities) => entities.filter((entity) => entity.new === false && entity.committed === false),
+);
+
+/**
+ * Selects only deleted staged entities.
+ */
+const stagedDelete = createSelector(
+  staged,
+  (entities) => entities.filter((entity) => entity.delete === true),
 );
 
 export const stateSelect = {
@@ -532,7 +588,12 @@ export const stateSelect = {
   isUserActiveAdmin,
   isUserActiveExec,
   isUserActivePrivileged,
-  stagedEntities,
+  unsavedEntities,
+  staged,
+  stagedCount,
+  stagedCreate,
+  stagedUpdate,
+  stagedDelete,
 };
 
 export default stateSelect;

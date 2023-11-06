@@ -1,10 +1,20 @@
 import React from 'react';
 import type { SelectChangeEvent, Theme } from '@mui/material';
 import {
-  Box, Card, CardActionArea, Divider, FormControl, LinearProgress, MenuItem, Select, Stack,
+  Box,
+  Card,
+  CardActionArea,
+  Divider,
+  FormControl,
+  IconButton,
+  LinearProgress,
+  MenuItem,
+  Select,
+  Stack,
 } from '@mui/material';
 import { localeSlice, systemSlice } from '@amnis/state';
 import { apiCrud } from '@amnis/api';
+import { Add } from '@mui/icons-material';
 import { useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
 import { SearchInput, Text } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
@@ -72,6 +82,18 @@ export const PanelLocalizationSearch: React.FC = () => {
     [localeCodeSelected, localeCodes],
   );
 
+  /**
+   * Memo a rendered component for an icon button that can be pressed to create new entities.
+   */
+  const LocaleCreateButton = React.useMemo(
+    () => (
+      <IconButton color="primary">
+        <Add />
+      </IconButton>
+    ),
+    [],
+  );
+
   const triggerSearch = React.useCallback(async (includeText: string) => {
     loadingEntitiesSet(true);
     await dispatch(apiCrud.endpoints.read.initiate({
@@ -97,7 +119,7 @@ export const PanelLocalizationSearch: React.FC = () => {
     if (localeEntities.length < localeMax.current) {
       triggerSearch(searchText);
     }
-  }, [localeCodeSelected, searchText]);
+  }, [localeCodeSelected, searchText, localeEntities.length, localeMax.current]);
 
   React.useEffect(() => {
     triggerSearch(searchText);
@@ -112,6 +134,7 @@ export const PanelLocalizationSearch: React.FC = () => {
       <Box>
         <SearchInput
           leftComponent={LocaleCodeSelect}
+          rightComponent={LocaleCreateButton}
           onChangeDebounced={handleSearch}
           onChangeDebouncedTimeout={500}
         />
@@ -129,10 +152,10 @@ export const PanelLocalizationSearch: React.FC = () => {
               })}
             >
               <CardActionArea
-                onClick={() => locationPush(`Edit/#${entity.$id}`)}
+                onClick={() => locationPush(`Translate/#${entity.$id}`)}
               >
                 <Box p={1} sx={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
-                  <Text>{entity.name}</Text>
+                  <span style={{ opacity: 0.5 }}>%</span><Text component="span">{entity.name}</Text>
                 </Box>
                 <Divider orientation="horizontal" flexItem />
                 <Box flex={1} p={1}>

@@ -36,6 +36,7 @@ export interface EntryContextProps<T = any> {
   optionalText: string;
   condensed: boolean;
   focused: boolean;
+  multiline?: number;
   focusedSetter: (value: boolean) => void;
   autoFocus: boolean;
   suggestions: string[];

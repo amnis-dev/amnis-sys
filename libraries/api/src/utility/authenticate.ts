@@ -139,7 +139,7 @@ export const authenticateFinalize = async (
     user.$roles,
   );
 
-  const session = entityCreate(sessionBase, { $owner: user.$id });
+  const session = entityCreate(sessionBase, { $owner: user.$id, committed: true, new: false });
   const sessionEncrypted = await context.crypto.sessionEncrypt(sessionBase);
 
   /**

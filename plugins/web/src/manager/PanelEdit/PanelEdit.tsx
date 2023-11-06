@@ -3,7 +3,7 @@ import { Stack } from '@mui/material';
 import { EntityForm } from '@amnis/web';
 import { ManagerContext } from '../ManagerContext.js';
 
-const PanelEdit: React.FC = () => {
+export const PanelEdit: React.FC = () => {
   const { location: { hash } } = React.useContext(ManagerContext);
 
   const entityIds = React.useMemo(() => hash?.split(',') || [], [hash]);
