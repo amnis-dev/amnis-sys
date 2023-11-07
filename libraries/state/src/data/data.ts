@@ -26,13 +26,13 @@ export function dataName(data: any): string {
   }
   if (typeof data === 'object' && !!data && !Array.isArray(data)) {
     const nameKey = dataNameKey(data);
-    const name = nameKey ? data[nameKey] : data.$id?.split(':')[0] || '[Object]';
+    const name = nameKey ? data[nameKey] : data.$id?.split(':')[0] || '';
     return name;
   }
   if (Array.isArray(data)) {
-    return '[Array]';
+    return '';
   }
-  return '[Unknown]';
+  return '';
 }
 
 type DataTypeOption = 'string' | 'number' | 'boolean' | 'undefined' | 'object' | 'array';

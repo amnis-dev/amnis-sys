@@ -20,6 +20,7 @@ import {
   EntryObject,
   EntryArray,
   EntryFormatReference,
+  EntryFormatTree,
 } from './inputs/index.js';
 
 interface EntryBaseProps {
@@ -495,6 +496,9 @@ export const Entry: React.FC<EntryProps> = ({
           case 'boolean':
             return <EntryBoolean />;
           case 'array':
+            if (items?.type === 'array') {
+              return <EntryFormatTree />;
+            }
             return <EntryArray Entry={Entry}/>;
           case 'object':
             return <EntryObject Entry={Entry} />;

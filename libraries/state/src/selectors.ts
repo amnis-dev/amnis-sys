@@ -1,9 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { EntityState } from '@amnis/state/rtk';
 import { createSelector } from '@amnis/state/rtk';
-import type { UID } from './core/core.types.js';
+import type { UID, UIDTree } from './core/core.types.js';
 import type {
-  Data, DataMeta, DataQuery, DataRoot, DataState, DataUpdate, Entity, User,
+  Data,
+  DataMeta,
+  DataQuery,
+  DataRoot,
+  DataState,
+  DataTree,
+  DataUpdate,
+  Entity,
+  User,
 } from './data/index.js';
 import type { State } from './state.types.js';
 import {
@@ -527,6 +535,20 @@ const allEntities = (state: any): Entity[] => {
   return entities;
 };
 
+const allEntitiesMap = (state: any): Record<UID, Entity> => {
+  const entitySlices = Object.keys(state).filter(
+    (sliceKey) => !['log', 'session'].includes(sliceKey) && state[sliceKey].type === 'entity',
+  );
+  const entities = entitySlices.reduce<Record<UID, Entity>>(
+    (acc, sliceKey) => {
+      const slice = state[sliceKey] as DataState<Entity>;
+      return { ...acc, ...slice.entities };
+    },
+    {} as Record<UID, Entity>,
+  );
+  return entities;
+};
+
 /**
  * Returns all entity IDs that are staged for saving.
  *
@@ -569,6 +591,56 @@ const stagedDelete = createSelector(
   (entities) => entities.filter((entity) => entity.delete === true),
 );
 
+/**
+ * Selects all entities in a UID Tree.
+ */
+const entityTreeFlat = createSelector(
+  [
+    (state, tree: UIDTree) => tree,
+    allEntitiesMap,
+  ],
+  (tree, entities) => {
+    tree.reduce<Record<UID, Entity>>((acc, [$idCurrent, $idParent]) => {
+      if (!acc[$idCurrent]) {
+        const entity = entities[$idCurrent];
+        acc[$idCurrent] = entity;
+      }
+      if ($idParent && !acc[$idParent]) {
+        const entity = entities[$idParent];
+        acc[$idParent] = entity;
+      }
+      return acc;
+    }, {} as Record<UID, Entity>);
+    return entities;
+  },
+);
+
+function dataTreeRecursive(
+  tree: UIDTree,
+  entities: Record<UID, Entity>,
+  $root: UID | null,
+): DataTree<Entity> {
+  const array: DataTree<Entity> = [];
+  const roots = tree.filter(([, $idParent]) => $idParent === $root);
+  roots.forEach(([$idCurrent]) => {
+    const entity = entities[$idCurrent];
+    const children = dataTreeRecursive(tree, entities, $idCurrent);
+    array.push([entity, children]);
+  });
+  return array;
+}
+
+/**
+ * Selects a nested array of entities from a UID Tree.
+ */
+const entityTree = createSelector(
+  [
+    (state, tree: UIDTree) => tree,
+    entityTreeFlat,
+  ],
+  (tree, entities) => dataTreeRecursive(tree, entities, null),
+);
+
 export const stateSelect = {
   query,
   sliceByKey,
@@ -594,6 +666,8 @@ export const stateSelect = {
   stagedCreate,
   stagedUpdate,
   stagedDelete,
+  entityTreeFlat,
+  entityTree,
 };
 
 export default stateSelect;

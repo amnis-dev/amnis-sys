@@ -19,6 +19,8 @@ export const data: StateDataPromise = async (data) => {
   const routes = routeMapEntities({
     '%route.home.label': { path: '/' },
     '%route.about.label': { path: '/about' },
+    '%route.about.business.label': { path: '/about/business' },
+    '%route.about.team.label': { path: '/about/team' },
     '%route.contact.label': { path: '/contact' },
   });
   data[routeSlice.key].push(...routes);
@@ -53,7 +55,9 @@ export const data: StateDataPromise = async (data) => {
       $routes: [
         [routes[0].$id, null],
         [routes[1].$id, null],
-        [routes[2].$id, null],
+        [routes[2].$id, routes[1].$id],
+        [routes[3].$id, routes[1].$id],
+        [routes[4].$id, null],
       ],
     }),
   ];

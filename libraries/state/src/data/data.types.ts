@@ -274,7 +274,7 @@ export type DataState<D extends Data = Data> = EntityState<D, string> & DataMeta
 /**
  * A tree of data.
  */
-export type DataTree<D extends Data = Data> = [item: D, chilren: DataTree][];
+export type DataTree<D extends Data = Data> = [item: D, children: DataTree<D>][];
 
 export interface DataReducerOptions {
   save: boolean | Record<string, unknown>;
