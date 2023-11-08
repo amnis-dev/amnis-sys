@@ -26,8 +26,8 @@ export function usePopover(
   const handleClose = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     anchorEl?.blur();
     anchorElSet(null);
-    if (options.closeStopPropagation) { event.stopPropagation(); }
-    if (options.closePreventDefault) { event.preventDefault(); }
+    if (options.closeStopPropagation && event?.stopPropagation) { event.stopPropagation(); }
+    if (options.closePreventDefault && event?.preventDefault) { event.preventDefault(); }
   }, [anchorElSet]);
 
   const buttonProps = React.useMemo < React.ButtonHTMLAttributes<HTMLButtonElement>>(() => ({

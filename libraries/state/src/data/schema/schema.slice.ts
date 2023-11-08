@@ -121,7 +121,17 @@ const selectReferences = (state: State, schema: Schema): Schema[] => {
     }
   }
 
-  if (schema.type === 'array' && schema.items?.$ref) {
+  if (schema.type === 'array' && Array.isArray(schema.items)) {
+    schema.items.forEach((item) => {
+      if (item?.$ref) {
+        const reference = selectReference(state, item.$ref);
+        if (reference) {
+          const referenceReferences = selectReferences(state, reference);
+          references.push(...[reference, ...referenceReferences]);
+        }
+      }
+    });
+  } else if (schema.type === 'array' && schema.items?.$ref) {
     const reference = selectReference(state, schema.items.$ref);
     if (reference) {
       const referenceReferences = selectReferences(state, reference);
@@ -186,7 +196,29 @@ const selectCompiled = createSelector(
       }
     }
 
-    if (schema.type === 'array' && !!schema.items?.$ref) {
+    if (schema.type === 'array' && Array.isArray(schema.items)) {
+      const items: Schema[] = [];
+      schema.items.forEach((item) => {
+        if (item?.$ref) {
+          const reference = selectReference(state, item.$ref);
+          if (reference) {
+            const referenceName = reference.$id.split('/').slice(-1)[0];
+            const referenceCompiled = selectCompiled(state, referenceName);
+            if (referenceCompiled) {
+              items.push(referenceCompiled);
+            }
+          }
+        } else {
+          items.push(item);
+        }
+      });
+      return {
+        ...schema,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        /** @ts-ignore */
+        items,
+      };
+    } if (schema.type === 'array' && !!schema.items?.$ref) {
       const reference = selectReference(state, schema.items.$ref);
       if (reference) {
         const referenceName = reference.$id.split('/').slice(-1)[0];

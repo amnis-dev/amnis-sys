@@ -59,14 +59,14 @@ export const uidListValidate = <T>(list: UIDList<T>): boolean => {
 /**
  * Create a new identifier tree.
  */
-export const uidTree = <T>(
+export const uidTree = <T extends UID>(
   tree: [UID<T>, UID<T> | null][] = [],
 ) => tree as UIDTree<T>;
 
 /**
  * Validates an identifier tree.
  */
-export const uidTreeValidate = <T>(tree: UIDTree<T>): boolean => {
+export const uidTreeValidate = <T extends UID>(tree: UIDTree<T>): boolean => {
   if (!Array.isArray(tree)) {
     return false;
   }

@@ -90,6 +90,22 @@ export type UIDList<T = unknown> = UID<T>[];
 export type UIDv2List<S extends string = string> = UIDv2<S>[];
 
 /**
+ * An array that links a UID to a parent UID.
+ *
+ * @title {
+ * en: "UID Relation",
+ * de: "UID Beziehung",
+ * es: "Relación UID",
+ * }
+ * @description {
+ * en: "An array that links a UID to a parent UID",
+ * de: "Ein Array, das eine UID mit einer übergeordneten UID verknüpft",
+ * es: "Una matriz que vincula un UID a un UID principal",
+ * }
+ */
+export type UIDRelation<T extends UID = UID> = [item: T, parent: T | null];
+
+/**
  * Identifiers linked in a directory tree fashion.
  *
  * @title {
@@ -101,7 +117,7 @@ export type UIDv2List<S extends string = string> = UIDv2<S>[];
  *  de: "Liste eindeutiger Datenbezeichner, die baumartig verknüpft sind"
  * }
  */
-export type UIDTree<T = unknown> = [item: UID<T>, parent: UID<T> | null][];
+export type UIDTree<T extends UID = UID> = UIDRelation<T>[];
 
 /**
  * Identifiers linked in a directory tree fashion.

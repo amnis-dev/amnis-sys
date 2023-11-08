@@ -139,3 +139,21 @@ export type RouteRoot = DataRoot<Route>;
  * Root properties in order to create a log.
  */
 export type RouteMinimal = DataMinimal<Route, 'label' | 'path'>;
+
+/**
+ * Route ID
+ *
+ * @title {
+ *  en: "Route",
+ *  de: "Route",
+ *  es: "Ruta",
+ * }
+ * @description {
+ *  en: "A route to a resource.",
+ *  de: "Eine Route zu einer Ressource.",
+ *  es: "Una ruta a un recurso.",
+ * }
+ * @type {string}
+ * @pattern ^route:[A-Za-z0-9_-]{21}$
+ */
+export type RouteID = UID<Route>;

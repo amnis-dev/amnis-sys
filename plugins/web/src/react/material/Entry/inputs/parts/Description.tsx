@@ -34,6 +34,7 @@ export const Description: React.FC<FormHelperTextProps> = (
 
   return description ? (
     <FormHelperText
+      component="span"
       {...propsMemoized}
     >
       <Text inherit>{description}</Text>

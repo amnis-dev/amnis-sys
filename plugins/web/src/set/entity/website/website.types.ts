@@ -4,7 +4,7 @@ import type {
   DataMinimal,
   DataRoot,
   UIDTree,
-  Route,
+  RouteID,
 } from '@amnis/state';
 
 /**
@@ -198,7 +198,7 @@ export interface Website extends Data {
    *  es: "Rutas de navegación para el sitio web",
    * }
    */
-  $routes: UIDTree<Route>;
+  $routes: UIDTree<RouteID>;
 }
 
 export type WebsiteRoot = DataRoot<Website>;
