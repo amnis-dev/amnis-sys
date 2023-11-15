@@ -1,6 +1,5 @@
 import type { UID } from '../../../core/index.js';
 import type { Data, DataRoot, DataMinimal } from '../../data.types.js';
-import type { Image } from '../image/image.types.js';
 
 /**
  * Data for routing to a resouce.
@@ -94,24 +93,9 @@ export interface Route extends Data {
    * de: "Ein Bild, das diese Route repräsentiert.",
    * es: "Una imagen que representa esta ruta.",
    * }
+   * @format image
    */
-  image?: UID<Image>;
-
-  /**
-   * Entity ID this route points to.
-   *
-   * @title {
-   * en: "Entity",
-   * de: "Entität",
-   * es: "Entidad",
-   * }
-   * @description {
-   * en: "Entity ID this route points to.",
-   * de: "Die Entitäts-ID, auf die diese Route verweist.",
-   * es: "ID de entidad a la que apunta esta ruta.",
-   * }
-   */
-  $entity?: UID;
+  image?: string;
 
   /**
    * An icon associated with the route.

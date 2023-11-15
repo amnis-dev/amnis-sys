@@ -134,6 +134,17 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
     return 'divider';
   }, [propertiesErrored, difference?.keys]);
 
+  const borderStyle = React.useMemo(() => {
+    switch (borderColor) {
+      case 'error.main':
+        return 'solid';
+      case 'warning.main':
+        return 'dashed';
+      default:
+        return 'dotted';
+    }
+  }, [borderColor]);
+
   const borderColorFocused = React.useMemo(() => {
     if (propertiesErrored) return 'error.main';
     if (difference?.keys.length) return 'warning.main';
@@ -142,21 +153,23 @@ export const EntryObject: React.FC<EntryObjectProps> = ({
 
   const sxStack = React.useMemo(() => ({
     borderRight: 0,
-    borderLeft: 2,
+    borderLeft: 3,
     borderTop: 0,
     borderBottom: 0,
-    paddingLeft: '12px',
+    paddingLeft: '11px',
     paddingRight: 0,
     paddingTop: 0,
     paddingBottom: 0,
     borderColor,
+    borderStyle,
     margin: 0,
     '&:has(*:focus)': {
-      borderLeft: 3,
-      paddingLeft: '11px',
+      borderLeft: 4,
+      paddingLeft: '10px',
+      borderStyle,
       borderColor: borderColorFocused,
     },
-  }), [borderColor, borderColorFocused]);
+  }), [borderColor, borderStyle, borderColorFocused]);
 
   const Entries = React.useMemo(() => properties.map((property) => (
     <Entry

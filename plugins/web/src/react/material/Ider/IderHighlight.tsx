@@ -31,7 +31,7 @@ const cssHighlighter = css`
   left: -4px;
   padding: 2px;
   cursor: pointer;
-  z-index: 2000;
+  z-index: 900;
   border-radius: 4px;
   opacity: 0;
   transition: opacity 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -145,7 +145,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
         open={true}
         anchorEl={element}
         placement="left-start"
-        sx={{ zIndex: 4000 }}
+        sx={{ zIndex: 1200 }}
         role="generic"
       >
         <button
@@ -166,7 +166,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
       </Popper>
       <ManagerProvider>
         <Popover
-          style={{ zIndex: 4001 }}
+          style={{ zIndex: 1200 }}
           {...popoverProps}
           anchorOrigin={{
             vertical: 'bottom',

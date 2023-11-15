@@ -56,6 +56,7 @@ export const Text: React.FC<TextProps> = ({
     },
     [children],
   );
+
   const loaded = React.useMemo(
     () => {
       let result = text.length > 0;

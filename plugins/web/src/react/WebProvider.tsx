@@ -170,7 +170,6 @@ export const WebProvider: React.FC<WebProviderProps> = ({
           ...(managerDrawerOpen && { marginLeft: { xs: 0, lg: managerDrawerWidth } }),
         }}>
           <Box
-            key={remount ? 0 : 1}
             sx={{
               bgcolor: '#fff',
               height: manager ? '100%' : undefined,

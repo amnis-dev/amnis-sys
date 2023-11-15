@@ -1,0 +1,1 @@
+export * from './EntitySearchLocale.js';

@@ -30,6 +30,11 @@ interface EntryBaseProps {
   label?: string;
 
   /**
+   * Hide the label.
+   */
+  labelHide?: boolean;
+
+  /**
    * The description of the entry.
    */
   description?: string;
@@ -173,6 +178,7 @@ export type EntryProps = EntryBaseProps & EntryPropsVariations;
 export const Entry: React.FC<EntryProps> = ({
   value,
   label: labelProp,
+  labelHide = false,
   description: descriptionProp,
   schema,
   required = false,
@@ -437,6 +443,7 @@ export const Entry: React.FC<EntryProps> = ({
     optionsFilter,
     label,
     labelInput,
+    labelHide,
     required,
     disabled,
     errors,
@@ -462,6 +469,8 @@ export const Entry: React.FC<EntryProps> = ({
     uniqueItems,
     optionsFilter,
     label,
+    labelInput,
+    labelHide,
     required,
     disabled,
     errors,

@@ -99,7 +99,7 @@ export interface Website extends Data {
    *  de: "Das Logobild, das für die Website verwendet werden soll",
    *  es: "La imagen del logotipo para usar en el sitio web",
    * }
-   * @format url-image
+   * @format image
    */
   logo?: string;
 
@@ -116,7 +116,7 @@ export interface Website extends Data {
    *  de: "Das Standard-Social-Card-Bild für die Website",
    *  es: "La imagen de la tarjeta social predeterminada para el sitio web",
    * }
-   * @format url-image
+   * @format image
    */
   socialCard?: string;
 

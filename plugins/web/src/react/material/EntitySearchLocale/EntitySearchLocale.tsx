@@ -12,17 +12,24 @@ import {
   Select,
   Stack,
 } from '@mui/material';
-import { localeSlice, systemSlice } from '@amnis/state';
+import type { Entity, Locale } from '@amnis/state';
+import { localeSlice, noop, systemSlice } from '@amnis/state';
 import { apiCrud } from '@amnis/api';
 import { Add } from '@mui/icons-material';
 import { useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
-import { SearchInput, Text } from '@amnis/web/react/material';
-import { ManagerContext } from '../ManagerContext.js';
+import { SearchInput, Skele, Text } from '@amnis/web/react/material';
 
-export const PanelLocalizationSearch: React.FC = () => {
+export interface EntitySearchLocaleProps {
+  /**
+   * On select callback.
+   */
+  onSelect?: (entity: Entity<Locale>) => void;
+}
+
+export const EntitySearchLocale: React.FC<EntitySearchLocaleProps> = ({
+  onSelect = noop,
+}) => {
   const localeMax = React.useRef(25);
-
-  const { locationPush } = React.useContext(ManagerContext);
 
   const dispatch = useWebDispatch();
 
@@ -142,6 +149,7 @@ export const PanelLocalizationSearch: React.FC = () => {
       <Box flex={1} sx={{ overflow: 'scroll' }}>
         <Stack gap={1}>
           {<LinearProgress sx={{ opacity: loadingEntities ? 1 : 0 }} />}
+          {(localeEntities.length === 0 && loadingEntities) ? (<Skele variant="card-list" />) : null}
           {localeEntities.map((entity) => (
             <Card
               key={entity.$id}
@@ -152,14 +160,17 @@ export const PanelLocalizationSearch: React.FC = () => {
               })}
             >
               <CardActionArea
-                onClick={() => locationPush(`Translate/#${entity.$id}`)}
+                onClick={() => onSelect(entity)}
               >
                 <Box p={1} sx={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
-                  <span style={{ opacity: 0.5 }}>%</span><Text component="span">{entity.name}</Text>
+                  <span style={{ opacity: 0.5 }}>%</span>
+                  <Text component="span" variant="body2" sx={{ opacity: 0.85 }}>
+                    {entity.name}
+                  </Text>
                 </Box>
                 <Divider orientation="horizontal" flexItem />
                 <Box flex={1} p={1}>
-                  <Text variant="body2" noSkeleton={!loadingEntities}>{entity.value.length ? entity.value : ''}</Text>
+                  <Text variant="body1" noSkeleton={!loadingEntities}>{entity.value.length ? entity.value : ''}</Text>
                 </Box>
               </CardActionArea>
             </Card>
@@ -170,4 +181,4 @@ export const PanelLocalizationSearch: React.FC = () => {
   );
 };
 
-export default PanelLocalizationSearch;
+export default EntitySearchLocale;

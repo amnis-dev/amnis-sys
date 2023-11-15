@@ -1,15 +1,14 @@
-import React from 'react';
-import type { Entity } from '@amnis/state';
+import React, { useEffect } from 'react';
 import {
-  dataActions, dateJSON,
+  dataActions, dateJSON, stateSelect,
 } from '@amnis/state';
-import type { EntityState } from '@amnis/state/rtk';
 import { useDispatch } from 'react-redux';
+import { Box } from '@mui/material';
 import {
   useEntitySchema,
   useWebSelector,
 } from '@amnis/web/react/hooks';
-import { Entry } from '@amnis/web/react/material';
+import { Entry, Skele } from '@amnis/web/react/material';
 
 export interface EntityFormProps {
   /**
@@ -22,24 +21,20 @@ export const EntityForm: React.FC<EntityFormProps> = ({
   $id,
 }) => {
   const sliceKey = React.useMemo(() => $id?.split(':')[0] ?? '', [$id]);
-  if (sliceKey.length === 0) return null;
+  // if (sliceKey.length === 0) return null;
 
   const dispatch = useDispatch();
 
-  const entity = useWebSelector((state) => {
-    const entities = (
-      state[sliceKey as keyof typeof state] as EntityState<Entity, string>
-    )?.entities;
-
-    if (!entities) return undefined;
-    return entities[$id as string];
-  });
+  const entitySelector = React.useMemo(() => stateSelect.dataById(sliceKey, $id ?? ''), [sliceKey, $id]);
+  const entity = useWebSelector(entitySelector);
 
   const [entityData, entityDataSet] = React.useState({ ...entity });
+  const entitySelfUpdate = React.useRef(true);
   const updateTimer = React.useRef<NodeJS.Timeout | undefined>(undefined);
 
   const handleEntityUpdate = React.useCallback((entityNext: any) => {
     entityDataSet(entityNext);
+    entitySelfUpdate.current = true;
 
     /**
      * Trigger a timer to update the entity data.
@@ -55,16 +50,27 @@ export const EntityForm: React.FC<EntityFormProps> = ({
     }, 160);
   }, [entityDataSet]);
 
+  useEffect(() => {
+    if (entitySelfUpdate.current === false) {
+      entityDataSet({ ...entity });
+    }
+    entitySelfUpdate.current = false;
+  }, [entity]);
+
   const schema = useEntitySchema(entity?.$id);
 
   return (
-    <div>
-      <Entry
-        schema={schema}
-        value={entityData}
-        onChange={handleEntityUpdate}
-      />
-    </div>
+    <Box width="100%">
+      {schema ? (
+        <Entry
+          schema={schema}
+          value={entityData}
+          onChange={handleEntityUpdate}
+        />
+      ) : (
+        <Skele variant='form' />
+      )}
+    </Box>
   );
 };
 

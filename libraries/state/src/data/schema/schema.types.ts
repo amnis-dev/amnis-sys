@@ -9,8 +9,8 @@ export type SchemaType = 'string' | 'number' | 'boolean' | 'object' | 'array' | 
  * Schema formats.
  */
 export type SchemaFormat = 'date-time' | 'date' | 'time' | 'email' | 'password'
-| 'hostname' | 'handle' | 'ipv4' | 'ipv6' | 'url' | 'url-file' | 'url-media'
-| 'url-image' | 'url-video' | 'binary' | 'font';
+| 'hostname' | 'handle' | 'ipv4' | 'ipv6' | 'url' | 'file' | 'media'
+| 'image' | 'video' | 'binary' | 'font';
 
 /**
  * Base properties for a schema.

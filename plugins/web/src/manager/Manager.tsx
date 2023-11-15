@@ -67,8 +67,9 @@ export const Manager: React.FC<ManagerProps> = ({
   const localeCode = useWebSelector(localeSlice.select.activeCode) as ManagerLocaleCode;
 
   const localeCodeSet = React.useCallback((code: ManagerLocaleCode) => {
+    if (localeCode === code) { return; }
     dispatch(localeSlice.action.codeSet(code));
-  }, []);
+  }, [localeCode]);
 
   /**
    * Get the current navgation state.

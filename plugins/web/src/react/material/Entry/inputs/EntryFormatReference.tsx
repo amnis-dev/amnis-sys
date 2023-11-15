@@ -6,7 +6,9 @@ import {
   Autocomplete,
   TextField,
 } from '@mui/material';
-import { dataNameKey, stateSelect } from '@amnis/state';
+import {
+  dataNameKey, stateSelect, titleize,
+} from '@amnis/state';
 import type { UID, Entity } from '@amnis/state';
 import { apiCrud } from '@amnis/api/react';
 import type { EntryContextProps } from '@amnis/web/react/context';
@@ -20,6 +22,7 @@ import { Description, Label } from './parts/index.js';
 export const EntryFormatReference: React.FC = () => {
   const {
     label,
+    labelHide,
     entryId,
     errored,
     optionsFilter,
@@ -34,7 +37,10 @@ export const EntryFormatReference: React.FC = () => {
 
   const dispatch = useWebDispatch();
 
-  const sliceKey = React.useMemo(() => pattern?.match(/([A-Za-z0-9]+):/)?.[1] as keyof RootStateWeb | undefined, []);
+  const sliceKey = React.useMemo(
+    () => pattern?.match(/([A-Za-z0-9]+):/)?.[1] as keyof RootStateWeb | undefined,
+    [pattern],
+  );
 
   const entity = useWebSelector((state) => {
     if (!value) return undefined;
@@ -78,6 +84,7 @@ export const EntryFormatReference: React.FC = () => {
   const renderInput = React.useCallback(
     (params: AutocompleteRenderInputParams) => <TextField
       {...params}
+      placeholder={`+ ${sliceKey ? ` ${titleize(sliceKey)}` : ''}...`}
       label={condensed ? label : undefined}
       InputLabelProps={condensed ? {
         ...params.InputLabelProps,
@@ -85,7 +92,7 @@ export const EntryFormatReference: React.FC = () => {
       } : undefined}
       size="small"
     />,
-    [label, condensed],
+    [label, condensed, sliceKey],
   );
 
   /**
@@ -137,7 +144,7 @@ export const EntryFormatReference: React.FC = () => {
     onChange(valueNew, event);
     onSelect(valueNew, event);
     onBlur(event);
-  }, [onChange, onSelect]);
+  }, [onChange, onSelect, onBlur, entityIds]);
 
   /**
    * Handle the selection of the Autocomplete.
@@ -164,7 +171,7 @@ export const EntryFormatReference: React.FC = () => {
       fullWidth
     >
       <Box mb={0.5}>
-        {condensed ? null : <Label />}
+        {(condensed || labelHide) ? null : <Label />}
         <Description sx={descriptionSx} />
       </Box>
       <Autocomplete

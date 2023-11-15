@@ -4,6 +4,7 @@ import {
 } from '@amnis/state';
 import type { Entity, Schema } from '@amnis/state';
 import { apiSys } from '@amnis/api/react';
+import { Skeleton } from '@mui/material';
 import { Entry } from '@amnis/web/react/material';
 import { useTranslate, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
 import type { QueryResult } from '@amnis/web';
@@ -60,7 +61,7 @@ export const IderInput = <E extends Entity>({
       value={entity[prop] as any}
       onChange={handleChange}
     />
-  ) : null;
+  ) : <Skeleton height={32} />;
 };
 
 export default IderInput;

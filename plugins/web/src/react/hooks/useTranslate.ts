@@ -3,6 +3,7 @@ import { useStore } from 'react-redux';
 import { localeSlice, stateSelect } from '@amnis/state';
 import type { UID } from '@amnis/state';
 import { useWebSelector } from './useWebSelector.js';
+import { useDebounce } from './useDebounce.js';
 
 type R = Record<string, any>;
 
@@ -17,21 +18,23 @@ export function useTranslate<
   const store = useStore();
   const localeNames = useWebSelector((state) => localeSlice.select.state(state).names);
 
+  const recordDebounce = useDebounce(record, 500);
+
   const result = React.useMemo<T | undefined>(() => {
-    if (!record) {
+    if (!recordDebounce) {
       return undefined;
     }
-    if (Array.isArray(record)) {
+    if (Array.isArray(recordDebounce)) {
       const translated = stateSelect.dataArrayTranslation(
         store.getState(),
-        record,
+        recordDebounce,
       ) as T;
       return translated;
     }
 
-    const translated = stateSelect.dataTranslation(store.getState(), record) as T;
+    const translated = stateSelect.dataTranslation(store.getState(), recordDebounce) as T;
     return translated;
-  }, [record, localeNames]);
+  }, [recordDebounce, localeNames]);
 
   return result as T extends R ? (T | undefined) : T;
 }

@@ -32,8 +32,9 @@ export const LanguageButton: React.FC<LanguageButtonProps> = ({
   const { buttonProps, menuProps, handleClose } = useMenu('select-language');
 
   const handleLanguageChange = React.useCallback((code: string) => {
+    if (language === code) { return; }
     dispatch(localeSlice.action.codeSet(code));
-  }, [localeSlice]);
+  }, [language, localeSlice]);
 
   return (<>
     <IconButton {...buttonProps}>

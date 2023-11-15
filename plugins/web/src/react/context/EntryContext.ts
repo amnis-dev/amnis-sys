@@ -26,6 +26,7 @@ export interface EntryContextProps<T = any> {
   optionsFilter: T[];
   label: string;
   labelInput: string;
+  labelHide: boolean;
   description: string | null;
   errors: EntryContextSchemaErrors[];
   errored: boolean;
@@ -137,6 +138,7 @@ export const entryContextDefault: EntryContextProps = {
   optionsFilter: [],
   label: 'unlabelled',
   labelInput: 'unlabelled',
+  labelHide: false,
   description: null,
   errors: [],
   errorText: errorTextLocale.en,

@@ -8,11 +8,14 @@ import {
   ListItemIcon,
   IconButton,
 } from '@mui/material';
-import { dataName, stateSelect } from '@amnis/state';
+import {
+  dataName, noop, stateSelect, titleize,
+} from '@amnis/state';
 import type {
-  DataTree, Entity, SchemaTypeArray, UID, UIDTree,
+  DataTree, Entity, SchemaTypeArray, SchemaTypeString, UID, UIDTree,
 } from '@amnis/state';
 import {
+  Delete,
   DragIndicator, Edit, ExpandLess, ExpandMore,
 } from '@mui/icons-material';
 import type { DragEndEvent } from '@dnd-kit/core';
@@ -22,7 +25,7 @@ import {
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import { useTranslate, useWebSelector } from '@amnis/web/react/hooks';
-import { Text } from '@amnis/web/react/material';
+import { EntityFormDialog, Entry, Text } from '@amnis/web/react/material';
 import { Description, Label } from './parts/index.js';
 
 const RecursiveDroppableParts: React.FC<{ entityId: UID }> = ({
@@ -114,10 +117,14 @@ const RecursiveDroppableParts: React.FC<{ entityId: UID }> = ({
 const RecursiveListItem: React.FC<{
   entity: Entity;
   tree: DataTree<Entity>;
+  onEdit?: (entity: Entity) => void;
+  onDelete?: (entity: Entity) => void;
   children: React.ReactNode;
 }> = ({
   entity,
   tree,
+  onEdit = noop,
+  onDelete = noop,
   children,
 }) => {
   const [open, openSet] = React.useState(false);
@@ -143,6 +150,12 @@ const RecursiveListItem: React.FC<{
 
   const handleEdit = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
+    onEdit(entity);
+  }, []);
+
+  const handleDelete = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onDelete(entity);
   }, []);
 
   return (<>
@@ -181,6 +194,13 @@ const RecursiveListItem: React.FC<{
             <Edit />
           </IconButton>
         </Box>
+        <Box>
+          <IconButton
+            onClick={handleDelete}
+          >
+            <Delete />
+          </IconButton>
+        </Box>
       </ListItem>
 
       <RecursiveDroppableParts entityId={entity.$id} />
@@ -200,7 +220,11 @@ const RecursiveListItem: React.FC<{
 
 const RecursiveList: React.FC<{
   tree: DataTree<Entity>;
+  onEdit?: (entity: Entity) => void;
+  onDelete?: (entity: Entity) => void;
 }> = ({
+  onEdit = noop,
+  onDelete = noop,
   tree,
 }) => {
   const treeRoots = React.useMemo(() => tree.map(([entity]) => entity), [tree]);
@@ -216,8 +240,18 @@ const RecursiveList: React.FC<{
   return tree.length ? (
     <List>
       {treeTranslated.map(([entity, children]) => (
-        <RecursiveListItem key={entity.$id} entity={entity} tree={children}>
-          <RecursiveList tree={children} />
+        <RecursiveListItem
+          key={entity.$id}
+          entity={entity}
+          tree={children}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        >
+          <RecursiveList
+            tree={children}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
         </RecursiveListItem>
       ))}
     </List>
@@ -243,13 +277,20 @@ export const EntryFormatTree: React.FC = () => {
     return undefined;
   }, [items]);
 
-  React.useEffect(() => {
-    console.log({ sliceKey });
-  }, [sliceKey]);
-
   const uidTree = React.useMemo(() => value ?? [], [value]);
+  const uids = React.useMemo(() => uidTree.map(([entityId]) => entityId), [uidTree]);
   const tree = useWebSelector((state) => stateSelect.entityTree(state, uidTree));
   const descriptionSx = React.useMemo(() => ({ m: 0 }), []);
+
+  /**
+   * Value for a new entity ID to be possibly added to the tree.
+   */
+  const [newEntityId] = React.useState<string | undefined>();
+
+  /**
+   * Active Entity ID for editing.
+   */
+  const [entityEditId, entityEditIdSet] = React.useState<UID | undefined>();
 
   const boxHeight = React.useMemo(
     () => (tree.length < 6 ? tree.length * 64 + 128 : 512),
@@ -274,17 +315,12 @@ export const EntryFormatTree: React.FC = () => {
       return;
     }
 
-    // console.log({ activeId, overId, overPosition });
-
     const referenceNext = [...uidTree.filter(([entityId]) => entityId !== activeId)];
     const overIndex = referenceNext.findIndex(([entityId]) => entityId === overId);
     if (overIndex === -1) {
       return;
     }
     const overParentId = referenceNext[overIndex][1];
-    // console.log({
-    //   uidTree, overIndex, overId, overParentId,
-    // });
 
     if (activeId === overParentId) {
       return;
@@ -299,7 +335,37 @@ export const EntryFormatTree: React.FC = () => {
     }
 
     onChange(referenceNext);
-  }, [uidTree]);
+  }, [onChange, uidTree]);
+
+  const handleSelectReference = React.useCallback((entityId?: string) => {
+    if (!entityId) return;
+    if (uidTree.find(([id]) => id === entityId)) return;
+    onChange([[entityId as UID, null], ...uidTree]);
+  }, [onChange, uidTree]);
+
+  const handleEdit = React.useCallback((entity: Entity) => {
+    entityEditIdSet(entity.$id);
+  }, [entityEditIdSet]);
+
+  const handleEditClose = React.useCallback(() => {
+    entityEditIdSet(undefined);
+  }, [entityEditIdSet]);
+
+  const handleDelete = React.useCallback((entity: Entity) => {
+    const referenceNext = uidTree.filter(([entityId]) => entityId !== entity.$id);
+    onChange(referenceNext);
+  }, [onChange, uidTree]);
+
+  const referenceSchema = React.useMemo<SchemaTypeString>(() => {
+    const schema: SchemaTypeString = {
+      $id: 'entry-format-tree-reference',
+      type: 'string',
+      pattern: `^${sliceKey}:[A-Za-z0-9]+$`,
+      format: 'reference',
+      title: `Add ${titleize(sliceKey ?? '')}`,
+    };
+    return schema;
+  }, [sliceKey]);
 
   return (
     <FormControl
@@ -314,6 +380,15 @@ export const EntryFormatTree: React.FC = () => {
         <Label type={condensed ? 'input' : 'form'} shrink={condensed} />
         <Description sx={descriptionSx} />
       </Box>
+      <Box>
+        <Entry
+          schema={referenceSchema}
+          optionsFilter={uids}
+          value={newEntityId}
+          onSelect={handleSelectReference}
+          labelHide
+        />
+      </Box>
       <DndContext
         onDragEnd={handleDragEnd}
         collisionDetection={closestCorners}
@@ -327,9 +402,18 @@ export const EntryFormatTree: React.FC = () => {
             height: boxHeight,
           }}
         >
-          <RecursiveList tree={tree} />
+          <RecursiveList
+            tree={tree}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </Box>
       </DndContext>
+      <EntityFormDialog
+        open={!!entityEditId}
+        $id={entityEditId}
+        onClose={handleEditClose}
+      />
     </FormControl>
   );
 };

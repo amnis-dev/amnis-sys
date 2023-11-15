@@ -108,13 +108,13 @@ function validateCompile(schema: SchemaObject): Validators {
   /** @ts-ignore */
   ajv.addFormat('url', regexWebUrl);
   /** @ts-ignore */
-  ajv.addFormat('url-file', regexWebUrl);
+  ajv.addFormat('file', regexWebUrl);
   /** @ts-ignore */
-  ajv.addFormat('url-media', regexWebUrl);
+  ajv.addFormat('media', regexWebUrl);
   /** @ts-ignore */
-  ajv.addFormat('url-image', regexWebUrl);
+  ajv.addFormat('image', regexWebUrl);
   /** @ts-ignore */
-  ajv.addFormat('url-video', regexWebUrl);
+  ajv.addFormat('video', regexWebUrl);
   /** @ts-ignore */
   ajv.addFormat('date-time', regexJsonDate);
   /** @ts-ignore */
