@@ -25,6 +25,9 @@ export const EntitySearchLocaleDialog: React.FC<Props> = ({
     open={open}
     onClose={onClose}
     fullWidth
+    sx={{
+      zIndex: 2200,
+    }}
   >
     <DialogContent>
       <Box sx={{ width: '100%', height: '80vh', overflow: 'hidden' }}>

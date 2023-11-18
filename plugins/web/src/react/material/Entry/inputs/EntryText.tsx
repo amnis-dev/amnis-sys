@@ -7,7 +7,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-import { ArrowRight, Search } from '@mui/icons-material';
+import { ArrowRight, Edit, Search } from '@mui/icons-material';
 import type { Entity, Locale } from '@amnis/state';
 import { Text } from '@amnis/web/react/material';
 import type { EntryContextProps } from '@amnis/web/react/context';
@@ -16,6 +16,7 @@ import { useDebounce, useTranslate } from '@amnis/web/react/hooks';
 import { Description, Label } from './parts/index.js';
 
 const EntitySearchLocaleDialog = React.lazy(() => import('../../EntitySearchLocaleDialog/EntitySearchLocaleDialog.js'));
+const EntityFormLocaleDialog = React.lazy(() => import('../../EntityFormLocaleDialog/EntityFormLocaleDialog.js'));
 
 export const EntryText: React.FC = () => {
   const {
@@ -44,7 +45,12 @@ export const EntryText: React.FC = () => {
   /**
    * State to control the locale search dialog.
    */
-  const [localeDialogOpen, localeDialogOpenSet] = React.useState(false);
+  const [localeSearchDialogOpen, localeSearchDialogOpenSet] = React.useState(false);
+
+  /**
+   * State to control the locale form dialog.
+   */
+  const [localeFormDialogOpen, localeFormDialogOpenSet] = React.useState(false);
 
   /**
    * Whether the value is a locale key.
@@ -82,8 +88,14 @@ export const EntryText: React.FC = () => {
   /**
    * Handles the click event of the locale search.
    */
-  const handleLocaleSearchClick = React.useCallback(
-    () => localeDialogOpenSet(true),
+  const handleLocaleClick = React.useCallback(
+    (type: 'search' | 'form') => {
+      if (type === 'search') {
+        localeSearchDialogOpenSet(true);
+      } else {
+        localeFormDialogOpenSet(true);
+      }
+    },
     [],
   );
 
@@ -93,7 +105,7 @@ export const EntryText: React.FC = () => {
   const handleLocaleSearchSelect = React.useCallback(
     (locale: Entity<Locale>) => {
       onChange(`%${locale.name}`);
-      localeDialogOpenSet(false);
+      localeSearchDialogOpenSet(false);
     },
     [onChange],
   );
@@ -132,7 +144,7 @@ export const EntryText: React.FC = () => {
             fullWidth
             endAdornment={isLocaleKey ? (
               <InputAdornment position="end">
-                <IconButton onClick={handleLocaleSearchClick}>
+                <IconButton onClick={() => handleLocaleClick('search')}>
                   <Search />
                 </IconButton>
               </InputAdornment>
@@ -146,10 +158,10 @@ export const EntryText: React.FC = () => {
                 <ArrowRight />
               </Box>
               <Box
-                flex={1}
+                direction="row"
                 sx={{
+                  flex: 1,
                   height: '100%',
-                  overflow: 'scroll',
                   bgcolor: 'divider',
                   borderRadius: 1,
                 }}
@@ -158,25 +170,40 @@ export const EntryText: React.FC = () => {
                   p={1}
                   sx={{
                     height: multiline ? `${23 * multiline}px` : '23px',
+                    overflow: 'scroll',
                   }}
                 >
+                  <Box sx={{ display: 'inline', float: 'right', m: -1 }}>
+                    <IconButton onClick={() => handleLocaleClick('form')}>
+                      <Edit />
+                    </IconButton>
+                  </Box>
                   <Text>{translatedValue}</Text>
+
                 </Box>
               </Box>
+
             </Stack>
           </Box>
         ) : null}
       </Stack>
     </FormControl>
-    {isLocaleKey ? (
+    {isLocaleKey ? (<>
       <React.Suspense fallback={null}>
         <EntitySearchLocaleDialog
-          open={localeDialogOpen}
-          onClose={() => localeDialogOpenSet(false)}
+          open={localeSearchDialogOpen}
+          onClose={() => localeSearchDialogOpenSet(false)}
           onSelect={handleLocaleSearchSelect}
         />
       </React.Suspense>
-    ) : null}
+      <React.Suspense fallback={null}>
+        <EntityFormLocaleDialog
+          open={localeFormDialogOpen}
+          name={value?.slice(1)}
+          onClose={() => localeFormDialogOpenSet(false)}
+        />
+      </React.Suspense>
+    </>) : null}
   </>);
 };
 

@@ -145,7 +145,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
         open={true}
         anchorEl={element}
         placement="left-start"
-        sx={{ zIndex: 1200 }}
+        sx={{ zIndex: 2000 }}
         role="generic"
       >
         <button
@@ -166,7 +166,7 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
       </Popper>
       <ManagerProvider>
         <Popover
-          style={{ zIndex: 1200 }}
+          style={{ zIndex: 2000 }}
           {...popoverProps}
           anchorOrigin={{
             vertical: 'bottom',

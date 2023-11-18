@@ -5,6 +5,7 @@ export * from './Diff/index.js';
 export * from './EntityForm/index.js';
 export * from './EntityFormDialog/index.js';
 export * from './EntityFormLocale/index.js';
+export * from './EntityFormLocaleDialog/index.js';
 export * from './EntitySearchLocale/index.js';
 export * from './EntitySearchLocaleDialog/index.js';
 export * from './Entry/index.js';
