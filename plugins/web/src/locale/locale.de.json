@@ -9,5 +9,12 @@
   "webComponent.navbar.description": "Oberste Navigationsleiste zur Navigation von Informationen und Einstellungen auf der Webseite.",
   "webInstance.navbar.name": "Haupt-Navigationsleiste",
 
-  "!diff.restore": "Wiederherstellen"
-}
+  "!account.signin": "Anmelden",
+  "!account.signout": "Abmelden",
+  "!account.signup": "Registrieren",
+
+  "!account.account": "Konto",
+  "!account.manage": "Website verwalten",
+
+    "!diff.restore": "Wiederherstellen"
+  }

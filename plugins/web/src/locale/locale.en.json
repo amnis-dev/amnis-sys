@@ -9,5 +9,11 @@
   "webComponent.navbar.description": "Top navigational bar for navigating routes for information and settings on the website.",
   "webInstance.navbar.name": "Main Navigational Bar",
 
+  "!account.signin": "Sign In",
+  "!account.signout": "Sign Out",
+  "!account.signup": "Sign Up",
+  "!account.account": "Account",
+  "!account.manage": "Manage Website",
+
   "!diff.restore": "Restore"
 }

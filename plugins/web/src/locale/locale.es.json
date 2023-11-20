@@ -5,5 +5,11 @@
   "route.about.label": "Acerca de",
   "route.contact.label": "Contacto",
   "webComponent.navbar.description": "Barra de navegación superior para navegar por las rutas de información y configuraciones en el sitio web.",
-  "webInstance.navbar.name": "Barra de Navegación Principal"
+  "webInstance.navbar.name": "Barra de Navegación Principal",
+
+  "!account.signin": "Iniciar Sesión",
+  "!account.signout": "Cerrar Sesión",
+  "!account.signup": "Registrarse",
+  "!account.account": "Cuenta",
+  "!account.manage": "Administrar"
 }

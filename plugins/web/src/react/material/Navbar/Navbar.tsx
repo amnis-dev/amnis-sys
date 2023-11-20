@@ -15,7 +15,9 @@ import {
   Toolbar,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
-import { Ider, iderEn, LanguageButton } from '@amnis/web/react/material';
+import {
+  Ider, iderEn, LanguageButton, AccountButton,
+} from '@amnis/web/react/material';
 import { Link } from '@amnis/web/lib/react-router-dom';
 import { websiteSlice } from '@amnis/web/set';
 
@@ -24,10 +26,7 @@ import type { NavbarProps } from '@amnis/web/ui';
 
 import { Text } from '../Text/index.js';
 
-export const Navbar: React.FC<NavbarProps> = ({
-  titleHide,
-  routesHide,
-}) => {
+export const Navbar: React.FC<NavbarProps> = () => {
   const website = useTranslate(useWebSelector(websiteSlice.select.active));
   const routes = useTranslate(useWebSelector(routeSlice.select.entities));
 
@@ -119,6 +118,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Divider orientation="vertical" flexItem />
             <Box>
               <LanguageButton />
+            </Box>
+            <Box>
+              <AccountButton />
             </Box>
           </Stack>
         </Toolbar>

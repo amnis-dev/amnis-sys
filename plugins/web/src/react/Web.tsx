@@ -2,12 +2,18 @@ import React from 'react';
 import {
   noop,
 } from '@amnis/state';
+import type { RouteObject } from '@amnis/web/lib/react-router-dom';
 import { RouterProvider, createBrowserRouter } from '@amnis/web/lib/react-router-dom';
 import { useTranslate, useWebSelector } from '@amnis/web/react/hooks';
 import { websiteSlice } from '@amnis/web/set';
 import { WebProvider } from './WebProvider.js';
 
 export interface WebProps {
+  /**
+   * Custom routes object.
+   */
+  routes?: RouteObject[];
+
   /**
    * Callback when the website is remounted.
    */
@@ -20,6 +26,7 @@ export interface WebProps {
 }
 
 export const Web: React.FC<WebProps> = ({
+  routes,
   onRemount = noop,
   children,
 }) => {
@@ -64,7 +71,7 @@ export const Web: React.FC<WebProps> = ({
       element: (
         <WebProvider onRemount={onRemount} />
       ),
-      children: [
+      children: routes ?? [
         {
           path: '/',
           element: children,
@@ -79,7 +86,7 @@ export const Web: React.FC<WebProps> = ({
     future: {
       v7_normalizeFormMethod: true,
     },
-  }), [children, onRemount]);
+  }), [routes, children, onRemount]);
 
   return (
     <RouterProvider router={router} />
