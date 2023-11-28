@@ -19,8 +19,10 @@ import {
 } from './locale.selectors.js';
 import { dataActions } from '../../data.actions.js';
 import type { Entity } from '../entity.types.js';
-import type { DataCreator, DataUpdate, DataUpdater } from '../../data.types.js';
-import { entityCreate } from '../entity.js';
+import type {
+  DataCreator, DataState, DataUpdate, DataUpdater,
+} from '../../data.types.js';
+import { entityCreate, entityStrip } from '../entity.js';
 import { localStorage } from '../../../localstorage.js';
 
 const localeKey = 'locale';
@@ -104,12 +106,21 @@ export const localeSlice = entitySliceCreate({
         localStorage().setItem('locale-code', action.payload);
       });
 
-      builder.addCase(localeActions.insertData, (state: LocaleMeta, action) => {
+      builder.addCase(localeActions.insertData, (
+        state: LocaleMeta & DataState<Entity<Locale>>,
+        action,
+      ) => {
         const locales = action.payload;
 
         state.names = {
           ...state.names,
           ...locales.reduce <Record<string, Locale>>((acc, cur) => {
+            // If the name already exists in the entity records, use that instead.
+            const entity = selectLocaleByName({ locale: state }, cur.name);
+            if (entity) {
+              acc[cur.name] = entityStrip({ ...entity });
+              return acc;
+            }
             acc[cur.name] = cur;
             return acc;
           }, {}),
@@ -159,7 +170,7 @@ export const localeSlice = entitySliceCreate({
           const locales = action.payload.locale as DataUpdate<Entity<Locale>>[];
 
           locales.forEach((locale) => {
-            if (!locale.code || !locale.value || locale.code !== state.code) {
+            if (!locale.name || locale.code !== state.code) {
               return;
             }
             if (!state.names[locale.name]) {

@@ -6,7 +6,9 @@ import { useWebDispatch } from './useWebDispatch.js';
 /**
  * Performs a read request to the CRUD API given the data query.
  */
-export function useCrudRead() {
+export function useCrudRead({
+  forceRefetch = false,
+} = {}) {
   const dispatch = useWebDispatch();
 
   const [fetching, fetchingSet] = React.useState(true);
@@ -18,7 +20,9 @@ export function useCrudRead() {
     async (query: DataQuery) => {
       loadingSet(true);
 
-      const result = await dispatch(apiCrud.endpoints.read.initiate(query));
+      const result = await dispatch(apiCrud.endpoints.read.initiate(query, {
+        forceRefetch,
+      }));
 
       loadingSet(false);
       fetchingSet(false);

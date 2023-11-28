@@ -11,5 +11,9 @@
   "!account.signout": "Cerrar Sesión",
   "!account.signup": "Registrarse",
   "!account.account": "Cuenta",
-  "!account.manage": "Administrar"
+  "!account.manage": "Administrar",
+
+  "!diff.restore": "Restaurar",
+
+  "!entry.search": "Buscar"
 }

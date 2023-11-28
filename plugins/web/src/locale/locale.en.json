@@ -15,5 +15,7 @@
   "!account.account": "Account",
   "!account.manage": "Manage Website",
 
-  "!diff.restore": "Restore"
+  "!diff.restore": "Restore",
+
+  "!entry.search": "Search"
 }

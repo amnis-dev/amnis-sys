@@ -5,6 +5,7 @@ import {
   IconButton, InputBase, Paper,
 } from '@mui/material';
 import React from 'react';
+import { useLocale } from '@amnis/web/react/hooks';
 
 interface Props {
   leftComponent?: React.ReactNode;
@@ -24,6 +25,9 @@ export const SearchInput: React.FC<Props> = ({
   onSearch = noop,
 }) => {
   const debounceTimeout = React.useRef<NodeJS.Timeout>();
+
+  const localeKeys = React.useRef(['!entry.search'] as const);
+  const locale = useLocale(localeKeys.current);
 
   const handleChangeDebounced = React.useCallback((value: string) => {
     onChangeDebounced(value);
@@ -55,7 +59,7 @@ export const SearchInput: React.FC<Props> = ({
       </Box>) : null}
       <Box flex={1} pl={1} pr={1}>
         <InputBase
-          placeholder="Search"
+          placeholder={locale['!entry.search']}
           onChange={handleChange}
           fullWidth
         />

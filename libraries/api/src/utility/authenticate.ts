@@ -265,7 +265,7 @@ export const authenticateLogin = async (
   const updater: DataUpdater = {
     [userSlice.key]: [{
       $id: user.$id,
-      logged: dateTime,
+      _logged: dateTime,
     }],
     [credentialSlice.key]: [{
       $id: credential.$id,

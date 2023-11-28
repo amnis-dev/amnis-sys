@@ -12,9 +12,10 @@
   "!account.signin": "Anmelden",
   "!account.signout": "Abmelden",
   "!account.signup": "Registrieren",
-
   "!account.account": "Konto",
   "!account.manage": "Website verwalten",
 
-    "!diff.restore": "Wiederherstellen"
+  "!diff.restore": "Wiederherstellen",
+
+  "!entry.search": "Suchen"
   }

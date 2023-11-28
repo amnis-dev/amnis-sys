@@ -152,7 +152,7 @@ export const data: StateDataPromise = async (data) => {
     handle: adminHandle,
     password: await cryptoWeb.passHash(adminPassword),
     email: adminEmail,
-    emailVerified: true,
+    _emailVerified: true,
     $roles: [roleAdministrator.$id],
     $permits: [],
   }, { committed: true, new: false });

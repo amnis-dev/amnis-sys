@@ -99,6 +99,13 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   ]);
 
   /**
+   * Effect ensure the manager drawer is closed when the manager is disabled.
+   */
+  React.useEffect(() => {
+    if (!manager) managerDrawerOpenSet(false);
+  }, [manager]);
+
+  /**
    * Reset effect.
    */
   useUpdateEffect(() => {
@@ -109,6 +116,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
       spare: [
         'agent', 'system', 'api', 'bearer', 'session',
         'website', 'user', 'profile', 'contact', 'language',
+        'locale',
       ],
     }));
 

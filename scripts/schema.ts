@@ -46,43 +46,46 @@ function fixJSON(json: string) {
  */
 function defineTitlesAndDescriptions(prefix: string, name: string, schema: SchemaObject) {
   const locale: LocaleRecords = {};
-  const titleKey = `_${prefix}.${name}.title`;
-  const descriptionKey = `_${prefix}.${name}.desc`;
+  const prefixKey = `_${prefix}.${name}`;
+  const titleKey = `${prefixKey}.title`;
+  const descriptionKey = `${prefixKey}.desc`;
 
-  if (schema?.title?.startsWith('{')) {
-    try {
-      const titleLocale = JSON.parse(fixJSON(schema.title)) as Record<string, string>;
-      Object.keys(titleLocale).forEach((key) => {
-        const value = titleLocale[key] || '';
-        locale[key] = { ...locale[key], [titleKey]: value };
-      });
-    } catch (error: any) {
-      console.error('[ERROR]: SCHEMA LOCALE GENERATION');
-      console.error(name);
-      console.error(schema.title);
-      console.error(error.message);
-      process.exit(1);
+  if (!name.startsWith('DataUpdate')) {
+    if (schema?.title?.startsWith('{')) {
+      try {
+        const titleLocale = JSON.parse(fixJSON(schema.title)) as Record<string, string>;
+        Object.keys(titleLocale).forEach((key) => {
+          const value = titleLocale[key] || '';
+          locale[key] = { ...locale[key], [titleKey]: value };
+        });
+      } catch (error: any) {
+        console.error('[ERROR]: SCHEMA LOCALE GENERATION');
+        console.error(name);
+        console.error(schema.title);
+        console.error(error.message);
+        process.exit(1);
+      }
+    } else {
+      locale.en = { ...locale.en, [titleKey]: schema.title || '' };
     }
-  } else {
-    locale.en = { ...locale.en, [titleKey]: schema.title || '' };
-  }
 
-  if (schema?.description?.startsWith('{')) {
-    try {
-      const descriptionLocale = JSON.parse(fixJSON(schema.description));
-      Object.keys(descriptionLocale).forEach((key) => {
-        const value = descriptionLocale[key] || '';
-        locale[key] = { ...locale[key], [descriptionKey]: value };
-      });
-    } catch (error: any) {
-      console.error('[ERROR]: SCHEMA LOCALE GENERATION');
-      console.error(name);
-      console.error(schema.description);
-      console.error(error.message);
-      process.exit(1);
+    if (schema?.description?.startsWith('{')) {
+      try {
+        const descriptionLocale = JSON.parse(fixJSON(schema.description));
+        Object.keys(descriptionLocale).forEach((key) => {
+          const value = descriptionLocale[key] || '';
+          locale[key] = { ...locale[key], [descriptionKey]: value };
+        });
+      } catch (error: any) {
+        console.error('[ERROR]: SCHEMA LOCALE GENERATION');
+        console.error(name);
+        console.error(schema.description);
+        console.error(error.message);
+        process.exit(1);
+      }
+    } else {
+      locale.en = { ...locale.en, [descriptionKey]: schema.description || '' };
     }
-  } else {
-    locale.en = { ...locale.en, [descriptionKey]: schema.description || '' };
   }
 
   schema.title = `%${titleKey}`;

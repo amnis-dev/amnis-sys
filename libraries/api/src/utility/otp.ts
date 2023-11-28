@@ -223,11 +223,11 @@ export const otpValidate = async (
   if (otpServer.mth === OtpMethod.Email && otpServer.$sub.startsWith('user')) {
     (async () => {
       const user = await findUser(context, otpServer.$sub);
-      if (user && user.emailVerified !== true) {
+      if (user && user._emailVerified !== true) {
         const result = await context.database.update({
           [userSlice.key]: [{
             $id: user.$id,
-            emailVerified: true,
+            _emailVerified: true,
           }],
         });
         /**

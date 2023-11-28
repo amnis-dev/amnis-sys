@@ -160,7 +160,7 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
         >
           <ListButton onClick={() => onClick && onClick(entity.$id)}>
             <ListItemAvatar>
-              <Avatar style={{ backgroundColor: 'yellow' }}>
+              <Avatar style={{ backgroundColor: 'orange' }}>
                 <Update />
               </Avatar>
             </ListItemAvatar>

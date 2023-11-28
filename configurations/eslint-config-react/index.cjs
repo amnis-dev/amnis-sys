@@ -24,6 +24,7 @@ module.exports = {
     'import',
   ],
   rules: {
+    'no-underscore-dangle': 'off',
     'no-shadow': 'off',
     'no-bitwise': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

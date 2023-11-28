@@ -95,7 +95,7 @@ test('should create a new account as an admin', async () => {
   expect(users[0].new).toBe(false);
   expect(users[0].committed).toBe(true);
   expect(users[0].email).toBe(apiAuthCreate.email);
-  expect(users[0].emailVerified).toBeFalsy();
+  expect(users[0]._emailVerified).toBeFalsy();
   expect(users[0].$roles).toEqual(system.$initialRoles);
 
   expect(handles).toHaveLength(1);

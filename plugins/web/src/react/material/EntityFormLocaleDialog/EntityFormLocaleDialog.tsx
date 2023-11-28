@@ -49,8 +49,6 @@ export const EntityFormLocaleDialog: React.FC<Props> = ({
     });
   }, [open, locale, name]);
 
-  console.log({ name, locale, $idProp });
-
   return (
     <Dialog
       open={open}
