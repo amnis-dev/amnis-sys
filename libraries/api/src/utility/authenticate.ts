@@ -85,14 +85,14 @@ export const authenticateFinalize = async (
     );
   }
 
-  if (!profile.$contact) {
+  if (!profile.$_contact) {
     return authenticateFinalizeFailedOutput(
       'No Contact Relation',
       'There is no contact information associated with the provided user account\'s profile.',
     );
   }
 
-  const contact = await findContactById(context, profile.$contact);
+  const contact = await findContactById(context, profile.$_contact);
 
   if (!contact) {
     return authenticateFinalizeFailedOutput(

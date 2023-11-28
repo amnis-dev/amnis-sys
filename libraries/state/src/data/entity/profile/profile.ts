@@ -7,7 +7,7 @@ const profileKey = 'profile';
 
 export const profileRoot: ProfileRoot = {
   nameDisplay: 'Unnamed',
-  $user: uid(userSlice.key),
+  $_user: uid(userSlice.key),
 };
 
 export function profileCreate(

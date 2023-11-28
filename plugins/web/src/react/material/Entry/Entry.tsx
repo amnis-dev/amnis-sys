@@ -242,7 +242,9 @@ export const Entry: React.FC<EntryProps> = ({
             ...property,
             key: propertyKey,
           } as Schema & { key: string };
-        });
+        }).filter(
+          (property) => !property.key.startsWith('_') && !property.key.startsWith('$_'),
+        );
       }
 
       return [];

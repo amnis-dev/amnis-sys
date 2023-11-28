@@ -138,7 +138,7 @@ export const findProfileByUserId = async (
   const results = await context.database.read({
     [profileSlice.key]: {
       $query: {
-        $user: {
+        $_user: {
           $eq: id,
         },
       },

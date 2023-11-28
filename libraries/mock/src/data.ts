@@ -100,18 +100,18 @@ export async function mockData(system: System) {
   const profile: Entity<Profile>[] = [
     profileSlice.createEntity({
       nameDisplay: 'Administrator (Mocked)',
-      $user: user[0].$id,
-      $contact: contact[0].$id,
+      $_user: user[0].$id,
+      $_contact: contact[0].$id,
     }),
     profileSlice.createEntity({
       nameDisplay: 'Executive (Mocked)',
-      $user: user[1].$id,
-      $contact: contact[1].$id,
+      $_user: user[1].$id,
+      $_contact: contact[1].$id,
     }),
     profileSlice.createEntity({
       nameDisplay: 'User (Mocked)',
-      $user: user[2].$id,
-      $contact: contact[2].$id,
+      $_user: user[2].$id,
+      $_contact: contact[2].$id,
     }),
   ];
 

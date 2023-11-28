@@ -98,8 +98,8 @@ test('should create a new account with minial options', async () => {
   expect(profiles).toHaveLength(1);
   expect(profiles[0]).toMatchObject({
     nameDisplay: handleName,
-    $user: users[0].$id,
-    $contact: contacts[0].$id,
+    $_user: users[0].$id,
+    $_contact: contacts[0].$id,
     $owner: users[0].$id,
     new: false,
     committed: true,
@@ -206,8 +206,8 @@ test('should create a new account with different display name', async () => {
   expect(profiles).toHaveLength(1);
   expect(profiles[0]).toMatchObject({
     nameDisplay,
-    $user: users[0].$id,
-    $contact: contacts[0].$id,
+    $_user: users[0].$id,
+    $_contact: contacts[0].$id,
     $owner: users[0].$id,
   });
 
@@ -287,8 +287,8 @@ test('should create a new account with a credential', async () => {
   expect(profiles).toHaveLength(1);
   expect(profiles[0]).toMatchObject({
     nameDisplay: handleName,
-    $user: users[0].$id,
-    $contact: contacts[0].$id,
+    $_user: users[0].$id,
+    $_contact: contacts[0].$id,
     $owner: users[0].$id,
   });
 });

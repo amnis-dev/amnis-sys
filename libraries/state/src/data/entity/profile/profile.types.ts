@@ -10,12 +10,23 @@ import type {
 
 /**
  * Profile entity
+ *
+ * @title {
+ * "en": "Profile",
+ * "de": "Profil",
+ * "es": "Perfil",
+ * }
+ * @description {
+ * "en": "Publicly viewable settings for the account.",
+ * "de": "Öffentlich sichtbare Einstellungen für das Konto.",
+ * "es": "Configuraciones visibles públicamente para la cuenta.",
+ * }
  */
 export interface Profile extends Data {
   /**
    * User this profile is associated with.
    */
-  $user: UID<User>;
+  $_user: UID<User>;
 
   /**
    * Display name for the profile.
@@ -45,7 +56,7 @@ export interface Profile extends Data {
   /**
    * Profile Contact.
    */
-  $contact?: UID<Contact>;
+  $_contact?: UID<Contact>;
 
   /**
    * Organization profile is a part of.
@@ -66,7 +77,7 @@ export type ProfileRoot = DataRoot<Profile>;
 /**
  * Root properties.
  */
-export type ProfileMinimal = DataMinimal<Profile, 'nameDisplay' | '$user'>;
+export type ProfileMinimal = DataMinimal<Profile, 'nameDisplay' | '$_user'>;
 
 /**
  * Profile collection meta data.

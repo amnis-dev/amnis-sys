@@ -334,7 +334,7 @@ test('should login as user and view history of own profile', async () => {
     body: {
       [profileSlice.key]: {
         $query: {
-          $user: {
+          $_user: {
             $eq: user.$id,
           },
         },

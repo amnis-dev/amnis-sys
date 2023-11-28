@@ -145,8 +145,8 @@ export const accountCreate = async (
    */
   const profile = profileSlice.create({
     nameDisplay: nameDisplay ?? handle,
-    $user: user.$id,
-    $contact: contact.$id,
+    $_user: user.$id,
+    $_contact: contact.$id,
   });
 
   /**

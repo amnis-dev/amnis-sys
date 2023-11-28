@@ -178,8 +178,8 @@ export const data: StateDataPromise = async (data) => {
    * ================================================================================
    */
   const profileAdministrator = profileSlice.createEntity({
-    $user: userAdministrator.$id,
-    $contact: contactAdministrator.$id,
+    $_user: userAdministrator.$id,
+    $_contact: contactAdministrator.$id,
     nameDisplay: 'Administrator',
   }, { $owner: userAdministrator.$id, committed: true, new: false });
 

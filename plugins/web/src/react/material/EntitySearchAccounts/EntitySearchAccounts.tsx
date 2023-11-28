@@ -1,17 +1,24 @@
 import type {
-  DataQueryProps, Entity, Profile, UID,
+  DataQueryProps, Entity, Profile, UID, User,
 } from '@amnis/state';
-import { profileSlice, userSlice } from '@amnis/state';
+import { noop, profileSlice, userSlice } from '@amnis/state';
 import React from 'react';
 import {
-  Stack, List, ListItem, ListItemText, LinearProgress, ListItemAvatar, Avatar,
+  Stack, List, ListItem, ListItemText, LinearProgress, ListItemAvatar, Avatar, Box,
 } from '@mui/material';
 
-import { Person } from '@mui/icons-material';
+import { Lock, LockOpen, Person } from '@mui/icons-material';
 import { useCrudRead, useWebSelector } from '@amnis/web/react/hooks';
-import { SearchInput } from '@amnis/web/react/material';
+import { SearchInput, Skele, Text } from '@amnis/web/react/material';
 
-export const EntitySearchAccounts: React.FC = () => {
+export interface EntitySearchAccountsProps {
+  // Callback when a user is selected.
+  onSelect?: (user: Entity<User>, profile: Entity<Profile>) => void;
+}
+
+export const EntitySearchAccounts: React.FC<EntitySearchAccountsProps> = ({
+  onSelect = noop,
+}) => {
   const userRead = useCrudRead({ forceRefetch: true });
   const profileRead = useCrudRead({ forceRefetch: true });
 
@@ -27,11 +34,9 @@ export const EntitySearchAccounts: React.FC = () => {
     if (!searchValue.length) return users;
 
     return users.filter((user) => user.handle.includes(searchValue));
-  }, [users, searchValue]);
+  }, [users.length, searchValue]);
 
   React.useEffect(() => {
-    if (userRead.crudReadPending) return;
-
     const $query: DataQueryProps = {};
 
     // If there a search value, we want to search for users with handles that
@@ -50,12 +55,10 @@ export const EntitySearchAccounts: React.FC = () => {
   }, [userActive?.$id, searchValue]);
 
   React.useEffect(() => {
-    if (profileRead.crudReadPending) return;
-
     profileRead.crudRead({
       [profileSlice.key]: {
         $query: {
-          $user: {
+          $_user: {
             $in: usersFiltered.map((user) => user.$id),
           },
         },
@@ -66,7 +69,7 @@ export const EntitySearchAccounts: React.FC = () => {
   // A memo that maps user ids to profiles.
   const profileMap = React.useMemo(
     () => profiles.reduce((map, profile) => {
-      map[profile.$user] = profile;
+      map[profile.$_user] = profile;
       return map;
     }, {} as Record<UID, Entity<Profile>>),
     [profiles],
@@ -83,14 +86,32 @@ export const EntitySearchAccounts: React.FC = () => {
       />
       <LinearProgress style={{ opacity: pending ? 1 : 0 }} />
       <List>
-        {users.map((user) => (
-          <ListItem key={user.$id} button>
-            <ListItemAvatar>
-              <Avatar>
-                <Person />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={`${user.handle} (${profileMap[user.$id]?.nameDisplay})`} secondary={user.email} />
+        {usersFiltered.map((user) => (
+          <ListItem
+            key={user.$id}
+            button
+            onClick={() => onSelect(user, profileMap[user.$id])}
+            style={{ opacity: user.locked ? 0.5 : undefined }}
+          >
+            {profileMap[user.$id] ? (
+              <>
+                <ListItemAvatar>
+                  <Avatar>
+                    <Person />
+                  </Avatar>
+                </ListItemAvatar>
+                <Box flex={1}>
+                  <ListItemText primary={`${user.handle} (${profileMap[user.$id]?.nameDisplay})`} secondary={user.email} />
+                  <Text variant="body2" sx={{ opacity: 0.7 }}>{`Last Login: ${user._logged ?? 'Never'}`}</Text>
+                </Box>
+                <Box>
+                  {user.locked ? <Lock /> : <LockOpen />}
+                </Box>
+              </>
+            ) : (
+              <Skele key={user.$id} variant='box' />
+            )}
+
           </ListItem>
         ))}
       </List>

@@ -164,18 +164,18 @@ export const dataTest: StateDataPromise = async (data) => {
    */
   const profiles: Entity<Profile>[] = [
     profileSlice.createEntity({
-      $user: users[0].$id,
-      $contact: contacts[0].$id,
+      $_user: users[0].$id,
+      $_contact: contacts[0].$id,
       nameDisplay: 'Administrator',
     }, { $owner: users[0].$id }),
     profileSlice.createEntity({
-      $user: users[1].$id,
-      $contact: contacts[1].$id,
+      $_user: users[1].$id,
+      $_contact: contacts[1].$id,
       nameDisplay: 'Executive',
     }, { $owner: users[1].$id }),
     profileSlice.createEntity({
-      $user: users[2].$id,
-      $contact: contacts[2].$id,
+      $_user: users[2].$id,
+      $_contact: contacts[2].$id,
       nameDisplay: 'User',
     }, { $owner: users[2].$id }),
   ];

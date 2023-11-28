@@ -1,14 +1,22 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { EntitySearchAccounts } from '@amnis/web';
+import type { EntitySearchAccountsProps } from '@amnis/web/react/material';
+import { EntitySearchAccounts } from '@amnis/web/react/material';
 import { ManagerContext } from '../ManagerContext.js';
 
 export const PanelAccount: React.FC = () => {
-  const { location } = React.useContext(ManagerContext);
+  const { locationPush } = React.useContext(ManagerContext);
+
+  const handleSelect = React.useCallback<Required<EntitySearchAccountsProps>['onSelect']>(
+    (user, profile) => {
+      locationPush(`Edit#${user.$id},${profile.$id}`);
+    },
+    [],
+  );
 
   return (
     <Box>
-      <EntitySearchAccounts />
+      <EntitySearchAccounts onSelect={handleSelect} />
     </Box>
   );
 };

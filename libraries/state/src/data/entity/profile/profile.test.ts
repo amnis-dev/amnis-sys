@@ -18,13 +18,13 @@ test('profile key should be is properly set', () => {
 test('should create a profile', () => {
   const profile = profileCreate({
     nameDisplay: 'Newbie',
-    $user: uid(userSlice.key),
+    $_user: uid(userSlice.key),
   });
 
   expect(profile).toEqual(
     expect.objectContaining({
       nameDisplay: expect.any(String),
-      $user: expect.any(String),
+      $_user: expect.any(String),
     }),
   );
 });
@@ -53,7 +53,7 @@ test('should handle creating a new profile', () => {
   expect(entities).toHaveLength(1);
 
   expect(entities[0]).toEqual(expect.objectContaining({
-    $user: expect.any(String),
+    $_user: expect.any(String),
     nameDisplay: expect.any(String),
   }));
 });
