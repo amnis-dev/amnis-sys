@@ -65,10 +65,10 @@ test('should be able to login as user', async () => {
 
   expect(userActive?.$id).toBe(data.result?.[userSlice.key][0].$id);
   expect(profileActive?.$id).toBe(data.result?.[profileSlice.key][0].$id);
-  expect(profileActive?.$user).toBe(userActive?.$id);
+  expect(profileActive?.$_user).toBe(userActive?.$id);
   expect(sessionActive?.$id).toBe(data.result?.[sessionSlice.key][0].$id);
   expect(contactActive?.$id).toBe(data.result?.[contactSlice.key][0].$id);
-  expect(contactActive?.$id).toBe(profileActive?.$contact);
+  expect(contactActive?.$id).toBe(profileActive?.$_contact);
 });
 
 test('should NOT be able to login with a bad password', async () => {

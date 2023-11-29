@@ -107,7 +107,7 @@ test('should create a new account as an admin', async () => {
   expect(profiles).toHaveLength(1);
   expect(profiles[0].new).toBe(false);
   expect(profiles[0].committed).toBe(true);
-  expect(profiles[0].$user).toBe(users[0].$id);
+  expect(profiles[0].$_user).toBe(users[0].$id);
   expect(profiles[0].nameDisplay).toBe(apiAuthCreate.nameDisplay);
 
   expect(contact).toHaveLength(1);

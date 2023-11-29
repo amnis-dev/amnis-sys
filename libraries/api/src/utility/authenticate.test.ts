@@ -76,7 +76,7 @@ test('should authenticate as normal user account', async () => {
   expect(contacts).toBeDefined();
   expect(contacts).toHaveLength(1);
   expect(contacts[0]).toMatchObject({
-    $id: profiles[0].$contact,
+    $id: profiles[0].$_contact,
   });
 
   expect(sessions).toBeDefined();

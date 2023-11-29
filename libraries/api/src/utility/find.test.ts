@@ -67,7 +67,7 @@ test('should find user by handle', async () => {
 });
 
 test('should find profile by user id', async () => {
-  const found = await findProfileByUserId(context, profileExisting.$user);
+  const found = await findProfileByUserId(context, profileExisting.$_user);
 
   if (!found) {
     expect(found).toBeDefined();

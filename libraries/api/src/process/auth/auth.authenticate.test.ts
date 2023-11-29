@@ -131,11 +131,11 @@ test('should create an admin session and authenticate using the admin keys', asy
   expect(users[0].$owner).toBe(users[0].$id);
 
   expect(profiles).toHaveLength(1);
-  expect(profiles[0].$user).toBe(users[0].$id);
+  expect(profiles[0].$_user).toBe(users[0].$id);
   expect(profiles[0].$owner).toBe(users[0].$id);
 
   expect(contacts).toHaveLength(1);
-  expect(contacts[0].$id).toBe(profiles[0].$contact);
+  expect(contacts[0].$id).toBe(profiles[0].$_contact);
   expect(contacts[0].$owner).toBe(users[0].$id);
 
   expect(sessions).toHaveLength(1);
@@ -215,11 +215,11 @@ test('should create a user session and authenticate using the user keys', async 
   expect(users[0].$owner).toBe(users[0].$id);
 
   expect(profiles).toHaveLength(1);
-  expect(profiles[0].$user).toBe(users[0].$id);
+  expect(profiles[0].$_user).toBe(users[0].$id);
   expect(profiles[0].$owner).toBe(users[0].$id);
 
   expect(contacts).toHaveLength(1);
-  expect(contacts[0].$id).toBe(profiles[0].$contact);
+  expect(contacts[0].$id).toBe(profiles[0].$_contact);
   expect(contacts[0].$owner).toBe(users[0].$id);
 
   expect(sessions).toHaveLength(1);
