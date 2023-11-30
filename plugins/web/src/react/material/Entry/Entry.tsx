@@ -310,8 +310,12 @@ export const Entry: React.FC<EntryProps> = ({
     valueNew: typeof value,
     event?: React.ChangeEvent,
   ) => {
+    if (!required && valueNew === '') {
+      onChangeProp(undefined, event as any);
+      return;
+    }
     onChangeProp(valueNew as any, event as any);
-  }, [onChangeProp]);
+  }, [onChangeProp, required]);
 
   const onSelect = React.useCallback((
     valueNew: typeof value,
@@ -348,6 +352,10 @@ export const Entry: React.FC<EntryProps> = ({
       }
 
       if (value === undefined) {
+        return result;
+      }
+
+      if (!required && value.length === 0) {
         return result;
       }
 

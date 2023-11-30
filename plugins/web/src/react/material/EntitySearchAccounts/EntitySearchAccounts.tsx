@@ -102,7 +102,9 @@ export const EntitySearchAccounts: React.FC<EntitySearchAccountsProps> = ({
                 </ListItemAvatar>
                 <Box flex={1}>
                   <ListItemText primary={`${user.handle} (${profileMap[user.$id]?.nameDisplay})`} secondary={user.email} />
-                  <Text variant="body2" sx={{ opacity: 0.7 }}>{`Last Login: ${user._logged ?? 'Never'}`}</Text>
+                  <Text variant="body2" sx={{ opacity: 0.7 }}>
+                    {`Last Login: ${user._logged ? new Date(user._logged).toLocaleString() : 'Never'}`}
+                  </Text>
                 </Box>
                 <Box>
                   {user.locked ? <Lock /> : <LockOpen />}

@@ -1,4 +1,4 @@
-import type { Email, SURL } from '../../../core/core.types.js';
+import type { Email, UID } from '../../../core/core.types.js';
 import type {
   Data, DataRoot, DataMinimal, DataMeta,
 } from '../../data.types.js';
@@ -10,8 +10,16 @@ export interface Contact extends Data {
   /**
    * Name (or title) of the contact
    *
-   * @title %core:state:contact:name
-   * @description %core:state:contact:name_desc
+   * @title {
+   * en: "Name",
+   * de: "Name",
+   * es: "Nombre",
+   * }
+   * @description {
+   * en: "Name of the contact.",
+   * de: "Name des Kontakts.",
+   * es: "Nombre del contacto.",
+   * }
    * @minLength 1
    * @maxLength 128
    */
@@ -20,8 +28,16 @@ export interface Contact extends Data {
   /**
    * Details about the contact.
    *
-   * @title %core:state:contact:description
-   * @description %core:state:contact:description_desc
+   * @title {
+   * en: "Description",
+   * de: "Beschreibung",
+   * es: "Descripción",
+   * }
+   * @description {
+   * en: "Description of the contact.",
+   * de: "Beschreibung des Kontakts.",
+   * es: "Descripción del contacto.",
+   * }
    * @minLength 1
    * @maxLength 4096
    */
@@ -30,26 +46,51 @@ export interface Contact extends Data {
   /**
    * Phone numbers. First item in the array is the primary phone number.
    *
-   * @title %core:state:contact:phones
-   * @description %core:state:contact:phones_desc
+   * @title {
+   * en: "Phone numbers",
+   * de: "Telefonnummern",
+   * es: "Números de teléfono",
+   * }
+   * @description {
+   * en: "Contact phone numbers.",
+   * de: "Kontakt-Telefonnummern.",
+   * es: "Números de teléfono de contacto.",
+   * }
    */
   phones: string[];
 
   /**
    * Contact emails. First item in the array is the primary email.
    *
-   * @title %core:state:contact:emails
-   * @description %core:state:contact:emails_desc
+   * @title {
+   * en: "Emails",
+   * de: "E-Mails",
+   * es: "Correos electrónicos",
+   * }
+   * @description {
+   * en: "Contact emails.",
+   * de: "Kontakt-E-Mails.",
+   * es: "Correos electrónicos de contacto.",
+   * }
    */
   emails: Email[];
 
   /**
    * Contact's social urls.
    *
-   * @title %core:state:contact:socials
-   * @description %core:state:contact:socials_desc
+   * @title {
+   * en: "Socials",
+   * de: "Soziales",
+   * es: "Redes sociales",
+   * }
+   * @description {
+   * en: "Contact's social urls.",
+   * de: "Soziale URLs des Kontakts.",
+   * es: "URLs sociales del contacto.",
+   * }
+   * @format url
    */
-  socials: SURL[];
+  socials: string[];
 }
 
 /**
@@ -66,3 +107,21 @@ export type ContactMinimal = DataMinimal<Contact, 'name'>;
  * Contact collection meta data.
  */
 export type ContactMeta = DataMeta<Contact>;
+
+/**
+ * Contact ID
+ *
+ * @title {
+ * en: "Contact ID",
+ * de: "Kontakt ID",
+ * es: "ID de contacto",
+ * }
+ * @description {
+ * en: "Unique identifier for a contact.",
+ * de: "Eindeutiger Bezeichner für einen Kontakt.",
+ * es: "Identificador único para contacto.",
+ * }
+ * @type {string}
+ * @pattern ^contact:[A-Za-z0-9_-]{21}$
+ */
+export type ContactID = UID<Contact>;

@@ -72,7 +72,7 @@ export const EntryBoolean: React.FC = () => {
               <Label hideOptionalText />
             </Box>
             <Box aria-hidden="true" />
-            <Box sx={{ alignSelf: 'flex-start' }}>
+            <Box sx={{ alignSelf: 'flex-start', pb: description ? 1 : undefined }}>
               <Description sx={{
                 m: 0,
                 pb: 1,

@@ -10,11 +10,12 @@ import {
   dataNameKey, stateSelect, titleize,
 } from '@amnis/state';
 import type { UID, Entity } from '@amnis/state';
-import { apiCrud } from '@amnis/api/react';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import {
-  useTranslate, useWebDispatch, useWebSelector,
+  useTranslate,
+  useWebSelector,
+  useCrudRead,
 } from '@amnis/web/react/hooks';
 import type { RootStateWeb } from '@amnis/web';
 import { Description, Label } from './parts/index.js';
@@ -35,7 +36,7 @@ export const EntryFormatReference: React.FC = () => {
     onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<string>;
 
-  const dispatch = useWebDispatch();
+  const { crudRead } = useCrudRead();
 
   const sliceKey = React.useMemo(
     () => pattern?.match(/([A-Za-z0-9]+):/)?.[1] as keyof RootStateWeb | undefined,
@@ -109,29 +110,25 @@ export const EntryFormatReference: React.FC = () => {
     if (!sliceKey) return;
 
     if (!entity?.$id && value) {
-      dispatch(
-        apiCrud.endpoints.read.initiate({
-          [sliceKey]: {
-            $query: {
-              $id: {
-                $eq: value,
-              },
+      crudRead({
+        [sliceKey]: {
+          $query: {
+            $id: {
+              $eq: value,
             },
           },
-        }),
-      );
+        },
+      });
     }
 
-    dispatch(
-      apiCrud.endpoints.read.initiate({
-        [sliceKey]: {
-          $query: {},
-          $range: {
-            limit: 10,
-          },
+    crudRead({
+      [sliceKey]: {
+        $query: {},
+        $range: {
+          limit: 10,
         },
-      }),
-    );
+      },
+    });
   }, [sliceKey, value, entity?.$id]);
 
   /**

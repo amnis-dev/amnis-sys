@@ -50,7 +50,6 @@ export async function mockData(system: System) {
       email: 'admin@localhost',
       _emailVerified: true,
       $roles: [$adminRole, $anonymousRole],
-      $permits: [],
     }),
     userSlice.createEntity({
       handle: 'execMock',
@@ -58,7 +57,6 @@ export async function mockData(system: System) {
       email: 'exec@localhost',
       _emailVerified: true,
       $roles: [$execRole, $anonymousRole],
-      $permits: [],
     }),
     userSlice.createEntity({
       handle: 'userMock',
@@ -66,7 +64,6 @@ export async function mockData(system: System) {
       email: 'user@localhost',
       _emailVerified: true,
       $roles: $initialRoles,
-      $permits: [],
     }),
   ];
 

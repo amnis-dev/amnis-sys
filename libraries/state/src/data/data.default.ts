@@ -11,6 +11,7 @@ import type {
   Credential,
   Handle,
   EntityObjects,
+  System,
 } from './entity/index.js';
 import {
   entityCreate,
@@ -29,7 +30,7 @@ import { accountsGet } from '../accounts.js';
 import type { StateDataPromise } from '../types.js';
 
 export const dataTest: StateDataPromise = async (data) => {
-  const system = data[systemSlice.key][0];
+  const system: System = data[systemSlice.key][0];
   const roleAdmin = data[roleSlice.key]?.find(
     (role) => role.$id === system?.$adminRole,
   )!;
@@ -78,7 +79,6 @@ export const dataTest: StateDataPromise = async (data) => {
       email: 'admin@email.addr',
       _emailVerified: true,
       $roles: [roleAdmin.$id, roleAnonymous.$id],
-      $permits: [],
     }),
     userSlice.createEntity({
       handle: accounts.exec.handle,
@@ -86,7 +86,6 @@ export const dataTest: StateDataPromise = async (data) => {
       email: 'exec@email.addr',
       _emailVerified: true,
       $roles: [roleExec.$id, roleAnonymous.$id],
-      $permits: [],
     }),
     userSlice.createEntity({
       handle: accounts.user.handle,
@@ -94,7 +93,6 @@ export const dataTest: StateDataPromise = async (data) => {
       email: 'user@email.addr',
       _emailVerified: true,
       $roles: [roleBase.$id, roleAnonymous.$id],
-      $permits: [],
     }),
   ];
 

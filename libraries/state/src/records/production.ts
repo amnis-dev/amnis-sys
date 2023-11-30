@@ -154,7 +154,6 @@ export const data: StateDataPromise = async (data) => {
     email: adminEmail,
     _emailVerified: true,
     $roles: [roleAdministrator.$id],
-    $permits: [],
   }, { committed: true, new: false });
 
   const users = [userAdministrator];

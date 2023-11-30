@@ -9,11 +9,12 @@ import {
 } from '@mui/material';
 import { dataName, stateSelect } from '@amnis/state';
 import { AddCircle } from '@mui/icons-material';
-import { apiCrud } from '@amnis/api';
 import type { EntryContextProps } from '@amnis/web/react/context';
 import { EntryContext } from '@amnis/web/react/context';
 import {
-  useTranslate, useWebDispatch, useWebSelector,
+  useTranslate,
+  useWebSelector,
+  useCrudRead,
 } from '@amnis/web/react/hooks';
 import { Description, Label } from './parts/index.js';
 import type { EntryProps } from '../Entry.js';
@@ -40,7 +41,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
     onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<any[]>;
 
-  const dispatch = useWebDispatch();
+  const { crudRead } = useCrudRead();
 
   const [valueInner, valueInnerSet] = React.useState(undefined);
   const [innerRerender, innerRerenderSet] = React.useState(false);
@@ -83,7 +84,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
 
   React.useEffect(() => {
     if (!isReferences || !sliceKey) return;
-    dispatch(apiCrud.endpoints.read.initiate({
+    crudRead({
       [sliceKey]: {
         $query: {
           $id: {
@@ -91,7 +92,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
           },
         },
       },
-    }));
+    });
   }, []);
 
   return (

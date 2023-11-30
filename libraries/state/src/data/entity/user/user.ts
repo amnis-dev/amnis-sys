@@ -10,7 +10,6 @@ export const userRoot = (): UserRoot => ({
   locked: false,
   $credentials: [],
   $roles: [],
-  $permits: [],
 });
 
 /**

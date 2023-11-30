@@ -3,8 +3,8 @@ import type {
   DateJSON, UIDList,
 } from '../../../core/core.types.js';
 import type { Permit } from '../permit/permit.types.js';
-import type { Credential } from '../credential/credential.types.js';
-import type { Role } from '../role/role.types.js';
+import type { Credential, CredentialID } from '../credential/credential.types.js';
+import type { Role, RoleID } from '../role/role.types.js';
 import type {
   Data, DataMeta, DataMinimal, DataRoot,
 } from '../../data.types.js';
@@ -192,7 +192,7 @@ export interface User extends Data {
    *
    * @default []
    */
-  $credentials: UIDList<Credential>;
+  $credentials: CredentialID[];
 
   /**
    * Roles this user has been given.
@@ -209,13 +209,7 @@ export interface User extends Data {
    * }
    * @default []
    */
-  $roles: UIDList<Role>;
-
-  /**
-   * Special-case permits this user has been bestowed.
-   * @default []
-   */
-  $permits: UIDList<Permit>;
+  $roles: RoleID[];
 }
 
 /**

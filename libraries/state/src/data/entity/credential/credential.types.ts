@@ -1,5 +1,5 @@
 import type {
-  DateJSON, Encoding, IP, Name,
+  DateJSON, Encoding, IP, Name, UID,
 } from '../../../core/index.js';
 import type {
   Data, DataRoot, DataMinimal, DataMeta,
@@ -44,3 +44,21 @@ export type CredentialMinimal = DataMinimal<Credential, 'ip' | 'name' | 'publicK
  * Credential collection meta data.
  */
 export type CredentialMeta = DataMeta<Credential>;
+
+/**
+ * Credential ID
+ *
+ * @title {
+ * en: "Credential ID",
+ * de: "Anmeldeinformationen-ID",
+ * es: "ID de credencial",
+ * }
+ * @description {
+ * en: "Unique identifier for a credential.",
+ * de: "Eindeutiger Bezeichner für eine Anmeldeinformation.",
+ * es: "Identificador único para credencial.",
+ * }
+ * @type {string}
+ * @pattern ^credential:[A-Za-z0-9_-]{21}$
+ */
+export type CredentialID = UID<Credential>;
