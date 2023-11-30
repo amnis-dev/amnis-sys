@@ -5,6 +5,7 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
+import type { DataSliceGeneric } from '@amnis/state';
 import {
   dataActions,
   localeSlice,
@@ -30,6 +31,11 @@ const theme = createTheme({
 
 export interface WebProviderProps {
   /**
+   * Slices to load into the web application.
+   */
+  slices?: Record<string, DataSliceGeneric>;
+
+  /**
    * Default value for the manager manager.
    */
   manager?: boolean;
@@ -46,6 +52,7 @@ export interface WebProviderProps {
 }
 
 export const WebProvider: React.FC<WebProviderProps> = ({
+  slices = {},
   manager: managerProp = false,
   ManagerDynamic = Manager,
   onRemount = noop,
@@ -85,12 +92,14 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   }, [managerPathnameSet]);
 
   const value = React.useMemo(() => ({
+    slices,
     manager,
     managerSet,
     managerLocationPush,
     webSelect,
     webSelectSet,
   }), [
+    slices,
     manager,
     managerSet,
     managerLocationPush,
@@ -140,29 +149,29 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   return (
     <ThemeProvider theme={theme}>
 
-      {manager ? (
-        <React.Suspense
-          fallback={(
-            <BackdropProgress
-              title="Loading Manager"
-              subtitle="Please wait..."
-            />
-          )}
-        >
-          <ManagerDynamic
-            webSelect={webSelect}
-            drawerWidth={managerDrawerWidth}
-            pathname={managerPathname}
-            onWebSelect={webSelectSet}
-            onPathnameChange={(pathname) => {
-              managerDrawerOpenSet(!!pathname);
-              managerPathnameSet(undefined);
-            }}
-          />
-        </React.Suspense>
-      ) : null}
-
       <WebContext.Provider value={value}>
+
+        {manager ? (
+          <React.Suspense
+            fallback={(
+              <BackdropProgress
+                title="Loading Manager"
+                subtitle="Please wait..."
+              />
+            )}
+          >
+            <ManagerDynamic
+              webSelect={webSelect}
+              drawerWidth={managerDrawerWidth}
+              pathname={managerPathname}
+              onWebSelect={webSelectSet}
+              onPathnameChange={(pathname) => {
+                managerDrawerOpenSet(!!pathname);
+                managerPathnameSet(undefined);
+              }}
+            />
+          </React.Suspense>
+        ) : null}
 
         <Box sx= {{
           position: 'relative',
@@ -187,6 +196,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
             <Outlet />
           </Box>
         </Box>
+
       </WebContext.Provider>
 
     </ThemeProvider>

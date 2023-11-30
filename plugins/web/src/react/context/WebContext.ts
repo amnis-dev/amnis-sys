@@ -1,4 +1,4 @@
-import type { Entity } from '@amnis/state';
+import type { Entity, DataSliceGeneric } from '@amnis/state';
 import { noop } from '@amnis/state';
 import React from 'react';
 
@@ -15,6 +15,11 @@ export type WebContextWebSelect = 'data' | 'component';
 export type WebContextIderMap = Record<string, WebContextIder>;
 
 export interface WebContext {
+  /**
+   * Data slices loaded into the application.
+   */
+  slices: Record<string, DataSliceGeneric>;
+
   /**
    * Whether the UI manager is enabled.
    */
@@ -42,6 +47,7 @@ export interface WebContext {
 }
 
 export const WebContext = React.createContext<WebContext>({
+  slices: {},
   manager: false,
   managerSet: noop,
   managerLocationPush: noop,

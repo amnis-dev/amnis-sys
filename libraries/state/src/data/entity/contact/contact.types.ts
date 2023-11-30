@@ -5,6 +5,17 @@ import type {
 
 /**
  * Contact entity
+ *
+ * @title {
+ * en: "Contact",
+ * de: "Kontakt",
+ * es: "Contacto",
+ * }
+ * @description {
+ * en: "Methods of contacting the account owner.",
+ * de: "Methoden, um den Kontoinhaber zu kontaktieren.",
+ * es: "Métodos para contactar al propietario de la cuenta.",
+ * }
  */
 export interface Contact extends Data {
   /**

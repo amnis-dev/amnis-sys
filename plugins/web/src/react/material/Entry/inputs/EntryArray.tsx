@@ -7,14 +7,17 @@ import {
   IconButton,
   FormLabel,
 } from '@mui/material';
-import { dataName, stateSelect } from '@amnis/state';
+import {
+  dataActions, dataName, entityCreate, stateSelect,
+} from '@amnis/state';
 import { AddCircle } from '@mui/icons-material';
 import type { EntryContextProps } from '@amnis/web/react/context';
-import { EntryContext } from '@amnis/web/react/context';
+import { EntryContext, WebContext } from '@amnis/web/react/context';
 import {
   useTranslate,
   useWebSelector,
   useCrudRead,
+  useWebDispatch,
 } from '@amnis/web/react/hooks';
 import { Description, Label } from './parts/index.js';
 import type { EntryProps } from '../Entry.js';
@@ -30,6 +33,9 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
   Entry,
 }) => {
   const {
+    slices,
+  } = React.useContext(WebContext);
+  const {
     items,
     uniqueItems,
     entryId,
@@ -41,24 +47,11 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
     onBlur,
   } = React.useContext(EntryContext) as EntryContextProps<any[]>;
 
+  const dispatch = useWebDispatch();
   const { crudRead } = useCrudRead();
 
   const [valueInner, valueInnerSet] = React.useState(undefined);
   const [innerRerender, innerRerenderSet] = React.useState(false);
-
-  const handleInsert = React.useCallback((valueInnerNext: any) => {
-    innerRerenderSet(!innerRerender);
-    if (valueInnerNext === undefined ?? !valueInnerNext?.length) return;
-
-    valueInnerSet(undefined);
-    // Ensure unique items.
-    if (uniqueItems && value?.includes(valueInnerNext)) return;
-    onChange([...(value ?? []), valueInnerNext]);
-  }, [value, onChange, valueInnerSet]);
-
-  React.useEffect(() => {
-    onBlur();
-  }, [value]);
 
   const isReferences = React.useMemo(() => items.format === 'reference', [items.format]);
   const sliceKey = React.useMemo(
@@ -94,6 +87,36 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
       },
     });
   }, []);
+
+  /**
+   * Inserts an existing value into the array.
+   */
+  const handleInsert = React.useCallback((valueInnerNext: any) => {
+    innerRerenderSet(!innerRerender);
+    if (valueInnerNext === undefined ?? !valueInnerNext?.length) return;
+
+    valueInnerSet(undefined);
+    // Ensure unique items.
+    if (uniqueItems && value?.includes(valueInnerNext)) return;
+    onChange([...(value ?? []), valueInnerNext]);
+  }, [value, onChange, valueInnerSet]);
+
+  /**
+   * Creates a new value and inserts it into the array.
+   */
+  const handleNew = React.useCallback(() => {
+    if (!sliceKey) return;
+    const newItem = entityCreate(slices[sliceKey]?.create({}));
+    if (!newItem) return;
+    dispatch(dataActions.insert({
+      [sliceKey]: [newItem],
+    }));
+    onChange([...(value ?? []), newItem.$id]);
+  }, [sliceKey, value]);
+
+  React.useEffect(() => {
+    onBlur();
+  }, [value]);
 
   return (
     <FormControl
@@ -144,7 +167,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
               {value?.map((valueItem, index) => {
                 const label = isReferences ? entityLabels?.[valueItem] : dataName(valueItem);
                 return (
-                  <Box component="li" key={`${label}#${index}`}>
+                  <Box component="li" key={valueItem}>
                     <Chip
                       role="textbox"
                       aria-multiline="false"
@@ -162,7 +185,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
             </Stack>
 
             <Box mt={2}>
-              <Stack direction="row" gap={2}>
+              <Stack direction="row" gap={2} alignItems="center">
                 <Entry
                   key={innerRerender ? '0' : '1'}
                   schema={items}
@@ -174,7 +197,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
                 />
                 <Box>
                   <IconButton
-                    onClick={() => handleInsert(valueInner)}
+                    onClick={handleNew}
                   >
                     <AddCircle />
                   </IconButton>

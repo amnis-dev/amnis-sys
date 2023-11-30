@@ -16,6 +16,7 @@ const reducers = {
 export type SetRoot = ExtractRootState<typeof reducers>;
 
 export const set = {
+  slices: {},
   reducers,
   middleware: [
     apiSys.middleware,

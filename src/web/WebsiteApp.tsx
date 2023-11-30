@@ -9,6 +9,7 @@ import {
   useWebSelector,
 } from '@amnis/web';
 import { apiCrud, apiSys, apiAuth } from '@amnis/api/react';
+import type { ReduxSet } from '@amnis/state';
 import {
   systemSlice,
 } from '@amnis/state';
@@ -16,12 +17,14 @@ import {
 export const isDev = process.env.NODE_ENV === 'development';
 
 export interface WebsiteAppProps {
+  slices?: ReduxSet['slices'],
   hostname?: string,
   system?: string | string[],
   children?: React.ReactNode,
 }
 
 export const WebsiteApp: React.FC<WebsiteAppProps> = ({
+  slices,
   hostname,
   system: systemUrl,
   children,
@@ -107,7 +110,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
 
   return system?.$id ? (
     <div>
-      <Web onRemount={readWebsiteQuery}>
+      <Web onRemount={readWebsiteQuery} slices={slices} >
         {children}
       </Web>
     </div>

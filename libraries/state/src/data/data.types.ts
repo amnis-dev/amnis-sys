@@ -1,9 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { ActionReducerMapBuilder, EntityState, EntityStateAdapter } from '@amnis/state/rtk';
+import type {
+  Action, ActionReducerMapBuilder, AnyAction, EntityState, EntityStateAdapter,
+} from '@amnis/state/rtk';
 import type { UID } from '../core/index.js';
 
 export type Data = { $id: UID };
+
+export interface DataSliceGenericActions {
+  insert: (insert: any) => Action & AnyAction,
+  insertMany: (inserts: any[]) => Action & AnyAction,
+  create: (minimal: any) => Action & AnyAction,
+  createMany: (minimals: (any)[]) => Action & AnyAction,
+  update: (update: any) => Action & AnyAction,
+  updateMany: (updates: any[]) => Action & AnyAction,
+  delete: ($id: UID) => Action & AnyAction,
+  deleteMany: ($ids: UID[]) => Action & AnyAction,
+  activeSet: ($id: UID) => Action & AnyAction,
+  activeClear: () => Action & AnyAction,
+  focusedSet: ($id: UID) => Action & AnyAction,
+  focusedClear: () => Action & AnyAction,
+  selectionSet: ($ids: UID[]) => Action & AnyAction,
+  selectionClear: () => Action & AnyAction,
+}
+
+export interface DataSliceGeneric {
+  key: string,
+  name: string,
+  initialState: Record<string, any>,
+  getInitialState: any,
+  action: Partial<DataSliceGenericActions> & Record<string, any>,
+  select: Record<string, (...args: any[]) => any>,
+  create: any,
+}
 
 /**
  * The root of an extended data object.

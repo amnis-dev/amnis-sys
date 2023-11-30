@@ -1,0 +1,43 @@
+import {
+  auditSlice,
+  bulletinSlice,
+  contactSlice,
+  credentialSlice,
+  handleSlice,
+  historySlice,
+  keySlice,
+  localeSlice,
+  logSlice,
+  pluginSlice,
+  profileSlice,
+  roleSlice,
+  routeSlice,
+  serviceSlice,
+  sessionSlice,
+  systemSlice,
+  userSlice,
+  noteSlice,
+} from '../data/index.js';
+
+export const slices = {
+  [auditSlice.name]: auditSlice,
+  [bulletinSlice.name]: bulletinSlice,
+  [contactSlice.name]: contactSlice,
+  [credentialSlice.name]: credentialSlice,
+  [handleSlice.name]: handleSlice,
+  [keySlice.name]: keySlice,
+  [historySlice.name]: historySlice,
+  [localeSlice.name]: localeSlice,
+  [logSlice.name]: logSlice,
+  [noteSlice.name]: noteSlice,
+  [pluginSlice.name]: pluginSlice,
+  [profileSlice.name]: profileSlice,
+  [roleSlice.name]: roleSlice,
+  [routeSlice.name]: routeSlice,
+  [serviceSlice.name]: serviceSlice,
+  [sessionSlice.name]: sessionSlice,
+  [systemSlice.name]: systemSlice,
+  [userSlice.name]: userSlice,
+};
+
+export default slices;

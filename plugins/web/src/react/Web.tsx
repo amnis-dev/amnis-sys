@@ -1,4 +1,5 @@
 import React from 'react';
+import type { DataSliceGeneric } from '@amnis/state';
 import {
   noop,
 } from '@amnis/state';
@@ -9,6 +10,11 @@ import { websiteSlice } from '@amnis/web/set';
 import { WebProvider } from './WebProvider.js';
 
 export interface WebProps {
+  /**
+   * Slices to load into the web application.
+   */
+  slices?: Record<string, DataSliceGeneric>;
+
   /**
    * Custom routes object.
    */
@@ -26,6 +32,7 @@ export interface WebProps {
 }
 
 export const Web: React.FC<WebProps> = ({
+  slices,
   routes,
   onRemount = noop,
   children,
@@ -69,7 +76,7 @@ export const Web: React.FC<WebProps> = ({
     {
       path: '/',
       element: (
-        <WebProvider onRemount={onRemount} />
+        <WebProvider onRemount={onRemount} slices={slices} />
       ),
       children: routes ?? [
         {
@@ -86,7 +93,7 @@ export const Web: React.FC<WebProps> = ({
     future: {
       v7_normalizeFormMethod: true,
     },
-  }), [routes, children, onRemount]);
+  }), [routes, slices, children, onRemount]);
 
   return (
     <RouterProvider router={router} />

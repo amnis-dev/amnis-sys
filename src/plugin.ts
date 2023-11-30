@@ -27,6 +27,11 @@ export function pluginSetsMerge(
 
   const setsMerged = sets.reduce<ReduxSet>(
     (acc, set) => {
+      acc.slices = {
+        ...acc.slices,
+        ...set.slices,
+      };
+
       acc.reducers = {
         ...acc.reducers,
         ...set.reducers,
@@ -39,6 +44,7 @@ export function pluginSetsMerge(
       return acc;
     },
     {
+      slices: {},
       reducers: {},
       middleware: [],
     },

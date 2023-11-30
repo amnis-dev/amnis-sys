@@ -11,7 +11,9 @@ import type {
   Route,
   Plugin,
   Data,
+  DataSliceGeneric,
 } from './data/index.js';
+import type { } from './data/data.slice.js';
 
 interface _SchemaObject {
   id?: string;
@@ -29,6 +31,7 @@ export interface SchemaObject extends _SchemaObject {
 }
 
 export type ReduxSet = {
+  slices: Record<string, DataSliceGeneric>,
   reducers: Record<string, Reducer>,
   middleware: Middleware[]
 }

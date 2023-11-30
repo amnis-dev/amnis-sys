@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 
 import { Lock, LockOpen, Person } from '@mui/icons-material';
-import { useCrudRead, useWebSelector } from '@amnis/web/react/hooks';
+import { useCrudRead, useLocale, useWebSelector } from '@amnis/web/react/hooks';
 import { SearchInput, Skele, Text } from '@amnis/web/react/material';
 
 export interface EntitySearchAccountsProps {
@@ -27,6 +27,9 @@ export const EntitySearchAccounts: React.FC<EntitySearchAccountsProps> = ({
   const userActive = useWebSelector(userSlice.select.active);
   const users = useWebSelector((state) => userSlice.select.all(state));
   const profiles = useWebSelector((state) => profileSlice.select.all(state));
+
+  const localeKeys = React.useRef(['!account.lastlogin'] as const);
+  const localeValues = useLocale(localeKeys.current);
 
   const [searchValue, searchValueSet] = React.useState('');
 
@@ -103,7 +106,7 @@ export const EntitySearchAccounts: React.FC<EntitySearchAccountsProps> = ({
                 <Box flex={1}>
                   <ListItemText primary={`${user.handle} (${profileMap[user.$id]?.nameDisplay})`} secondary={user.email} />
                   <Text variant="body2" sx={{ opacity: 0.7 }}>
-                    {`Last Login: ${user._logged ? new Date(user._logged).toLocaleString() : 'Never'}`}
+                    {`${localeValues['!account.lastlogin']}: ${user._logged ? new Date(user._logged).toLocaleString() : 'Never'}`}
                   </Text>
                 </Box>
                 <Box>

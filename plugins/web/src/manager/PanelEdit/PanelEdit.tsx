@@ -9,7 +9,7 @@ export const PanelEdit: React.FC = () => {
   const entityIds = React.useMemo(() => hash?.split(',') || [], [hash]);
 
   return (
-    <Stack gap={1}>
+    <Stack gap={5}>
       {entityIds.map(($id) => (
         <EntityForm key={$id} $id={$id} />
       ))}

@@ -93,6 +93,11 @@ export function websiteCreate({
     children,
   }) => {
     const [importing, importingSet] = React.useState(true);
+    const [slices, slicesSet] = React.useState<ReduxSet['slices']>({
+      ...stateSet.slices,
+      ...apiSet.slices,
+      ...webSet.slices,
+    });
 
     /**
      * Load a dynamic plugin by it's id
@@ -133,6 +138,7 @@ export function websiteCreate({
         );
 
         if (!set) return;
+        slicesSet(set.slices);
         storeUpdate(set);
       } catch (err) {
         console.error(`There was an issue dynamically importing "${pluginKey}".`, err);
@@ -153,7 +159,7 @@ export function websiteCreate({
       <ProviderRR store={store}>
         <WebsiteContext.Provider value={contextValue}>
           <Mocker {...mockerOptions} plugins={pluginsDynamic}>
-            <WebsiteApp system={system} hostname={hostname}>
+            <WebsiteApp system={system} hostname={hostname} slices={slices}>
               {children}
             </WebsiteApp>
           </Mocker>
