@@ -4,7 +4,7 @@ import {
   Box,
   Button, Dialog, DialogActions, DialogContent,
 } from '@mui/material';
-import { EntityForm } from '../EntityForm/index.js';
+import { EntityForm } from './EntityForm.js';
 
 interface Props {
   open: boolean;

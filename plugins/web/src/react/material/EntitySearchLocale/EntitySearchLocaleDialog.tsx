@@ -8,7 +8,7 @@ import {
   DialogActions,
   DialogContent,
 } from '@mui/material';
-import { EntitySearchLocale } from '../EntitySearchLocale/index.js';
+import { EntitySearchLocale } from './EntitySearchLocale.js';
 
 interface Props {
   open: boolean;

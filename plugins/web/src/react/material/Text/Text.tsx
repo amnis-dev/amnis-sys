@@ -1,6 +1,18 @@
 import React from 'react';
+import { createSelector } from '@amnis/state/rtk';
 import type { TypographyProps } from '@mui/material';
 import { Skeleton, Typography } from '@mui/material';
+import { localeSlice } from '@amnis/state';
+import { useWebSelector } from '@amnis/web/react/hooks';
+import { WebContext } from '@amnis/web/react';
+
+const selectLocaleValue = createSelector(
+  [
+    (state: any) => localeSlice.select.state(state).names,
+    (state, key: string) => key,
+  ],
+  (names, key) => names[key]?.value,
+);
 
 export interface TextProps extends TypographyProps {
   /**
@@ -42,6 +54,16 @@ export const Text: React.FC<TextProps> = ({
   children,
   ...props
 }) => {
+  const { localePush } = React.useContext(WebContext);
+  const localeValue = useWebSelector(
+    (state) => {
+      if (children && typeof children === 'string' && children.startsWith('%!')) {
+        return selectLocaleValue(state, children.substring(1));
+      }
+      return undefined;
+    },
+  );
+
   const text = React.useMemo(
     () => {
       if (!children) {
@@ -52,9 +74,13 @@ export const Text: React.FC<TextProps> = ({
         return children.toString();
       }
 
+      if (localeValue) {
+        return localeValue;
+      }
+
       return children;
     },
-    [children],
+    [children, localeValue],
   );
 
   const loaded = React.useMemo(
@@ -82,6 +108,12 @@ export const Text: React.FC<TextProps> = ({
       textDecoration: 'inherit',
     };
   }, [inherit]);
+
+  React.useEffect(() => {
+    if (text?.startsWith('%!')) {
+      localePush([text.substring(1)]);
+    }
+  }, [text]);
 
   const inheritProps = React.useMemo<TypographyProps>(() => {
     if (!inherit) {

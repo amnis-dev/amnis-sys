@@ -4,6 +4,7 @@ import {
   Box,
   ThemeProvider,
   createTheme,
+  CssBaseline,
 } from '@mui/material';
 import type { DataSliceGeneric } from '@amnis/state';
 import {
@@ -17,7 +18,9 @@ import { BackdropProgress } from '@amnis/web/react/material';
 import { Outlet } from '@amnis/web/lib/react-router-dom';
 import type { ManagerProps } from '@amnis/web/manager';
 import { WebContext } from '@amnis/web/react/context';
-import { useUpdateEffect, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
+import {
+  useDebounce, useUpdateEffect, useWebDispatch, useWebSelector,
+} from '@amnis/web/react/hooks';
 
 const Manager = React.lazy(
   () => import('@amnis/web/manager').then((module) => ({ default: module.Manager })),
@@ -69,6 +72,21 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   const user = useWebSelector(userSlice.select.active);
 
   /**
+   * Reference of locale keys to request when this component fully mounts or updates.
+   */
+  const localeKeysCached = React.useRef<Set<string>>(new Set());
+  const [localeKeys, localeKeysSet] = React.useState<string[]>([]);
+  const localeKeysDebounced = useDebounce(localeKeys, 500);
+
+  const localePush = React.useCallback((key: readonly string[]) => {
+    const keyFilter = key.filter((k) => k.startsWith('!') && !localeKeysCached.current.has(k));
+    if (!keyFilter.length) return;
+    const keyNext = new Set([...localeKeysCached.current, ...keyFilter]);
+    localeKeysSet([...keyNext]);
+    localeKeysCached.current = keyNext;
+  }, [localeKeys]);
+
+  /**
    * Remounts the website when this value toggles.
    */
   const [remount, remountSet] = React.useState(false);
@@ -93,6 +111,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
 
   const value = React.useMemo(() => ({
     slices,
+    localePush,
     manager,
     managerSet,
     managerLocationPush,
@@ -100,6 +119,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     webSelectSet,
   }), [
     slices,
+    localePush,
     manager,
     managerSet,
     managerLocationPush,
@@ -113,6 +133,18 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   React.useEffect(() => {
     if (!manager) managerDrawerOpenSet(false);
   }, [manager]);
+
+  /**
+   * Effect requests the locale key values.
+   */
+  React.useEffect(() => {
+    if (localeKeysDebounced.length) {
+      dispatch(apiSys.endpoints.locale.initiate({
+        keys: localeKeysDebounced,
+      }));
+      localeKeysSet([]);
+    }
+  }, [dispatch, localeKeysDebounced]);
 
   /**
    * Reset effect.
@@ -136,6 +168,12 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     dispatch(apiSys.util.resetApiState());
 
     /**
+     * Flush state
+     */
+    localeKeysSet([]);
+    localeKeysCached.current = new Set();
+
+    /**
      * Trigger the remount callback
      */
     onRemount();
@@ -148,6 +186,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
 
       <WebContext.Provider value={value}>
 

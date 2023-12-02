@@ -21,13 +21,13 @@ import { importerPlugins } from '../../importer.js';
 import { pluginMerge } from '../../plugin.js';
 import { MockerContext, type MockerAccount, type MockerContextProps } from './MockerContext.js';
 import { MockerAgent } from './MockerAgent.js';
-import type { WebsiteCreateMockerOptions } from '../websiteCreate.types.js';
+import type { WebsiteAppCreateMockerOptions } from '../websiteAppCreate.types.js';
 /**
  * Check if node is in development mode.
  */
 export const isDev = process.env.NODE_ENV === 'development';
 
-export interface MockerProps extends WebsiteCreateMockerOptions {
+export interface MockerProps extends WebsiteAppCreateMockerOptions {
   /**
    * An array of import paths to amnis systems.
    *

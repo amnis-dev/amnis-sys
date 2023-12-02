@@ -17,7 +17,7 @@ import { WebsiteContext } from './WebsiteContext.js';
 import { importerPlugin } from '../importer.js';
 import { pluginSetsMerge } from '../plugin.js';
 import { WebsiteApp } from './WebsiteApp.js';
-import type { WebsiteCreateOptions } from './websiteCreate.types.js';
+import type { WebsiteAppCreateOptions } from './websiteAppCreate.types.js';
 
 /**
  * Initializes the system for web-based react applications.
@@ -28,12 +28,12 @@ import type { WebsiteCreateOptions } from './websiteCreate.types.js';
  * export const Website = websiteCreate();
  * ```
  */
-export function websiteCreate({
+export function websiteAppCreate({
   system,
   hostname,
   plugins = [],
   mocker: mockerOptions,
-}: WebsiteCreateOptions = {}) {
+}: WebsiteAppCreateOptions = {}) {
   const ids = new Set<string>(['@amnis/state', '@amnis/api', '@amnis/web']);
   const pluginsDynamic = [
     pluginState,
@@ -78,9 +78,9 @@ export function websiteCreate({
    * In development mode, this component will mock the APIs with an in-memory database.
    *
    * @example ```tsx
-   * import { websiteCreate } from '@amnis/sys/react';
+   * import { websiteAppCreate } from '@amnis/sys/react';
    *
-   * export const Website = websiteCreate();
+   * export const Website = websiteAppCreate();
    *
    * export const App = () => (
    *  <Website.Provider>
@@ -174,4 +174,4 @@ export function websiteCreate({
   };
 }
 
-export default websiteCreate;
+export default websiteAppCreate;

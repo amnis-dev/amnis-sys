@@ -1,6 +1,9 @@
 import React from 'react';
 
 import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
   IconButton, ListItemIcon, Menu, MenuItem,
 } from '@mui/material';
 import {
@@ -10,7 +13,7 @@ import { sessionSlice, systemSlice, userSlice } from '@amnis/state';
 import {
   useLocale, useMenu, useWebSelector,
 } from '@amnis/web/react/hooks';
-import { Text } from '@amnis/web/react/material';
+import { Text, AccountAuthenticate } from '@amnis/web/react/material';
 import { WebContext } from '@amnis/web/react';
 
 export const AccountButton: React.FC = () => {
@@ -37,9 +40,12 @@ export const AccountButton: React.FC = () => {
     handleClose,
   } = useMenu('account-button');
 
+  const [accountAuthenticateOpen, accountAuthenticateOpenSet] = React.useState(false);
+
   const MenuItemsAnonymous = React.useCallback<React.FC>(() => (<>
     <MenuItem
       onClick={() => {
+        accountAuthenticateOpenSet(true);
         handleClose();
       }}
     >
@@ -82,6 +88,20 @@ export const AccountButton: React.FC = () => {
     <Menu {...menuProps}>
       {user ? <MenuItemsAccount /> : <MenuItemsAnonymous />}
     </Menu>
+    <Dialog
+      open={accountAuthenticateOpen}
+      onClose={() => accountAuthenticateOpenSet(false)}
+      fullWidth
+    >
+      <DialogTitle component="div">
+        <Text inherit>
+          Authenticate
+        </Text>
+      </DialogTitle>
+      <DialogContent>
+        <AccountAuthenticate />
+      </DialogContent>
+    </Dialog>
   </>);
 };
 

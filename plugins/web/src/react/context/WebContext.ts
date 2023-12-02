@@ -21,6 +21,11 @@ export interface WebContext {
   slices: Record<string, DataSliceGeneric>;
 
   /**
+   * Pushes a localization key or set of keys to request after the application is loaded.
+   */
+  localePush: (key: readonly string[]) => void;
+
+  /**
    * Whether the UI manager is enabled.
    */
   manager: boolean;
@@ -48,6 +53,7 @@ export interface WebContext {
 
 export const WebContext = React.createContext<WebContext>({
   slices: {},
+  localePush: noop,
   manager: false,
   managerSet: noop,
   managerLocationPush: noop,

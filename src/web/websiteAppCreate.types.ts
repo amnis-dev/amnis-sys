@@ -1,6 +1,6 @@
 import type { DynamicPlugin } from '@amnis/state';
 
-export interface WebsiteCreateMockerOptions {
+export interface WebsiteAppCreateMockerOptions {
   /**
    * Enable the mocker for production.
    *
@@ -9,7 +9,7 @@ export interface WebsiteCreateMockerOptions {
   production?: boolean;
 }
 
-export interface WebsiteCreateOptions {
+export interface WebsiteAppCreateOptions {
   /**
    * The system this website depends on.
    * If an array is used, the first index in the array is the default system.
@@ -31,5 +31,5 @@ export interface WebsiteCreateOptions {
   /**
    * Mocker options.
    */
-  mocker?: WebsiteCreateMockerOptions;
+  mocker?: WebsiteAppCreateMockerOptions;
 }

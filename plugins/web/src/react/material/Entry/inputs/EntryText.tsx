@@ -15,8 +15,8 @@ import { EntryContext } from '@amnis/web/react/context';
 import { useDebounce, useTranslate } from '@amnis/web/react/hooks';
 import { Description, Label } from './parts/index.js';
 
-const EntitySearchLocaleDialog = React.lazy(() => import('../../EntitySearchLocaleDialog/EntitySearchLocaleDialog.js'));
-const EntityFormLocaleDialog = React.lazy(() => import('../../EntityFormLocaleDialog/EntityFormLocaleDialog.js'));
+const EntitySearchLocaleDialog = React.lazy(() => import('../../EntitySearchLocale/EntitySearchLocaleDialog.js'));
+const EntityFormLocaleDialog = React.lazy(() => import('../../EntityFormLocale/EntityFormLocaleDialog.js'));
 
 export const EntryText: React.FC = () => {
   const {

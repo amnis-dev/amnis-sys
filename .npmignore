@@ -2,6 +2,7 @@
 src/
 
 # Projects
+apps/
 configurations/
 plugins/
 libraries/

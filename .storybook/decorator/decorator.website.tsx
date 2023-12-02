@@ -1,7 +1,7 @@
 import type { Decorator } from "@storybook/react";
-import { websiteCreate } from '../../src/web/index.js';
+import { websiteAppCreate } from '../../src/web/index.js';
 
-const Website = websiteCreate({
+const Website = websiteAppCreate({
   hostname: 'localhost',
   mocker: {
     production: true

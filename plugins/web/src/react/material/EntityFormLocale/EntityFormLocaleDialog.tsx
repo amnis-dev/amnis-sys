@@ -9,7 +9,7 @@ import {
   DialogContent,
 } from '@mui/material';
 import { useCrudRead, useWebSelector } from '@amnis/web/react/hooks';
-import { EntityFormLocale } from '../EntityFormLocale/index.js';
+import { EntityFormLocale } from './EntityFormLocale.js';
 
 interface Props {
   open: boolean;

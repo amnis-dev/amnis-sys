@@ -62,7 +62,7 @@ interface EntryBaseProps {
   /**
    * Entry schema.
    */
-  schema?: Schema;
+  schema?: Record<string, any>;
 
   /**
    * Entry value.
@@ -344,20 +344,21 @@ export const Entry: React.FC<EntryProps> = ({
       return result;
     }
 
+    if (required && (value === undefined)) {
+      result.push('required');
+      return result;
+    }
+
+    if (value === undefined) {
+      return result;
+    }
+
     if (typeof value === 'string') {
-      const { maxLength, minLength, pattern } = schema as EntryContextSchemaString;
-      if (required && (value === undefined || value.length === 0)) {
-        result.push('required');
-        return result;
-      }
-
-      if (value === undefined) {
-        return result;
-      }
-
       if (!required && value.length === 0) {
         return result;
       }
+
+      const { maxLength, minLength, pattern } = schema as EntryContextSchemaString;
 
       if (maxLength && value.length > maxLength) {
         result.push('maxLength');
@@ -369,6 +370,20 @@ export const Entry: React.FC<EntryProps> = ({
 
       if (pattern && !RegExp(pattern).test(value)) {
         result.push('pattern');
+      }
+    } else if (typeof value === 'number') {
+      if (!required && value === 0) {
+        return result;
+      }
+
+      const { maximum, minimum } = schema;
+
+      if (maximum && value > maximum) {
+        result.push('maximum');
+      }
+
+      if (minimum && value < minimum) {
+        result.push('minimum');
       }
     }
 

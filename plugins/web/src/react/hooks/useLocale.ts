@@ -1,9 +1,8 @@
 import React from 'react';
 import { localeSlice } from '@amnis/state';
-import { apiSys } from '@amnis/api';
 import { createSelector } from '@amnis/state/rtk';
+import { WebContext } from '@amnis/web/react';
 import { useWebSelector } from './useWebSelector.js';
-import { useWebDispatch } from './useWebDispatch.js';
 
 type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
   [K in (T extends ReadonlyArray<infer U> ? U : never)]: V
@@ -28,7 +27,7 @@ const selectLocaleRecord = createSelector(
 export function useLocale<K extends UseLocaleKey>(
   keys: K,
 ): ObjectFromList<K> {
-  const dispatch = useWebDispatch();
+  const { localePush } = React.useContext(WebContext);
 
   const localeCode = useWebSelector(localeSlice.select.activeCode);
 
@@ -46,11 +45,9 @@ export function useLocale<K extends UseLocaleKey>(
   const localeLocalLength = React.useMemo(() => Object.keys(localeLocal).length, [localeLocal]);
 
   React.useEffect(() => {
-    if (keys.length !== localeLocalLength) {
-      dispatch(apiSys.endpoints.locale.initiate({
-        keys: [...keys],
-      }));
-    }
+    if (!keys.length) return;
+
+    localePush(keys);
 
     localeValuesSet({
       ...localeValues,
