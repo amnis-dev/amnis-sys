@@ -3,8 +3,8 @@ import { createSelector } from '@amnis/state/rtk';
 import type { TypographyProps } from '@mui/material';
 import { Skeleton, Typography } from '@mui/material';
 import { localeSlice } from '@amnis/state';
-import { useWebSelector } from '@amnis/web/react/hooks';
-import { WebContext } from '@amnis/web/react';
+// import { useWebSelector } from '@amnis/web/react/hooks';
+// import { WebContext } from '@amnis/web/react';
 
 const selectLocaleValue = createSelector(
   [
@@ -54,15 +54,15 @@ export const Text: React.FC<TextProps> = ({
   children,
   ...props
 }) => {
-  const { localePush } = React.useContext(WebContext);
-  const localeValue = useWebSelector(
-    (state) => {
-      if (children && typeof children === 'string' && children.startsWith('%!')) {
-        return selectLocaleValue(state, children.substring(1));
-      }
-      return undefined;
-    },
-  );
+  // const { localePush } = React.useContext(WebContext);
+  // const localeValue = useWebSelector(
+  //   (state) => {
+  //     if (children && typeof children === 'string' && children.startsWith('%!')) {
+  //       return selectLocaleValue(state, children.substring(1));
+  //     }
+  //     return undefined;
+  //   },
+  // );
 
   const text = React.useMemo(
     () => {
@@ -74,13 +74,13 @@ export const Text: React.FC<TextProps> = ({
         return children.toString();
       }
 
-      if (localeValue) {
-        return localeValue;
-      }
+      // if (localeValue) {
+      //   return localeValue;
+      // }
 
       return children;
     },
-    [children, localeValue],
+    [children],
   );
 
   const loaded = React.useMemo(
@@ -109,11 +109,11 @@ export const Text: React.FC<TextProps> = ({
     };
   }, [inherit]);
 
-  React.useEffect(() => {
-    if (text?.startsWith('%!')) {
-      localePush([text.substring(1)]);
-    }
-  }, [text]);
+  // React.useEffect(() => {
+  //   if (text?.startsWith('%!')) {
+  //     localePush([text.substring(1)]);
+  //   }
+  // }, [text]);
 
   const inheritProps = React.useMemo<TypographyProps>(() => {
     if (!inherit) {

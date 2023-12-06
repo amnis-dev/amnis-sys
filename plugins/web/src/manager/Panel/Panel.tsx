@@ -71,7 +71,7 @@ export const Panel: React.FC = () => {
         <IconButton onClick={handleHomeClick}>
           <Home />
         </IconButton>
-        <Box flex={1} sx={{ overflowX: 'scroll', overflowY: 'hidden' }} >
+        <Box flex={1} sx={{ overflowX: 'hidden', overflowY: 'hidden' }} >
           <Breadcrumbs sx={{
             '& > .MuiBreadcrumbs-ol': {
               flexWrap: 'nowrap',
@@ -96,7 +96,7 @@ export const Panel: React.FC = () => {
         </Box>
       </Stack>
       <Divider />
-      <Box flex={1} p={1} sx={{ overflow: 'scroll' }}>
+      <Box flex={1} p={1} sx={{ overflowY: 'auto' }}>
         <React.Suspense fallback={<LinearProgress />}>
           {RouteComponent}
         </React.Suspense>

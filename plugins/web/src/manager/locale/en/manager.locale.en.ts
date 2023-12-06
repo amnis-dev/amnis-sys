@@ -24,6 +24,8 @@ export const managerLocale = {
   'manager.route.save.description': 'Save the local changes to the server.',
   'manager.route.difference': 'Difference',
   'manager.route.difference.description': 'View the differences between the local and server data.',
+  'manager.route.website': 'Website',
+  'manager.route.website.description': 'Modify visual and behavioral settings on the active website.',
 };
 
 export default managerLocale;

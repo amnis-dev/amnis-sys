@@ -15,6 +15,8 @@
   "!account.account": "Account",
   "!account.manage": "Manage Website",
   "!account.lastlogin": "Last Login",
+  "!account.create": "Create a New Account",
+  "!authenticate": "Authenticate",
 
   "!diff.restore": "Restore",
 

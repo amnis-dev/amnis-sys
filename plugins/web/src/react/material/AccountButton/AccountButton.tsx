@@ -13,7 +13,9 @@ import { sessionSlice, systemSlice, userSlice } from '@amnis/state';
 import {
   useLocale, useMenu, useWebSelector,
 } from '@amnis/web/react/hooks';
-import { Text, AccountAuthenticate } from '@amnis/web/react/material';
+import {
+  Text, AccountAuthenticate, Ider, iderEn,
+} from '@amnis/web/react/material';
 import { WebContext } from '@amnis/web/react';
 
 export const AccountButton: React.FC = () => {
@@ -43,42 +45,63 @@ export const AccountButton: React.FC = () => {
   const [accountAuthenticateOpen, accountAuthenticateOpenSet] = React.useState(false);
 
   const MenuItemsAnonymous = React.useCallback<React.FC>(() => (<>
-    <MenuItem
-      onClick={() => {
-        accountAuthenticateOpenSet(true);
-        handleClose();
-      }}
-    >
-      <ListItemIcon><Login /></ListItemIcon>
-      <Text>{locale['!account.signin']}</Text>
-    </MenuItem>
-    {isRegistrationEnabled ? (<MenuItem
-      onClick={() => {
-        handleClose();
-      }}
-    >
-      <ListItemIcon><AppRegistration /></ListItemIcon>
-      <Text>{locale['!account.signup']}</Text>
-    </MenuItem>) : null}
+    <Ider entities={[
+      iderEn(locale['!account.signin'], 'value'),
+    ]}>
+      <MenuItem
+        onClick={() => {
+          accountAuthenticateOpenSet(true);
+          handleClose();
+        }}
+      >
+        <ListItemIcon><Login /></ListItemIcon>
+
+        <Text>{locale['!account.signin'].value}</Text>
+      </MenuItem>
+    </Ider>
+    {isRegistrationEnabled ? (
+      <Ider entities={[
+        iderEn(locale['!account.signup'], 'value'),
+      ]}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+          }}
+        >
+          <ListItemIcon><AppRegistration /></ListItemIcon>
+          <Text>{locale['!account.signup'].value}</Text>
+        </MenuItem>
+      </Ider>
+    ) : null}
   </>), [handleClose, locale, isRegistrationEnabled]);
 
   const MenuItemsAccount = React.useCallback<React.FC>(() => (<>
-    <MenuItem
-      onClick={handleClose}
-    >
-      <ListItemIcon><AccountCircle /></ListItemIcon>
-      <Text>{locale['!account.account']}</Text>
-    </MenuItem>
-    {isPrivledged ? (<MenuItem
-      selected={manager}
-      onClick={() => {
-        managerSet(!manager);
-        handleClose();
-      }}
-    >
-      <ListItemIcon><Settings /></ListItemIcon>
-      <Text>{locale['!account.manage']}</Text>
-    </MenuItem>) : null}
+    <Ider entities={[
+      iderEn(locale['!account.account'], 'value'),
+    ]}>
+      <MenuItem
+        onClick={handleClose}
+      >
+        <ListItemIcon><AccountCircle /></ListItemIcon>
+        <Text>{locale['!account.account'].value}</Text>
+      </MenuItem>
+    </Ider>
+    {isPrivledged ? (
+      <Ider entities={[
+        iderEn(locale['!account.manage'], 'value'),
+      ]}>
+        <MenuItem
+          selected={manager}
+          onClick={() => {
+            managerSet(!manager);
+            handleClose();
+          }}
+        >
+          <ListItemIcon><Settings /></ListItemIcon>
+          <Text>{locale['!account.manage'].value}</Text>
+        </MenuItem>
+      </Ider>
+    ) : null}
   </>), [handleClose, locale, isPrivledged, manager, managerSet]);
 
   return (<>

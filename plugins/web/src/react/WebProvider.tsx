@@ -5,6 +5,7 @@ import {
   ThemeProvider,
   createTheme,
   CssBaseline,
+  GlobalStyles,
 } from '@mui/material';
 import type { DataSliceGeneric } from '@amnis/state';
 import {
@@ -25,6 +26,23 @@ import {
 const Manager = React.lazy(
   () => import('@amnis/web/manager').then((module) => ({ default: module.Manager })),
 );
+
+const globalScrollBarStyle = <GlobalStyles styles={{
+  '*::-webkit-scrollbar': {
+    width: '8px',
+    height: '8px',
+  },
+  '*::-webkit-scrollbar-track': {
+    background: '#00000044',
+  },
+  '*::-webkit-scrollbar-thumb': {
+    borderRadius: '4px',
+    backgroundColor: '#ffffff88',
+  },
+  '*::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: '#ffffffaa',
+  },
+}} />;
 
 const theme = createTheme({
   palette: {
@@ -187,6 +205,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      {globalScrollBarStyle}
 
       <WebContext.Provider value={value}>
 
@@ -229,7 +248,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
             sx={{
               bgcolor: '#fff',
               height: manager ? '100%' : undefined,
-              overflow: manager ? 'scroll' : undefined,
+              overflow: manager ? 'auto' : undefined,
             }}
           >
             <Outlet />

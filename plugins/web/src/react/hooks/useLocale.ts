@@ -1,28 +1,14 @@
 import React from 'react';
+import type { Entity, Locale } from '@amnis/state';
 import { localeSlice } from '@amnis/state';
-import { createSelector } from '@amnis/state/rtk';
 import { WebContext } from '@amnis/web/react';
 import { useWebSelector } from './useWebSelector.js';
 
-type ObjectFromList<T extends ReadonlyArray<string>, V = string> = {
+type ObjectFromList<T extends ReadonlyArray<string>, V = Entity<Locale>> = {
   [K in (T extends ReadonlyArray<infer U> ? U : never)]: V
 };
 
 export type UseLocaleKey = ReadonlyArray<string>;
-
-const selectLocaleRecord = createSelector(
-  [
-    (state: any) => localeSlice.select.state(state).names,
-    (state, keys: string[]) => keys,
-  ],
-  (names, keys) => keys.reduce((acc, key) => {
-    const localeValue = names[key];
-    if (localeValue) {
-      acc[key] = localeValue.value;
-    }
-    return acc;
-  }, {} as Record<string, string>),
-);
 
 export function useLocale<K extends UseLocaleKey>(
   keys: K,
@@ -38,9 +24,14 @@ export function useLocale<K extends UseLocaleKey>(
   /**
    * First check if the locale is already available on the store.
    */
-  const localeLocal = useWebSelector(
-    (state) => selectLocaleRecord(state, [...keys]),
-  ) as ObjectFromList<K>;
+  const localeNames = useWebSelector((state) => localeSlice.select.state(state).names);
+  const localeLocal = React.useMemo(() => keys.reduce((acc, key) => {
+    const localeValue = localeNames[key];
+    if (localeValue) {
+      acc[key] = localeValue as Entity<Locale>;
+    }
+    return acc;
+  }, {} as Record<string, Entity<Locale>>), [localeNames, keys]);
 
   const localeLocalLength = React.useMemo(() => Object.keys(localeLocal).length, [localeLocal]);
 

@@ -1,14 +1,18 @@
 import React from 'react';
 import { Box, Button, Stack } from '@mui/material';
-import { AdminPanelSettings, Language, PeopleAlt } from '@mui/icons-material';
+import {
+  AdminPanelSettings, Language, PeopleAlt, Web,
+} from '@mui/icons-material';
 import { stateSelect } from '@amnis/state';
 import { useWebSelector } from '@amnis/web/react/hooks';
+import { websiteSlice } from '@amnis/web';
 import { ManagerContext } from '../ManagerContext.js';
 import PanelCard from './PanelCard.js';
 
 export const PanelIndex: React.FC = () => {
   const { locationPush } = React.useContext(ManagerContext);
   const differenceCount = useWebSelector(stateSelect.entityDifferenceCount);
+  const website = useWebSelector(websiteSlice.select.active);
 
   return (
     <Stack gap={2}>
@@ -35,6 +39,12 @@ export const PanelIndex: React.FC = () => {
           title="Accounts"
           content="Manage the user accounts that can access the application."
           path="/Accounts"
+        />
+        <PanelCard
+          icon={<Web fontSize="large" />}
+          title="Website"
+          content="Modify visual and behavioral settings on the active website."
+          path={`/Edit#${website?.$id}`}
         />
         <PanelCard
           icon={<Language fontSize="large" />}

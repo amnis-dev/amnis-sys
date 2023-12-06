@@ -15,8 +15,11 @@
   "!account.account": "Konto",
   "!account.manage": "Website verwalten",
   "!account.lastlogin": "Letzte Anmeldung",
+  "!account.create": "Neuen Account erstellen",
+  "!authenticate": "Authentifizieren",
 
   "!diff.restore": "Wiederherstellen",
 
   "!entry.search": "Suchen"
-  }
+}
+

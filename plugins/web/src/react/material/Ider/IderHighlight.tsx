@@ -186,7 +186,9 @@ export const IderHighlight: React.FC<IderHighlightProps> = ({
             <Stack direction="column" gap={2}>
               <IderEntityChips
                 entities={entities}
-                onClick={() => handlePopoverClose({} as any)}
+                onClick={() => {
+                  handlePopoverClose({} as any);
+                }}
               />
               <IderInput
                 entity={entity}

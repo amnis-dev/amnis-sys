@@ -26,6 +26,8 @@ export const managerLocale: ManagerLocale = {
   'manager.route.save.description': 'Speichern Sie die lokalen Änderungen auf dem Server.',
   'manager.route.difference': 'Unterschiede',
   'manager.route.difference.description': 'Zeigen Sie die Unterschiede zwischen den lokalen und den Serverdaten an.',
+  'manager.route.website': 'Website',
+  'manager.route.website.description': 'Ändern Sie visuelle und verhaltensbezogene Einstellungen auf der aktiven Website.',
 };
 
 export default managerLocale;

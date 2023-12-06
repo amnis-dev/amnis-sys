@@ -6,7 +6,9 @@ import type { Entity, Schema } from '@amnis/state';
 import { apiSys } from '@amnis/api/react';
 import { Skeleton } from '@mui/material';
 import { Entry } from '@amnis/web/react/material';
-import { useTranslate, useWebDispatch, useWebSelector } from '@amnis/web/react/hooks';
+import {
+  useCrudRead, useTranslate, useWebDispatch, useWebSelector,
+} from '@amnis/web/react/hooks';
 import type { QueryResult } from '@amnis/web';
 
 export interface IderInputProps<E extends Entity> {
@@ -26,7 +28,23 @@ export const IderInput = <E extends Entity>({
   const slice = React.useMemo(() => $id.split(':')[0], [$id]);
   const schemaName = React.useMemo(() => pascalize(slice), [slice]);
 
-  const entity = useWebSelector(stateSelect.dataById(slice, $id)) as E;
+  const { crudRead } = useCrudRead();
+
+  const entity = useWebSelector(stateSelect.dataById(slice, $id)) as E | undefined;
+
+  React.useEffect(() => {
+    if (!entity) {
+      crudRead({
+        [slice]: {
+          $query: {
+            $id: {
+              $eq: $id,
+            },
+          },
+        },
+      });
+    }
+  }, [entity]);
 
   apiSys.useSchemaQuery({
     type: `state/${schemaName}`,
@@ -54,7 +72,7 @@ export const IderInput = <E extends Entity>({
     }));
   }, []);
 
-  return schemaPropertyTranslated ? (
+  return schemaPropertyTranslated && entity ? (
     <Entry
       required={required}
       schema={schemaPropertyTranslated}

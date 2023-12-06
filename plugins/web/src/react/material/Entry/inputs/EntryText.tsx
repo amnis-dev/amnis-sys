@@ -169,8 +169,8 @@ export const EntryText: React.FC = () => {
                 <Box
                   p={1}
                   sx={{
-                    height: multiline ? `${23 * multiline}px` : '23px',
-                    overflow: 'scroll',
+                    height: multiline ? `${23 * multiline - 1 + 40}px` : '40px',
+                    overflow: 'auto',
                   }}
                 >
                   <Box sx={{ display: 'inline', float: 'right', m: -1 }}>
