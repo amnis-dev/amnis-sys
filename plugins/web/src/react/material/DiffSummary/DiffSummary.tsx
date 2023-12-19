@@ -116,7 +116,7 @@ export const DiffSummary: React.FC<DiffSummaryProps> = ({
 
   const RestoreButton = React.useMemo<React.FC<{ $id: string | UID, type: DiffSummaryRestoreType}>>(
     () => (({ $id, type }) => (
-      <Tooltip title={locale['!diff.restore']}>
+      <Tooltip title={locale['!diff.restore'].value}>
         <IconButton onClick={() => handleRestore($id, type)}>
           <Restore />
         </IconButton>

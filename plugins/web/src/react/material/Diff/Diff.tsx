@@ -138,7 +138,7 @@ export const Diff: React.FC<DiffProps> = ({
                 {record.current}
               </TableCell>
               <TableCell align="right">
-                <Tooltip title={locale['!diff.restore']}>
+                <Tooltip title={locale['!diff.restore'].value}>
                   <IconButton onClick={() => handleRestore(record.key)}>
                     <Restore />
                   </IconButton>

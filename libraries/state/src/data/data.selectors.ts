@@ -149,7 +149,7 @@ export const genSelectDifference = <D extends Data = Data>(
   sliceKey: string,
 ) => createSelector(
   [
-    (state, id: string) => id,
+    (state: any, id: string) => id,
     genSelectDifferences<D>(sliceKey),
     genSelectOriginals<D>(sliceKey),
     genSelectEntities<D>(sliceKey),

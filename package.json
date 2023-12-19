@@ -2,7 +2,8 @@
   "name": "@amnis/sys",
   "version": "0.0.0",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.0.0 <=18.18.2",
+    "pnpm": ">=8.6.0"
   },
   "packageManager": "pnpm@8.6.0",
   "description": "TypeScript system for enterprise-level web and mobile projects.",
@@ -74,7 +75,7 @@
     "semver": "^7.5.4",
     "trim": "^1.0.1",
     "axios": "^1.6.0",
-    "reselect": "^4.1.8"
+    "reselect": "5.0.0-alpha.2"
   },
   "dependencies": {
     "@amnis/api": "workspace:^",

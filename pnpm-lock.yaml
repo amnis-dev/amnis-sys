@@ -12,7 +12,7 @@ overrides:
   semver: ^7.5.4
   trim: ^1.0.1
   axios: ^1.6.0
-  reselect: ^4.1.8
+  reselect: 5.0.0-alpha.2
 
 importers:
 
@@ -194,8 +194,8 @@ importers:
         specifier: 3.0.0-alpha.3
         version: 3.0.0-alpha.3(redux@5.0.0-beta.0)
       reselect:
-        specifier: ^4.1.8
-        version: 4.1.8
+        specifier: 5.0.0-alpha.2
+        version: 5.0.0-alpha.2
       rimraf:
         specifier: ^5.0.1
         version: 5.0.1
@@ -15148,8 +15148,8 @@ packages:
   /requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
-  /reselect@4.1.8:
-    resolution: {integrity: sha512-ab9EmR80F/zQTMNeneUr4cv+jSwPJgIlvEmVwLerwrWVbpLlBuls9XHzIeTFy4cegU2NHBp3va0LKOzU5qFEYQ==}
+  /reselect@5.0.0-alpha.2:
+    resolution: {integrity: sha512-wachIH1FWB/ceIgBP418PXtjJyhvgjtjqi0Go5nCqe/2xrwwAyCn1/4krfBurNfxxo7dWpiLGb1yYjCrWi40PA==}
     dev: true
 
   /resolve-alpn@1.2.1:
@@ -17594,5 +17594,5 @@ packages:
       react-redux: 8.1.3(@types/react-dom@18.2.17)(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)(redux@5.0.0-beta.0)
       redux: 5.0.0-beta.0
       redux-thunk: 3.0.0-alpha.3(redux@5.0.0-beta.0)
-      reselect: 4.1.8
+      reselect: 5.0.0-alpha.2
     dev: true

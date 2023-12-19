@@ -93,7 +93,7 @@ export const EntryArray: React.FC<EntryArrayProps> = ({
    */
   const handleInsert = React.useCallback((valueInnerNext: any) => {
     innerRerenderSet(!innerRerender);
-    if (valueInnerNext === undefined ?? !valueInnerNext?.length) return;
+    if (valueInnerNext === undefined || !valueInnerNext?.length) return;
 
     valueInnerSet(undefined);
     // Ensure unique items.
