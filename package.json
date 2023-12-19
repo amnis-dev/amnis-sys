@@ -73,7 +73,8 @@
     "postcss": "^8.4.31",
     "semver": "^7.5.4",
     "trim": "^1.0.1",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "reselect": "^4.1.8"
   },
   "dependencies": {
     "@amnis/api": "workspace:^",
