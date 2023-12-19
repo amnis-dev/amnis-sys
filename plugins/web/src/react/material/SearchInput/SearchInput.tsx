@@ -59,7 +59,7 @@ export const SearchInput: React.FC<Props> = ({
       </Box>) : null}
       <Box flex={1} pl={1} pr={1}>
         <InputBase
-          placeholder={locale['!entry.search']}
+          placeholder={locale['!entry.search'].value}
           onChange={handleChange}
           fullWidth
         />

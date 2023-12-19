@@ -31,7 +31,7 @@ export function useLocale<K extends UseLocaleKey>(
       acc[key] = localeValue as Entity<Locale>;
     }
     return acc;
-  }, {} as Record<string, Entity<Locale>>), [localeNames, keys]);
+  }, {} as Record<string, Entity<Locale>>), [localeNames, keys, localeCode]);
 
   const localeLocalLength = React.useMemo(() => Object.keys(localeLocal).length, [localeLocal]);
 

@@ -106,7 +106,7 @@ export const EntitySearchAccounts: React.FC<EntitySearchAccountsProps> = ({
                 <Box flex={1}>
                   <ListItemText primary={`${user.handle} (${profileMap[user.$id]?.nameDisplay})`} secondary={user.email} />
                   <Text variant="body2" sx={{ opacity: 0.7 }}>
-                    {`${localeValues['!account.lastlogin']}: ${user._logged ? new Date(user._logged).toLocaleString() : 'Never'}`}
+                    {`${localeValues['!account.lastlogin'].value}: ${user._logged ? new Date(user._logged).toLocaleString() : 'Never'}`}
                   </Text>
                 </Box>
                 <Box>

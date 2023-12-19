@@ -159,10 +159,10 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     if (localeKeysDebounced.length) {
       dispatch(apiSys.endpoints.locale.initiate({
         keys: localeKeysDebounced,
-      }));
+      }, { forceRefetch: true }));
       localeKeysSet([]);
     }
-  }, [dispatch, localeKeysDebounced]);
+  }, [dispatch, localeKeysDebounced, language]);
 
   /**
    * Reset effect.

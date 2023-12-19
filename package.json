@@ -67,7 +67,7 @@
   "author": "Eric Crowell",
   "license": "MIT",
   "resolutions": {
-    "@adobe/css-tools": "^4.3.1",
+    "@adobe/css-tools": "4.3.2",
     "@babel/traverse": "^7.23.2",
     "got": "^13.0.0",
     "postcss": "^8.4.31",
@@ -144,7 +144,7 @@
     "ts-node": "^10.9.1",
     "type-fest": "^4.0.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.11",
+    "vite": "^5.0.10",
     "vitest": "^0.34.6"
   },
   "msw": {
