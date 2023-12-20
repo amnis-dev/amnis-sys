@@ -18,7 +18,7 @@ export function useLocale<K extends UseLocaleKey>(
   const localeCode = useWebSelector(localeSlice.select.activeCode);
 
   const [localeValues, localeValuesSet] = React.useState<ObjectFromList<K>>(
-    keys.reduce((acc, key) => ({ ...acc, [key]: '...' }), {} as ObjectFromList<K>),
+    keys.reduce((acc, key) => ({ ...acc, [key]: {} }), {} as ObjectFromList<K>),
   );
 
   /**

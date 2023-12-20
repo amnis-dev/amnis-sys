@@ -92,17 +92,16 @@ export const WebProvider: React.FC<WebProviderProps> = ({
   /**
    * Reference of locale keys to request when this component fully mounts or updates.
    */
-  const localeKeysCached = React.useRef<Set<string>>(new Set());
   const [localeKeys, localeKeysSet] = React.useState<string[]>([]);
   const localeKeysDebounced = useDebounce(localeKeys, 500);
 
   const localePush = React.useCallback((key: readonly string[]) => {
-    const keyFilter = key.filter((k) => k.startsWith('!') && !localeKeysCached.current.has(k));
+    const keyFilter = key.filter((k) => k.startsWith('!'));
     if (!keyFilter.length) return;
-    const keyNext = new Set([...localeKeysCached.current, ...keyFilter]);
-    localeKeysSet([...keyNext]);
-    localeKeysCached.current = keyNext;
-  }, [localeKeys]);
+    const keySet = new Set([...localeKeys, ...keyFilter]);
+    console.log({ keySet: [...keySet] });
+    localeKeysSet([...keySet]);
+  }, []);
 
   /**
    * Remounts the website when this value toggles.
@@ -156,6 +155,7 @@ export const WebProvider: React.FC<WebProviderProps> = ({
    * Effect requests the locale key values.
    */
   React.useEffect(() => {
+    console.log({ localeKeys, localeKeysDebounced });
     if (localeKeysDebounced.length) {
       dispatch(apiSys.endpoints.locale.initiate({
         keys: localeKeysDebounced,
@@ -188,8 +188,9 @@ export const WebProvider: React.FC<WebProviderProps> = ({
     /**
      * Flush state
      */
-    localeKeysSet([]);
-    localeKeysCached.current = new Set();
+    if (localeKeys.length === localeKeysDebounced.length) {
+      localeKeysSet([]);
+    }
 
     /**
      * Trigger the remount callback

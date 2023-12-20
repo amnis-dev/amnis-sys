@@ -33,6 +33,7 @@ const config: StorybookConfig = {
   `,
   viteFinal: (config) => {
     return mergeConfig(config, {
+      assetsInclude: ['/sb-preview/runtime.js'],
       build: {
         rollupOptions: {
           external: [

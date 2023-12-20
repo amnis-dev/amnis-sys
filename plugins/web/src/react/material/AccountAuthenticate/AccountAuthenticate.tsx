@@ -14,13 +14,15 @@ export const AccountAuthenticate: React.FC = () => {
     (state) => systemSlice.select.active(state)?.registrationOpen,
   );
 
-  const { authLogin } = useAuthLogin();
+  const { authLogin, authLoginErrored } = useAuthLogin();
 
   const localeNames = React.useRef([
     '!account.create',
     '!account.signin',
   ] as const);
   const locale = useLocale(localeNames.current);
+
+  console.log(locale);
 
   const formSchema = React.useMemo(() => ({
     $id: 'accountsignin',
@@ -45,17 +47,22 @@ export const AccountAuthenticate: React.FC = () => {
     password: '',
   });
 
+  const signInDisabled = !formValue.username.length || !formValue.password.length;
+
   const shakeSx = React.useMemo(() => ({
     animation: 'shake 1s',
     animationIterationCount: '1',
     position: 'relative',
     left: 0,
-    bgcolor: 'error.main',
+    bgcolor: 'primary.main',
     '@keyframes shake': {
-      '15%': { left: '-3px' },
-      '30%': { left: '3px' },
-      '45%': { left: '-3px' },
-      '60%': { left: '3px' },
+      '15%': { left: '-3px', bgcolor: 'primary.main' },
+      '30%': { left: '3px', bgcolor: 'error.main' },
+      '45%': { left: '-3px', bgcolor: 'error.main' },
+      '60%': { left: '3px', bgcolor: 'primary.main' },
+    },
+    '&:hover': {
+      bgcolor: 'primary.main',
     },
   }), []);
 
@@ -99,9 +106,10 @@ export const AccountAuthenticate: React.FC = () => {
               <Button
                 variant="contained"
                 color="primary"
+                disabled={signInDisabled}
                 startIcon={<Lock />}
                 onClick={handleFormSubmit}
-                sx={shakeSx}
+                sx={authLoginErrored ? shakeSx : undefined}
               >
                 <Text>{locale['!account.signin'].value}</Text>
               </Button>
