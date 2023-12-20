@@ -1,18 +1,15 @@
 {
-  ".": "0.0.0",
-  "libraries/state": "0.0.0",
-  "libraries/mock": "0.0.0",
-  "libraries/api": "0.0.0",
-  "libraries/express": "0.0.0",
-  "libraries/db-cosmos": "0.0.0",
-  "libraries/emailer-mailjet": "0.0.0",
-
-  "plugins/web": "0.0.0",
-
-  "websites/documentation": "0.0.0",
-
-  "configurations/eslint-config-node": "2.4.0",
-  "configurations/eslint-config-react": "2.4.0",
-  "configurations/tsconfig-node": "2.4.0",
-  "configurations/tsconfig-react": "2.4.0"
+  ".": "1.0.0",
+  "libraries/state": "1.0.0",
+  "libraries/mock": "1.0.0",
+  "libraries/api": "1.0.0",
+  "libraries/express": "1.0.0",
+  "libraries/db-cosmos": "1.0.0",
+  "libraries/emailer-mailjet": "1.0.0",
+  "plugins/web": "1.0.0",
+  "websites/documentation": "1.0.0",
+  "configurations/eslint-config-node": "2.5.0",
+  "configurations/eslint-config-react": "2.5.0",
+  "configurations/tsconfig-node": "2.5.0",
+  "configurations/tsconfig-react": "2.5.0"
 }
