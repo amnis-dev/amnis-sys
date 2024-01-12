@@ -232,7 +232,7 @@ test('should pass through the state middleware successfully', async () => {
     expect(output.status).toBe(200);
     expect(ioOutputErrored(output)).toBe(false);
     expect(output.json.logs).toHaveLength(1);
-    expect(output.json.logs[0].level).toBe('success');
+    expect(output.json.logs[0].level).toBe('info');
   }));
 });
 
@@ -268,7 +268,7 @@ test('should pass through the state middleware successfully with creating a user
     expect(output.status).toBe(200);
     expect(ioOutputErrored(output)).toBe(false);
     expect(output.json.logs).toHaveLength(1);
-    expect(output.json.logs[0].level).toBe('success');
+    expect(output.json.logs[0].level).toBe('info');
   }));
 });
 
@@ -307,7 +307,7 @@ test('should fail through the state create middleware with creating a user', asy
       expect(output.status).toBe(200);
       expect(ioOutputErrored(output)).toBe(false);
       expect(output.json.logs).toHaveLength(1);
-      expect(output.json.logs[0].level).toBe('success');
+      expect(output.json.logs[0].level).toBe('info');
     }
   }));
 });
@@ -354,7 +354,7 @@ test('should fail through the state create middleware as anonymous', async () =>
       expect(output.json.logs).toHaveLength(2);
       const logLevels = output.json.logs.map((l) => l.level);
       expect(logLevels.includes('error')).toBe(true);
-      expect(logLevels.includes('success')).toBe(true);
+      expect(logLevels.includes('info')).toBe(true);
     }
   }));
 });

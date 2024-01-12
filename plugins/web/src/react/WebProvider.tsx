@@ -15,6 +15,7 @@ import {
   userSlice,
 } from '@amnis/state';
 import { apiCrud, apiSys } from '@amnis/api';
+import { SnackbarProvider } from 'notistack';
 import { BackdropProgress } from '@amnis/web/react/material';
 import { Outlet } from '@amnis/web/lib/react-router-dom';
 import type { ManagerProps } from '@amnis/web/manager';
@@ -22,6 +23,7 @@ import { WebContext } from '@amnis/web/react/context';
 import {
   useDebounce, useUpdateEffect, useWebDispatch, useWebSelector,
 } from '@amnis/web/react/hooks';
+import { UtilityLogSnacks } from './material/Utility/UtilityLogSnacks.js';
 
 const Manager = React.lazy(
   () => import('@amnis/web/manager').then((module) => ({ default: module.Manager })),
@@ -155,7 +157,6 @@ export const WebProvider: React.FC<WebProviderProps> = ({
    * Effect requests the locale key values.
    */
   React.useEffect(() => {
-    console.log({ localeKeys, localeKeysDebounced });
     if (localeKeysDebounced.length) {
       dispatch(apiSys.endpoints.locale.initiate({
         keys: localeKeysDebounced,
@@ -208,55 +209,58 @@ export const WebProvider: React.FC<WebProviderProps> = ({
       <CssBaseline />
       {globalScrollBarStyle}
 
-      <WebContext.Provider value={value}>
+      <SnackbarProvider maxSnack={3}>
+        <WebContext.Provider value={value}>
 
-        {manager ? (
-          <React.Suspense
-            fallback={(
-              <BackdropProgress
-                title="Loading Manager"
-                subtitle="Please wait..."
+          {manager ? (
+            <React.Suspense
+              fallback={(
+                <BackdropProgress
+                  title="Loading Manager"
+                  subtitle="Please wait..."
+                />
+              )}
+            >
+              <ManagerDynamic
+                webSelect={webSelect}
+                drawerWidth={managerDrawerWidth}
+                pathname={managerPathname}
+                onWebSelect={webSelectSet}
+                onPathnameChange={(pathname) => {
+                  managerDrawerOpenSet(!!pathname);
+                  managerPathnameSet(undefined);
+                }}
               />
-            )}
-          >
-            <ManagerDynamic
-              webSelect={webSelect}
-              drawerWidth={managerDrawerWidth}
-              pathname={managerPathname}
-              onWebSelect={webSelectSet}
-              onPathnameChange={(pathname) => {
-                managerDrawerOpenSet(!!pathname);
-                managerPathnameSet(undefined);
+            </React.Suspense>
+          ) : null}
+
+          <Box sx= {{
+            position: 'relative',
+            height: manager ? '100vh' : undefined,
+            boxSizing: 'border-box',
+            padding: '0',
+            marginLeft: 0,
+            transition: (theme: Theme) => theme.transitions.create(['padding', 'margin-left'], {
+              easing: theme.transitions.easing.easeInOut,
+              duration: theme.transitions.duration.enteringScreen,
+            }),
+            ...(manager && { padding: '4px 4px 4px 4px' }),
+            ...(managerDrawerOpen && { marginLeft: { xs: 0, lg: managerDrawerWidth } }),
+          }}>
+            <Box
+              sx={{
+                bgcolor: '#fff',
+                height: manager ? '100%' : undefined,
+                overflow: manager ? 'auto' : undefined,
               }}
-            />
-          </React.Suspense>
-        ) : null}
-
-        <Box sx= {{
-          position: 'relative',
-          height: manager ? '100vh' : undefined,
-          boxSizing: 'border-box',
-          padding: '0',
-          marginLeft: 0,
-          transition: (theme: Theme) => theme.transitions.create(['padding', 'margin-left'], {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          ...(manager && { padding: '4px 4px 4px 4px' }),
-          ...(managerDrawerOpen && { marginLeft: { xs: 0, lg: managerDrawerWidth } }),
-        }}>
-          <Box
-            sx={{
-              bgcolor: '#fff',
-              height: manager ? '100%' : undefined,
-              overflow: manager ? 'auto' : undefined,
-            }}
-          >
-            <Outlet />
+            >
+              <Outlet />
+            </Box>
           </Box>
-        </Box>
 
-      </WebContext.Provider>
+          <UtilityLogSnacks />
+        </WebContext.Provider>
+      </SnackbarProvider>
 
     </ThemeProvider>
   );

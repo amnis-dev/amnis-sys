@@ -354,7 +354,7 @@ export const mwState: IoMiddleware<GrantTask> = (
         const successfulKeys = Object.keys(outputNext.json.result);
         if (successfulKeys.length) {
           outputNext.json.logs.push({
-            level: 'success',
+            level: 'info',
             title: `${mwStateTaskName[task]} Successful`,
             description: `Completed ${mwStateTaskName[task].toLowerCase()} operation in collection${successfulKeys.length > 1 ? 's' : ''}: ${successfulKeys.join(', ')}.`,
           });

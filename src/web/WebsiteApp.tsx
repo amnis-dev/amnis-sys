@@ -43,6 +43,11 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
   const [readWebsiteTrigger, readWebsiteResult] = apiCrud.useLazyReadQuery();
 
   /**
+   * Flag when an initial authentication check has been made.
+   */
+  const [authCheck, authCheckSet] = React.useState(false);
+
+  /**
    * Callback that triggers a website query.
    */
   const readWebsiteQuery = React.useCallback(() => {
@@ -80,6 +85,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
 
     (async () => {
       await dispatch(apiAuth.endpoints.authenticate.initiate({ silent: true }));
+      authCheckSet(true);
     })();
   }, [system?.$id]);
 
@@ -111,7 +117,7 @@ export const WebsiteApp: React.FC<WebsiteAppProps> = ({
   return system?.$id ? (
     <div>
       <Web onRemount={readWebsiteQuery} slices={slices} >
-        {children}
+        {authCheck ? children : null}
       </Web>
     </div>
   ) : null;

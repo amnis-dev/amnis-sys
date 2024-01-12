@@ -85,7 +85,7 @@ test('should read profile without access', async () => {
   expect(output.status).toBe(200);
   expect(ioOutputErrored(output)).toBe(false);
   expect(output.json.logs).toHaveLength(1);
-  expect(output.json.logs[0].level).toBe('success');
+  expect(output.json.logs[0].level).toBe('info');
   expect(output.json.result).toMatchObject({
     [profileSlice.key]: expect.any(Array),
   });
@@ -122,7 +122,7 @@ test('should login as administrator read users and roles', async () => {
   expect(output.status).toBe(200);
   expect(ioOutputErrored(output)).toBe(false);
   expect(output.json.logs).toHaveLength(1);
-  expect(output.json.logs[0].level).toBe('success');
+  expect(output.json.logs[0].level).toBe('info');
 
   const { result, locale } = output.json;
 
@@ -174,11 +174,11 @@ test('should login as administrator read user with a depth of 1', async () => {
   expect(ioOutputErrored(output)).toBe(false);
 
   /**
-   * We should receive two success logs from the depth search.
+   * We should receive two info logs from the depth search.
    */
   expect(output.json.logs).toHaveLength(2);
-  expect(output.json.logs[0].level).toBe('success');
-  expect(output.json.logs[1].level).toBe('success');
+  expect(output.json.logs[0].level).toBe('info');
+  expect(output.json.logs[1].level).toBe('info');
 
   const { result } = output.json;
 
