@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0 (2024-01-12)
+
+
+### Features
+
+* Added Amnis Express library ([e68d80d](https://github.com/amnis-dev/amnis-sys/commit/e68d80d163794b098e0fd507fd0037b40878fe73))
+* Added crystalizer cms as dynamic import from context ([1e4c3f4](https://github.com/amnis-dev/amnis-sys/commit/1e4c3f43b46ab9129b0c292768707ae854293ecf))
+* Added new language property to IO inputs ([2313458](https://github.com/amnis-dev/amnis-sys/commit/231345832a2f88c17ba9eb259f3df186c7b46671))
+* Created new methods for easily setting up the amnis system ([c7ab56d](https://github.com/amnis-dev/amnis-sys/commit/c7ab56db1c859809e5c03559a96b37c0543a41c8))
+* Initialized project ([99b4b1e](https://github.com/amnis-dev/amnis-sys/commit/99b4b1eae5a9d950a196176eac86bb34d02bd9be))
+* Locale system responds to langage changes ([7f68371](https://github.com/amnis-dev/amnis-sys/commit/7f6837106eda9f9890bbb4ef65d4f9688fc6d1a9))
+
 ## [0.3.0](https://github.com/amnis-dev/amnis-express/compare/v0.2.8...v0.3.0) (2023-07-14)
 
 

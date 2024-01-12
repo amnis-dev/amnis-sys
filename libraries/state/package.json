@@ -1,6 +1,6 @@
 {
   "name": "@amnis/state",
-  "version": "0.19.0",
+  "version": "1.0.0",
   "description": "An extensible JavaScript/TypeScript library for data management, providing well-defined data types, default data generation, schema definitions, and state mutation management with a variety of selection methods.",
   "keywords": [
     "javascript",
