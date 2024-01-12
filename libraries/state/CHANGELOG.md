@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.0.0 (2024-01-12)
+
+
+### Features
+
+* Added Amnis State core library ([dc0475d](https://github.com/amnis-dev/amnis-sys/commit/dc0475d0039c40a72bd2c1f10c714a7494b63f73))
+* Added crystalizer cms as dynamic import from context ([1e4c3f4](https://github.com/amnis-dev/amnis-sys/commit/1e4c3f43b46ab9129b0c292768707ae854293ecf))
+* Added locale capability on local state ([1e8c13e](https://github.com/amnis-dev/amnis-sys/commit/1e8c13e61356b5b90661b68fde749cf2b729df3e))
+* Added localization through remote api ([fa76e4f](https://github.com/amnis-dev/amnis-sys/commit/fa76e4f5e246ffc672533f786da74d8c9f8d686a))
+* Added mock library package ([9bd7c88](https://github.com/amnis-dev/amnis-sys/commit/9bd7c8874b4df2916d8b1b9452b3763251836ae7))
+* Added new features for array input entries ([c3c1d34](https://github.com/amnis-dev/amnis-sys/commit/c3c1d34db6ca6f2bcd281dff21c54bd965cd5162))
+* Added new language property to IO inputs ([2313458](https://github.com/amnis-dev/amnis-sys/commit/231345832a2f88c17ba9eb259f3df186c7b46671))
+* Added new ui, uipanel, and locale as possible plugin exports ([a64e0a9](https://github.com/amnis-dev/amnis-sys/commit/a64e0a9decacbd90e6a02444ec433b4e9c19a5ba))
+* Added new Web extension package ([9f7c84b](https://github.com/amnis-dev/amnis-sys/commit/9f7c84bed5a461a6040b6f1c010d9fadc44c045a))
+* Added plugin modules for state, api, and web ([f564dbd](https://github.com/amnis-dev/amnis-sys/commit/f564dbd0094e51c678b2c973c3d8d08217f16673))
+* Added routing capabilities to web applications ([e7989ce](https://github.com/amnis-dev/amnis-sys/commit/e7989cef0d74dcd8b60f02c7ee5a1e6681dd0597))
+* Added selector to query data in the redux store ([d2b070c](https://github.com/amnis-dev/amnis-sys/commit/d2b070cb9c349ab71b4269ea8575bfd1021da90e))
+* Added toolbar to the management tool ([5676520](https://github.com/amnis-dev/amnis-sys/commit/56765204e5f0f91c476786c4e3a135e7e2e977f5))
+* Consolidated set exports ([804b5bd](https://github.com/amnis-dev/amnis-sys/commit/804b5bd36fd393a1f362b8f75c6258154351afec))
+* Created new methods for easily setting up the amnis system ([c7ab56d](https://github.com/amnis-dev/amnis-sys/commit/c7ab56db1c859809e5c03559a96b37c0543a41c8))
+* Entry components can now render basic schema types ([ffbf431](https://github.com/amnis-dev/amnis-sys/commit/ffbf4319b70e23fef39f55f42590538da37330cf))
+* Implemented schema slice on state ([e8b424d](https://github.com/amnis-dev/amnis-sys/commit/e8b424d94df645f666fc01e6a7ba8e5ad1623418))
+* Improved data validation and formatting ([38b2349](https://github.com/amnis-dev/amnis-sys/commit/38b23496245a2591f98d5c0231db206a743358ba))
+* Initialized project ([99b4b1e](https://github.com/amnis-dev/amnis-sys/commit/99b4b1eae5a9d950a196176eac86bb34d02bd9be))
+* Locale api now uses cache and smaller data records in transfer ([912f72b](https://github.com/amnis-dev/amnis-sys/commit/912f72b53fb3fa78619bd89fd3da5444f7b04815))
+* Locale language code will now locally save when changed ([fc1b485](https://github.com/amnis-dev/amnis-sys/commit/fc1b485d8c5ba2e13e8fc4762855ae3da8d50475))
+* Locale system responds to langage changes ([7f68371](https://github.com/amnis-dev/amnis-sys/commit/7f6837106eda9f9890bbb4ef65d4f9688fc6d1a9))
+* tranlsation selectors can now take any object or array ([e97c342](https://github.com/amnis-dev/amnis-sys/commit/e97c342d2a5b13e541f1e90abc7df9bc59158ba4))
+
+
+### Bug Fixes
+
+* Memory database now searches through all records before applying range values ([18ce3d6](https://github.com/amnis-dev/amnis-sys/commit/18ce3d6e4d8028f5f1cd8a777a64114f3c42e0d1))
+
 ## [0.19.0](https://github.com/amnis-dev/amnis-state/compare/v0.18.3...v0.19.0) (2023-07-18)
 
 
